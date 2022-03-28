@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button ,Toast,ToastContainer} from 'react-bootstrap';
 import { api } from '../helpers/api/api';
 import '../css/style.css';
 import { Link } from "react-router-dom";
@@ -19,14 +19,19 @@ export class Login extends Component {
           isTrue:false,
           userDto:{
             ...this.userModelProp(),
-          }  
+          }  ,
+          warning :  false,
+          success:false,
         }
         this.validator = new SimpleReactValidator();
     }
     
     //FUNZIONI 
     
-        
+        closeMessage = () => {
+            this.setState({success:false});
+            this.setState({warning:false});
+        }
         changeBool = () => {
             this.setState({ isTrue: true});
         }
@@ -53,21 +58,14 @@ export class Login extends Component {
                 sessionStorage.setItem('token', 'ok');
                 window.location.href = "/Dashboard";
             }}).catch((error) => {
-            
+                this.setState({warning:true});
             })
             .finally(() => {
-                this.setState(
-                {
-                    isTrue: false,
-                },
-                () => {
-                    // this.getSelectedEntityRoles();
-                }
-                );
+                this.setState({warning:true});
             });
         } else {
             this.validator.showMessages();
-            //showNotification.warning(`${entitiesLabels.WARNING}`,`${entitiesLabels.USER} required fields are missing  `);
+            this.setState({warning:true});
             this.forceUpdate();
           }
         };
@@ -111,6 +109,36 @@ export class Login extends Component {
                         <h6 className="mt-4 p-3 text-center text-secondary">Copyright <i className="fa fa-copyright"></i> </h6>
 
                     </Row>
+                    <Row>
+    <Col xs={6}>
+      <ToastContainer position="top-end" className="p-3">
+            <Toast bg={"warning"}  position={"top-end"} id={"warning"} show={this.state.warning} onClose={() =>this.closeMessage()}  >
+            <Toast.Header >
+                <img
+                src="holder.js/20x20?text=%20"
+                className="rounded me-2"
+                alt=""
+                />
+                <strong className="me-auto">Error</strong>
+            
+            </Toast.Header>
+            <Toast.Body  className='element' >Attenzione controllare tutti i campi</Toast.Body>
+            </Toast>
+            <Toast bg={"success"}  position={"top-end"} id={"success"} show={this.state.success} onClose={() =>this.closeMessage()} autohide>
+            <Toast.Header >
+                <img
+                src="holder.js/20x20?text=%20"
+                className="rounded me-2"
+                alt=""
+                />
+                <strong className="me-auto">Success</strong>
+            
+            </Toast.Header>
+            <Toast.Body  className='element' >Registrazione avvenuta correttamente</Toast.Body>
+            </Toast>
+        </ToastContainer>
+    </Col>
+</Row>
                 </Container>
         )
     }
