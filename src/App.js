@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
 
+import './App.css';
+import Login from './Amministration/Login';
+import Layout from './Amministration/Layout';
+import DashboardDoctors from './Doctor/DashboardDoctors'
+import Register from './Amministration/Register'
+import { Navbar, Container, Nav, NavDropdown, Button } from 'react-bootstrap';
+import { BrowserRouter as Router, Route, Routes , Link , useNavigate  } from 'react-router-dom';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+        <Router>
+      <div>
+      
+
+        <Routes>
+          <Route path="/" element={<Login  />}></Route>
+          <Route path="/Dashboard" element={<DashboardDoctors />}></Route>
+          <Route path="/Register" element={<Register />}></Route>
+        </Routes>
+      </div>
+    </Router>
+      </Layout>
   );
 }
 

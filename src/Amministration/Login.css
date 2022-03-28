@@ -1,0 +1,54 @@
+.form{
+    border-radius: 0 20%;
+
+
+}
+.offcanvas-backdrop-custom .offcanvas-backdrop{
+    background-color: #0000 !important;
+
+
+}
+
+.nav .navbar-social > a {
+    padding:0;
+}
+.nav>li>a:hover, .nav>li>a:focus {
+    background-color: transparent;
+}
+.navbar-height{
+    max-width: 303px !important;
+}
+.button-lateral-navbar{
+    width: 57px;
+}
+.navbar-margin{
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.centering-form{
+    padding-left: 27%;
+}
+.text-color-title{
+    --bs-text-opacity: 11;
+    color: rgb(0 156 214)!important;
+}
+.ms-container{
+    width: 75% !important; 
+}
+
+.box-color{
+    --bs-bg-opacity: 1;
+    background-color: rgba(22,175,232,255)!important;
+}
+.centering{
+
+    top: 2%;
+    margin-right: auto;
+    margin-left: auto;
+    z-index: 12
+}
+
+.position-button{
+    padding-right: 33px;
+    margin-right: 12px;
+}
