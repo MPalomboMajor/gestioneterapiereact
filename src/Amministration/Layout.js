@@ -27,13 +27,6 @@ constructor(props) {
                         <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link to='/Login' href="/Dashboard">Dashboard</Nav.Link>
-                            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                            </NavDropdown>
                         </Nav>
                         </Navbar.Collapse>
                 </Navbar>
@@ -48,8 +41,8 @@ constructor(props) {
 
                                     <Offcanvas.Body className='menu-body'>
                                       <Nav className="justify-content flex-grow-2 pe-3">
-                                        <Nav.Link className='link-menu' href="#action1">Pazienti</Nav.Link>
-                                        <Nav.Link className='link-menu' href="#action2">Anagrafica medico</Nav.Link>
+                                        <Nav.Link className='link-menu' href="/Dashboard">Pazienti</Nav.Link>
+                                        <Nav.Link className='link-menu' href="/DoctorProfile">Anagrafica medico</Nav.Link>
                                         <Nav.Link className='link-menu' href="#action3">Richiedi codici paziente</Nav.Link>
                                       </Nav>
                                     </Offcanvas.Body>

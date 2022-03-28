@@ -14,7 +14,7 @@ export class DashboardDoctors extends Component {
             <Container className='content'>
                 <Row className='col-12 pt-4' >
                     <div className='col-6'>
-                        <Link to="/Register" className='btn  btn-primary'>Nuovo Paziente</Link>
+                        <Link to="/NewPatient" className='btn  btn-primary'>Nuovo Paziente</Link>
                     </div>
                     <div className='col-6'>
                         <Link  to="/Register" className='btn btn-primary'>Collega Paziente già assegnato ad altro medico</Link>
