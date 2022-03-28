@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { api } from '../helpers/api/api';
-import './Login.css';
+import '../css/style.css';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
 
@@ -50,6 +50,7 @@ export class Login extends Component {
             api.post("/Login",this.state.userDto)
             .then(async (response) => {
             if (response.status == 200) {
+                sessionStorage.setItem('token', 'ok');
                 window.location.href = "/Dashboard";
             }}).catch((error) => {
             

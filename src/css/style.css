@@ -1,3 +1,13 @@
+.button-lateral-navbar{
+    width: 57px;
+    position: absolute;
+    left: 5px;
+}
+
+.content{
+    margin-left: 8% !important ;
+}
+
 .form{
     border-radius: 0 20%;
 
@@ -8,7 +18,37 @@
 
 
 }
-
+.menu-body{
+    border-right: 1px solid;
+    position: absolute;
+    height: 100%;
+    max-width: 195px;
+    background-color: #222d32;
+}
+.link-menu{
+    color: white !important;
+}
+.margin-link-nav{
+    margin-left: 23px;
+}
+.button-menu{
+    color: white;
+    background-color: whitesmoke !important;
+    margin-left: 12px;
+    margin-right: 19px;
+}
+.secion-button-layout{
+    
+    position: absolute;
+    background-color: #222d32;
+    height: 123px;
+    margin-top: 93px;
+    margin-bottom: 0px !important;
+    padding-bottom: 0px;
+    width: 195px;
+    padding-left: 0px;
+    left: -5px !important;
+}
 .nav .navbar-social > a {
     padding:0;
 }
@@ -47,7 +87,9 @@
     margin-left: auto;
     z-index: 12
 }
-
+.layout-margin{
+    height: 56px;
+}
 .position-button{
     padding-right: 33px;
     margin-right: 12px;

@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { showNotification } from '../helpers/BaseNotification';
 import { entitiesLabels } from '../helpers/Constants';
 import { api } from '../helpers/api/api';
-import './Login.css';
+import '../css/style.css';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
 export class Register extends Component {
