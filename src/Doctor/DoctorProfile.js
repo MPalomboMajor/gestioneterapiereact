@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import { showNotification } from '../helpers/BaseNotification';
 import { entitiesLabels } from '../helpers/Constants';
 import { api } from '../helpers/api/api';
 import '../css/style.css';
@@ -45,7 +44,6 @@ export class DoctorProfile extends Component {
             });
         } else {
             this.validator.showMessages();
-            //showNotification.warning(`${entitiesLabels.WARNING}`,`${entitiesLabels.USER} required fields are missing  `);
             this.forceUpdate();
           }
 

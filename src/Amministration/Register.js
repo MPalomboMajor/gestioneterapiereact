@@ -4,9 +4,9 @@ import { api } from '../helpers/api/api';
 import '../css/style.css';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
-import { notificationType } from '../helpers/Constants';
-import ToastContainer from '../helpers/ToastContainer';
-
+import { entitiesLabels , message} from '../helpers/Constants';
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 export class Register extends Component {
     userModelProp = () => ({
         fiscalCode: '',
@@ -39,29 +39,14 @@ export class Register extends Component {
             api.post("/InsertUser", this.state.userDto)
                 .then((response) => {
                     if (response.status === 200) {
-                        this.setState({
-                            notification: notificationType.SUCCESS,
-                            notificationHeaderMessage: 'Successo!',
-                            notificationMessage: 'Registrazione avvenuta con successo',
-                            show: true
-                        });
+                        NotificationManager.success(message.MEDICO + message.SuccessInsert,entitiesLabels.SUCCESS,  3000);
                     }
                 }).catch((error) => {
-                    this.setState({
-                        notification: notificationType.DANGER,
-                        notificationHeaderMessage: 'Attenzione!',
-                        notificationMessage: 'Servizio momentaneamente non disponibile',
-                        show: true
-                    });
+                    NotificationManager.error(message.ErrorServer,entitiesLabels.ERROR,  3000);
                 });
         } else {
             this.validator.showMessages();
-            this.setState({
-                notification: notificationType.WARNING,
-                notificationHeaderMessage: 'Avviso!',
-                notificationMessage: 'Controllare la compilazione dei campi',
-                show: true
-            });
+            NotificationManager.warning(message.ErrorRequire,entitiesLabels.WARNING,  3000);
             this.forceUpdate();
         }
     }
@@ -166,11 +151,7 @@ export class Register extends Component {
 
                     </Form>
                 </Container>
-                <Row>
-                    <Col xs={6}>
-                        {this.state.notification != '' ? <ToastContainer notificationType={this.state.notification} notificationMessage={this.state.notificationMessage} notificationHeaderMessage={this.state.notificationHeaderMessage} show={this.state.show}></ToastContainer> : ''}
-                    </Col>
-                </Row>
+                < NotificationContainer/>
             </Container>
         )
     }
