@@ -14,3 +14,13 @@ export const API = {
     WARNING: 'Warning!',
     USER: 'Users',
   }
+
+  export const notificationType = {
+    PRIMARY: 'primary',
+    SUCCESS: 'success',
+    DANGER: 'danger',
+    WARNING: 'warning',
+    INFO: 'info',
+    }
+
+  
