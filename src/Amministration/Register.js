@@ -5,7 +5,7 @@ import '../css/style.css';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
 import { notificationType } from '../helpers/Constants';
-import ToastContainer from './ToastContainer';
+import ToastContainer from '../helpers/ToastContainer';
 
 export class Register extends Component {
     userModelProp = () => ({

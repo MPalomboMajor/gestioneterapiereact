@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import ToastContainer from './ToastContainer';
+import ToastContainer from '../helpers/ToastContainer';
 import { api } from '../helpers/api/api';
 import '../css/style.css';
 import { Link } from "react-router-dom";
