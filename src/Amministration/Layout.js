@@ -31,12 +31,13 @@ constructor(props) {
                         </Navbar.Collapse>
                 </Navbar>
                               <Offcanvas
-                               show={true}
+                               show={true}                              
                                 aria-labelledby="offcanvasNavbarLabel"
                                 aria-expanded="true"
                                 placement="start"
                                 className='show navbar-height offcanvas-backdrop-custom'
                                 bsPrefix="offcanvas-backdrop-custom"
+                                tabIndex={false}
                               >
 
                                     <Offcanvas.Body className='menu-body'>
