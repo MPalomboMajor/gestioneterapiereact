@@ -14,7 +14,7 @@ function SimpleToast(props) {
                     <img
                         src="holder.js/20x20?text=%20"
                         className="rounded me-2"
-                        alt="ciao"
+                        alt=""
                     />
                     <strong className="me-auto">{props.notificationHeaderMessage}</strong>
                 </Toast.Header>
