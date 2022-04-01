@@ -37,7 +37,7 @@ constructor(props) {
                                 placement="start"
                                 className='show navbar-height offcanvas-backdrop-custom'
                                 bsPrefix="offcanvas-backdrop-custom"
-                                tabIndex={false}
+                                tabIndex={false.toString()}
                               >
 
                                     <Offcanvas.Body className='menu-body'>
