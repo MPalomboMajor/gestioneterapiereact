@@ -1,6 +1,8 @@
 import '../css/style.css';
 import React, { Component } from 'react'
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import "react-datepicker/dist/react-datepicker.css";
+
 import { Navbar, Container, Nav, NavDropdown, Button, Offcanvas,  Form, FormControl  } from 'react-bootstrap';
 export default class Layout extends Component {
   userLogUser = () => ({
@@ -13,15 +15,17 @@ constructor(props) {
     this.state = {
       userDto:{
         ...this.userLogUser(),
-      }  
+      }  ,
+     url:window.location.pathname,
     }
 }
+
     render() {
+      
         return (
           <div>
-          {this.state.userDto.token != null ? 
+          {this.state.userDto.token != null &&  this.state.url != "/"? 
             <div className='layout-margin'>
-              
                 <Navbar className='navbar-margin' bg="" expand="lg">
                         <Navbar.Brand href="#home">GestioneTerapie</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -40,7 +44,6 @@ constructor(props) {
                                 bsPrefix="offcanvas-backdrop-custom"
                                 tabIndex={false.toString()}
                               >
-
                                     <Offcanvas.Body className='menu-body'>
                                       <Nav className="justify-content flex-grow-2 pe-3">
                                         <Nav.Link className='link-menu' href="/Dashboard">Pazienti</Nav.Link>

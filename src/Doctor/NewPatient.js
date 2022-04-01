@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../css/style.css';
-import { Row, Container, Form, Button, FormGroup } from 'react-bootstrap';
+import { Row, Container, Form, Button } from 'react-bootstrap';
 import { api } from '../helpers/api/api';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
@@ -84,7 +84,7 @@ export class NewPatient extends Component {
                     <Row className='col-12 pt-4' >
 
                         <div className='col-3'>
-                            <Link to="/" className='btn btn-primary'>Avanti</Link>
+                            <Link to="/NewTherapy" className='btn btn-primary'>Avanti</Link>
                         </div>
                         <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
                             <Button variant="btn btn-primary" onClick={() => this.InsertPatient()}>

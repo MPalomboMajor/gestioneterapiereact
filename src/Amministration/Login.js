@@ -64,7 +64,7 @@ export class Login extends Component {
             email: this.validator.message(
                 'Email',
                 this.state.userDto.email,
-                'required'
+                'required|email'
             ),
             password: this.validator.message(
                 'Password',
