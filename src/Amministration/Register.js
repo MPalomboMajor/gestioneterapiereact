@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, } from 'react-bootstrap';
 import { api } from '../helpers/api/api';
 import '../css/style.css';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
 import { entitiesLabels , message} from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
+
+import { Eye } from 'react-bootstrap-icons';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 export class Register extends Component {
     userModelProp = () => ({
@@ -63,18 +65,34 @@ export class Register extends Component {
         this.setState(statusCopy);
     };
 
+    showPassword =()=> {
+        var x = document.getElementById("password");
+        if (x.type === "password") {
+          x.type = "text";
+        } else {
+          x.type = "password";
+        }
+      }
 
+      showConfirmPassword =()=> {
+        var x = document.getElementById("confirmpassword");
+        if (x.type === "password") {
+          x.type = "text";
+        } else {
+          x.type = "password";
+        }
+      }
     render() {
         const validations = {
             email: this.validator.message(
                 'Email',
                 this.state.userDto.email,
-                'required'
+                'required|email'
             ),
             telephone: this.validator.message(
                 'Telefone',
                 this.state.userDto.telephone,
-                'required'
+                'required|phone'
             ),
             password: this.validator.message(
                 'Password',
@@ -103,9 +121,7 @@ export class Register extends Component {
                                 <Form.Control onChange={this.handleChange} name="firstname" placeholder="Enter Nome" />
                             </Form.Group>
                         </Row>
-
-
-                        <Row>
+                         <Row>
                             <Form.Group className="col-4 mb-3" >
                                 <Form.Label className="text-light">Codice Fiscale</Form.Label>
                                 <Form.Control onChange={this.handleChange} name="fiscalCode" placeholder="Enter Codice fiscale" />
@@ -115,7 +131,6 @@ export class Register extends Component {
                                 <Form.Control onChange={this.handleChange} name="mendicalCenter" placeholder="Enter centro medico" />
                             </Form.Group>
                         </Row>
-
                         <Row>
                             <Form.Group className="col-4 mb-3" >
                                 <Form.Label className="text-light">Email</Form.Label>
@@ -126,15 +141,14 @@ export class Register extends Component {
                                 <Form.Control onChange={this.handleChange} name="telephone" isInvalid={validations.telephone != null} placeholder="Enter telefono" />
                             </Form.Group>
                         </Row>
-
                         <Row>
                             <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                <Form.Label className="text-light">Password</Form.Label>
-                                <Form.Control onChange={this.handleChange} name="password" isInvalid={validations.password != null} placeholder="Password" />
+                                <Form.Label className="text-light">Password</Form.Label><Eye size='22' onClick={() => this.showPassword() } className='icon-white'/>
+                                <Form.Control type='password' id='password' onChange={this.handleChange} name="password" isInvalid={validations.password != null} placeholder="Password" />
                             </Form.Group>
                             <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                <Form.Label className="text-light">Confirm Password</Form.Label>
-                                <Form.Control onChange={this.handleChange} name="confirmpassword" isInvalid={validations.confirmpassword != null} placeholder="Password" />
+                                <Form.Label className="text-light">Confirm Password</Form.Label><Eye size='22' onClick={() => this.showConfirmPassword() } className='icon-white'/>
+                                <Form.Control type='password'id='confirmpassword' onChange={this.handleChange} name="confirmpassword" isInvalid={validations.confirmpassword != null} placeholder="Password" />
                             </Form.Group>
                         </Row>
                         <Row>
@@ -146,9 +160,7 @@ export class Register extends Component {
                                     Registrati
                                 </Button>
                             </Form.Group>
-
                         </Row>
-
                     </Form>
                 </Container>
                 < NotificationContainer/>

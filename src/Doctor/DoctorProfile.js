@@ -103,8 +103,6 @@ export class DoctorProfile extends Component {
                     <Form.Control disabled name="firstname" placeholder="Enter Nome" />
                 </Form.Group>
                 </Row>
-
-
                 <Row>
                 <Form.Group className="col-4 mb-3" controlId="formBasicEmail">
                     <Form.Label className="text-light">Codice Fiscale</Form.Label>
@@ -126,8 +124,6 @@ export class DoctorProfile extends Component {
                     <Form.Control disabled name="telephone" isInvalid={validations.telephone != null} placeholder="Enter telefono" />
                 </Form.Group>
                 </Row>
-
-                
 </Form>
 </Container>
 </Container>

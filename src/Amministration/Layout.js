@@ -1,5 +1,6 @@
 import '../css/style.css';
 import React, { Component } from 'react'
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Navbar, Container, Nav, NavDropdown, Button, Offcanvas,  Form, FormControl  } from 'react-bootstrap';
 export default class Layout extends Component {
   userLogUser = () => ({

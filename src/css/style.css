@@ -18,6 +18,10 @@
 
 
 }
+.icon-white{
+    margin-left: 5px;
+    color: white;
+}
 .menu-body{
     border-right: 1px solid;
     position: absolute;
