@@ -26,42 +26,11 @@ export class DashboardDoctors extends Component {
                     });
                 }
             }).catch((error) => {
-            this.setState({error: 1})    
+                this.setState({ error: 1 })
             });
-        // .then(res => res.json())
-        // .then(
-        //     (result) => {
-        //         this.setState({
-        //             isLoaded: true,
-        //             items: result
-        //         });
-        //     },
-
-        //     (error) => {
-        //         this.setState({
-        //             isLoaded: true,
-        //             error
-        //         });
-        //     }
-        // )
-        // .catch((error) => {
-        //     this.setState({
-        //         notification: notificationType.DANGER,
-        //         notificationHeaderMessage: 'Attenzione!',
-        //         notificationMessage: 'Servizio momentaneamente non disponibile',
-        //         show: true
-        //     });
-        // })
     }
 
-
     render() {
-        // const { error, isLoaded, items } = this.state;
-        // if (error) {
-        //     return <div>Error: {error.message}</div>;
-        // } else if (!isLoaded) {
-        //     return <div>Loading...</div>;
-        // } else {
         return (
             <Container className='content'>
 
@@ -70,7 +39,7 @@ export class DashboardDoctors extends Component {
                         <h1>Pazienti</h1>
                     </div>
                     <div className='col-2'>
-                        <Link to="/NewPatient" className='btn  btn-primary'>Nuovo Paziente</Link>
+                        <Link to="/NewPatient" className='btn btn-primary'>Nuovo Paziente</Link>
                     </div>
                     <div className='col-4'>
                         <Link to="/Register" className='btn btn-primary'>Collega Paziente già assegnato ad altro medico</Link>
@@ -85,7 +54,6 @@ export class DashboardDoctors extends Component {
 
             </Container>
         );
-        // }
     }
 }
 
