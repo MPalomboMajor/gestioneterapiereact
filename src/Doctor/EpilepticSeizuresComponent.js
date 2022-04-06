@@ -7,12 +7,12 @@ import { useNavigate } from 'react-router-dom';
 function EpilepticSeizuresInfo(props) {
     return (
         <>
-        <Col className='mb-3'>
-            <EpilepticSeizuresForm numberStartingSeizures={props.numberStartingSeizures} />
+            <Col className='mb-3'>
+                <EpilepticSeizuresForm numberStartingSeizures={props.numberStartingSeizures} />
             </Col>
             <Col className='mb-3'>
-            <EpilepticSeizuresTable epilepticSeizures={props.epilepticSeizures} />
-        </Col>
+                <EpilepticSeizuresTable epilepticSeizures={props.epilepticSeizures} />
+            </Col>
         </>
     );
 }
@@ -20,7 +20,7 @@ function EpilepticSeizuresInfo(props) {
 function EpilepticSeizuresForm(props) {
     return (
 
-        <Container className='content'>
+        <Container className=''>
             <Form>
                 <div className='col-6'>
                     <Form.Group controlId='numberStartingSeizures'>
@@ -38,7 +38,7 @@ function EpilepticSeizuresForm(props) {
 function EpilepticSeizuresTable(props) {
     return (
         <>
-            <Container className='content'>
+            <Container className=''>
                 <div className='col-6'>
                     <Table striped bordered hover size="sm">
                         <thead>

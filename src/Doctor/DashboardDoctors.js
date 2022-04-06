@@ -32,7 +32,7 @@ export class DashboardDoctors extends Component {
 
     render() {
         return (
-            <Container className='content'>
+            <Container className=''>
 
                 <Row className='col-12 pt-4' >
                     <div className='col-6'>

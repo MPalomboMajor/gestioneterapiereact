@@ -4,11 +4,11 @@ import { api } from '../helpers/api/api';
 import '../css/style.css';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
-import { entitiesLabels , message} from '../helpers/Constants';
+import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
 
 import { Eye } from 'react-bootstrap-icons';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 export class Register extends Component {
     userModelProp = () => ({
         fiscalCode: '',
@@ -35,20 +35,20 @@ export class Register extends Component {
             },
         }
     }
-   
+
     InsertUser = () => {
         if (this.validator.allValid()) {
             api.post("/InsertUser", this.state.userDto)
                 .then((response) => {
                     if (response.status === 200) {
-                        NotificationManager.success(message.MEDICO + message.SuccessInsert,entitiesLabels.SUCCESS,  3000);
+                        NotificationManager.success(message.MEDICO + message.SuccessInsert, entitiesLabels.SUCCESS, 3000);
                     }
                 }).catch((error) => {
-                    NotificationManager.error(message.ErrorServer,entitiesLabels.ERROR,  3000);
+                    NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
                 });
         } else {
             this.validator.showMessages();
-            NotificationManager.warning(message.ErrorRequire,entitiesLabels.WARNING,  3000);
+            NotificationManager.warning(message.ErrorRequire, entitiesLabels.WARNING, 3000);
             this.forceUpdate();
         }
     }
@@ -65,23 +65,23 @@ export class Register extends Component {
         this.setState(statusCopy);
     };
 
-    showPassword =()=> {
+    showPassword = () => {
         var x = document.getElementById("password");
         if (x.type === "password") {
-          x.type = "text";
+            x.type = "text";
         } else {
-          x.type = "password";
+            x.type = "password";
         }
-      }
+    }
 
-      showConfirmPassword =()=> {
+    showConfirmPassword = () => {
         var x = document.getElementById("confirmpassword");
         if (x.type === "password") {
-          x.type = "text";
+            x.type = "text";
         } else {
-          x.type = "password";
+            x.type = "password";
         }
-      }
+    }
     render() {
         const validations = {
             email: this.validator.message(
@@ -112,50 +112,50 @@ export class Register extends Component {
 
                     <Form className="centering-form">
                         <Row>
-                            <Form.Group className="col-4 mb-3" >
+                            <Form.Group className="col-4 mb-3 input-layout-wrapper" >
                                 <Form.Label className="text-light">Cognome</Form.Label>
                                 <Form.Control onChange={this.handleChange} name="lastname" placeholder="Enter cognome" />
                             </Form.Group>
-                            <Form.Group className="col-4 mb-3" >
+                            <Form.Group className="col-4 mb-3 input-layout-wrapper" >
                                 <Form.Label className="text-light">Nome</Form.Label>
                                 <Form.Control onChange={this.handleChange} name="firstname" placeholder="Enter Nome" />
                             </Form.Group>
                         </Row>
-                         <Row>
-                            <Form.Group className="col-4 mb-3" >
+                        <Row>
+                            <Form.Group className="col-4 mb-3 input-layout-wrapper" >
                                 <Form.Label className="text-light">Codice Fiscale</Form.Label>
                                 <Form.Control onChange={this.handleChange} name="fiscalCode" placeholder="Enter Codice fiscale" />
                             </Form.Group>
-                            <Form.Group className="col-4 mb-3" >
+                            <Form.Group className="col-4 mb-3 input-layout-wrapper" >
                                 <Form.Label className="text-light">Centro Medico</Form.Label>
                                 <Form.Control onChange={this.handleChange} name="mendicalCenter" placeholder="Enter centro medico" />
                             </Form.Group>
                         </Row>
                         <Row>
-                            <Form.Group className="col-4 mb-3" >
+                            <Form.Group className="col-4 mb-3 input-layout-wrapper" >
                                 <Form.Label className="text-light">Email</Form.Label>
                                 <Form.Control onChange={this.handleChange} id='email' name="email" isInvalid={validations.email != null} placeholder="Enter email" />
                             </Form.Group>
-                            <Form.Group className="col-4 mb-3">
+                            <Form.Group className="col-4 mb-3 input-layout-wrapper">
                                 <Form.Label className="text-light">Telefono</Form.Label>
                                 <Form.Control onChange={this.handleChange} name="telephone" isInvalid={validations.telephone != null} placeholder="Enter telefono" />
                             </Form.Group>
                         </Row>
                         <Row>
-                            <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                <Form.Label className="text-light">Password</Form.Label><Eye size='22' onClick={() => this.showPassword() } className='icon-white'/>
+                            <Form.Group className="col-4 mb-3 input-layout-wrapper" controlId="formBasicPassword">
+                                <Form.Label className="text-light">Password</Form.Label><Eye size='22' onClick={() => this.showPassword()} className='icon-white' />
                                 <Form.Control type='password' id='password' onChange={this.handleChange} name="password" isInvalid={validations.password != null} placeholder="Password" />
                             </Form.Group>
-                            <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                <Form.Label className="text-light">Confirm Password</Form.Label><Eye size='22' onClick={() => this.showConfirmPassword() } className='icon-white'/>
-                                <Form.Control type='password'id='confirmpassword' onChange={this.handleChange} name="confirmpassword" isInvalid={validations.confirmpassword != null} placeholder="Password" />
+                            <Form.Group className="col-4 mb-3 input-layout-wrapper" controlId="formBasicPassword">
+                                <Form.Label className="text-light">Confirm Password</Form.Label><Eye size='22' onClick={() => this.showConfirmPassword()} className='icon-white' />
+                                <Form.Control type='password' id='confirmpassword' onChange={this.handleChange} name="confirmpassword" isInvalid={validations.confirmpassword != null} placeholder="Password" />
                             </Form.Group>
                         </Row>
                         <Row>
-                            <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
+                            <Form.Group className="col-4 mb-3 input-layout-wrapper" controlId="formBasicPassword">
                                 <Link className='btn  btn-light position-button' variant="light btn-block" to="/">Indietro</Link>
                             </Form.Group>
-                            <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
+                            <Form.Group className="col-4 mb-3 input-layout-wrapper" controlId="formBasicPassword">
                                 <Button variant="light" onClick={() => this.InsertUser()}>
                                     Registrati
                                 </Button>
@@ -163,7 +163,7 @@ export class Register extends Component {
                         </Row>
                     </Form>
                 </Container>
-                < NotificationContainer/>
+                < NotificationContainer />
             </Container>
         )
     }

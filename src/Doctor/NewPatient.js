@@ -5,24 +5,24 @@ import { api } from '../helpers/api/api';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
 export class NewPatient extends Component {
-    patientModelProp = () => ({       
-            id: 0,
-            name: '',
-            surName: '',
-            codicePaziente: 0,
-            age: 0,
-            sex: '',
-            fiscalCode: '',
-            phoneNumber: '',
-            eMail: '',
-            isActive: 0,
-            disabledDate: 0,
-            disabledCause: 0,
-            numeroCrisiPartenza: 0       
+    patientModelProp = () => ({
+        id: 0,
+        name: '',
+        surName: '',
+        codicePaziente: 0,
+        age: 0,
+        sex: '',
+        fiscalCode: '',
+        phoneNumber: '',
+        eMail: '',
+        isActive: 0,
+        disabledDate: 0,
+        disabledCause: 0,
+        numeroCrisiPartenza: 0
     });
     constructor(props) {
         super(props);
-        
+
         this.validator = new SimpleReactValidator();
         this.state = {
             patientDto: {
@@ -71,27 +71,32 @@ export class NewPatient extends Component {
 
         };
         return (
-            <Container className='content'>
-                <Form>
+            <Container className=''>
+                <Row className='col-12 pt-4' >
+                    <div className='col-12'>
+                        <h2>Inserimento nuovo Paziente</h2>
+                    </div>
+                </Row>
+                <Row className='col-12 pt-4' >
                     <Row className='col-12 pt-4' >
                         <Form.Group className="mb-3">
                             <Form.Label>Codice Paziente</Form.Label>
                             <Form.Control onChange={this.handleChange} alt="patientDto" type="number" name="codicePaziente" isInvalid={validations.codicePaziente != null} placeholder="Inserisci Codice Paziente" />
                         </Form.Group>
                     </Row>
-                    <Row className='col-12 pt-4' >
+                </Row>
+                <Row className='col-12 pt-4' >
 
-                        <div className='col-3'>
-                            <Link to="/NewTherapy" className='btn btn-primary'>Avanti</Link>
-                        </div>
-                        <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                            <Button variant="btn btn-primary" onClick={() => this.InsertPatient()}>
-                                Salva
-                            </Button>
-                        </Form.Group>
+                    <div className='col-3'>
+                        <Link to="/NewTherapy" className='btn btn-primary'>Avanti</Link>
+                    </div>
+                    <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
+                        <Button variant="btn btn-primary" onClick={() => this.InsertPatient()}>
+                            Salva
+                        </Button>
+                    </Form.Group>
 
-                    </Row>
-                </Form>
+                </Row>
             </Container>
         )
     }

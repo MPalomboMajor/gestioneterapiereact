@@ -1,48 +1,92 @@
-.button-lateral-navbar{
+.button-lateral-navbar {
     width: 57px;
     position: absolute;
     left: 5px;
 }
 
-.content{
-    margin-left: 8% !important ;
+.content {
+    margin-left: 8% !important;
 }
 
-.form{
+.form {
     border-radius: 0 20%;
 
 
 }
-.offcanvas-backdrop-custom .offcanvas-backdrop{
-    background-color: #0000 !important;
-
-
+.input-layout-wrapper{
+    min-width: 149px;
 }
-.icon-white{
+
+@media only screen and (max-width:995.98px) {
+
+    .main-sidebar,
+    .main-sidebar::before {
+        box-shadow: none !important;
+        margin-left: -250px;
+    }
+}
+
+.offcanvas-backdrop-custom .offcanvas-backdrop {
+    background-color: #0000 !important;
+}
+
+.datepicker-wrapper {
+    padding-left: 0px !important;
+}
+
+@media only screen and (max-width: 600px) {
+    .datepicker-wrapper-date {
+        max-width: 166px;
+    }
+}
+
+.datepicker-wrapper-modal {
+    padding-left: 0px !important;
+    max-width: 166px;
+}
+
+@media only screen and (max-width: 600px) {
+    .datepicker-wrapper-datemodal {
+        max-width: 150px !important;
+    }
+}
+
+.contnet-wrapper {
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+}
+
+.icon-white {
     margin-left: 5px;
     color: white;
 }
-.menu-body{
+
+.menu-body {
     border-right: 1px solid;
     position: absolute;
     height: 100%;
-    max-width: 195px;
     background-color: #222d32;
 }
-.link-menu{
+
+.link-menu {
     color: white !important;
 }
-.margin-link-nav{
+
+.margin-link-nav {
     margin-left: 23px;
 }
-.button-menu{
+
+.button-menu {
     color: white;
     background-color: whitesmoke !important;
     margin-left: 12px;
     margin-right: 19px;
 }
-.secion-button-layout{
-    
+
+.secion-button-layout {
+
     position: absolute;
     background-color: #222d32;
     height: 123px;
@@ -53,48 +97,60 @@
     padding-left: 0px;
     left: -5px !important;
 }
-.nav .navbar-social > a {
-    padding:0;
+
+.nav .navbar-social>a {
+    padding: 0;
 }
-.nav>li>a:hover, .nav>li>a:focus {
+
+.nav>li>a:hover,
+.nav>li>a:focus {
     background-color: transparent;
 }
-.navbar-height{
+
+.navbar-height {
     max-width: 303px !important;
 }
-.button-lateral-navbar{
+
+.button-lateral-navbar {
     width: 57px;
 }
-.navbar-margin{
+
+.navbar-margin {
     margin-left: 15px;
     margin-right: 15px;
 }
-.centering-form{
+
+.centering-form {
     padding-left: 27%;
 }
-.text-color-title{
+
+.text-color-title {
     --bs-text-opacity: 11;
-    color: rgb(0 156 214)!important;
-}
-.ms-container{
-    width: 75% !important; 
+    color: rgb(0 156 214) !important;
 }
 
-.box-color{
-    --bs-bg-opacity: 1;
-    background-color: rgba(22,175,232,255)!important;
+.ms-container {
+    width: 75% !important;
 }
-.centering{
+
+.box-color {
+    --bs-bg-opacity: 1;
+    background-color: rgba(22, 175, 232, 255) !important;
+}
+
+.centering {
 
     top: 2%;
     margin-right: auto;
     margin-left: auto;
     z-index: 12
 }
-.layout-margin{
+
+.layout-margin {
     height: 56px;
 }
-.position-button{
+
+.position-button {
     padding-right: 33px;
     margin-right: 12px;
 }

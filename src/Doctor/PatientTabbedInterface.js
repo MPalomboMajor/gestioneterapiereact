@@ -105,7 +105,7 @@ export class PatientTabbedInterface extends Component {
 
         return (
 
-            <Container className='content'>
+            <Container className=''>
                 <Row className='col-12 pt-12' >
                     <div className='col-12'>
                         <h1>Medico - Anagrafica paziente {this.state.patientDto.patientCode} </h1>
