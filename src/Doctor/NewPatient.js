@@ -57,9 +57,7 @@ export class NewPatient extends Component {
 
     updateState = (inputName, inputValue, objName) => {
         let statusCopy = Object.assign({}, this.state);
-     
         statusCopy[objName][inputName] = inputValue;
-
         this.setState(statusCopy);
     };
 

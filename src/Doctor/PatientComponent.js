@@ -12,15 +12,15 @@ function PatientInfo(props) {
     );
 }
 
-function PatientTable(props) {   
+function PatientTable(props) {
     const navigate = useNavigate();
     const deletePatient = (codicePaziente) => {
-     
+
     };
 
     const updatePatient = (codicePaziente) => {
         console.log(codicePaziente);
-        navigate(`/PatientTabbedInterface/${codicePaziente}`);  
+        navigate(`/PatientTabbedInterface/${codicePaziente}`);
     };
 
     return (
@@ -44,7 +44,7 @@ function PatientTable(props) {
                     }
                 </tbody>
             </Table>
-           
+
         </>
     );
 }
@@ -57,8 +57,8 @@ function PatientRowData(props) {
     return (<>
         <td>{props.patient.codicePaziente}</td>
         <td>{props.patient.fiscalCode}</td>
-        <td>{props.patient.name}</td>
         <td>{props.patient.surName}</td>
+        <td>{props.patient.name}</td>
         <td>{props.patient.phoneNumber}</td>
         <td>{props.patient.email}</td>
         <td>{props.patient.isActive === 0 ? "Non attivo" : "Attivo"}</td>
