@@ -1,26 +1,25 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import { api } from '../helpers/api/api';
+import { api, user } from '../helpers/api/api';
 import '../css/style.css';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
 import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import moment from 'moment';
 export class Login extends Component {
     //STATO
     userModelProp = () => ({
-        email: '',
-        password: ''
-
+        
     });
     constructor(props) {
         super(props);
         this.state = {
-            show: undefined,
-            userDto: {
-                ...this.userModelProp(),
-            },
+            username: '',
+            password: '',
+            idDispositivo:'',
+            dataOraRichiesta:moment(new Date()).format("DD/MM/YYYY HH:mm"),
         }
         this.validator = new SimpleReactValidator();
     }
@@ -30,18 +29,18 @@ export class Login extends Component {
     handleChange = (el) => {
         const inputName = el.target.name;
         const inputValue = el.target.value;
-        this.updateState(inputName, inputValue, 'userDto');
+        this.updateState(inputName, inputValue);
     };
 
-    updateState = (inputName, inputValue, objName) => {
+    updateState = (inputName, inputValue) => {
         const statusCopy = { ...this.state };
-        statusCopy[objName][inputName] = inputValue;
+        statusCopy[inputName] = inputValue;
         this.setState(statusCopy);
     };
 
     postLogin = () => {
         if (this.validator.allValid()) {
-            api.post("/Login", this.state.userDto)
+            user.post("Login", this.state)
                 .then(async (response) => {
                     if (response.status == 200) {
                         sessionStorage.setItem('token', 'ok');
@@ -61,14 +60,14 @@ export class Login extends Component {
     render() {
 
         const validations = {
-            email: this.validator.message(
+            username: this.validator.message(
                 'Email',
-                this.state.userDto.email,
+                this.state.username,
                 'required|email'
             ),
             password: this.validator.message(
                 'Password',
-                this.state.userDto.password,
+                this.state.password,
                 'required'
             ),
         };
@@ -79,8 +78,8 @@ export class Login extends Component {
                     <Col lg={4} md={5} sm={12} className="form box-color p-5 m-auto" >
                         <Form>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label className="text-light">Email address</Form.Label>
-                                <Form.Control isInvalid={validations.email != null} onChange={this.handleChange} type="email" name="email" placeholder="Enter email" />
+                                <Form.Label className="text-light">Username</Form.Label>
+                                <Form.Control isInvalid={validations.username != null} onChange={this.handleChange} type="username" name="username" placeholder="Username" />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formBasicPassword">
                                 <Form.Label className="text-light">Password</Form.Label>
