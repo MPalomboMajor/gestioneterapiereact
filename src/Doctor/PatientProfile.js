@@ -6,7 +6,7 @@ function PatientProfile(props) {
 
     return (
 
-        <Container className='content'>
+        <Container className=''>
             <Form>
                 <div className='col-8'>
                     {['checkbox'].map((type) => (
