@@ -15,24 +15,24 @@ function AdverseEventsInfo(props) {
 function AdverseEventsTable(props) {
     return (
         <>
-        <Container className='content'>
-            <div className='col-6'>
-                <Table striped bordered hover size="sm">
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Evento</th>
-                            <th>Intensità</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            props.adverseEvents?.map((ev) => <AdverseEventRow key={ev.id} adverseEvent={ev} />)
-                        }
-                    </tbody>
-                </Table>
-            </div>
-            <div className='mb-3'>
+            <Container className=''>
+                <div className='col-6'>
+                    <Table striped bordered hover size="sm">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Evento</th>
+                                <th>Intensità</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                props.adverseEvents?.map((ev) => <AdverseEventRow key={ev.id} adverseEvent={ev} />)
+                            }
+                        </tbody>
+                    </Table>
+                </div>
+                <div className='mb-3'>
                     <Button type='submit' >Indietro</Button> <Button type='submit' >Torna a elenco pazienti</Button> <Button type='submit' >Avanti</Button>
                 </div>
             </Container>

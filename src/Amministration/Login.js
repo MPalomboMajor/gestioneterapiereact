@@ -4,9 +4,9 @@ import { api } from '../helpers/api/api';
 import '../css/style.css';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
-import { entitiesLabels , message} from '../helpers/Constants';
+import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 export class Login extends Component {
     //STATO
     userModelProp = () => ({
@@ -26,7 +26,7 @@ export class Login extends Component {
     }
 
     //FUNZIONI 
-    
+
     handleChange = (el) => {
         const inputName = el.target.name;
         const inputValue = el.target.value;
@@ -48,11 +48,11 @@ export class Login extends Component {
                         window.location.href = "/Dashboard";
                     }
                 }).catch((error) => {
-                    NotificationManager.error(message.ErrorLogin,entitiesLabels.ERROR,  3000);
+                    NotificationManager.error(message.ErrorLogin, entitiesLabels.ERROR, 3000);
                 });
         } else {
             this.validator.showMessages();
-            NotificationManager.warning(message.ErrorRequire,entitiesLabels.WARNING, 3000);
+            NotificationManager.warning(message.ErrorRequire, entitiesLabels.WARNING, 3000);
             this.forceUpdate();
         }
     };
@@ -86,15 +86,25 @@ export class Login extends Component {
                                 <Form.Label className="text-light">Password</Form.Label>
                                 <Form.Control isInvalid={validations.password != null} onChange={this.handleChange} name="password" type="password" placeholder="Password" />
                             </Form.Group>
-                            <Button className='position-button' variant="light btn-block" onClick={() => this.postLogin()} >
+
+                        </Form>
+                        <Row>
+                        <Col  className="form box-color p-5 m-auto col-6" >
+                        <Button className=' ' variant="light " onClick={() => this.postLogin()} >
                                 Login
                             </Button>
-                            <Link className='btn  btn-light position-button' variant="light btn-block" to="/Register">Signin</Link>
-                        </Form>
+                        </Col>
+                        <Col  className="form box-color p-5 m-auto col-6" >
+                        <Link className='btn  btn-light position-button' variant="light " to="/Register">Signin</Link>
+                        </Col> 
+                            
+                        </Row>
                     </Col>
+
                     <h6 className="mt-4 p-3 text-center text-secondary">Copyright <i className="fa fa-copyright"></i> </h6>
                 </Row>
-               < NotificationContainer/>
+
+                < NotificationContainer />
             </Container>
         )
     }
