@@ -25,7 +25,9 @@
         margin-left: -250px;
     }
 }
-
+.is-12{
+    height: 24px;
+}
 .offcanvas-backdrop-custom .offcanvas-backdrop {
     background-color: #0000 !important;
 }

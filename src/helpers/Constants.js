@@ -2,12 +2,14 @@ function textFormat(r) {
   return `/${r}/`;
 }
 export const entities = {
-  USER: 'user'
+  USER: 'user',
+  MEDICO: 'medico'
 };
 
 export const API = {
   TODOS: textFormat(entities.TODOS),
   USER: textFormat(entities.USER),
+  MEDICO: textFormat(entities.MEDICO),
 };
 
 export const entitiesLabels = {
@@ -25,8 +27,8 @@ export const message = {
   SuccessInsert: 'Inserito correttamente ',
 
   ///OBJECT
-  USER: 'User ',
-  MEDICO: 'Medico ',
+  USER: 'user',
+  MEDICO: 'medico ',
   PATIENT: 'Paziente ',
   CARMANAGER: 'CarManager '
 }

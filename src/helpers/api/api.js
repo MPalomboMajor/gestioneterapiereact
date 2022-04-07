@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API } from '../Constants';
 const http = axios.create({
     //withCredentials: false,
-    baseURL: `${'http://localhost:27629'}`, // 'http://localhost:5000/api',
+    baseURL: `${'http://localhost:27629/api/'}`, // 'http://localhost:5000/api',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
@@ -13,6 +13,7 @@ const http = axios.create({
   });
 
   
+
   export const api = {
     get: (url, id) => http.get(url + id),
     getAll: (url) => http.get(url),
@@ -29,8 +30,17 @@ const http = axios.create({
     get: (url, id) => http.get(API.USER + url + id),
     getAll: (url) => http.get(API.USER + url),
     getMe: () => http.get(API.USER),
-    post: ( o) => http.post(API.USER +  o),
-    put: (url, o, id) => http.put(API.USER + url + id, o),
+    post: (url,o) => http.post(`${API.USER + url}`,o),
+    put: (url, o, id) => http.put(url +API.USER + url + id, o),
     delete: (url, id) => http.delete(API.USER + url + id),
     getWithParam: (url, o) => http.get(API.USER + url, o),
+  };
+  export const medico = {
+    get: (url, id) => http.get(API.MEDICO + url + id),
+    getAll: (url) => http.get(API.MEDICO + url),
+    getMe: () => http.get(API.MEDICO),
+    post: (url, o) => http.post(`${API.MEDICO + url}` , o),
+    put: (url, o, id) => http.put(API.MEDICO + url + id, o),
+    delete: (url, id) => http.delete(API.MEDICO + url + id),
+    getWithParam: (url, o) => http.get(API.MEDICO + url, o),
   };
