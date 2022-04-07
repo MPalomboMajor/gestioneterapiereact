@@ -39,7 +39,7 @@ export class PatientTabbedInterface extends Component {
 
 
     async componentDidMount() {
-        const [patientDto, itemsAdverseEvents] = await Promise.all([
+        const [patientDto, itemsAdverseEvents, itemsEpilepticSeizures] = await Promise.all([
             this.getPatient(),
             this.getAdverseEvents(),
             this.getEpilepticSeizures(),
@@ -61,12 +61,12 @@ export class PatientTabbedInterface extends Component {
     }
 
     getEpilepticSeizures() {
-        api.get("/GetAdverseEvents/", this.state.patientDto.patientCode)
+        api.get("/GetEpilepticSeizures/", this.state.patientDto.patientCode)
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({
                         isLoaded: true,
-                        itemsAdverseEvents: response.data,
+                        itemsEpilepticSeizures: response.data,
                     });
                 }
             }).catch((error) => {
@@ -75,12 +75,12 @@ export class PatientTabbedInterface extends Component {
     }
 
     getAdverseEvents() {
-        api.get("/GetEpilepticSeizures/", this.state.patientDto.patientCode)
+        api.get("/GetAdverseEvents/", this.state.patientDto.patientCode)
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({
                         isLoaded: true,
-                        itemsEpilepticSeizures: response.data,
+                        itemsAdverseEvents: response.data,
                     });
                 }
             }).catch((error) => {
