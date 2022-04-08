@@ -3,16 +3,56 @@ import { iconDelete, iconEdit } from './icons';
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../helpers/api/api';
+import Pagination from '../helpers/pagination';
 
-function PatientInfo(props) {
-    return (
+function PatientInfo() {
+    const [patients, setPatients] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [patientsPerPage] = useState(3);
+
+    useEffect(() => {
+        const fetchPatients = async () => {
+            setLoading(true);
+            await api.getAll("/GetPatients")
+            .then((response) => {
+                if (response.status === 200) {
+                    setPatients(response.data);
+            setLoading(false);
+                }
+            }).catch((error) => {
+                
+            });
+        };
+
+        fetchPatients();
+    }, []);
+
+    // Get current patient
+    const indexOfLastPatient = currentPage * patientsPerPage;
+    const indexOfFirstPatient = indexOfLastPatient - patientsPerPage;
+    const currentPatients = patients.slice(indexOfFirstPatient, indexOfLastPatient);
+
+    // Change page
+    const paginate = pageNumber => setCurrentPage(pageNumber);
+
+    console.log(patients);
+    return (<>
         <Col>
-            <PatientTable patients={props.patients} />
-        </Col>
+            <PatientTable patients={currentPatients} loading={loading} />
+            <Pagination
+                patientsPerPage={patientsPerPage}
+                totalPatients={patients.length}
+                paginate={paginate}
+            />
+        </Col>   
+    </>
     );
 }
 
-function PatientTable(props) {
+const PatientTable= ({ patients, loading }) => {
+
     const navigate = useNavigate();
     const deletePatient = (codicePaziente) => {
 
@@ -22,6 +62,10 @@ function PatientTable(props) {
         console.log(codicePaziente);
         navigate(`/PatientTabbedInterface/${codicePaziente}`);
     };
+
+    if (loading) {
+        return <h2>Loading...</h2>;
+    }
 
     return (
         <>
@@ -40,7 +84,7 @@ function PatientTable(props) {
                 </thead>
                 <tbody>
                     {
-                        props.patients.map((pa) => <PatientRow key={pa.codicePaziente} patient={pa} updatePatient={updatePatient} deletePatient={deletePatient} />)
+                        patients.map((pa) => <PatientRow key={pa.codicePaziente} patient={pa} updatePatient={updatePatient} deletePatient={deletePatient} />)
                     }
                 </tbody>
             </Table>
@@ -71,4 +115,4 @@ function RowControl(props) {
 }
 
 
-export { PatientInfo };
+export { PatientInfo, PatientRow };

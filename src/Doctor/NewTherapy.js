@@ -5,13 +5,18 @@ import { Link } from "react-router-dom";
 import { PatientInfo } from "./PatientComponent"
 import { api } from '../helpers/api/api';
 import DatePicker from "react-datepicker";
+import { PatientRow } from "./PatientComponent";
 import moment from 'moment';
+import Pagination from '../helpers/pagination';
 export class NewTherapy extends Component {
     constructor(props) {
         super(props);
         this.state = {
             items: [],
-            dateNow: ''
+            dateNow: '',
+            patients: [],
+            currentPage: 1,
+            patientsPerPage: 3,
         };
 
     }
@@ -22,7 +27,7 @@ export class NewTherapy extends Component {
                 if (response.status === 200) {
                     this.setState({
                         isLoaded: true,
-                        items: response.data,
+                        patients: response.data,
                         isOpenOtherPharmacy: false,
                         isOpenAllergic: false
                     });
@@ -33,6 +38,10 @@ export class NewTherapy extends Component {
         this.initialState();
     }
 
+
+    setCurrentPage = (n) => {
+        this.setState({ currentPage: n });
+    }
 
     handleCloseOtherPharmacy = () => {
         this.setState({ isOpenOtherPharmacy: false });
@@ -59,7 +68,10 @@ export class NewTherapy extends Component {
         });
     }
     render() {
-
+        const indexOfLastPatient = this.state.currentPage * this.state.patientsPerPage;
+        const indexOfFirstPatient = indexOfLastPatient - this.state.patientsPerPage;
+        const currentPatients = this.state.patients.slice(indexOfFirstPatient, indexOfLastPatient);
+        
         return (
             <Container className=''>
                 <Row className='col-12 pt-4' >
@@ -218,16 +230,27 @@ export class NewTherapy extends Component {
                             <Table striped bordered hover size="sm">
                                 <thead>
                                     <tr>
-                                        <th>Farmaco</th>
-                                        <th>Dosaggio</th>
-                                        <th>Data Inizio</th>
-                                        <th>Data Fine</th>
-                                        <th>Action</th>
+                                        <th>Codice Paziente</th>
+                                        <th>Codice Fiscale</th>
+                                        <th>Cognome</th>
+                                        <th>Nome</th>
+                                        <th>Telefono</th>
+                                        <th>Email</th>
+                                        <th>Stato Paziente</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {
+                                        currentPatients.map((pa) => <PatientRow key={pa.codicePaziente} patient={pa} />)
+                                    }
                                 </tbody>
                             </Table>
+                            <Pagination
+                                patientsPerPage={3}
+                                totalPatients={this.state.patients.length}
+                                paginate={(pageNumber) => this.setCurrentPage(pageNumber)}
+                            />
                             <Row>
                                 <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
                                     <Button variant="btn btn-info bi bi-arrow-left">

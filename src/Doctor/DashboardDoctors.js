@@ -16,19 +16,19 @@ export class DashboardDoctors extends Component {
         };
     }
 
-    componentDidMount() {
-        api.getAll("/GetPatients")
-            .then((response) => {
-                if (response.status === 200) {
-                    this.setState({
-                        isLoaded: true,
-                        items: response.data
-                    });
-                }
-            }).catch((error) => {
-                this.setState({ error: 1 })
-            });
-    }
+    // componentDidMount() {
+    //     api.getAll("/GetPatients")
+    //         .then((response) => {
+    //             if (response.status === 200) {
+    //                 this.setState({
+    //                     isLoaded: true,
+    //                     items: response.data
+    //                 });
+    //             }
+    //         }).catch((error) => {
+    //             this.setState({ error: 1 })
+    //         });
+    // }
 
     render() {
         return (
@@ -48,7 +48,7 @@ export class DashboardDoctors extends Component {
 
                 <Row className='col-12 pt-4' >
                     <Col>
-                        <PatientInfo patients={this.state.items} />
+                        <PatientInfo  />
                     </Col>
                 </Row>
 
