@@ -23,8 +23,8 @@ export default class Layout extends Component {
   render() {
 
     return (
-      <div className={this.state.userDto.token != null && this.state.url != "/" && this.state.url != "/Register"   ?'main-header navbar navbar-expand navbar-light':''}>
-        {this.state.userDto.token != null && this.state.url != "/" && this.state.url != "/Register" ?
+      <div className={localStorage.getItem("accessToken") != null && this.state.url != "/" && this.state.url != "/Register"   ?'main-header navbar navbar-expand navbar-light':''}>
+        {localStorage.getItem("accessToken") != null && this.state.url != "/" && this.state.url != "/Register" ?
           <div className='layout-margin'>
             <Navbar className='navbar-margin' bg="" expand="lg">
               <Navbar.Brand href="#home">GestioneTerapie</Navbar.Brand>

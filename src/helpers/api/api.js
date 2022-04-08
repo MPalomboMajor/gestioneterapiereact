@@ -1,17 +1,41 @@
 import axios from 'axios';
 import { API } from '../Constants';
-const http = axios.create({
-    //withCredentials: false,
-    baseURL: `${'http://localhost:27629/api/'}`, // 'http://localhost:5000/api',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      // 'Cache-Control': 'no-cache',
-      // Pragma: 'no-cache',
-      //  Expires: '0'
-    },
-  });
 
+const http = axios.create({
+  //withCredentials: false,
+  baseURL: `${'http://localhost:27629/api/'}`,  
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    // 'Cache-Control': 'no-cache',
+    // Pragma: 'no-cache',
+    //  Expires: '0'
+  },
+});
+http.interceptors.request.use(
+  async (config) => {
+    const token = localStorage.getItem("accessToken");
+    if (token) config.headers.Authorization = `Bearer ${token.toString()}`;
+    return Promise.resolve(config);
+  },
+  (error) => Promise.reject(error)
+);
+
+
+
+// Response interceptor for API calls
+http.interceptors.response.use((response) => {
+  return response
+}, async function (error) {
+  const originalRequest = error.config;
+  if (error.response.status === 403 && !originalRequest._retry) {
+    originalRequest._retry = true;
+    const access_token =localStorage.getItem("refreshToken");            
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;
+    return http(originalRequest);
+  }
+  return Promise.reject(error);
+});
   
 
   export const api = {

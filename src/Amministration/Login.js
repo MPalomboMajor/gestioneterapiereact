@@ -43,12 +43,24 @@ export class Login extends Component {
             user.post("Login", this.state)
                 .then(async (response) => {
                     if (response.status == 200) {
-                        sessionStorage.setItem('token', 'ok');
-                        window.location.href = "/Dashboard";
+                        localStorage.setItem('accessToken', response.data.dati.accessToken);
+                        localStorage.setItem('refreshToken',response.data.dati.refreshToken);
+                        localStorage.setItem('role', JSON.stringify(response.data.dati.userDTO));
+                        
+                        user.getAll("TestToken")
+                        .then(async (response) => {
+                            if (response.status == 200) {
+                                window.location.href = "/Dashboard";
+                            }
+                        }).catch((error) => {
+                            NotificationManager.error(message.ErrorLogin, entitiesLabels.ERROR, 3000);
+                        });
+                        
                     }
                 }).catch((error) => {
                     NotificationManager.error(message.ErrorLogin, entitiesLabels.ERROR, 3000);
                 });
+               
         } else {
             this.validator.showMessages();
             NotificationManager.warning(message.ErrorRequire, entitiesLabels.WARNING, 3000);

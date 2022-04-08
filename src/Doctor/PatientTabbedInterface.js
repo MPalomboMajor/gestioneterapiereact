@@ -7,7 +7,6 @@ import { PatientRegistry } from "./PatientRegistry"
 import { PatientProfile } from "./PatientProfile"
 import { AdverseEventsInfo } from "./AdverseEventsTable"
 import { EpilepticSeizuresInfo } from "./EpilepticSeizuresComponent"
-import { BloodTestsInfo } from "./BloodTestsComponent"
 
 
 export class PatientTabbedInterface extends Component {
@@ -127,9 +126,6 @@ export class PatientTabbedInterface extends Component {
                     </Tab>
                     <Tab eventKey="crisiEpilettiche" title="Crisi epilettiche" >
                         <EpilepticSeizuresInfo epilepticSeizures={this.state.itemsEpilepticSeizures} numberStartingSeizures={this.state.patientDto.numeroCrisiPartenza} />
-                    </Tab>
-                    <Tab eventKey="analisiDelSangue" title="Analisi del sangue" >
-                        {/* <BloodTestsInfo /> */}
                     </Tab>
                     <Tab eventKey="visiteMediche" title="Visite mediche" >
 
