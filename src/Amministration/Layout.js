@@ -48,7 +48,7 @@ export default class Layout extends Component {
                 <Nav className="justify-content flex-grow-2 pe-3">
                   <Nav.Link className='link-menu' href="/Dashboard">Pazienti</Nav.Link>
                   <Nav.Link className='link-menu' href="/DoctorProfile">Anagrafica medico</Nav.Link>
-                  <Nav.Link className='link-menu' href="#action3">Richiedi codici paziente</Nav.Link>
+                  <Nav.Link className='link-menu' href="/DoctorProfile">Richiedi codici paziente</Nav.Link>
                 </Nav>
               </Offcanvas.Body>
             </Offcanvas>

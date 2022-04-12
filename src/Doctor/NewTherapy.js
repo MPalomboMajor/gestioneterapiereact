@@ -3,7 +3,7 @@ import '../css/style.css';
 import { Tabs, Tab, Container, Form, Row, InputGroup, Button, FormControl, Table, Modal } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { PatientInfo } from "./PatientComponent"
-import { api } from '../helpers/api/api';
+import { medico } from '../helpers/api/api';
 import DatePicker from "react-datepicker";
 import { PatientRow } from "./PatientComponent";
 import moment from 'moment';
@@ -23,7 +23,7 @@ export class NewTherapy extends Component {
     }
 
     componentDidMount() {
-        api.getAll("/GetPatients")
+        medico.getAll("GetCodiciPazienti")
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({

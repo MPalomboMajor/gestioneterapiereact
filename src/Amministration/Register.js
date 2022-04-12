@@ -19,14 +19,11 @@ export class Register extends Component {
 
     });
     medicoModelProp = () => ({
-        id: 0,
-        idUser: 0,
         name: '',
         surName: '',
         fiscalCode: '',
         email: '',
         idCentroMedico: 0,
-        isAbilitatoCarta: true,
         phoneNumber: ''
 
     });
@@ -59,7 +56,6 @@ export class Register extends Component {
                 .then((response) => {
                     if (response.status === 200) {
                         let medicoDto = this.state.medicoDTO;
-                        medicoDto.idUser = response.data.dati.id;
                         medicoDto.email = response.data.dati.username;
                         medicoDto.idCentroMedico = 12;
                         medico.post("Register", this.state.medicoDTO)

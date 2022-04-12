@@ -4,7 +4,8 @@ function textFormat(r) {
 export const entities = {
   USER: 'user',
   MEDICO: 'medico',
-  PATIENT: 'patient'
+  
+  PATIENT:'patient',
 };
 
 export const API = {

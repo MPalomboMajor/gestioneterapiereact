@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Form, Button, Tabs, Tab } from 'react-bootstrap';
-import { patient } from '../helpers/api/api';
+import { api , patient} from '../helpers/api/api';
 import SimpleReactValidator from 'simple-react-validator';
 import { useState, useEffect } from 'react';
 import { PatientRegistry } from "./PatientRegistry"
 import { PatientProfile } from "./PatientProfile"
 import { AdverseEventsInfo } from "./AdverseEventsTable"
 import { EpilepticSeizuresInfo } from "./EpilepticSeizuresComponent"
-import { BloodTestsInfo } from "./BloodTestsComponent"
 
 
 export class PatientTabbedInterface extends Component {
@@ -48,12 +47,12 @@ export class PatientTabbedInterface extends Component {
     }
 
     getPatient() {
-        patient.get("Get/", this.state.patientDto.patientCode)
+        patient.get("Get/",this.state.patientDto.patientCode)
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({
                         isLoaded: true,
-                        patientDto: response.data
+                        patientDto: response.data.dati
                     });
                 }
             }).catch((error) => {
@@ -62,7 +61,7 @@ export class PatientTabbedInterface extends Component {
     }
 
     getEpilepticSeizures() {
-        patient.get("GetSeizures/", this.state.patientDto.patientCode)
+        api.get("/GetEpilepticSeizures/", this.state.patientDto.patientCode)
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({
@@ -76,7 +75,7 @@ export class PatientTabbedInterface extends Component {
     }
 
     getAdverseEvents() {
-        patient.get("GetEvents/", this.state.patientDto.patientCode)
+        api.get("/GetAdverseEvents/", this.state.patientDto.patientCode)
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({
@@ -117,7 +116,7 @@ export class PatientTabbedInterface extends Component {
                         <PatientRegistry patient={this.state.patientDto} />
                     </Tab>
                     <Tab eventKey="profilo" title="Profilo">
-                        <PatientProfile patientCode={this.state.patientDto.patientCode} />
+                        <PatientProfile patient={this.state.patientDto} handleChange={this.handleChange} updateState={this.updateState} />
                     </Tab>
                     <Tab eventKey="terapia" title="Terapia" >
 
@@ -127,9 +126,6 @@ export class PatientTabbedInterface extends Component {
                     </Tab>
                     <Tab eventKey="crisiEpilettiche" title="Crisi epilettiche" >
                         <EpilepticSeizuresInfo epilepticSeizures={this.state.itemsEpilepticSeizures} numberStartingSeizures={this.state.patientDto.numeroCrisiPartenza} />
-                    </Tab>
-                    <Tab eventKey="analisiDelSangue" title="Analisi del sangue" >
-                        <BloodTestsInfo patientCode={this.state.patientDto.patientCode}/> 
                     </Tab>
                     <Tab eventKey="visiteMediche" title="Visite mediche" >
 

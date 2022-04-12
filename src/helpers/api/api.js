@@ -28,11 +28,29 @@ http.interceptors.response.use((response) => {
   return response
 }, async function (error) {
   const originalRequest = error.config;
-  if (error.response.status === 403 && !originalRequest._retry) {
+  if (error.response.status === 401 && !originalRequest._retry) {
     originalRequest._retry = true;
-    const access_token =localStorage.getItem("refreshToken");            
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;
-    return http(originalRequest);
+    const access_token =localStorage.getItem("refreshToken");      
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;   
+   let dto= localStorage.getItem("role") ;
+   dto= JSON.parse(dto);
+   var request ={username:'', refreshToken:''}
+   request.username=dto.username;
+   request.refreshToken =access_token;
+    user.post("Refresh",  request )
+                .then(async (response) => {
+                    if (response.status == 200) {
+                        localStorage.setItem('accessToken', response.data.dati.value.accessToken);
+                        localStorage.setItem('refreshToken',response.data.dati.value.refreshToken);
+                        
+                        return http(originalRequest);
+                        
+                    }
+                }).catch((error) => {
+                    
+                });   
+   
+    
   }
   return Promise.reject(error);
 });
@@ -63,14 +81,14 @@ http.interceptors.response.use((response) => {
     get: (url, id) => http.get(API.MEDICO + url + id),
     getAll: (url) => http.get(API.MEDICO + url),
     getMe: () => http.get(API.MEDICO),
-    post: (url, o) => http.post(`${API.MEDICO + url}` , o),
+    post: (url, o) => http.post(`${API.MEDICO + url}`, o),
     put: (url, o, id) => http.put(API.MEDICO + url + id, o),
     delete: (url, id) => http.delete(API.MEDICO + url + id),
     getWithParam: (url, o) => http.get(API.MEDICO + url, o),
   };
 
   export const patient = {
-    get: (url, id) => http.get(API.PATIENT + url + id),
+    get: (url, id) => http.get(`${API.PATIENT + url}` + id),
     getAll: (url) => http.get(API.PATIENT + url),
     getMe: () => http.get(API.PATIENT),
     post: (url, o) => http.post(`${API.PATIENT + url}` , o),
