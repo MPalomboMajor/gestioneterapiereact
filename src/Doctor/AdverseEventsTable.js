@@ -15,8 +15,8 @@ function AdverseEventsInfo(props) {
 function AdverseEventsTable(props) {
     return (
         <>
-            <Container className=''>
-                <div className='col-6'>
+            
+                <div className='col-10'>
                     <Table striped bordered hover size="sm">
                         <thead>
                             <tr>
@@ -35,7 +35,7 @@ function AdverseEventsTable(props) {
                 <div className='mb-3'>
                     <Button type='submit' >Indietro</Button> <Button type='submit' >Torna a elenco pazienti</Button> <Button type='submit' >Avanti</Button>
                 </div>
-            </Container>
+            
 
         </>
     );

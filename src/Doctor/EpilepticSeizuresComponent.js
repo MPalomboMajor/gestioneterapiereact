@@ -20,7 +20,7 @@ function EpilepticSeizuresInfo(props) {
 function EpilepticSeizuresForm(props) {
     return (
 
-        <Container className=''>
+        
             <Form>
                 <div className='col-6'>
                     <Form.Group controlId='numberStartingSeizures'>
@@ -30,7 +30,7 @@ function EpilepticSeizuresForm(props) {
                     </Form.Group>
                 </div>
             </Form>
-        </Container>
+       
 
     );
 }
@@ -38,8 +38,8 @@ function EpilepticSeizuresForm(props) {
 function EpilepticSeizuresTable(props) {
     return (
         <>
-            <Container className=''>
-                <div className='col-6'>
+           
+                <div className='col-10'>
                     <Table striped bordered hover size="sm">
                         <thead>
                             <tr>
@@ -59,7 +59,7 @@ function EpilepticSeizuresTable(props) {
                 <div className='mb-3'>
                     <Button type='submit' >Indietro</Button> <Button type='submit' >Torna a elenco pazienti</Button> <Button type='submit' >Avanti</Button>
                 </div>
-            </Container>
+            
 
         </>
     );

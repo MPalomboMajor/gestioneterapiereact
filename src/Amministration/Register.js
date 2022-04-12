@@ -62,7 +62,7 @@ export class Register extends Component {
                         medicoDto.idUser = response.data.dati.id;
                         medicoDto.email = response.data.dati.username;
                         medicoDto.idCentroMedico = 12;
-                        medico.post("Save", this.state.medicoDTO)
+                        medico.post("Register", this.state.medicoDTO)
                             .then((response) => {
                                 if (response.status === 200) {
                                     NotificationManager.success(message.MEDICO + message.SuccessInsert, entitiesLabels.SUCCESS, 3000);

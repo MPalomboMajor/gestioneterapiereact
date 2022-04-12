@@ -25,7 +25,6 @@ function PatientInfo() {
                 
             });
         };
-
         fetchPatients();
     }, []);
 
@@ -37,7 +36,6 @@ function PatientInfo() {
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
-    console.log(patients);
     return (<>
         <Col>
             <PatientTable patients={currentPatients} loading={loading} />

@@ -68,3 +68,13 @@ http.interceptors.response.use((response) => {
     delete: (url, id) => http.delete(API.MEDICO + url + id),
     getWithParam: (url, o) => http.get(API.MEDICO + url, o),
   };
+
+  export const patient = {
+    get: (url, id) => http.get(API.PATIENT + url + id),
+    getAll: (url) => http.get(API.PATIENT + url),
+    getMe: () => http.get(API.PATIENT),
+    post: (url, o) => http.post(`${API.PATIENT + url}` , o),
+    put: (url, o, id) => http.put(API.PATIENT + url + id, o),
+    delete: (url, id) => http.delete(API.PATIENT + url + id),
+    getWithParam: (url, o) => http.get(API.PATIENT + url, o),
+  };

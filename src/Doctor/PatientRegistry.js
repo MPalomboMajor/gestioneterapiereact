@@ -6,7 +6,7 @@ function PatientRegistry(props) {
 
         return (
 
-                <Container className=''>
+                <>
                         <Form>
                                 <div className='col-6'>
                                         <Form.Group controlId='selectedPatientCode'>
@@ -44,7 +44,7 @@ function PatientRegistry(props) {
                                         <Button className='mt-100' type='submit' >Indietro</Button> <Button type='submit' >Torna a elenco pazienti</Button> <Button type='submit' >Avanti</Button>
                                 </div>
                         </Form>
-                </Container>
+                </>
 
         )
 }

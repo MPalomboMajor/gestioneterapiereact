@@ -3,13 +3,15 @@ function textFormat(r) {
 }
 export const entities = {
   USER: 'user',
-  MEDICO: 'medico'
+  MEDICO: 'medico',
+  PATIENT: 'patient'
 };
 
 export const API = {
   TODOS: textFormat(entities.TODOS),
   USER: textFormat(entities.USER),
   MEDICO: textFormat(entities.MEDICO),
+  PATIENT: textFormat(entities.PATIENT),
 };
 
 export const entitiesLabels = {

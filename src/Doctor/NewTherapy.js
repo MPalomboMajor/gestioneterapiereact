@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import { PatientRow } from "./PatientComponent";
 import moment from 'moment';
 import Pagination from '../helpers/pagination';
+
 export class NewTherapy extends Component {
     constructor(props) {
         super(props);
@@ -71,7 +72,7 @@ export class NewTherapy extends Component {
         const indexOfLastPatient = this.state.currentPage * this.state.patientsPerPage;
         const indexOfFirstPatient = indexOfLastPatient - this.state.patientsPerPage;
         const currentPatients = this.state.patients.slice(indexOfFirstPatient, indexOfLastPatient);
-        
+
         return (
             <Container className=''>
                 <Row className='col-12 pt-4' >
