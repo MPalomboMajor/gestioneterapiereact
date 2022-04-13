@@ -40,14 +40,16 @@ http.interceptors.response.use((response) => {
     user.post("Refresh",  request )
                 .then(async (response) => {
                     if (response.status == 200) {
-                        localStorage.setItem('accessToken', response.data.dati.value.accessToken);
-                        localStorage.setItem('refreshToken',response.data.dati.value.refreshToken);
+                        localStorage.setItem('accessToken', response.data.dati.accessToken);
+                        localStorage.setItem('refreshToken',response.data.dati.refreshToken);
                         
                         return http(originalRequest);
                         
                     }
                 }).catch((error) => {
-                    
+                  localStorage.setItem('accessToken', '');
+                  localStorage.setItem('refreshToken','');
+                  window.location.href = "/";
                 });   
    
     

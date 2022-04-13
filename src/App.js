@@ -16,16 +16,22 @@ function App() {
         <div>
           <Routes>
             <Route path="/" element={<Login />}></Route>
-            <Route path="/Dashboard" element={<DashboardDoctors />}></Route>
             <Route path="/Register" element={<Register />}></Route>
-            <Route path="/NewPatient" element={<NewPatient />}></Route>
-            <Route path="/NewTherapy" element={<NewTherapy />}></Route>
-            <Route path="/DoctorProfile" element={<DoctorProfile />}></Route>
-            <Route path="/PatientTabbedInterface/:codicePaziente" element={<PatientTabbedInterface />}></Route>
+            {localStorage.getItem("accessToken") != null ?
+              <>
+                < Route path="/Dashboard" element={<DashboardDoctors />}></Route>
+                
+                <Route path="/NewPatient" element={<NewPatient />}></Route>
+                <Route path="/NewTherapy" element={<NewTherapy />}></Route>
+                <Route path="/DoctorProfile" element={<DoctorProfile />}></Route>
+                <Route path="/PatientTabbedInterface/:codicePaziente" element={<PatientTabbedInterface />}></Route>
+              </>
+
+              : ''}
           </Routes>
         </div>
       </Router>
-    </Layout>
+    </Layout >
   );
 }
 
