@@ -7,12 +7,15 @@ import { PatientRegistry } from "./PatientRegistry"
 import { PatientProfile } from "./PatientProfile"
 import { AdverseEventsInfo } from "./AdverseEventsTable"
 import { EpilepticSeizuresInfo } from "./EpilepticSeizuresComponent"
+import NewTherapy from './NewTherapy';
+import { ControlledPatientTabs } from './PatientTabs';
 
 
 export class PatientTabbedInterface extends Component {
 
     userModelProp = () => ({
-        patientCode: window.location.pathname.split('/').pop(),
+        id: window.location.pathname.split('/').pop(),
+        patientCode: '',
         fiscalCode: '',
         name: '',
         surName: '',
@@ -31,6 +34,7 @@ export class PatientTabbedInterface extends Component {
 
         this.validator = new SimpleReactValidator();
         this.state = {
+            activeKey: '',
             patientDto: {
                 ...this.userModelProp(),
             }
@@ -47,12 +51,16 @@ export class PatientTabbedInterface extends Component {
     }
 
     getPatient() {
-        patient.get("Get/",this.state.patientDto.patientCode)
+        patient.get("Get/", this.state.patientDto.id)
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({
                         isLoaded: true,
-                        patientDto: response.data.dati
+                        patientDto: response.data.dati,
+                        canTravel: response.data.dati.canTravel,
+                        canDrive: response.data.dati.canDrive,
+                        
+                        
                     });
                 }
             }).catch((error) => {
@@ -61,12 +69,12 @@ export class PatientTabbedInterface extends Component {
     }
 
     getEpilepticSeizures() {
-        api.get("/GetEpilepticSeizures/", this.state.patientDto.patientCode)
+        patient.get("Seizures/", this.state.patientDto.id)
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({
                         isLoaded: true,
-                        itemsEpilepticSeizures: response.data,
+                        itemsEpilepticSeizures: response.data.dati,
                     });
                 }
             }).catch((error) => {
@@ -75,17 +83,29 @@ export class PatientTabbedInterface extends Component {
     }
 
     getAdverseEvents() {
-        api.get("/GetAdverseEvents/", this.state.patientDto.patientCode)
+        patient.get("Events/", this.state.patientDto.id)
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({
                         isLoaded: true,
-                        itemsAdverseEvents: response.data,
+                        itemsAdverseEvents: response.data.dati,
                     });
                 }
             }).catch((error) => {
                 this.setState({ error: 1 })
             });
+    }
+
+    
+
+    setCanDrive = (canDrive) => {       
+        const inputValue = canDrive;
+        this.updateState('canDrive', inputValue, 'patientDto');
+    }
+
+    setCanTravel = (canTravel) => {       
+        const inputValue = canTravel;
+        this.updateState('canTravel', inputValue, 'patientDto');
     }
 
     handleChange = (el) => {
@@ -100,6 +120,7 @@ export class PatientTabbedInterface extends Component {
         this.setState(statusCopy);
     };
 
+    
 
     render() {
 
@@ -111,29 +132,15 @@ export class PatientTabbedInterface extends Component {
                         <h1>Medico - Anagrafica paziente {this.state.patientDto.patientCode} </h1>
                     </div>
                 </Row>
-                <Tabs defaultActiveKey="anagraficaPaziente" id="uncontrolled-tab-example" className="mb-3">
-                    <Tab eventKey="anagraficaPaziente" title="Anagrafica paziente">
-                        <PatientRegistry patient={this.state.patientDto} />
-                    </Tab>
-                    <Tab eventKey="profilo" title="Profilo">
-                        <PatientProfile patient={this.state.patientDto} handleChange={this.handleChange} updateState={this.updateState} />
-                    </Tab>
-                    <Tab eventKey="terapia" title="Terapia" >
-
-                    </Tab>
-                    <Tab eventKey="eventiAvversi" title="Eventi avversi" >
-                        <AdverseEventsInfo adverseEvents={this.state.itemsAdverseEvents} />
-                    </Tab>
-                    <Tab eventKey="crisiEpilettiche" title="Crisi epilettiche" >
-                        <EpilepticSeizuresInfo epilepticSeizures={this.state.itemsEpilepticSeizures} numberStartingSeizures={this.state.patientDto.numeroCrisiPartenza} />
-                    </Tab>
-                    <Tab eventKey="visiteMediche" title="Visite mediche" >
-
-                    </Tab>
-                    <Tab eventKey="mood" title="Mood" >
-
-                    </Tab>
-                </Tabs>
+                <ControlledPatientTabs patient={this.state.patientDto} 
+                
+                setCanDrive={this.setCanDrive} 
+                setCanTravel={this.setCanTravel} 
+                adverseEvents={this.state.itemsAdverseEvents} 
+                epilepticSeizures={this.state.itemsEpilepticSeizures} 
+                numberStartingSeizures={this.state.patientDto.numeroCrisiPartenza} 
+                patientId={this.state.patientDto.id} />
+                
             </>
 
         )

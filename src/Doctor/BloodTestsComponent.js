@@ -80,7 +80,7 @@ function BloodTestSelectDay() {
 }
 
 function ControlledCarouselBloodTests(response) {
-    console.log(response);
+    
     const [index, setIndex] = useState(0);
 
     const handleSelect = (selectedIndex, e) => {

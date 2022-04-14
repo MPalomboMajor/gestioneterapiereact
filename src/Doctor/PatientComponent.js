@@ -3,7 +3,7 @@ import { iconDelete, iconEdit } from './icons';
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useNavigate } from 'react-router-dom';
-import { api } from '../helpers/api/api';
+import { patient } from '../helpers/api/api';
 import Pagination from '../helpers/pagination';
 
 function PatientInfo() {
@@ -15,10 +15,10 @@ function PatientInfo() {
     useEffect(() => {
         const fetchPatients = async () => {
             setLoading(true);
-            await api.getAll("/GetPatients")
+            await patient.getAll("Get/")
             .then((response) => {
                 if (response.status === 200) {
-                    setPatients(response.data);
+                    setPatients(response.data.dati);
             setLoading(false);
                 }
             }).catch((error) => {
@@ -56,9 +56,8 @@ const PatientTable= ({ patients, loading }) => {
 
     };
 
-    const updatePatient = (codicePaziente) => {
-        console.log(codicePaziente);
-        navigate(`/PatientTabbedInterface/${codicePaziente}`);
+    const updatePatient = (id) => {
+        navigate(`/PatientTabbedInterface/${id}`);
     };
 
     if (loading) {
@@ -92,7 +91,7 @@ const PatientTable= ({ patients, loading }) => {
 }
 
 function PatientRow(props) {
-    return <tr><PatientRowData patient={props.patient} /><RowControl updatePatient={props.updatePatient} deletePatient={props.deletePatient} patientCode={props.patient.codicePaziente} /></tr>
+    return <tr><PatientRowData patient={props.patient} /><RowControl updatePatient={props.updatePatient} deletePatient={props.deletePatient} patientId={props.patient.id} /></tr>
 }
 
 function PatientRowData(props) {
@@ -109,7 +108,7 @@ function PatientRowData(props) {
 }
 
 function RowControl(props) {
-    return <td><span onClick={() => props.updatePatient(props.patientCode)}>{iconEdit}</span> <span onClick={() => props.deletePatient(props.patientCode)}>{iconDelete}</span></td>;
+    return <td><span onClick={() => props.updatePatient(props.patientId)}>{iconEdit}</span> <span onClick={() => props.deletePatient(props.patientId)}>{iconDelete}</span></td>;
 }
 
 

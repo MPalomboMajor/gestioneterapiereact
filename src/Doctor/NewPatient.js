@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../css/style.css';
 import { Row, Container, Form, Button } from 'react-bootstrap';
-import { api } from '../helpers/api/api';
+import { patient } from '../helpers/api/api';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
 export class NewPatient extends Component {
@@ -33,7 +33,7 @@ export class NewPatient extends Component {
 
     InsertPatient = () => {
         if (this.validator.allValid()) {
-            api.post("/InsertPatient", this.state.patientDto)
+            patient.post("Save/", this.state.patientDto)
                 .then((response) => {
                     if (response.status === 200) {
                         this.setState({ success: true });

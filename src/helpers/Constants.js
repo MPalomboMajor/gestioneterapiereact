@@ -28,7 +28,7 @@ export const message = {
   ErrorRequire: 'Inserire tutti i campi richiesti ',
   ///SUCCESS
   SuccessInsert: 'Inserito correttamente ',
-  ///SEND
+  SuccessUpdate: 'Aggiornato correttamente',
   SuccessSend: 'Inviato Correttamente ',
   ErroSend: 'Non Inviato Correttamente ',
   ///OBJECT

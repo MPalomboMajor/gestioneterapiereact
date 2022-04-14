@@ -3,6 +3,7 @@ import { iconDelete, iconEdit } from './icons';
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 function EpilepticSeizuresInfo(props) {
     return (
@@ -71,10 +72,10 @@ function EpilepticSeizureRow(props) {
 
 function EpilepticSeizureRowData(props) {
     return (<>
-        <td>{props.epilepticSeizure.dateTimeEventOccured === 0 ? "dateTimeEventOccured" : "dateTimeEventOccured"}</td>
-        <td>{props.epilepticSeizure.description === 0 ? "description" : "description"}</td>
-        <td>{props.epilepticSeizure.altroComportamento === 0 ? "altroComportamento" : "altroComportamento"}</td>
-        <td>{props.epilepticSeizure.intensity === 0 ? "intensity" : "intensity"}</td>
+        <td>{moment(props.epilepticSeizure.dateTimeEventOccured).format("DD/MM/YYYY")}</td>
+        <td>{props.epilepticSeizure.description}</td>
+        <td>{props.epilepticSeizure.altroComportamento}</td>
+        <td>{props.epilepticSeizure.intensity}</td>
     </>
     );
 }

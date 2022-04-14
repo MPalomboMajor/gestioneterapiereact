@@ -31,7 +31,7 @@ function PatientRegistry(props) {
                                         </Form.Group>
                                         <Form.Group controlId='selectedPhone'>
                                                 <Form.Label>Telefono</Form.Label>
-                                                <Form.Control disabled type='text' value={props.patient.phone} >
+                                                <Form.Control disabled type='text' value={props.patient.phoneNumber} >
                                                 </Form.Control>
                                         </Form.Group>
                                         <Form.Group controlId='selectedEmail'>
@@ -44,6 +44,7 @@ function PatientRegistry(props) {
                                         <Button className='mt-100' type='submit' >Indietro</Button> <Button type='submit' >Torna a elenco pazienti</Button> <Button type='submit' >Avanti</Button>
                                 </div>
                         </Form>
+                        
                 </>
 
         )

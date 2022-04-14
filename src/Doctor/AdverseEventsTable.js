@@ -3,6 +3,7 @@ import { iconDelete, iconEdit } from './icons';
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 function AdverseEventsInfo(props) {
     return (
@@ -47,9 +48,9 @@ function AdverseEventRow(props) {
 
 function AdverseEventRowData(props) {
     return (<>
-        <td>{props.adverseEvent.dataEvento === 0 ? "dataEvento" : "dataEvento"}</td>
-        <td>{props.adverseEvent.disturboEvento === 0 ? "disturboEvento" : "disturboEvento"}</td>
-        <td>{props.adverseEvent.livello === 0 ? "livello" : "livello"}</td>
+        <td>{moment(props.adverseEvent.dataEvento).format("DD/MM/YYYY")}</td>
+        <td>{props.adverseEvent.disturboEvento}</td>
+        <td>{props.adverseEvent.livello}</td>
     </>
     );
 }

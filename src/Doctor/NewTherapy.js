@@ -75,11 +75,7 @@ export class NewTherapy extends Component {
 
         return (
             <Container className=''>
-                <Row className='col-12 pt-4' >
-                    <div className='col-12'>
-                        <h2>Inserimento nuovo Paziente</h2>
-                    </div>
-                </Row>
+                
 
                 <Row className='col-12 pt-4' >
                     <Tabs defaultActiveKey="terapia" id="uncontrolled-tab-example" className=" col-12 mb-3">
