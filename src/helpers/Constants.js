@@ -28,10 +28,13 @@ export const message = {
   ErrorRequire: 'Inserire tutti i campi richiesti ',
   ///SUCCESS
   SuccessInsert: 'Inserito correttamente ',
-
+  ///SEND
+  SuccessSend: 'Inviato Correttamente ',
+  ErroSend: 'Non Inviato Correttamente ',
   ///OBJECT
   USER: 'user',
-  MEDICO: 'medico ',
+  MEDICO: 'edico ',
+  CODICE: 'Codice ',
   PATIENT: 'Paziente ',
   CARMANAGER: 'CarManager '
 }

@@ -39,7 +39,7 @@ export class Register extends Component {
             listCentriMedici: [],
 
             //TODO DA ELIMINARE 
-            mendicalCenter: '',
+            mendicalCenter: 1,
             userDto: {
                 ...this.userModelProp(),
             },
@@ -57,7 +57,8 @@ export class Register extends Component {
                     if (response.status === 200) {
                         let medicoDto = this.state.medicoDTO;
                         medicoDto.email = response.data.dati.username;
-                        medicoDto.idCentroMedico = 12;
+                        medicoDto.idCentroMedico = 11;
+                        medicoDto.idUser = response.data.dati.id;
                         medico.post("Register", this.state.medicoDTO)
                             .then((response) => {
                                 if (response.status === 200) {
@@ -138,7 +139,7 @@ export class Register extends Component {
             phoneNumber: this.validator.message(
                 'Email',
                 this.state.medicoDTO.phoneNumber,
-                'required|numeric'
+                'required'
             ),
             password: this.validator.message(
                 'Password',

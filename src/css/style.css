@@ -64,7 +64,10 @@
     margin-left: 5px;
     color: white;
 }
-
+.icon-black {
+    margin-left: 5px;
+    color: black;
+}
 .menu-body {
     border-right: 1px solid;
     position: absolute;
