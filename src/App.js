@@ -1,4 +1,7 @@
-
+import Header from './components/Header';
+import Home from './components/Home';
+import Footer from './components/Footer';
+import SideNav from './components/SideNav';
 import './App.css';
 import Login from './Amministration/Login';
 import Layout from './Amministration/Layout';
@@ -11,27 +14,18 @@ import PatientTabbedInterface from './Doctor/PatientTabbedInterface'
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom';
 function App() {
   return (
-    <Layout>
-      <Router>
-        <div>
-          <Routes>
-            <Route path="/" element={<Login />}></Route>
-            <Route path="/Register" element={<Register />}></Route>
-            {localStorage.getItem("accessToken") != null ?
-              <>
-                < Route path="/Dashboard" element={<DashboardDoctors />}></Route>
-                
-                <Route path="/NewPatient" element={<NewPatient />}></Route>
-                <Route path="/NewTherapy" element={<NewTherapy />}></Route>
-                <Route path="/DoctorProfile" element={<DoctorProfile />}></Route>
-                <Route path="/PatientTabbedInterface/:codicePaziente" element={<PatientTabbedInterface />}></Route>
-              </>
-
-              : ''}
-          </Routes>
-        </div>
-      </Router>
-    </Layout >
+    <>
+    <Header></Header>
+    {/* <Home></Home> */}
+    <SideNav></SideNav>
+    <Layout></Layout >
+    <Footer></Footer>
+    
+      
+      
+    
+    </>
+    
   );
 }
 

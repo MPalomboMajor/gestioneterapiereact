@@ -48,9 +48,9 @@ function AdverseEventRow(props) {
 
 function AdverseEventRowData(props) {
     return (<>
-        <td>{moment(props.adverseEvent.dataEvento).format("DD/MM/YYYY")}</td>
-        <td>{props.adverseEvent.disturboEvento}</td>
-        <td>{props.adverseEvent.livello}</td>
+        <td>{moment(props.adverseEvent.dateEvent).format("DD/MM/YYYY")}</td>
+        <td>{props.adverseEvent.description}</td>
+        <td>{props.adverseEvent.intensity}</td>
     </>
     );
 }

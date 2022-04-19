@@ -32,8 +32,8 @@ export class DashboardDoctors extends Component {
 
     render() {
         return (
-            <Container className=''>
-
+            
+<>
                 <Row className='col-12 pt-4' >
                     <div className='col-6'>
                         <h1>Pazienti</h1>
@@ -52,7 +52,7 @@ export class DashboardDoctors extends Component {
                     </Col>
                 </Row>
 
-            </Container>
+                </>
         );
     }
 }
