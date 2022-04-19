@@ -35,7 +35,7 @@ export default class Layout extends Component {
 
     return (
       <>
-       {localStorage.getItem("accessToken") != null ?
+       {localStorage.getItem("accessToken") != null  && this.state.url != "/" && this.state.url != "/Register"?
        <>
     <SideNav></SideNav>
     
