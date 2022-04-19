@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
 import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
-
 import { Eye } from 'react-bootstrap-icons';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { findAllByTestId } from '@testing-library/react';

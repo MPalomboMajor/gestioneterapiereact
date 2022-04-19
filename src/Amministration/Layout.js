@@ -35,26 +35,16 @@ export default class Layout extends Component {
 
     return (
       <>
-        {/* Content Wrapper. Contains page content */}
-        <div className="content-wrapper">
-          {/* Content Header (Page header) */}
-          <div className="content-header">
+       {localStorage.getItem("accessToken") != null ?
+       <>
+    <SideNav></SideNav>
+    
+    <div className="content-wrapper">
+    <div className="content-header">
             <div className="container-fluid">
-              <div className="row mb-2">
-                <div className="col-sm-6">
-                  <h1 className="m-0">Dashboard</h1>
-                </div>{/* /.col */}
-                <div className="col-sm-6">
-                  <ol className="breadcrumb float-sm-right">
-                    <li className="breadcrumb-item"><a href="#">Home</a></li>
-                    <li className="breadcrumb-item active">Dashboard v1</li>
-                  </ol>
-                </div>{/* /.col */}
-              </div>{/* /.row */}
-            </div>{/* /.container-fluid */}
             <Router>
                   <div>
-                    <Routes>
+                    <Routes> 
                       <Route path="/" element={<Login />}></Route>
                       <Route path="/Register" element={<Register />}></Route>
                       {localStorage.getItem("accessToken") != null ?
@@ -69,49 +59,26 @@ export default class Layout extends Component {
                     </Routes>
                   </div>
                 </Router>
-          </div>
-          {/* /.content-header */}
-          {/* Main content */}
-          <section className="content">
-            <div className="container-fluid">
-              {/* Small boxes (Stat box) */}
-              <div className="row">
-                
-              </div>
-              {/* /.row (main row) */}
-            </div>{/* /.container-fluid */}
-          </section>
-          {/* /.content */}
-        </div>
-
-
-        
-        <div className={localStorage.getItem("accessToken") != null && this.state.url != "/" && this.state.url != "/Register" ? 'main-header navbar navbar-expand navbar-light' : ''}>
-          {localStorage.getItem("accessToken") != null && this.state.url != "/" && this.state.url != "/Register" ?
-            <div className='layout-margin'>
-
-              <Navbar className='navbar-margin' bg="" expand="lg">
-                <Navbar.Brand href="#home">GestioneTerapie</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                  <Nav className="me-auto">
-                    <Nav.Link to='/Login' href="/Dashboard">Dashboard</Nav.Link>
-                  </Nav>
-                </Navbar.Collapse>
-              </Navbar>
-
-
-
-              <div className='contnet-wrapper'>
-                {this.props.children}
-              </div>
-            </div> : <div>
-              {this.props.children}
-            </div>
-          }
-
-        </div>
-
+                </div></div></div>
+                </>:
+                        <Router>
+                              <div>
+                                <Routes>
+                                  <Route path="/" element={<Login />}></Route>
+                                  <Route path="/Register" element={<Register />}></Route>
+                                  {localStorage.getItem("accessToken") != null ?
+                                    <>
+                                      < Route path="/Dashboard" element={<DashboardDoctors />}></Route>
+                                      <Route path="/NewPatient" element={<NewPatient />}></Route>
+                                      <Route path="/NewTherapy" element={<NewTherapy />}></Route>
+                                      <Route path="/DoctorProfile" element={<DoctorProfile />}></Route>
+                                      <Route path="/PatientTabbedInterface/:codicePaziente" element={<PatientTabbedInterface />}></Route>
+                                    </>
+                                    : ''}
+                                </Routes>
+                              </div>
+                            </Router>
+  }
       </>
     )
   }

@@ -15,15 +15,7 @@ import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react
 function App() {
   return (
     <>
-    <Header></Header>
-    {/* <Home></Home> */}
-    <SideNav></SideNav>
     <Layout></Layout >
-    <Footer></Footer>
-    
-      
-      
-    
     </>
     
   );
