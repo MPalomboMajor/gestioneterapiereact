@@ -9,18 +9,22 @@ import { entitiesLabels, message } from '../helpers/Constants';
 import SimpleReactValidator from 'simple-react-validator';
 export class DoctorProfile extends Component {
     userModelProp = () => ({
-        email: '',
+        idDoctor: 0,
         fiscalCode: '',
-        id: '',
-        idCentroMedico: 0,
-        idUSer: 0,
-        isAbilitatoCarta: false,
         name: '',
-        phoneNumber: '',
         surName: '',
+        email: '',
+        phoneNumber: '',
+        idCentroMedico: 0,
 
     });
+    passwordModelProp = () => ({
+        resetPasswordCode: '',
+        confirmPassword: '',
+        newPassword: '',
+        username: '',
 
+    });
     constructor(props) {
         super(props);
 
@@ -31,6 +35,10 @@ export class DoctorProfile extends Component {
             isSending: false,
             userDto: {
                 ...this.userModelProp(),
+            },
+
+            passwordModel: {
+                ...this.passwordModelProp(),
             }
         }
         this.getProfile = this.getProfile.bind(this);
@@ -43,10 +51,14 @@ export class DoctorProfile extends Component {
     getProfile = () => {
         let dto = localStorage.getItem("role");
         dto = JSON.parse(dto);
+        
         medico.get("Get/", dto.id)
             .then(async (response) => {
                 if (response.status == 200) {
                     this.setState({ userDto: response.data.dati });
+
+                    const statusCopy = { ...this.state };
+                statusCopy['userDto']['idDoctor'] = response.data.dati.id ;
                 }
             }).catch((error) => {
 
@@ -78,22 +90,47 @@ export class DoctorProfile extends Component {
                 this.setState({ isSending: false });
             });
     }
-    updateProfileDoctor = () => {
+    sendChangeProfile= () => {
+        this.setState((prevState) => ({ isSending: true })) 
         medico.post("Edit", this.state.userDto)
             .then((response) => {
                 if (response.status === 200) {
-                    ManagerModal.success(message.MEDICO + message.SuccessInsert, entitiesLabels.SUCCESS, 3000);
+                    ManagerModal.success(message.CODICE + message.SuccessSend, entitiesLabels.SUCCESS, 3000);
+                    this.setState({ isSending: false });
+                } else {
+                    ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
+                    this.setState({ isSending: false });
                 }
             }).catch((error) => {
-                ManagerModal.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+                ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
+                this.setState({ isSending: false });
+            });
+    }
+    sendChangePassword = () => {
+        this.setState((prevState) => ({ isSending: true })) 
+        const statusCopy = { ...this.state };
+        statusCopy['passwordModel']['username'] = this.state.userDto.email;
+
+        this.setState(statusCopy);
+        user.post("ChangePassword", this.state.passwordModel)
+            .then((response) => {
+                if (response.status === 200) {
+                    ManagerModal.success(message.CODICE + message.SuccessSend, entitiesLabels.SUCCESS, 3000);
+                    this.setState({ isSending: false });
+                } else {
+                    ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
+                    this.setState({ isSending: false });
+                }
+            }).catch((error) => {
+                ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
+                this.setState({ isSending: false });
             });
     }
     handleChange = (el) => {
+        let objName = el.target.alt;
         const inputName = el.target.name;
-
         const inputValue = el.target.value;
-
-        this.updateState(inputName, inputValue, 'userDto');
+        this.updateState(inputName, inputValue, objName);
     };
 
     updateState = (inputName, inputValue, objName) => {
@@ -149,32 +186,32 @@ export class DoctorProfile extends Component {
                     <Row className="col-12 mb-3" >
                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                             <Form.Label className="">Cognome</Form.Label>
-                            <Form.Control name="lastname" value={this.state.userDto.surName} placeholder="Enter cognome" />
+                            <Form.Control id='surName' alt='userDto' name="surName" onChange={this.handleChange} value={this.state.userDto.surName} placeholder="Enter cognome" />
                         </Form.Group>
                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                             <Form.Label className="">Nome</Form.Label>
-                            <Form.Control name="firstname" value={this.state.userDto.name} placeholder="Enter Nome" />
+                            <Form.Control id='name' alt='userDto' name="name" onChange={this.handleChange} value={this.state.userDto.name} placeholder="Enter Nome" />
                         </Form.Group>
                     </Row>
                     <Row>
                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                             <Form.Label className="">Codice Fiscale</Form.Label>
-                            <Form.Control name="fiscalCode" value={this.state.userDto.fiscalCode} placeholder="Enter Codice fiscale" />
+                            <Form.Control id='fiscalCode' alt='userDto' name="fiscalCode" onChange={this.handleChange} value={this.state.userDto.fiscalCode} placeholder="Enter Codice fiscale" />
                         </Form.Group>
                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                             <Form.Label className="">Centro Medico</Form.Label>
-                            <Form.Control name="mendicalCenter" value={this.state.userDto.idCentroMedico} placeholder="Enter centro medico" />
+                            <Form.Control id='idCentroMedico' alt='userDto' name="idCentroMedico" onChange={this.handleChange} value={this.state.userDto.idCentroMedico} placeholder="Enter centro medico" />
                         </Form.Group>
                     </Row>
 
                     <Row>
                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                             <Form.Label className="">Email</Form.Label>
-                            <Form.Control disabled id='email' name="email" value={this.state.userDto.email} isInvalid={validations.email != null} placeholder="Enter email" />
+                            <Form.Control disabled id='email' name="email" onChange={this.handleChange} value={this.state.userDto.email} isInvalid={validations.email != null} placeholder="Enter email" />
                         </Form.Group>
                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                             <Form.Label className="">Telefono</Form.Label>
-                            <Form.Control name="telephone" isInvalid={validations.telephone != null} value={this.state.userDto.phoneNumber} placeholder="Enter telefono" />
+                            <Form.Control id='phoneNumber' alt='userDto' name="phoneNumber" onChange={this.handleChange} isInvalid={validations.telephone != null} value={this.state.userDto.phoneNumber} placeholder="Enter telefono" />
                         </Form.Group>
                     </Row>
                     <Row>
@@ -184,7 +221,7 @@ export class DoctorProfile extends Component {
                             </Button>
                         </Form.Group>
                         <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                            <Button variant="btn btn-primary " onClick={() => this.updateProfileDoctor()}>
+                            <Button variant="btn btn-primary " onClick={() => this.sendChangeProfile()}>
                                 Modifica Profilo
                             </Button>
                         </Form.Group>
@@ -210,26 +247,26 @@ export class DoctorProfile extends Component {
                         <Row>
                             <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                 <Form.Label className="text">Nuova Password</Form.Label><Eye size='22' onClick={() => this.showPassword()} className='icon-black' />
-                                <Form.Control id="newPassword" name="newPassword" type='password' placeholder="Inserisci Dosagio" />
+                                <Form.Control id="newPassword" alt="passwordModel" onChange={this.handleChange} name="newPassword" type='password' placeholder="Inserisci Dosagio" />
                             </Form.Group>
                             <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                 <Form.Label className="text" >Conferma Password</Form.Label><Eye size='22' onClick={() => this.showConfirmPassword()} className='icon-black' />
-                                <Form.Control id="confirmnewPassword" name="confirmnewPassword"  type='password' placeholder="Inserisci quantita" />
+                                <Form.Control id="confirmPassword" alt="passwordModel" onChange={this.handleChange} name="confirmPassword" type='password' placeholder="Inserisci quantita" />
                             </Form.Group>
-                            
+
                             {validations.equalPass ? (
-                                <div   className=" input-layout-wrapper text-danger">
+                                <div className=" input-layout-wrapper text-danger">
                                     {' '}
                                     Le password devono coincidere{' '}
                                 </div>
-                            ) : <div   className=" input-layout-wrapper text-danger is-12">
-                            {' '}{' '}
-                        </div>}
+                            ) : <div className=" input-layout-wrapper text-danger is-12">
+                                {' '}{' '}
+                            </div>}
                         </Row>
                         <Row>
                             <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
                                 <Form.Label className="text">Codice Reset</Form.Label>
-                                <Form.Control name="farmaco" placeholder="Inserisci farmaco" />
+                                <Form.Control id="resetPasswordCode" name="resetPasswordCode" alt="passwordModel" onChange={this.handleChange} placeholder="Inserisci farmaco" />
                             </Form.Group>
                         </Row>
                     </Modal.Body>
@@ -244,7 +281,13 @@ export class DoctorProfile extends Component {
                             role="status"
                             aria-hidden="true"
                         /> : ''}Richiedi codice</Button>
-                        <Button variant="primary">Cambia Password</Button>
+                        <Button variant="primary" onClick={()=>this.sendChangePassword()}>{this.state.isSending == true ? <Spinner
+                            as="span"
+                            animation="border"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                        /> : ''}Cambia Password</Button>
                     </Modal.Footer>
                     <ContainerModal />
                 </Modal>
