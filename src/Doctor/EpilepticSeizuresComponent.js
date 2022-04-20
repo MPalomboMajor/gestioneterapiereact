@@ -47,7 +47,7 @@ function EpilepticSeizuresInfo() {
                     <h2>Crisi epilettiche</h2>
                 </div>
             </Row>
-
+            &nbsp;&nbsp;
             <Col className='mb-3'>
                 <EpilepticSeizuresForm numberStartingSeizures={patientProfile.numeroCrisiPartenza} />
             </Col>

@@ -29,6 +29,7 @@ function BloodTestsInfo() {
                     <h2>Analisi del sangue</h2>
                 </div>
             </Row>
+            &nbsp;&nbsp;
             <Row>
                 <Col className='mb-3'>
                     <BloodTestSelectDay listDays={days} />

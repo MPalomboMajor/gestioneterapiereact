@@ -52,16 +52,6 @@ function PatientInfo() {
 
 const PatientTable= ({ patients, loading }) => {
 
-    const navigate = useNavigate();
-    const deletePatient = (codicePaziente) => {
-
-    };
-
-    const updatePatient = (id) => {
-        navigate(`/PatientTabbedInterface/${id}`);
-        
-    };
-
     if (loading) {
         return <h2>Loading...</h2>;
     }
@@ -78,12 +68,12 @@ const PatientTable= ({ patients, loading }) => {
                         <th>Telefono</th>
                         <th>Email</th>
                         <th>Stato Paziente</th>
-                        <th>Actions</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        patients.map((pa) => <PatientRow key={pa.codicePaziente} patient={pa} updatePatient={updatePatient} deletePatient={deletePatient} />)
+                        patients.map((pa) => <PatientRow key={pa.codicePaziente} patient={pa} />)
                     }
                 </tbody>
             </Table>
@@ -93,7 +83,7 @@ const PatientTable= ({ patients, loading }) => {
 }
 
 function PatientRow(props) {
-    return <tr><PatientRowData patient={props.patient} /><RowControl updatePatient={props.updatePatient} deletePatient={props.deletePatient} patientId={props.patient.id} /></tr>
+    return <tr><PatientRowData patient={props.patient} /></tr>
 }
 
 function PatientRowData(props) {
@@ -109,9 +99,7 @@ function PatientRowData(props) {
     );
 }
 
-function RowControl(props) {
-    return <td><span onClick={() => props.updatePatient(props.patientId)}>{iconEdit}</span> <span onClick={() => props.deletePatient(props.patientId)}>{iconDelete}</span></td>;
-}
+
 
 
 export { PatientInfo, PatientRow };

@@ -1,15 +1,8 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Form, Button, Tabs, Tab } from 'react-bootstrap';
-import { api, patient } from '../helpers/api/api';
+import { Row} from 'react-bootstrap';
+import { patient } from '../helpers/api/api';
 import SimpleReactValidator from 'simple-react-validator';
-import { useState, useEffect } from 'react';
-import { PatientRegistry } from "./PatientRegistry"
-import { PatientProfile } from "./PatientProfile"
-import { AdverseEventsInfo } from "./AdverseEventsTable"
-import { EpilepticSeizuresInfo } from "./EpilepticSeizuresComponent"
-import NewTherapy from './NewTherapy';
 import { ControlledPatientTabs } from './PatientTabs';
-
 
 export class PatientTabbedInterface extends Component {
 

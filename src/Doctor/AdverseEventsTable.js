@@ -31,6 +31,7 @@ function AdverseEventsInfo() {
                     <h2>Eventi avversi</h2>
                 </div>
             </Row>
+            &nbsp;&nbsp;
             <Col>
                 <AdverseEventsTable adverseEvents={adverseEvents} />
             </Col>

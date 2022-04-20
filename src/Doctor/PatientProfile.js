@@ -2,20 +2,24 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { patient } from '../helpers/api/api';
+import { entitiesLabels, message } from '../helpers/Constants';
+import 'react-notifications/lib/notifications.css';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
-
-function PatientProfile(props) {
+function PatientProfile() {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
     const [patientProfile, setPatientProfile] = useState([]);
+    const [canTravel, setCanTravel] = useState();
+    const [canDrive, setCanDrive] = useState();
 
     useEffect(() => {
-
         const fetchPatient = async () => {
             await patient.get("Get/", patientId)
                 .then((response) => {
                     if (response.status === 200) {
-                        console.log("ciao");
                         setPatientProfile(response.data.dati);
+                        setCanTravel(response.data.dati.canTravel);
+                        setCanDrive(response.data.dati.canDrive);
                     }
                 }).catch((error) => {
 
@@ -24,54 +28,33 @@ function PatientProfile(props) {
         fetchPatient();
     }, []);
 
+    function editPatient() {  
+        console.log(patientProfile);
+        patient.post("Save/", patientProfile)
+            .then((response) => {
+                if (response.status === 200) {
+                    NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                }
+            }).catch((error) => {
+                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+            });
+    };
 
-    // const [patientProfile, setPatientProfile] = useState([props.patient]);
-    // const [canTravel, setCanTravel] = useState(props.patient.canTravel);
-    // const [canDrive, setCanDrive] = useState(props.patient.canDrive);
+    const updateStatesCanTravel = () => {
+        setPatientProfile({
+            ...patientProfile, canTravel:
+                !canTravel
+        });
+        setCanTravel(!canTravel);
+    }
 
-    // useEffect(() => {
-
-    //                 setPatientProfile(props.patient);
-    //                 setCanTravel(props.patient.canTravel);
-    //                 setCanDrive(props.patient.canDrive);
-
-    // }, []);
-
-    // const updatePatient = (id) => {
-    //     navigate(`/PatientTabbedInterface/${id}`);
-    // };
-
-
-    // if (this.validator.allValid()) {
-    //     let userDto = this.state.userDto;
-    //     user.post("Save", this.state.userDto)
-    //         .then((response) => {
-    //             if (response.status === 200) {
-    //                 let medicoDto = this.state.medicoDTO;
-    //                 medicoDto.idUser = response.data.dati.id;
-    //                 medicoDto.email = response.data.dati.username;
-    //                 medicoDto.idCentroMedico = 12;
-    //                 medico.post("Register", this.state.medicoDTO)
-    //                     .then((response) => {
-    //                         if (response.status === 200) {
-    //                             NotificationManager.success(message.MEDICO + message.SuccessInsert, entitiesLabels.SUCCESS, 3000);
-    //                         }
-    //                     }).catch((error) => {
-    //                         NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
-    //                     });
-    //             }
-    //         }).catch((error) => {
-    //             NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
-    //         });
-
-
-
-    // } else {
-    //     this.validator.showMessages();
-    //     NotificationManager.warning(message.ErrorRequire, entitiesLabels.WARNING, 3000);
-    //     this.forceUpdate();
-    // }
-
+    const updateStatesCanDrive = () => {
+        setPatientProfile({
+            ...patientProfile, canDrive:
+                !canDrive
+        });
+        setCanDrive(!canDrive);
+    }
 
     return (
 
@@ -81,6 +64,7 @@ function PatientProfile(props) {
                     <h2>Profilo paziente</h2>
                 </div>
             </Row>
+            &nbsp;&nbsp;
             <Form>
                 <div className='col-8'>
                     {['checkbox'].map((type) => (
@@ -92,7 +76,8 @@ function PatientProfile(props) {
                                 name="canTravel"
                                 type={type}
                                 id={`inline-${type}-1`}
-                                onChange={() => props.setCanTravel(!patientProfile.canTravel)}
+                                onChange={() => updateStatesCanTravel()
+                            }
                             />
                             <Form.Check
                                 checked={patientProfile.canDrive}
@@ -101,7 +86,8 @@ function PatientProfile(props) {
                                 name="canDrive"
                                 type={type}
                                 id={`inline-${type}-2`}
-                                onChange={() => props.setCanDrive(!patientProfile.canDrive)}
+                                onChange={() => updateStatesCanDrive()
+                                }
                             />
                         </div>
                     ))}
@@ -111,9 +97,10 @@ function PatientProfile(props) {
                     </Form.Group>
                 </div>
                 <div className='mb-3'>
-                    <Button >Indietro</Button> <Button onClick={() => props.editPatient("profile")} >Salva</Button> <Button >Torna a elenco pazienti</Button> <Button >Avanti</Button>
+                    <Button >Indietro</Button> <Button onClick={() => editPatient()} >Salva le modifiche</Button> <Button >Annulla</Button> <Button >Avanti</Button>
                 </div>
             </Form>
+            < NotificationContainer />
         </>
 
     )

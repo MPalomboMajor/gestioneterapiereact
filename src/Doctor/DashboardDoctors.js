@@ -37,15 +37,9 @@ export class DashboardDoctors extends Component {
                 <Row className='col-12 pt-4' >
                     <div className='col-6'>
                         <h1>Pazienti</h1>
-                    </div>
-                    <div className='col-2'>
-                        <Link to="/NewPatient" className='btn btn-primary'>Nuovo Paziente</Link>
-                    </div>
-                    <div className='col-4'>
-                        <Link to="/Register" className='btn btn-primary'>Collega Paziente già assegnato ad altro medico</Link>
-                    </div>
+                    </div>                  
                 </Row>
-
+                &nbsp;&nbsp;
                 <Row className='col-12 pt-4' >
                     <Col>
                         <PatientInfo  />
