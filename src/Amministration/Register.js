@@ -45,9 +45,26 @@ export class Register extends Component {
             medicoDTO: {
                 ...this.medicoModelProp()
             }
+            
         }
+        this.getListMedicalCenter = this.getListMedicalCenter.bind(this);
     }
+    componentDidMount() {
+        this.getListMedicalCenter();
+    }
+    getListMedicalCenter = () => {
+        medico.getAll("GetCentriMedici")
+            .then(async (response) => {
+                if (response.status == 200) {
+                    this.setState({ listCentriMedici: response.data.dati });
+                }
+            }).catch((error) => {
 
+            })
+            .finally(() => {
+            });
+
+    }
     InsertUser = () => {
         if (this.validator.allValid()) {
             let userDto = this.state.userDto;
@@ -56,7 +73,6 @@ export class Register extends Component {
                     if (response.status === 200) {
                         let medicoDto = this.state.medicoDTO;
                         medicoDto.email = response.data.dati.username;
-                        medicoDto.idCentroMedico = 11;
                         medicoDto.idUser = response.data.dati.id;
                         medico.post("Register", this.state.medicoDTO)
                             .then((response) => {
@@ -79,6 +95,13 @@ export class Register extends Component {
             this.forceUpdate();
         }
     }
+    onChange = (inputName) => {
+        const selected = inputName.target;
+        const id = selected.children[selected.selectedIndex].id;
+        const statusCopy = { ...this.state };
+        statusCopy['medicoDTO']['idCentroMedico'] =parseInt(id) ;
+        this.setState(statusCopy);
+      };
     handleChangeconfirm = (el) => {
         const inputName = el.target.name;
         const inputValue = el.target.value;
@@ -175,7 +198,12 @@ export class Register extends Component {
                             </Form.Group>
                             <Form.Group className="col-4 mb-3 input-layout-wrapper" >
                                 <Form.Label className="text-light">Centro Medico</Form.Label>
-                                <Form.Control onChange={this.handleChangeconfirm} name="mendicalCenter" alt="medicoDTO" placeholder="Enter centro medico" />
+                                <Form.Select onChange={this.onChange} name="mendicalCenter"  alt="medicoDTO" placeholder="Enter centro medico" >
+                                <option id="0">Seleziona Centro </option>
+                               {this.state.listCentriMedici.map((item)=> 
+                                <option id={item.id}>{item.nomeCentro}</option>
+                               )}
+                                </Form.Select>
                             </Form.Group>
                         </Row>
                         <Row>
