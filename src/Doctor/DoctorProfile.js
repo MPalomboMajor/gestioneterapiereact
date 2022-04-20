@@ -33,6 +33,7 @@ export class DoctorProfile extends Component {
             isOpenChangePassword: false,
             email: '',
             isSending: false,
+            listCentriMedici: [],
             userDto: {
                 ...this.userModelProp(),
             },
@@ -42,12 +43,27 @@ export class DoctorProfile extends Component {
             }
         }
         this.getProfile = this.getProfile.bind(this);
+        this.getListMedicalCenter = this.getListMedicalCenter.bind(this);
     }
     componentDidMount() {
         this.getProfile();
+        this.getListMedicalCenter();
     }
-
+    
     //FUNZIONI
+    getListMedicalCenter = () => {
+        medico.getAll("GetCentriMedici")
+            .then(async (response) => {
+                if (response.status == 200) {
+                    this.setState({ listCentriMedici: response.data.dati });
+                }
+            }).catch((error) => {
+
+            })
+            .finally(() => {
+            });
+
+    }
     getProfile = () => {
         let dto = localStorage.getItem("role");
         dto = JSON.parse(dto);
@@ -67,7 +83,13 @@ export class DoctorProfile extends Component {
             });
 
     }
-
+    onChange = (inputName) => {
+        const selected = inputName.target;
+        const id = selected.children[selected.selectedIndex].id;
+        const statusCopy = { ...this.state };
+        statusCopy['userDto']['idCentroMedico'] =parseInt(id) ;
+        this.setState(statusCopy);
+      };
     handleCloseChangePassword = () => {
         this.setState({ isOpenChangePassword: false });
     }
@@ -198,9 +220,14 @@ export class DoctorProfile extends Component {
                             <Form.Label className="">Codice Fiscale</Form.Label>
                             <Form.Control id='fiscalCode' alt='userDto' name="fiscalCode" onChange={this.handleChange} value={this.state.userDto.fiscalCode} placeholder="Enter Codice fiscale" />
                         </Form.Group>
-                        <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
-                            <Form.Label className="">Centro Medico</Form.Label>
-                            <Form.Control id='idCentroMedico' alt='userDto' name="idCentroMedico" onChange={this.handleChange} value={this.state.userDto.idCentroMedico} placeholder="Enter centro medico" />
+                        <Form.Group className="col-4 mb-3 input-layout-wrapper" >
+                                <Form.Label className="text-light">Centro Medico</Form.Label>
+                                <Form.Select id='mendicalCenter' onChange={this.onChange} name="mendicalCenter"  alt="medicoDTO" placeholder="Enter centro medico" >
+                               {this.state.listCentriMedici.map((item)=> 
+                                
+                                <option id={item.id} selected={this.state.userDto.idCentroMedico == item.id ? "selected" : ''}>{item.nomeCentro}</option>
+                               )}
+                                </Form.Select>
                         </Form.Group>
                     </Row>
 
