@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Form, Button, Tabs, Tab } from 'react-bootstrap';
-import { api , patient} from '../helpers/api/api';
+import { api, patient } from '../helpers/api/api';
 import SimpleReactValidator from 'simple-react-validator';
 import { useState, useEffect } from 'react';
 import { PatientRegistry } from "./PatientRegistry"
@@ -43,6 +43,13 @@ export class PatientTabbedInterface extends Component {
 
 
     async componentDidMount() {
+        const reloadCount = sessionStorage.getItem('reloadCount');
+        if (reloadCount < 2) {
+            sessionStorage.setItem('reloadCount', String(reloadCount + 1));
+            window.location.reload();
+        } else {
+            sessionStorage.removeItem('reloadCount');
+        }
         const [patientDto, itemsAdverseEvents, itemsEpilepticSeizures] = await Promise.all([
             this.getPatient(),
             this.getAdverseEvents(),
@@ -59,8 +66,8 @@ export class PatientTabbedInterface extends Component {
                         patientDto: response.data.dati,
                         canTravel: response.data.dati.canTravel,
                         canDrive: response.data.dati.canDrive,
-                        
-                        
+
+
                     });
                 }
             }).catch((error) => {
@@ -96,14 +103,14 @@ export class PatientTabbedInterface extends Component {
             });
     }
 
-    
 
-    setCanDrive = (canDrive) => {       
+
+    setCanDrive = (canDrive) => {
         const inputValue = canDrive;
         this.updateState('canDrive', inputValue, 'patientDto');
     }
 
-    setCanTravel = (canTravel) => {       
+    setCanTravel = (canTravel) => {
         const inputValue = canTravel;
         this.updateState('canTravel', inputValue, 'patientDto');
     }
@@ -120,7 +127,7 @@ export class PatientTabbedInterface extends Component {
         this.setState(statusCopy);
     };
 
-    
+
 
     render() {
 
@@ -132,15 +139,15 @@ export class PatientTabbedInterface extends Component {
                         <h1>Medico - Anagrafica paziente {this.state.patientDto.patientCode} </h1>
                     </div>
                 </Row>
-                <ControlledPatientTabs patient={this.state.patientDto} 
-                
-                setCanDrive={this.setCanDrive} 
-                setCanTravel={this.setCanTravel} 
-                adverseEvents={this.state.itemsAdverseEvents} 
-                epilepticSeizures={this.state.itemsEpilepticSeizures} 
-                numberStartingSeizures={this.state.patientDto.numeroCrisiPartenza} 
-                patientId={this.state.patientDto.id} />
-                
+                <ControlledPatientTabs patient={this.state.patientDto}
+
+                    setCanDrive={this.setCanDrive}
+                    setCanTravel={this.setCanTravel}
+                    adverseEvents={this.state.itemsAdverseEvents}
+                    epilepticSeizures={this.state.itemsEpilepticSeizures}
+                    numberStartingSeizures={this.state.patientDto.numeroCrisiPartenza}
+                    patientId={this.state.patientDto.id} />
+
             </>
 
         )

@@ -4,12 +4,13 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../helpers/api/api';
 
-function BloodTestsInfo(props) {
+function BloodTestsInfo() {
+    const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
     const [days, setDays] = useState([]);
 
     useEffect(() => {
         const fetchDays = async () => {
-            await api.get("/GetTestBloodDays/", props.patientCode)
+            await api.get("/GetTestBloodDays/", patientId)
                 .then((response) => {
                     if (response.status === 200) {
                         setDays(response.data);
@@ -23,6 +24,11 @@ function BloodTestsInfo(props) {
 
     return (
         <>
+            <Row className='col-12 pt-4' >
+                <div className='col-12'>
+                    <h2>Analisi del sangue</h2>
+                </div>
+            </Row>
             <Row>
                 <Col className='mb-3'>
                     <BloodTestSelectDay listDays={days} />
@@ -37,8 +43,8 @@ function BloodTestsInfo(props) {
                 </Col>
             </Row>
             <div className='mb-3'>
-                    <Button type='submit' >Indietro</Button> <Button type='submit' >Torna a elenco pazienti</Button> <Button type='submit' >Avanti</Button>
-                </div>
+                <Button type='submit' >Indietro</Button> <Button type='submit' >Torna a elenco pazienti</Button> <Button type='submit' >Avanti</Button>
+            </div>
 
         </>
     );
@@ -80,7 +86,7 @@ function BloodTestSelectDay() {
 }
 
 function ControlledCarouselBloodTests(response) {
-    
+
     const [index, setIndex] = useState(0);
 
     const handleSelect = (selectedIndex, e) => {
@@ -146,25 +152,25 @@ function ControlledCarouselBloodTests(response) {
 function BloodTestTable(response) {
     return (
         <>
-            
-                <div className='col-6'>
-                    <Table striped bordered hover size="sm">
-                        <thead>
-                            <tr>
-                                
-                                <th></th>
-                                <th>Valore</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                response.data?.map((drugNameConcentration) => <BloodTestRow key={drugNameConcentration.id} drugNameConcentration={drugNameConcentration} />)
-                            }
-                        </tbody>
-                    </Table>
-                </div>
-                
-            
+
+            <div className='col-6'>
+                <Table striped bordered hover size="sm">
+                    <thead>
+                        <tr>
+
+                            <th></th>
+                            <th>Valore</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            response.data?.map((drugNameConcentration) => <BloodTestRow key={drugNameConcentration.id} drugNameConcentration={drugNameConcentration} />)
+                        }
+                    </tbody>
+                </Table>
+            </div>
+
+
 
         </>
     );
@@ -178,7 +184,7 @@ function BloodTestRowData(props) {
     return (<>
         <td>{props.drugNameConcentration.name === 0 ? "dataEvento" : "dataEvento"}</td>
         <td>{props.drugNameConcentration.concentration === 0 ? "disturboEvento" : "disturboEvento"}</td>
-        
+
     </>
     );
 }

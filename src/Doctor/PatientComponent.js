@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { useNavigate } from 'react-router-dom';
 import { patient } from '../helpers/api/api';
 import Pagination from '../helpers/pagination';
+import { Link } from 'react-router-dom';
 
 function PatientInfo() {
     const [patients, setPatients] = useState([]);
@@ -58,6 +59,7 @@ const PatientTable= ({ patients, loading }) => {
 
     const updatePatient = (id) => {
         navigate(`/PatientTabbedInterface/${id}`);
+        
     };
 
     if (loading) {
@@ -96,7 +98,7 @@ function PatientRow(props) {
 
 function PatientRowData(props) {
     return (<>
-        <td>{props.patient.codicePaziente}</td>
+        <td><Link to={`/PatientRegistry/${props.patient.id}`}>{props.patient.codicePaziente}</Link></td>
         <td>{props.patient.fiscalCode}</td>
         <td>{props.patient.surName}</td>
         <td>{props.patient.name}</td>
