@@ -16,7 +16,8 @@ function PatientInfo() {
     useEffect(() => {
         const fetchPatients = async () => {
             setLoading(true);
-            await patient.getAll("Get/")
+            // localStorage.getItem("role")
+            await patient.get("GetByDoctor/", 1 )
             .then((response) => {
                 if (response.status === 200) {
                     setPatients(response.data.dati);
@@ -32,7 +33,7 @@ function PatientInfo() {
     // Get current patient
     const indexOfLastPatient = currentPage * patientsPerPage;
     const indexOfFirstPatient = indexOfLastPatient - patientsPerPage;
-    const currentPatients = patients.slice(indexOfFirstPatient, indexOfLastPatient);
+    const currentPatients = patients?.slice(indexOfFirstPatient, indexOfLastPatient);
 
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
@@ -42,7 +43,7 @@ function PatientInfo() {
             <PatientTable patients={currentPatients} loading={loading} />
             <Pagination
                 patientsPerPage={patientsPerPage}
-                totalPatients={patients.length}
+                totalPatients={patients?.length}
                 paginate={paginate}
             />
         </Col>   
@@ -73,7 +74,7 @@ const PatientTable= ({ patients, loading }) => {
                 </thead>
                 <tbody>
                     {
-                        patients.map((pa) => <PatientRow key={pa.codicePaziente} patient={pa} />)
+                        patients?.map((pa) => <PatientRow key={pa.codicePaziente} patient={pa} />)
                     }
                 </tbody>
             </Table>
