@@ -22,6 +22,7 @@ import { BloodTestsInfo } from '../Doctor/BloodTestsComponent';
 import { Navbar, Container, Nav, NavDropdown, Button, Offcanvas, Form, FormControl } from 'react-bootstrap';
 
 export default class Layout extends Component {
+
   userLogUser = () => ({
     token: sessionStorage.getItem('token')
 
@@ -43,8 +44,7 @@ export default class Layout extends Component {
       <>
         {localStorage.getItem("accessToken") != null && this.state.url != "/" && this.state.url != "/Register" ?
           <>
-
-
+            <a className="nav-link" data-widget="pushmenu" href="#" role="button" style={{ backgroundColor: '#f4f6f9' }}><i className="fas fa-bars" /></a>
             <div className="content-wrapper">
               <div className="content-header">
                 <div className="container-fluid">
