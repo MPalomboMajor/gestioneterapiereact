@@ -46,16 +46,7 @@ export class Login extends Component {
                         localStorage.setItem('accessToken', response.data.dati.accessToken);
                         localStorage.setItem('refreshToken',response.data.dati.refreshToken);
                         localStorage.setItem('role', JSON.stringify(response.data.dati.userDTO));
-                        
-                        user.getAll("TestToken")
-                        .then(async (response) => {
-                            if (response.status == 200) {
-                                window.location.href = "/Dashboard";
-                            }
-                        }).catch((error) => {
-                            NotificationManager.error(message.ErrorLogin, entitiesLabels.ERROR, 3000);
-                        });
-                        
+                        window.location.href = "/Dashboard";
                     }
                 }).catch((error) => {
                     NotificationManager.error(message.ErrorLogin, entitiesLabels.ERROR, 3000);
