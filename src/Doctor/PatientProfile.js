@@ -29,7 +29,6 @@ function PatientProfile() {
     }, []);
 
     function editPatient() {  
-        console.log(patientProfile);
         patient.post("Save/", patientProfile)
             .then((response) => {
                 if (response.status === 200) {
@@ -55,6 +54,15 @@ function PatientProfile() {
         });
         setCanDrive(!canDrive);
     }
+
+    const handleChange = (e) => {       
+        const inputValue = e.target.value;
+        const inputName = e.target.getAttribute('name');
+        setPatientProfile({                      
+                ...patientProfile, [inputName]:
+                        inputValue
+        });
+};
 
     return (
 
@@ -93,7 +101,7 @@ function PatientProfile() {
                     ))}
                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                         <Form.Label>Note</Form.Label>
-                        <Form.Control as="textarea" rows={10} disabled value={patientProfile.healthInfo} />
+                        <Form.Control as="textarea" name="healthInfo" rows={10} defaultValue={patientProfile.healthInfo} onChange={handleChange} disabled/>
                     </Form.Group>
                 </div>
                 <div className='mb-3'>

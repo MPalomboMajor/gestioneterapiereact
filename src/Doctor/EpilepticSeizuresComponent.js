@@ -5,6 +5,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import { patient } from '../helpers/api/api';
+import { entitiesLabels, message } from '../helpers/Constants';
+import 'react-notifications/lib/notifications.css';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 function EpilepticSeizuresInfo() {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
@@ -40,6 +43,26 @@ function EpilepticSeizuresInfo() {
         fetchEpilepticSeizures();
     }, []);
 
+    const handleChange = (e) => {
+        const inputValue = e.target.value;
+        const inputName = e.target.getAttribute('name');
+        setPatientProfile({
+            ...patientProfile, [inputName]:
+                inputValue
+        });
+    };
+
+    // function editPatient() {  
+    //     patient.post("Save/", patientProfile)
+    //         .then((response) => {
+    //             if (response.status === 200) {
+    //                 NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+    //             }
+    //         }).catch((error) => {
+    //             NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+    //         });
+    // };
+
     return (
         <>
             <Row className='col-12 pt-4' >
@@ -49,25 +72,28 @@ function EpilepticSeizuresInfo() {
             </Row>
             &nbsp;&nbsp;
             <Col className='mb-3'>
-                <EpilepticSeizuresForm numberStartingSeizures={patientProfile.numeroCrisiPartenza} />
+                <EpilepticSeizuresForm numberStartingSeizures={patientProfile.numeroCrisiPartenza} onChange={handleChange} />
             </Col>
             <Col className='mb-3'>
                 <EpilepticSeizuresTable epilepticSeizures={epilepticSeizures} />
+            </Col>
+            <Col className='mb-3'>
+                <Button type='submit' >Indietro</Button> <Button type='submit' >Torna a elenco pazienti</Button> <Button type='submit' >Avanti</Button>
+                {/* <Button onClick={() => editPatient()} >Salva le modifiche</Button> */}
             </Col>
         </>
     );
 }
 
 function EpilepticSeizuresForm(props) {
+
+
     return (
-
-
         <Form>
             <div className='col-6'>
                 <Form.Group controlId='numberStartingSeizures'>
                     <Form.Label>Numero crisi di partenza</Form.Label>
-                    <Form.Control disabled type='text' value={props.numberStartingSeizures} >
-                    </Form.Control>
+                    <Form.Control type='text' name="numeroCrisiPartenza" defaultValue={props.numberStartingSeizures} onChange={props.onChange} disabled/>
                 </Form.Group>
             </div>
         </Form>
@@ -97,9 +123,7 @@ function EpilepticSeizuresTable(props) {
                     </tbody>
                 </Table>
             </div>
-            <div className='mb-3'>
-                <Button type='submit' >Indietro</Button> <Button type='submit' >Torna a elenco pazienti</Button> <Button type='submit' >Avanti</Button>
-            </div>
+
 
 
         </>
