@@ -12,6 +12,17 @@ const http = axios.create({
     //  Expires: '0'
   },
 });
+const httpref = axios.create({
+  //withCredentials: false,
+  baseURL: `${'http://localhost:27629/api/'}`,  
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    // 'Cache-Control': 'no-cache',
+    // Pragma: 'no-cache',
+    //  Expires: '0'
+  },
+});
 http.interceptors.request.use(
   async (config) => {
     const token = localStorage.getItem("accessToken");
@@ -28,6 +39,7 @@ http.interceptors.response.use((response) => {
   return response
 }, async function (error) {
   const originalRequest = error.config;
+  
   if (error.response.status === 401 && !originalRequest._retry) {
     originalRequest._retry = true;
     const access_token =localStorage.getItem("refreshToken");      
@@ -37,7 +49,7 @@ http.interceptors.response.use((response) => {
    var request ={username:'', refreshToken:''}
    request.username=dto.username;
    request.refreshToken =access_token;
-    user.post("Refresh",  request )
+    httpref.post("user/Refresh",  request )
                 .then(async (response) => {
                     if (response.status == 200) {
                         localStorage.setItem('accessToken', response.data.dati.accessToken);
@@ -52,9 +64,15 @@ http.interceptors.response.use((response) => {
                   window.location.href = "/";
                 });   
    
-    
+                return http(originalRequest);
   }
-  return Promise.reject(error);
+  
+  if(error.response.status === 400 || error.response.status === 404){
+    return Promise.reject(error);
+  }else{
+    return http(originalRequest);
+  }
+
 });
   
 

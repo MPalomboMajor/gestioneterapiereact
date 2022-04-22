@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { patient } from '../helpers/api/api';
 import Pagination from '../helpers/pagination';
 import { Link } from 'react-router-dom';
+import { PatchMinus } from 'react-bootstrap-icons';
 
 function PatientInfo() {
     const [patients, setPatients] = useState([]);
@@ -29,7 +30,8 @@ function PatientInfo() {
         };
         fetchPatients();
     }, []);
-
+    
+   
     // Get current patient
     const indexOfLastPatient = currentPage * patientsPerPage;
     const indexOfFirstPatient = indexOfLastPatient - patientsPerPage;
@@ -101,15 +103,18 @@ function PatientRowData(props) {
 }
 
 function PatientAllergyRow(props) {
-    return <tr><PatientAllergyRowData allergy={props.allergy} /></tr>
+    return <tr><PatientAllergyRowData allergy={props.allergy}   deleteF={props}/></tr>
 }
 
 function PatientAllergyRowData(props) {
+     
     return (<>
+        
         <td>{props.allergy}</td>
+        <td ><Button onClick={() => props.deleteF.delete(props.deleteF.id)}   className='btn btn-danger bi bi-trash'></Button></td>
     </>
     );
 }
 
 
-export { PatientInfo, PatientRow ,PatientAllergyRow, PatientAllergyRowData};
+export { PatientInfo, PatientRow ,PatientAllergyRow};

@@ -69,7 +69,7 @@ export class DoctorProfile extends Component {
         dto = JSON.parse(dto);
         
         medico.get("Get/", dto.id)
-            .then(async (response) => {
+            .then( (response) => {
                 if (response.status == 200) {
                     this.setState({ userDto: response.data.dati });
 
@@ -77,10 +77,11 @@ export class DoctorProfile extends Component {
                 statusCopy['userDto']['idDoctor'] = response.data.dati.id ;
                 }
             }).catch((error) => {
-
+                if (error) {
+                    const statusCopy = { ...this.state };
+                statusCopy['userDto']['idDoctor'] = error;
+                }
             })
-            .finally(() => {
-            });
 
     }
     onChange = (inputName) => {
