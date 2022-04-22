@@ -100,7 +100,16 @@ function PatientRowData(props) {
     );
 }
 
+function PatientAllergyRow(props) {
+    return <tr><PatientAllergyRowData allergy={props.allergy} /></tr>
+}
+
+function PatientAllergyRowData(props) {
+    return (<>
+        <td>{props.allergy}</td>
+    </>
+    );
+}
 
 
-
-export { PatientInfo, PatientRow };
+export { PatientInfo, PatientRow ,PatientAllergyRow, PatientAllergyRowData};

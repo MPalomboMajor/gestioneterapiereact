@@ -65,39 +65,47 @@ const SideNav = () => {
                                     </a>
                                 </li> </>
                                 : <>
-                                    <li className="nav-item">
-                                        <a href="/Dashboard" className="nav-link">
-                                            <i className="nav-icon fas fa-hospital-user" />
-                                            <p>
-                                                Elenco pazienti
-                                            </p>
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link to={`/PatientRegistry/${patientId}`} className="nav-link">
-                                            <i className="nav-icon fas fa-laptop-medical " />
-                                            <p >
-                                                Anagrafica paziente
-                                            </p>
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link to={`/PatientProfile/${patientId}`} className="nav-link">
-                                            <i className="nav-icon fas fa-head-side-virus" />
-                                            <p>
-                                                Profilo paziente
-                                            </p>
-                                        </Link>
-                                    </li>
+                                    {localStorage.getItem("newPatient") != null ? '' :
+                                        <>
+                                            <li className="nav-item">
+                                                <a href="/Dashboard" className="nav-link">
+                                                    <i className="nav-icon fas fa-hospital-user" />
+                                                    <p>
+                                                        Elenco pazienti
+                                                    </p>
+                                                </a>
+                                            </li>
+                                            <li className="nav-item">
+                                                <Link to={`/PatientRegistry/${patientId}`} className="nav-link">
+                                                    <i className="nav-icon fas fa-laptop-medical " />
+                                                    <p >
+                                                        Anagrafica paziente
+                                                    </p>
+                                                </Link>
+                                            </li>
+                                            <li className="nav-item">
+                                                <Link to={`/PatientProfile/${patientId}`} className="nav-link">
+                                                    <i className="nav-icon fas fa-head-side-virus" />
+                                                    <p>
+                                                        Profilo paziente
+                                                    </p>
+                                                </Link>
+                                            </li>
+                                        </>
+
+                                    }
+
 
                                     <li className="nav-item">
-                                    <Link to={`/NewTherapy/${patientId}`} className="nav-link">
+                                        <Link to={`/NewTherapy/${patientId}`} className="nav-link">
                                             <i className="nav-icon fas fa-capsules" />
                                             <p>
                                                 Terapia
                                             </p>
                                         </Link>
                                     </li>
+                                    {localStorage.getItem("newPatient") != null ? '' :
+                                        <>
                                     <li className="nav-item">
                                         <Link to={`/AdverseEvents/${patientId}`} className="nav-link">
                                             <i className="nav-icon far fa-frown" />
@@ -138,6 +146,9 @@ const SideNav = () => {
                                             </p>
                                         </a>
                                     </li>
+                                    </>
+
+                                    }
                                 </>}
                         </ul>
                     </nav>

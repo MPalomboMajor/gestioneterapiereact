@@ -88,7 +88,6 @@ http.interceptors.response.use((response) => {
     delete: (url, id) => http.delete(API.MEDICO + url + id),
     getWithParam: (url, o) => http.get(API.MEDICO + url, o),
   };
-
   export const patient = {
     get: (url, id) => http.get(`${API.PATIENT + url}` + id),
     getAll: (url) => http.get(API.PATIENT + url),
@@ -98,4 +97,24 @@ http.interceptors.response.use((response) => {
     put: (url, o, id) => http.put(API.PATIENT + url + id, o),
     delete: (url, id) => http.delete(API.PATIENT + url + id),
     getWithParam: (url, o) => http.get(API.PATIENT + url, o),
+  };
+  export const pianoterapeutico = {
+    get: (url, id) => http.get(`${API.PIANOTERAPEUTICO + url}` + id),
+    getAll: (url) => http.get(API.PIANOTERAPEUTICO + url),
+    getMe: () => http.get(API.PIANOTERAPEUTICO),
+    post: (url, o) => http.post(`${API.PIANOTERAPEUTICO + url}` , o),
+    edit: (url, id, canTravel, canDrive, notes) => http.post(`${API.PIANOTERAPEUTICO + url}` , url, id, canTravel, canDrive, notes),
+    put: (url, o, id) => http.put(API.PIANOTERAPEUTICO + url + id, o),
+    delete: (url, id) => http.delete(API.PIANOTERAPEUTICO + url + id),
+    getWithParam: (url, o) => http.get(API.PIANOTERAPEUTICO + url, o),
+  };
+  export const patientcode = {
+    get: (url, id) => http.get(`${API.PATIENTCODE + url}` + id),
+    getAll: (url) => http.get(API.PATIENTCODE + url),
+    getMe: () => http.get(API.PATIENTCODE),
+    post: (url, o) => http.post(`${API.PATIENTCODE + url}` , o),
+    edit: (url, id, canTravel, canDrive, notes) => http.post(`${API.PATIENTCODE + url}` , url, id, canTravel, canDrive, notes),
+    put: (url, o, id) => http.put(API.PATIENTCODE + url + id, o),
+    delete: (url, id) => http.delete(API.PATIENTCODE + url + id),
+    getWithParam: (url, o) => http.get(API.PATIENTCODE + url, o),
   };

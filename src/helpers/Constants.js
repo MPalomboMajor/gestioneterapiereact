@@ -4,8 +4,9 @@ function textFormat(r) {
 export const entities = {
   USER: 'user',
   MEDICO: 'medico',
-  
   PATIENT:'patient',
+  PATIENTCODE:'patientcode',
+  PIANOTERAPEUTICO:'pianoterapeutico'
 };
 
 export const API = {
@@ -13,6 +14,8 @@ export const API = {
   USER: textFormat(entities.USER),
   MEDICO: textFormat(entities.MEDICO),
   PATIENT: textFormat(entities.PATIENT),
+  PATIENTCODE: textFormat(entities.PATIENTCODE),
+  PIANOTERAPEUTICO: textFormat(entities.PIANOTERAPEUTICO),
 };
 
 export const entitiesLabels = {
@@ -33,10 +36,11 @@ export const message = {
   ErroSend: 'Non Inviato Correttamente ',
   ///OBJECT
   USER: 'user',
-  MEDICO: 'edico ',
+  MEDICO: 'Medico ',
   CODICE: 'Codice ',
   PATIENT: 'Paziente ',
-  CARMANAGER: 'CarManager '
+  CARMANAGER: 'CarManager ',
+  PIANOTERAPEUTICO:'Piano Terapeutico '
 }
 export const notificationType = {
   PRIMARY: 'primary',

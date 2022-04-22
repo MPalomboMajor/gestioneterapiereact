@@ -3,9 +3,9 @@ import '../css/style.css';
 import { Tabs, Tab, Container, Form, Row, InputGroup, Button, FormControl, Table, Modal } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { PatientInfo } from "./PatientComponent"
-import { medico } from '../helpers/api/api';
+import { medico, pianoterapeutico, patient } from '../helpers/api/api';
 import DatePicker from "react-datepicker";
-import { PatientRow } from "./PatientComponent";
+import { PatientRow, PatientAllergyRow } from "./PatientComponent";
 import moment from 'moment';
 import Pagination from '../helpers/pagination';
 
@@ -16,29 +16,67 @@ export class NewTherapy extends Component {
             items: [],
             dateNow: '',
             patients: [],
+            pharmacyPatients:[],
             currentPage: 1,
             patientsPerPage: 3,
+                allergiesDTO: 
+                  {
+                    id: 0,
+                    nomeFarmaco: "",
+                    idPatientProfile: 0
+                  },
+            therapyDto:{
+               id: 1,
+               versione: 0,
+               maxReminderNotification: 0,
+               dataPrescrizione: moment(new Date()),
+               inizioTerapia: moment(new Date()),
+               dataFineTerapia: moment(new Date()),
+               motivoFineTerapia: "",
+               idDoctor: 1,
+               idPatientProfile: 1
+            }
         };
-
     }
 
     componentDidMount() {
-        medico.getAll("GetCodiciPazienti")
+        pianoterapeutico.get("Get/",this.state.therapyDto.idPatientProfile )
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({
-                        isLoaded: true,
-                        patients: response.data,
-                        isOpenOtherPharmacy: false,
-                        isOpenAllergic: false
+                       
                     });
                 }
             }).catch((error) => {
                 this.setState({ error: 1 })
             });
-        this.initialState();
-    }
+            
+            patient.get("GetAllergies/",this.state.therapyDto.idPatientProfile )
+            .then((response) => {
+                if (response.status === 200) {
+                    this.setState({
+                        pharmacyPatients:response.data.dati,
+                    });
+                }
+            }).catch((error) => {
+                this.setState({ error: 1 })
+            });
+        }
+//FUNZIONI POST
+updateTherapy = () => {
+    pianoterapeutico.post("Save",this.state.therapyDto )
+    .then((response) => {
+        if (response.status === 200) {
+            this.setState({
+               
+            });
+        }
+    }).catch((error) => {
+        this.setState({ error: 1 })
+    });
 
+    
+}
 
     setCurrentPage = (n) => {
         this.setState({ currentPage: n });
@@ -67,12 +105,36 @@ export class NewTherapy extends Component {
             dateNow: moment(value).format("DD/MM/YYYY"),
             formattedValue: formattedValue
         });
+        this.updateState('dataFineTerapia', moment(value), 'therapyDto');
+    }
+    handleChangeNote = (el) => {
+        let objName = el.target.alt;
+        const inputName = el.target.name;
+        const inputValue = el.target.value;
+        this.updateState(inputName, inputValue, 'therapyDto');
+    };
+    handleChangeFarmaco = (el) => {
+        let objName = el.target.alt;
+        const inputName = el.target.name;
+        const inputValue = el.target.value;
+        this.updateState(inputName, inputValue, 'allergiesDTO');
+    };
+    updateState = (inputName, inputValue, objName) => {
+        let statusCopy = Object.assign({}, this.state);
+        statusCopy[objName][inputName] =inputValue;
+        this.setState(statusCopy);
+    };
+    returnToMenu = () => {
+        localStorage.removeItem('newPatient');
+        window.location.href = "/Dashboard";
     }
     render() {
         const indexOfLastPatient = this.state.currentPage * this.state.patientsPerPage;
         const indexOfFirstPatient = indexOfLastPatient - this.state.patientsPerPage;
+        const indexOfLastpharmacyPatient = this.state.currentPage * this.state.patientsPerPage;
+        const indexOfFirstpharmacyPatient = indexOfLastPatient - this.state.patientsPerPage;
         const currentPatients = this.state.patients.slice(indexOfFirstPatient, indexOfLastPatient);
-
+        const pharmacyPatients = this.state.pharmacyPatients.slice(indexOfFirstpharmacyPatient, indexOfLastpharmacyPatient);
         return (
             <Container className=''>
                 
@@ -83,19 +145,13 @@ export class NewTherapy extends Component {
 
                             <Form className="">
                                 <Row>
-                                    <Form.Group className="col-4 mb-3" >
-                                        <Form.Label className="text">Numero crisi  di partenza </Form.Label>
-                                        <Form.Control name="startingCrisisNumber" placeholder="Inserisci  il  numero  di crisi  di partenza" />
-                                    </Form.Group>
-                                </Row>
-                                <Row>
                                     <Form.Group className="col-6 mb-3" >
                                         <Form.Label className="text">Data inizio terapia</Form.Label>
                                         <InputGroup className="mb-3">
-                                            <Button variant="outline-secondary" className='bi bi-calendar-date-fill' id="button-addon1" />
+                                            <Button disabled variant="outline-secondary" className='bi bi-calendar-date-fill' id="button-addon1" />
                                             <div className='datepicker-wrapper-date datepicker-wrapper'>
-                                                <DatePicker id='startTherapy' name={'startTherapy'} aria-label="Example text with button addon"
-                                                    aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.dateNow} onChange={this.handleChange} />
+                                                <DatePicker disabled id='startTherapy' name={'startTherapy'} aria-label="Example text with button addon"
+                                                    aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.therapyDto.inizioTerapia} onChange={this.handleChange} />
                                             </div>
                                         </InputGroup>
                                     </Form.Group>
@@ -105,7 +161,7 @@ export class NewTherapy extends Component {
                                             <Button variant="outline-secondary" className='bi bi-calendar-date-fill' id="button-addon1" />
                                             <div className='datepicker-wrapper-date datepicker-wrapper'>
                                                 <DatePicker id='endTherapy' name={'endTherapy'} aria-label="Example text with button addon"
-                                                    aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.dateNow} onChange={this.handleChange} />
+                                                    aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.therapyDto.dataFineTerapia} onChange={this.handleChange} />
                                             </div>
                                         </InputGroup>
                                     </Form.Group>
@@ -114,24 +170,19 @@ export class NewTherapy extends Component {
                                     <div className='col-lg-8'>
                                         <InputGroup className="mb-3">
                                             <InputGroup.Text>Motivo fine terapia </InputGroup.Text>
-                                            <FormControl as="textarea" aria-label="With textarea" />
+                                            <FormControl as="textarea" aria-label="With textarea"  id="motivoFineTerapia" onChange={this.handleChangeNote}  name="motivoFineTerapia"/>
                                         </InputGroup>
                                     </div>
                                 </Row>
                                 <Row>
                                     <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                        <Button variant="btn btn-info bi bi-arrow-left">
-
+                                        <Button variant="btn btn-info " onClick={() =>this.returnToMenu()}>
+                                        Indietro
                                         </Button>
                                     </Form.Group>
                                     <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                        <Button variant="btn btn-info  bi bi-arrow-right">
-
-                                        </Button>
-                                    </Form.Group>
-                                    <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                        <Button variant="btn btn-success bi-cloud-check" >
-
+                                        <Button variant="btn btn-info  " onClick={this.updateTherapy}>
+                                        Salva
                                         </Button>
                                     </Form.Group>
                                 </Row>
@@ -143,7 +194,7 @@ export class NewTherapy extends Component {
                             </Row>
                             <Row>
                                 <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                    <Button variant="btn btn-info bi bi-arrow-left">
+                                    <Button variant="btn btn-info bi bi-arrow-left" >
 
                                     </Button>
                                 </Form.Group>
@@ -280,7 +331,7 @@ export class NewTherapy extends Component {
                                     <Row>
                                         <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
                                             <Form.Label className="text-">Farmaco avverso</Form.Label>
-                                            <Form.Control disabled name="farmacoavverso" placeholder="Inserisci farmaco" />
+                                            <Form.Control  id="nomeFarmaco" onChange={this.handleChangeFarmaco}  alt="allergiesDTO"  name="nomeFarmaco" placeholder="Inserisci farmaco" />
                                         </Form.Group>
                                     </Row>
                                 </Modal.Body>
@@ -288,7 +339,7 @@ export class NewTherapy extends Component {
                                     <Button variant="secondary" onClick={() => this.handleCloseAllergic()}>
                                         Chiudi
                                     </Button>
-                                    <Button variant="primary">Aggiungi</Button>
+                                    <Button variant="primary" onClick={this.addPgarmacyAllergy}>Aggiungi</Button>
                                 </Modal.Footer>
                             </Modal>
                             <Row>
@@ -304,6 +355,9 @@ export class NewTherapy extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
+                                {
+                                        pharmacyPatients.map((pa) => <PatientAllergyRow key={pa.id} allergy={pa.nomeFarmaco} />)
+                                    }
                                 </tbody>
                             </Table>
                             <Row>
