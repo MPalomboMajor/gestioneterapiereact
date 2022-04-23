@@ -16,6 +16,7 @@ function PatientInfo() {
 
     useEffect(() => {
         const fetchPatients = async () => {
+<<<<<<< Updated upstream
             setLoading(true);           
             await patient.get("GetByDoctor/", JSON.parse(localStorage.getItem("role")).id)
             .then((response) => {
@@ -26,6 +27,19 @@ function PatientInfo() {
             }).catch((error) => {
                 
             });
+=======
+            setLoading(true);
+            // localStorage.getItem("role")
+            await patient.get("GetByDoctor/", 1)
+                .then((response) => {
+                    if (response.status === 200) {
+                        setPatients(response.data.dati);
+                        setLoading(false);
+                    }
+                }).catch((error) => {
+
+                });
+>>>>>>> Stashed changes
         };
         fetchPatients();
     }, []);

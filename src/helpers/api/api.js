@@ -67,7 +67,7 @@ http.interceptors.response.use((response) => {
                 return http(originalRequest);
   }
   
-  if(error.response.status === 400 || error.response.status === 404){
+  if(error.response.status === 400 || error.response.status === 404 || error.response.status === 403){
     return Promise.reject(error);
   }else{
     return http(originalRequest);
