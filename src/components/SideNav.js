@@ -106,47 +106,47 @@ const SideNav = () => {
                                     </li>
                                     {localStorage.getItem("newPatient") != null ? '' :
                                         <>
-                                    <li className="nav-item">
-                                        <Link to={`/AdverseEvents/${patientId}`} className="nav-link">
-                                            <i className="nav-icon far fa-frown" />
-                                            <p>
-                                                Eventi avversi
-                                            </p>
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link to={`/EpilepticSeizures/${patientId}`} className="nav-link">
-                                            <i className="nav-icon fas fa-brain" />
-                                            <p>
-                                                Crisi epilettiche
-                                            </p>
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link to={`/BloodTests/${patientId}`} className="nav-link">
-                                            <i className="nav-icon fas fa-syringe" />
-                                            <p>
-                                                Analisi del sangue
-                                            </p>
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link">
-                                            <i className="nav-icon fas fa-diagnoses" />
-                                            <p>
-                                                Visite mediche
-                                            </p>
-                                        </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a href="#" className="nav-link">
-                                            <i className="nav-icon fas fa-cloud-moon-rain" />
-                                            <p>
-                                                Monitoraggio umore
-                                            </p>
-                                        </a>
-                                    </li>
-                                    </>
+                                            <li className="nav-item">
+                                                <Link to={`/AdverseEvents/${patientId}`} className="nav-link">
+                                                    <i className="nav-icon far fa-frown" />
+                                                    <p>
+                                                        Eventi avversi
+                                                    </p>
+                                                </Link>
+                                            </li>
+                                            <li className="nav-item">
+                                                <Link to={`/EpilepticSeizures/${patientId}`} className="nav-link">
+                                                    <i className="nav-icon fas fa-brain" />
+                                                    <p>
+                                                        Crisi epilettiche
+                                                    </p>
+                                                </Link>
+                                            </li>
+                                            <li className="nav-item">
+                                                <Link to={`/BloodTests/${patientId}`} className="nav-link">
+                                                    <i className="nav-icon fas fa-syringe" />
+                                                    <p>
+                                                        Analisi del sangue
+                                                    </p>
+                                                </Link>
+                                            </li>
+                                            <li className="nav-item">
+                                                <a href="#" className="nav-link">
+                                                    <i className="nav-icon fas fa-diagnoses" />
+                                                    <p>
+                                                        Visite mediche
+                                                    </p>
+                                                </a>
+                                            </li>
+                                            <li className="nav-item">
+                                                <Link to={`/MoodMonitoring/${patientId}`} className="nav-link">
+                                                    <i className="nav-icon fas fa-cloud-moon-rain" />
+                                                    <p>
+                                                        Monitoraggio umore
+                                                    </p>
+                                                </Link>
+                                            </li>
+                                        </>
 
                                     }
                                 </>}

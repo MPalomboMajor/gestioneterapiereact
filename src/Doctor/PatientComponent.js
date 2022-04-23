@@ -16,9 +16,8 @@ function PatientInfo() {
 
     useEffect(() => {
         const fetchPatients = async () => {
-            setLoading(true);
-            // localStorage.getItem("role")
-            await patient.get("GetByDoctor/", 1 )
+            setLoading(true);           
+            await patient.get("GetByDoctor/", JSON.parse(localStorage.getItem("role")).id)
             .then((response) => {
                 if (response.status === 200) {
                     setPatients(response.data.dati);

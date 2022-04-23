@@ -133,7 +133,6 @@ export class PatientTabbedInterface extends Component {
                     </div>
                 </Row>
                 <ControlledPatientTabs patient={this.state.patientDto}
-
                     setCanDrive={this.setCanDrive}
                     setCanTravel={this.setCanTravel}
                     adverseEvents={this.state.itemsAdverseEvents}

@@ -3,8 +3,6 @@ import React, { Component } from 'react'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import "react-datepicker/dist/react-datepicker.css";
 import SideNav from '../components/SideNav';
-import Footer from '../components/Footer';
-import Home from '../components/Home';
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
@@ -18,8 +16,7 @@ import { PatientProfile } from '../Doctor/PatientProfile';
 import { AdverseEventsInfo } from '../Doctor/AdverseEventsTable';
 import { EpilepticSeizuresInfo } from '../Doctor/EpilepticSeizuresComponent';
 import { BloodTestsInfo } from '../Doctor/BloodTestsComponent';
-
-import { Navbar, Container, Nav, NavDropdown, Button, Offcanvas, Form, FormControl } from 'react-bootstrap';
+import { PatientMoodInterface } from '../Doctor/PatientMoodInterface';
 
 export default class Layout extends Component {
 
@@ -66,6 +63,7 @@ export default class Layout extends Component {
                             <Route path="/AdverseEvents/:idPaziente" element={<AdverseEventsInfo />}></Route>
                             <Route path="/EpilepticSeizures/:idPaziente" element={<EpilepticSeizuresInfo />}></Route>
                             <Route path="/BloodTests/:idPaziente" element={<BloodTestsInfo />}></Route>
+                            <Route path="/MoodMonitoring/:idPaziente" element={<PatientMoodInterface />}></Route>
                           </>
                           : ''}
                       </Routes>
@@ -89,6 +87,7 @@ export default class Layout extends Component {
                     <Route path="/PatientProfile/:idPaziente" element={<PatientProfile />}></Route>
                     <Route path="/AdverseEvents/:idPaziente" element={<AdverseEventsInfo />}></Route>
                     <Route path="/BloodTests/:idPaziente" element={<BloodTestsInfo />}></Route>
+                    <Route path="/MoodMonitoring/:idPaziente" element={<PatientMoodInterface />}></Route>
                   </>
                   : ''}
               </Routes>
