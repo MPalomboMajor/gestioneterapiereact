@@ -55,7 +55,7 @@ export class ListDoctor extends Component {
                                 </thead>
                                 <tbody>
                                     {
-                                        currentItem.map((pa) => <RowCustom colums={["fiscalCode", "surName", "name","email","Centro Medico"]} link={'fiscalCode'} reference={'idUser'} controller={'DoctorProfile'}  item={pa} /> )
+                                        currentItem.map((pa) => <RowCustom colums={["fiscalCode", "surName", "name","email","Centro Medico"]} link={'fiscalCode'} reference={'id'} controller={'DoctorProfile'}  item={pa} /> )
                                     }
                                 </tbody>
                             </Table>

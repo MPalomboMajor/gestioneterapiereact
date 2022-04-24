@@ -132,7 +132,7 @@ export class MedicalCenter extends Component {
                     keyboard={false}
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>Aggiungi Centro Medico</Modal.Title>
+                        <Modal.Title>{this.state.isUpdate ?'Modifica Centro Medico' : 'Aggiungi Centro Medico'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Row>

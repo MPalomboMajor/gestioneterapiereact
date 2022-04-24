@@ -30,7 +30,7 @@ const SideNav = () => {
                                 isCarManger ?
 
                                     <>
-                                        {window.location.pathname === "/Dashboard" || window.location.pathname === "/PatientRegistry" || window.location.pathname === "/ListDoctor" || window.location.pathname === "/MedicalCenter" ?
+                                        {window.location.pathname === "/Dashboard" || window.location.pathname === "/PatientRegistry" || window.location.pathname === "/ListDoctor" || window.location.pathname === "/MedicalCenter" || window.location.pathname === "/ContactInfo" || window.location.pathname === "/ContactInfoPatient"?
                                             <>
                                                 <li className="nav-item">
                                                     <a href="/Dashboard" className="nav-link">
@@ -158,7 +158,7 @@ const SideNav = () => {
                                     :
                                     ///MENU LATERALE MEDICO
                                     <>
-                                        {window.location.pathname === "/Dashboard" || window.location.pathname === "/NewPatient" || window.location.pathname === "/DoctorProfile" ? <>
+                                        {window.location.pathname === "/Dashboard" || window.location.pathname === "/NewPatient" || window.location.pathname === "/DoctorProfile"  || window.location.pathname === "/RichiediCodice" ? <>
                                             <li className="nav-item">
                                                 <a href="/Dashboard" className="nav-link">
                                                     <i className="nav-icon fas fa-hospital-user" />
@@ -177,14 +177,6 @@ const SideNav = () => {
                                             </li>
                                             <li className="nav-item">
                                                 <a href="/#" className="nav-link">
-                                                    <i className="nav-icon fas fa-hand-holding-medical" />
-                                                    <p>
-                                                        Richiedi codici paziente
-                                                    </p>
-                                                </a>
-                                            </li>
-                                            <li className="nav-item">
-                                                <a href="/#" className="nav-link">
                                                     <i className="nav-icon fas fa-user-cog" />
                                                     <p>
                                                         Collega paziente già assistito
@@ -198,7 +190,16 @@ const SideNav = () => {
                                                         Nuovo paziente
                                                     </p>
                                                 </a>
-                                            </li> </>
+                                            </li>
+                                            <li className="nav-item">
+                                                <a href="/RichiediCodice" className="nav-link">
+                                                    <i className="nav-icon fas fa-hand-holding-medical" />
+                                                    <p>
+                                                        Richiedi nuovo codice paziente
+                                                    </p>
+                                                </a>
+                                            </li>
+                                             </>
                                             : <>
                                                 {localStorage.getItem("newPatient") != null ? '' :
                                                     <>

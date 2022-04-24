@@ -6,14 +6,19 @@ import SideNav from '../components/SideNav';
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
+
+
+import MedicalCenter from '../CarManager/MedicalCenter';
+import ListDoctor from '../CarManager/ListDoctor';
+import ContactInfo from '../CarManager/ContactInfo';
+import ContactInfoPatient from '../CarManager/ContactInfoPatient';
+
 import DashboardDoctors from '../Doctor/DashboardDoctors';
 import NewPatient from '../Doctor/NewPatient';
 import NewTherapy from '../Doctor/NewTherapy';
 import DoctorProfile from '../Doctor/DoctorProfile';
-import MedicalCenter from '../CarManager/MedicalCenter';
-import ListDoctor from '../CarManager/ListDoctor';
-import ContactInfo from '../CarManager/ContactInfo';
 import PatientTabbedInterface from '../Doctor/PatientTabbedInterface';
+import NewCode from '../Doctor/NewCode';
 import { PatientRegistry } from '../Doctor/PatientRegistry';
 import { PatientProfile } from '../Doctor/PatientProfile';
 import { AdverseEventsInfo } from '../Doctor/AdverseEventsTable';
@@ -71,7 +76,8 @@ export default class Layout extends Component {
                             <Route path="/MedicalCenter" element={<MedicalCenter />}></Route>
                             <Route path="/ListDoctor" element={<ListDoctor />}></Route>
                             <Route path="/ContactInfo" element={<ContactInfo />}></Route>
-
+                            <Route path="/ContactInfoPatient/:idPatient" element={<ContactInfoPatient />}></Route>
+                            <Route path="/RichiediCodice" element={<NewCode />}></Route>
                           </>
                           : ''}
                       </Routes>

@@ -16,16 +16,30 @@ function PatientInfo() {
 
     useEffect(() => {
         const fetchPatients = async () => {
-            setLoading(true);           
-            await patient.get("GetByDoctor/", JSON.parse(localStorage.getItem("role")).id)
-            .then((response) => {
-                if (response.status === 200) {
-                    setPatients(response.data.dati);
-            setLoading(false);
-                }
-            }).catch((error) => {
-                
-            });
+            setLoading(true);     
+            if(JSON.parse(localStorage.getItem("role")).idRole == 4   )   
+            {
+                await patient.getAll("Get")
+                .then((response) => {
+                    if (response.status === 200) {
+                        setPatients(response.data.dati);
+                setLoading(false);
+                    }
+                }).catch((error) => {
+                    
+                });
+            }else{
+                await patient.get("GetByDoctor/", JSON.parse(localStorage.getItem("role")).id)
+                .then((response) => {
+                    if (response.status === 200) {
+                        setPatients(response.data.dati);
+                setLoading(false);
+                    }
+                }).catch((error) => {
+                    
+                });
+            }
+            
         };
         fetchPatients();
     }, []);

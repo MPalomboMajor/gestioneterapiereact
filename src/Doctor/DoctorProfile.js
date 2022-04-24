@@ -83,7 +83,7 @@ export class DoctorProfile extends Component {
         if (!id) {
             let dto = localStorage.getItem("role");
             dto = JSON.parse(dto);
-            id = dto.idRole == 2 ? dto.id : 0;
+            id = dto.idRole == 1 ? dto.id : 0;
         }
         medico.get("Get/", parseInt(id))
             .then((response) => {
@@ -254,17 +254,17 @@ export class DoctorProfile extends Component {
                                     <Row className="col-12 mb-3" >
                                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                             <Form.Label className="">Cognome</Form.Label>
-                                            <Form.Control id='surName' alt='userDto' name="surName" onChange={this.handleChange} value={this.state.userDto.surName} placeholder="Enter cognome" />
+                                            <Form.Control id='surName' alt='userDto' name="surName" onChange={this.handleChange} value={this.state.userDto.surName ? this.state.userDto.surName : ''} placeholder="Enter cognome" />
                                         </Form.Group>
                                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                             <Form.Label className="">Nome</Form.Label>
-                                            <Form.Control id='name' alt='userDto' name="name" onChange={this.handleChange} value={this.state.userDto.name} placeholder="Enter Nome" />
+                                            <Form.Control id='name' alt='userDto' name="name" onChange={this.handleChange} value={this.state.userDto.name ? this.state.userDto.name : ''} placeholder="Enter Nome" />
                                         </Form.Group>
                                     </Row>
                                     <Row>
                                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                             <Form.Label className="">Codice Fiscale</Form.Label>
-                                            <Form.Control id='fiscalCode' alt='userDto' name="fiscalCode" onChange={this.handleChange} value={this.state.userDto.fiscalCode} placeholder="Enter Codice fiscale" />
+                                            <Form.Control id='fiscalCode' alt='userDto' name="fiscalCode" onChange={this.handleChange} value={this.state.userDto.fiscalCode ? this.state.userDto.fiscalCode : ''} placeholder="Enter Codice fiscale" />
                                         </Form.Group>
                                         <Form.Group className="col-4 mb-3 input-layout-wrapper" >
                                             <Form.Label className="text-light">Centro Medico</Form.Label>
