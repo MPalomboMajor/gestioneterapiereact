@@ -10,6 +10,17 @@ import moment from 'moment';
 import Pagination from '../helpers/pagination';
 
 export class NewTherapy extends Component {
+    farmaciProps = () => ({
+        id: 1,
+                quantitaPrescrizione: 0,
+                oraAssunzioneIndicata: '',
+                dataFine: '',
+                dataInizio: '',
+                isActiveReminder: false,
+                idPianoTerapeutico: 1,
+                nome: "Ontozry",
+                isOntozry: false,
+    })
     constructor(props) {
         super(props);
         this.state = {
@@ -45,6 +56,9 @@ export class NewTherapy extends Component {
                 otherMedication: [],
                 medicationAllergies: [],
                 storicPlan: [],
+            },
+            medicationDTO: {
+               ...this.farmaciProps()
             },
         };
     }
@@ -126,7 +140,11 @@ export class NewTherapy extends Component {
         this.setState({ isOpenOtherPharmacy: false });
     }
     handleShowOtherPharmacy = () => {
-        this.setState({ isOpenOtherPharmacy: true });
+        const statusCopy = { ...this.state };
+        statusCopy['medicationDTO']['isOntozry'] = false;
+
+        this.setState(statusCopy);
+        this.setState({ isOpenModalOntozry: true });
     }
 
     handleCloseAllergic = () => {
@@ -147,6 +165,20 @@ export class NewTherapy extends Component {
         });
         this.updateState('dataFineTerapia', moment(value).format("DD/MM/YYYY"), 'therapyDto');
     }
+    handleChangeStartDateMedication = (value, formattedValue) => {
+        this.setState({
+            dateNow: moment(value).format("DD/MM/YYYY"),
+            formattedValue: formattedValue
+        });
+        this.updateState('dataInizio', moment(value).format("DD/MM/YYYY"), 'medicationDTO');
+    }
+    handleChangeEndDateMedication = (value, formattedValue) => {
+        this.setState({
+            dateNow: moment(value).format("DD/MM/YYYY"),
+            formattedValue: formattedValue
+        });
+        this.updateState('dataFine', moment(value).format("DD/MM/YYYY"), 'medicationDTO');
+    }
     handleChangeNote = (el) => {
         let objName = el.target.alt;
         const inputName = el.target.name;
@@ -159,28 +191,61 @@ export class NewTherapy extends Component {
         const inputValue = el.target.value;
         this.updateState(inputName, inputValue, 'allergiesDTO');
     };
+    handleChangeTherapy = (el) => {
+        let objName = el.target.alt;
+        const inputName = el.target.name;
+        const inputValue = el.target.value;
+        this.updateState(inputName, inputValue, objName);
+    };
     updateState = (inputName, inputValue, objName) => {
         let statusCopy = Object.assign({}, this.state);
         statusCopy[objName][inputName] = inputValue;
         this.setState(statusCopy);
     };
     openModalOntozry = () => {
+        const statusCopy = { ...this.state };
+        statusCopy['medicationDTO']['isOntozry'] = true;
+
+        this.setState(statusCopy);
         this.setState({ isOpenModalOntozry: true });
     }
     handleClose = () => {
+        const statusCopy = { ...this.state };
+        statusCopy['medicationDTO']['isOntozry'] = false;
+
+        this.setState(statusCopy);
         this.setState({ isOpenModalOntozry: false });
     }
     returnToMenu = () => {
         localStorage.removeItem('newPatient');
         window.location.href = "/Dashboard";
     }
-
+    activeReminder = () => {
+        const inputValue = this.state.medicationDTO.isActiveReminder ? false : true;
+        this.updateState('isActiveReminder', inputValue, 'medicationDTO');
+    }
+    addOntozry = () => {
+        var list =  [];
+        var  farmaco =  this.state.medicationDTO;
+        list =this.state.therapyDto.ontozryMedication;
+        list.push(farmaco);
+        this.setState({ ontozryMedication: {list} ,  isOpenModalOntozry: false,   medicationDTO:{ ...this.farmaciProps()}});
+        
+    }
+    addOther = () => {
+        var list =  [];
+        var  farmaco =  this.state.medicationDTO;
+        list =this.state.therapyDto.otherMedication;
+        list.push(farmaco);
+        this.setState({ otherMedication: {list} ,  isOpenModalOntozry: false,   medicationDTO:{ ...this.farmaciProps()}});
+        
+    }
     render() {
         const indexOfLastPatient = this.state.currentPage * this.state.patientsPerPage;
         const indexOfFirstPatient = indexOfLastPatient - this.state.patientsPerPage;
         const indexOfLastpharmacyPatient = this.state.currentPage * this.state.patientsPerPage;
         const indexOfFirstpharmacyPatient = indexOfLastPatient - this.state.patientsPerPage;
-        const currentPatients = this.state.patients.slice(indexOfFirstPatient, indexOfLastPatient);
+        const currentPatients = this.state.therapyDto.otherMedication.slice(indexOfFirstPatient, indexOfLastPatient);
         const pharmacyPatients = this.state.pharmacyPatients.slice(indexOfFirstpharmacyPatient, indexOfLastpharmacyPatient);
         const currentItem = this.state.therapyDto.ontozryMedication.slice(indexOfFirstPatient, indexOfLastPatient);
         return (
@@ -222,50 +287,49 @@ export class NewTherapy extends Component {
                                 </Row>
                                 <Row>
                                     <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                        <Button variant="btn btn-info " onClick={() => this.returnToMenu()}>
+                                        <Button variant="btn btn-primary " onClick={() => this.returnToMenu()}>
                                             Indietro
                                         </Button>
                                     </Form.Group>
                                     <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                        <Button variant="btn btn-info  " onClick={this.updateTherapy}>
-                                            Salva
+                                        <Button variant="btn btn-primary  " >
+                                            Avanti
                                         </Button>
                                     </Form.Group>
                                 </Row>
                             </Form>
                         </Tab>
                         <Tab eventKey="ontozry" title="Ontozry">
-                            <Row className='col-12 pt-4' >
-                                <div className='col-12'>
-                                    <Button onClick={() => this.openModalOntozry()}>Aggiungi </Button>
-                                </div>
-                            </Row>
-                            <Row className='col-12 pt-4' >
-                                <Table striped bordered hover size="sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Ontozry</th>
-                                            <th>Quantita</th>
-                                            <th>Data Inizio</th>
-                                            <th>Data Fine</th>
-                                            <th>Orario Assunzione</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            currentItem.map((pa) => <RowCustom colums={["fiscalCode", "surName", "name", "email", "Centro Medico"]} link={'fiscalCode'} reference={'id'} controller={'DoctorProfile'} item={pa} />)
-                                        }
-                                    </tbody>
-                                </Table>
-                            </Row>
                             <Row>
                                 <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                    <Button variant="btn btn-info bi bi-arrow-left" >
+                                    <Button variant="btn btn-primary" onClick={() => this.openModalOntozry()}>
+                                        Aggiungi
+                                    </Button>
+                                </Form.Group></Row>
+                            <Table striped bordered hover size="sm">
+                                <thead>
+                                    <tr>
+                                        <th>Ontozry</th>
+                                        <th>Quantita</th>
+                                        <th>Data Inizio</th>
+                                        <th>Data Fine</th>
+                                        <th>Orario Assunzione</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        currentItem.map((pa) => <RowCustom colums={["nome", "quantitaPrescrizione", "dataInizio", "dataFine", "oraAssunzioneIndicata"]} link={'fiscalCode'} reference={'id'} controller={'DoctorProfile'} item={pa} />)
+                                    }
+                                </tbody>
+                            </Table>
+                            <Row>
+                                <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
+                                    <Button variant="btn btn-primary" >
                                         Indietro
                                     </Button>
                                 </Form.Group>
                                 <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                    <Button variant="btn btn-info  bi bi-arrow-right">
+                                    <Button variant="btn btn-primary">
                                         Avanti
                                     </Button>
                                 </Form.Group>
@@ -277,17 +341,17 @@ export class NewTherapy extends Component {
                                 keyboard={false}
                             >
                                 <Modal.Header closeButton>
-                                    <Modal.Title>{'Aggiungi Ontozry'}</Modal.Title>
+                                    <Modal.Title>{this.state.medicationDTO.isOntozry ? 'Aggiungi Ontozry' :  'Aggiungi nuovi farmaci' }</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
                                     <Row className="col-12 mb-3">
                                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
-                                            <Form.Label className="text-">Ontozry</Form.Label>
-                                            <Form.Control id="nomeFarmaco" onChange={this.handleChangeFarmaco} alt="allergiesDTO" name="nomeFarmaco" placeholder="Inserisci farmaco" />
+                                            <Form.Label className="text-">{this.state.medicationDTO.isOntozry ? 'Ontozry' :  'Farmaco' } </Form.Label>
+                                            <Form.Control id="nome" onChange={this.handleChangeTherapy} alt="medicationDTO" name="nome" placeholder="Inserisci farmaco" />
                                         </Form.Group>
                                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                             <Form.Label className="text-">Quantita</Form.Label>
-                                            <Form.Control id="nomeFarmaco" onChange={this.handleChangeFarmaco} alt="allergiesDTO" name="nomeFarmaco" placeholder="Inserisci farmaco" />
+                                            <Form.Control id="quantitaPrescrizione" onChange={this.handleChangeTherapy} type='number' alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci farmaco" />
                                         </Form.Group>
                                     </Row>
                                     <Row className="col-14 mb-3">
@@ -297,7 +361,7 @@ export class NewTherapy extends Component {
                                                 <Button variant="outline-secondary" className='bi bi-calendar-date-fill' id="button-addon1" />
                                                 <div className='datepicker-wrapper-datemodal datepicker-wrapper-modal'>
                                                     <DatePicker id='startTherapy' name={'startTherapy'} aria-label="Example text with button addon"
-                                                        aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.dateNow} onChange={this.handleChange} />
+                                                        aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.medicationDTO.dataInizio} onChange={this.handleChangeStartDateMedication} />
                                                 </div>
                                             </InputGroup>
                                         </Form.Group>
@@ -307,15 +371,25 @@ export class NewTherapy extends Component {
                                                 <Button variant="outline-secondary" className='bi bi-calendar-date-fill' id="button-addon1" />
                                                 <div className='datepicker-wrapper-datemodal datepicker-wrapper-modal'>
                                                     <DatePicker id='startTherapy' name={'startTherapy'} aria-label="Example text with button addon"
-                                                        aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.dateNow} onChange={this.handleChange} />
+                                                        aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.medicationDTO.dataFine} onChange={this.handleChangeEndDateMedication} />
                                                 </div>
                                             </InputGroup>
                                         </Form.Group>
                                     </Row>
                                     <Row className="col-12 mb-3">
                                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
-                                            <Form.Label className="text-">Orario  consigliato passunzione</Form.Label>
-                                            <Form.Control id="nomeFarmaco" onChange={this.handleChangeFarmaco} alt="allergiesDTO" name="nomeFarmaco" placeholder="Inserisci farmaco" />
+                                            <Form.Label className="text-">Orario  consigliato assunzione {this.state.medicationDTO.isOntozry ? 'Ontozry' :  '' } </Form.Label>
+                                            <Form.Control id="oraAssunzioneIndicata" onChange={this.handleChangeTherapy} alt="medicationDTO" name="oraAssunzioneIndicata" placeholder="Inserisci farmaco" />
+                                        </Form.Group>
+                                        <Form.Group className="col-2 mb-3" controlId="formBasicEmail">
+                                        <Form.Label className="text-">Promemoria Terapie</Form.Label>
+                                            <Form.Check
+                                                type="switch"
+                                                defaultChecked={this.state.medicationDTO.isActiveReminder}
+                                                id="custom-switch"
+                                                onClick={() => this.activeReminder()}
+                                                label={!this.state.medicationDTO.isActiveReminder ? 'No' : 'Si'}
+                                            />
                                         </Form.Group>
                                     </Row>
                                 </Modal.Body>
@@ -323,7 +397,10 @@ export class NewTherapy extends Component {
                                     <Button variant="secondary" onClick={() => this.handleClose()}>
                                         Chiudi
                                     </Button>
-                                    <Button variant="primary" onClick={() => this.addOntozry()}>{'Aggiungi'}</Button>
+                                    {this.state.medicationDTO.isOntozry ? 
+                                    <Button variant="primary" onClick={() => this.addOntozry()}>{'Aggiungi'}</Button> :  
+                                    <Button variant="primary" onClick={() => this.addOther()}>{'Aggiungi'}</Button> } 
+                                    
                                 </Modal.Footer>
                             </Modal>
                         </Tab>
@@ -339,19 +416,29 @@ export class NewTherapy extends Component {
                                 </Modal.Header>
                                 <Modal.Body>
                                     <Row>
-                                        <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
+                                        <Form.Group className="col-8 mb-3" controlId="formBasicEmail">
                                             <Form.Label className="text-">Farmaco</Form.Label>
-                                            <Form.Control disabled name="farmaco" placeholder="Inserisci farmaco" />
+                                            <Form.Control  name="farmaco" placeholder="Inserisci farmaco" onChange={this.handleChangeTherapy}  />
+                                        </Form.Group>
+                                        <Form.Group className="col-2 mb-3" controlId="formBasicEmail">
+                                        <Form.Label className="text-">Promemoria Terapie</Form.Label>
+                                            <Form.Check
+                                                type="switch"
+                                                defaultChecked={this.state.medicationDTO.isActiveReminder}
+                                                id="custom-switch"
+                                                onClick={() => this.activeReminder()}
+                                                label={!this.state.medicationDTO.isActiveReminder ? 'No' : 'Si'}
+                                            />
                                         </Form.Group>
                                     </Row>
                                     <Row>
                                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                             <Form.Label className="text-">Doagio</Form.Label>
-                                            <Form.Control disabled name="dosagio" placeholder="Inserisci Dosagio" />
+                                            <Form.Control  name="dosagio" placeholder="Inserisci Dosagio" onChange={this.handleChangeTherapy}  />
                                         </Form.Group>
                                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                             <Form.Label className="text-">Quantita</Form.Label>
-                                            <Form.Control disabled name="quantita" placeholder="Inserisci quantita" />
+                                            <Form.Control  name="quantita" placeholder="Inserisci quantita" onChange={this.handleChangeTherapy} />
                                         </Form.Group>
                                     </Row>
                                     <Row>
@@ -362,7 +449,7 @@ export class NewTherapy extends Component {
                                                     <Button variant="outline-secondary" className='bi bi-calendar-date-fill' id="button-addon1" />
                                                     <div className='datepicker-wrapper-datemodal datepicker-wrapper-modal'>
                                                         <DatePicker id='startTherapy' name={'startTherapy'} aria-label="Example text with button addon"
-                                                            aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.dateNow} onChange={this.handleChange} />
+                                                            aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.dateNow} onChange={this.handleChangeStartDateMedication} />
                                                     </div>
                                                 </InputGroup>
                                             </Form.Group>
@@ -372,7 +459,7 @@ export class NewTherapy extends Component {
                                                     <Button variant="outline-secondary" className='bi bi-calendar-date-fill' id="button-addon1" />
                                                     <div className='datepicker-wrapper-datemodal datepicker-wrapper-modal'>
                                                         <DatePicker id='endTherapy' name={'endTherapy'} aria-label="Example text with button addon"
-                                                            aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.dateNow} onChange={this.handleChange} />
+                                                            aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.dateNow} onChange={this.handleChangeEndDateMedication} />
                                                     </div>
                                                 </InputGroup>
                                             </Form.Group>
@@ -388,26 +475,23 @@ export class NewTherapy extends Component {
                             </Modal>
                             <Row>
                                 <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                    <Button variant="btn btn-info bi bi-plus-square" onClick={() => this.handleShowOtherPharmacy()}>
-
+                                    <Button variant="btn btn-primary" onClick={() => this.handleShowOtherPharmacy()}>
+                                        Aggiungi
                                     </Button>
                                 </Form.Group></Row>
                             <Table striped bordered hover size="sm">
                                 <thead>
                                     <tr>
-                                        <th>Codice Paziente</th>
-                                        <th>Codice Fiscale</th>
-                                        <th>Cognome</th>
-                                        <th>Nome</th>
-                                        <th>Telefono</th>
-                                        <th>Email</th>
-                                        <th>Stato Paziente</th>
-                                        <th>Actions</th>
+                                        <th>Ontozry</th>
+                                        <th>Quantita</th>
+                                        <th>Data Inizio</th>
+                                        <th>Data Fine</th>
+                                        <th>Orario Assunzione</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        currentPatients.map((pa) => <PatientRow key={pa.codicePaziente} patient={pa} />)
+                                        currentPatients.map((pa) => <RowCustom colums={["nome", "quantitaPrescrizione", "dataInizio", "dataFine", "oraAssunzioneIndicata"]} link={'fiscalCode'} reference={'id'} controller={'DoctorProfile'} item={pa} />)
                                     }
                                 </tbody>
                             </Table>
@@ -418,18 +502,13 @@ export class NewTherapy extends Component {
                             />
                             <Row>
                                 <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                    <Button variant="btn btn-info bi bi-arrow-left">
-
+                                    <Button variant="btn btn-primary">
+                                        Indietro
                                     </Button>
                                 </Form.Group>
                                 <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                    <Button variant="btn btn-info  bi bi-arrow-right">
-
-                                    </Button>
-                                </Form.Group>
-                                <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                    <Button variant="btn btn-success bi-cloud-check" >
-
+                                    <Button variant="btn btn-primary">
+                                        Avanti
                                     </Button>
                                 </Form.Group>
                             </Row>
@@ -461,8 +540,8 @@ export class NewTherapy extends Component {
                             </Modal>
                             <Row>
                                 <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                    <Button variant="btn btn-info bi bi-plus-square" onClick={() => this.handleShowAllergic()}>
-
+                                    <Button variant="btn btn-primary" onClick={() => this.handleShowAllergic()}>
+                                        Aggiungi
                                     </Button>
                                 </Form.Group></Row>
                             <Table striped bordered hover size="sm">
@@ -485,16 +564,19 @@ export class NewTherapy extends Component {
                             />
                             <Row>
                                 <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                    <Button variant="btn btn-info bi bi-arrow-left">
-
+                                    <Button variant="btn btn-primary">
+                                        Indietro
                                     </Button>
                                 </Form.Group>
                                 <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
                                     <Button variant="btn btn-primary bi-cloud-check" >
-                                        Termina creazione paziente
+                                        Salva Terapia
                                     </Button>
                                 </Form.Group>
                             </Row>
+                        </Tab>
+                        <Tab eventKey="storicoTerapie" title="Storico Terapie" >
+
                         </Tab>
                     </Tabs>
                 </Row></Container>
