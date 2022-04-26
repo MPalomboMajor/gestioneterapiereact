@@ -1,13 +1,20 @@
-import { Col, Table, Form, Button, Container, Row } from 'react-bootstrap';
+import { Col, Table, Form, Button, Container, Row, Modal } from 'react-bootstrap';
 import { iconDelete, iconEdit } from './icons';
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import moment from 'moment';
 import { patient } from '../helpers/api/api';
+import { entitiesLabels, message } from '../helpers/Constants';
+import 'react-notifications/lib/notifications.css';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 function AdverseEventsInfo() {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
     const [adverseEvents, setAdverseEvents] = useState([]);
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     useEffect(() => {
         const fetchAdverseEvents = async () => {
@@ -21,7 +28,7 @@ function AdverseEventsInfo() {
                 });
         };
         fetchAdverseEvents();
-    }, []);
+    }, [show]);
 
 
     return (
@@ -33,8 +40,9 @@ function AdverseEventsInfo() {
             </Row>
             &nbsp;&nbsp;
             <Col>
-                <AdverseEventsTable adverseEvents={adverseEvents} />
+                <AdverseEventsTable adverseEvents={adverseEvents} handleShow={handleShow} />
             </Col>
+            <AdverseEventsModal show={show} handleClose={handleClose} />
         </>
     );
 }
@@ -50,6 +58,7 @@ function AdverseEventsTable(props) {
                             <th>Data</th>
                             <th>Evento</th>
                             <th>Intensità</th>
+                            <th>Descrizione</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,7 +69,7 @@ function AdverseEventsTable(props) {
                 </Table>
             </div>
             <div className='mb-3'>
-                <Button type='submit' >Indietro</Button> <Button type='submit' >Torna a elenco pazienti</Button> <Button type='submit' >Avanti</Button>
+                <Button variant="primary" id="btnAdd" onClick={props.handleShow}>Aggiungi eventi avversi <i class="fas fa-plus"></i></Button>
             </div>
 
 
@@ -75,11 +84,117 @@ function AdverseEventRow(props) {
 function AdverseEventRowData(props) {
     return (<>
         <td>{moment(props.adverseEvent.dateEvent).format("DD/MM/YYYY")}</td>
-        <td>{props.adverseEvent.description}</td>
+        <td>{props.adverseEvent.disorder}</td>
         <td>{props.adverseEvent.intensity}</td>
+        <td>{props.adverseEvent.description}</td>
     </>
     );
 }
 
+function AdverseEventsModal(props) {
+    const [newAdverseEvent, setNewAdverseEvent] = useState({
+        idPatient: window.location.pathname.split('/').pop(),
+        idAdverseEvent: 0,
+        disorder: 0,
+        description: "",
+        dateEvent: "",
+        intensity: 0,
+        otherDisorder: ""
+    });
+
+    const handleChange = (e) => {
+        const inputValue = e.target.value;
+        const inputName = e.target.getAttribute('name');
+        setNewAdverseEvent({
+            ...newAdverseEvent, [inputName]:
+                inputValue
+        });
+    };
+
+    function saveAdverseEvent() {
+        newAdverseEvent.idPatient = parseInt(newAdverseEvent.idPatient);
+        newAdverseEvent.intensity = parseInt(newAdverseEvent.intensity);
+        newAdverseEvent.disorder = parseInt(newAdverseEvent.disorder);
+        patient.post("Events/", newAdverseEvent)
+            .then((response) => {
+                if (response.status === 200) {
+                    NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                }
+            }).catch((error) => {
+                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+            });
+        document.getElementById("adverseEventForm").reset();
+    };
+
+
+    return (
+        <>
+            <Modal show={props.show} onHide={props.handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Aggiungi evento avverso</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form id="adverseEventForm">
+                        <Form.Group controlId="adverseEventDate">
+                            <Form.Label>Data evento</Form.Label>
+                            <Form.Control type="date" name="dateEvent" placeholder="Inizio" onChange={handleChange} />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="adverseEventType">
+                            <Form.Label>Evento</Form.Label>
+                            <Form.Control type="text" name="disorder" placeholder="Tipo di evento" onChange={handleChange} />
+                        </Form.Group>
+                        <Form.Label>Intensità</Form.Label>
+                        {['radio'].map((type) => (
+                            <div key={`inline-${type}`} className="mb-3">
+                                <Form.Check
+                                    inline
+                                    label="Lieve"
+                                    name="intensity"
+                                    type={type}
+                                    id={`inline-${type}-1`}
+                                    value="1"
+                                    onChange={handleChange}
+                                />
+                                <Form.Check
+                                    inline
+                                    label="Moderata"
+                                    name="intensity"
+                                    type={type}
+                                    id={`inline-${type}-2`}
+                                    value="2"
+                                    onChange={handleChange}
+                                />
+                                <Form.Check
+                                    inline
+                                    label="Severa"
+                                    name="intensity"
+                                    type={type}
+                                    id={`inline-${type}-3`}
+                                    value="3"
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        ))}
+                        <Form.Group className="mb-3" controlId="adverseEventDescription">
+                            <Form.Label>Descrizione</Form.Label>
+                            <Form.Control as="textarea" name="description" onChange={handleChange} rows={5} />
+                        </Form.Group>
+                    </Form>
+                    < NotificationContainer />
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={props.handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" id="btnSave" onClick={saveAdverseEvent}>
+                        Save Changes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
+    );
+}
 
 export { AdverseEventsInfo };

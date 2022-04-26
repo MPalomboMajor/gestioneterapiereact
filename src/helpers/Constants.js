@@ -51,5 +51,7 @@ export const notificationType = {
   WARNING: 'warning',
   INFO: 'info',
 }
-
+export const path = {
+  DIAGNOSTIC_TESTS_IMGS_PATH: 'http://localhost:3000/dist/img/',
+}
 

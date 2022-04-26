@@ -125,10 +125,10 @@ const SideNav = () => {
                                                             </Link>
                                                         </li>
                                                         <li className="nav-item">
-                                                            <Link to={`/BloodTests/${patientId}`} className="nav-link">
+                                                            <Link to={`/DiagnosticTests/${patientId}`} className="nav-link">
                                                                 <i className="nav-icon fas fa-syringe" />
                                                                 <p>
-                                                                    Analisi del sangue
+                                                                    Esami diagnostici
                                                                 </p>
                                                             </Link>
                                                         </li>
@@ -259,10 +259,10 @@ const SideNav = () => {
                                                             </Link>
                                                         </li>
                                                         <li className="nav-item">
-                                                            <Link to={`/BloodTests/${patientId}`} className="nav-link">
+                                                            <Link to={`/DiagnosticTests/${patientId}`} className="nav-link">
                                                                 <i className="nav-icon fas fa-syringe" />
                                                                 <p>
-                                                                    Analisi del sangue
+                                                                    Esami diagnostici
                                                                 </p>
                                                             </Link>
                                                         </li>

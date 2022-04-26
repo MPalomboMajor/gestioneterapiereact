@@ -3,43 +3,40 @@ import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../helpers/api/api';
+import { useParams } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
+import moment from 'moment';
+import { path } from '../helpers/Constants';
 
 function BloodTestsInfo() {
-    const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
-    const [days, setDays] = useState([]);
+    const location = useLocation();
+    const selectedDiagnosticTest = location.state;
+    const selectedPatientId = location.patientId;
+    const [diagnosticTest, setDiagnosticTest] = useState(selectedDiagnosticTest);
+    const [patientId, setPatientId] = useState(selectedPatientId);
 
-    useEffect(() => {
-        const fetchDays = async () => {
-            await api.get("/GetTestBloodDays/", patientId)
-                .then((response) => {
-                    if (response.status === 200) {
-                        setDays(response.data);
-                    }
-                }).catch((error) => {
+    // const [diagnosticTestId, setDiagnosticTestId] = useState(window.location.pathname.split('/').pop());
+    // const [diagnosticTests, setDiagnosticTests] = useState([]);
+    // const [patientProfile, setPatientProfile] = useState([]);
 
-                });
-        };
-        fetchDays();
-    }, []);
 
     return (
         <>
+
             <Row className='col-12 pt-4' >
                 <div className='col-12'>
-                    <h2>Analisi del sangue</h2>
+                    <h2>Dettaglio esame diagnostico</h2>
                 </div>
             </Row>
             &nbsp;&nbsp;
-            <Row>
-                <Col className='mb-3'>
-                    <BloodTestSelectDay listDays={days} />
-                </Col>
-            </Row>
+
             <Row>
                 <Col>
-                    <ControlledCarouselBloodTests />
+                    <ControlledCarouselBloodTests selectedDiagnosticTest={selectedDiagnosticTest} />
                 </Col>
                 <Col>
+                    <div><strong>Referto del:</strong> {moment(diagnosticTest.uploadedDateTime).format("DD/MM/YYYY")}</div>
+                    &nbsp;&nbsp;
                     <BloodTestTable />
                 </Col>
             </Row>
@@ -51,42 +48,7 @@ function BloodTestsInfo() {
     );
 }
 
-
-
-function BloodTestSelectDay() {
-    const [day, setDay] = useState();
-
-    useEffect(() => {
-        const fetchDays = async () => {
-            await api.get("/GetImgTestBloodDay/", day)
-                .then((response) => {
-                    if (response.status === 200) {
-                        ControlledCarouselBloodTests(response.data);
-                        BloodTestTable(response.data);
-                    }
-                }).catch((error) => {
-
-                });
-        };
-        fetchDays();
-    }, [day]);
-
-
-    return (
-        <Form.Control as="select" defaultValue='' value={day} onChange={event => setDay(event.target.value)} >
-            <option>Seleziona una data</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-            {/* { props.listDays.map(listDays => 
-          <option key={listDays.id} value={course.uploadedDateTime}>
-            {course.name}
-          </option>) } */}
-        </Form.Control>
-    );
-}
-
-function ControlledCarouselBloodTests(response) {
+function ControlledCarouselBloodTests(props) {
 
     const [index, setIndex] = useState(0);
 
@@ -96,7 +58,17 @@ function ControlledCarouselBloodTests(response) {
 
     return (
         <Carousel activeIndex={index} onSelect={handleSelect} interval={null}>
-            <Carousel.Item>
+            
+                <Carousel.Item >
+                    <img
+                        className="selectedDiagnosticTestImages d-block w-50"
+                        src={path.DIAGNOSTIC_TESTS_IMGS_PATH + props.selectedDiagnosticTest.fileName}
+                        // alt={img.author}
+                    />
+                    
+                </Carousel.Item>
+            
+            {/* <Carousel.Item>
                 <img
                     className="d-block w-100"
                     src="https://pbs.twimg.com/media/C7M4QqPXkAAy5o8?format=jpg&name=medium"
@@ -132,20 +104,8 @@ function ControlledCarouselBloodTests(response) {
                         Praesent commodo cursus magna, vel scelerisque nisl consectetur.
                     </p>
                 </Carousel.Caption>
-            </Carousel.Item>
-            {/* {response.imgs.map(img => (
-          <Carousel.Item key={img.id}>
-            <img
-              className="testimonialImages d-block w-50"
-              src={img.image}
-              alt={img.author}
-            />
-            <Carousel.Caption>
-              <h3>{img.author}</h3>
-              <p>{img.content}</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-        ))} */}
+            </Carousel.Item> */}
+            
         </Carousel>
     );
 }
@@ -153,13 +113,12 @@ function ControlledCarouselBloodTests(response) {
 function BloodTestTable(response) {
     return (
         <>
-
             <div className='col-6'>
                 <Table striped bordered hover size="sm">
                     <thead>
                         <tr>
 
-                            <th></th>
+                            <th>Esame</th>
                             <th>Valore</th>
                         </tr>
                     </thead>

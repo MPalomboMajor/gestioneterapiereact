@@ -25,7 +25,6 @@ function PatientRegistry() {
                         await patient.get("Get/", patientId)
                                 .then((response) => {
                                         if (response.status === 200) {
-                                                console.log("ciao");
                                                 setPatientProfile(response.data.dati);
                                                 setIsActive(response.data.dati.isActive);
                                         }
