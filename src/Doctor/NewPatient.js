@@ -1,17 +1,26 @@
 import React, { Component } from 'react';
 import '../css/style.css';
 import { Row, Container, Form, Button } from 'react-bootstrap';
-import { patientcode, patient } from '../helpers/api/api';
+import { patientcode, patient , user} from '../helpers/api/api';
 import { Link } from "react-router-dom";
 import moment from 'moment';
 import SimpleReactValidator from 'simple-react-validator';
 export class NewPatient extends Component {
+    userModelProp = () => ({
+        id: 0,
+        username: 'T@T.com',
+        password: 'AdminAdmin02!',
+        idRole: 1,
 
+    });
     constructor(props) {
         super(props);
 
         this.validator = new SimpleReactValidator();
         this.state = {
+            userDto: {
+                ...this.userModelProp(),
+            },
             patiendDto:
                 {
                    id: 0,
@@ -32,42 +41,62 @@ export class NewPatient extends Component {
                    canDrive: true,
                    healthInfo: "",
                    satisfactionInfo: 0,
-                   giornoTrackingMoodSettimanale: moment(new Date()),
-                   oraTrackingMoodSettimanale: moment(new Date()),
-                   oraTrackingMoodGiornaliero: moment(new Date()),
-                  
+                   giornoTrackingMoodSettimanale:"",
+                   oraTrackingMoodSettimanale: 0,
+                   oraTrackingMoodGiornaliero:0,
+                   isFumatore: true,
+                   isAlcool: true,
+                   doctorNameIdDTOs: [
+                        ]
+                      
                 }
+
         }
     }
 
     InsertPatient = () => {
         if (this.validator.allValid()) {
-            patientcode.post("check/", parseInt(this.state.patiendDto.codicePaziente))
-                .then((response) => {
-                    if (response.data.dati) {
-                        localStorage.setItem('newPatient', '1');
-                        window.location.href = "/NewTherapy/1";
-                        patient.post("Save", this.state.patiendDto)
-                            .then((response) => {
-                                if (response.data.dati) {
+            user.post("Save", this.state.userDto)
+            .then((response) => {
+                if (response.status === 200) {
+                    var  DTO =  this.state.patiendDto;
+                        DTO.codicePaziente = parseInt(this.state.patiendDto.codicePaziente)
+                        DTO.idUser =response.data.dati.id;
+                            patientcode.post("check/", parseInt(this.state.patiendDto.codicePaziente))
+                                .then((response) => {
+                                    if (response.data.dati) {
+                                        
+                                        var  local = JSON.parse(localStorage.getItem("role")  );
+                                        var  doctor = {
+                                            idDoctor: local.id  ,
+                                            nameDoctor: local.username
+                                        };
+                                        DTO.doctorNameIdDTOs.push(doctor)
+                                        patient.post("Save", DTO)
+                                            .then((response) => {
+                                                if (response.data.dati) {
+                                                    localStorage.setItem('newPatient', '1');
+                                                    window.location.href = "/NewTherapy/1";
+                                                } else {
 
-                                } else {
+                                                }
+                                            }).catch((error) => {
+                                                this.setState({ warning: true });
+                                            });
+                                    } else {
 
-                                }
-                            }).catch((error) => {
-                                this.setState({ warning: true });
-                            });
-                    } else {
-
-                    }
-                }).catch((error) => {
+                                    }
+                                }).catch((error) => {
+                                    this.setState({ warning: true });
+                                });
+                    }}).catch((error) => {
+                        this.setState({ warning: true });
+                    })
+                } else {
+                    this.validator.showMessages();
                     this.setState({ warning: true });
-                });
-        } else {
-            this.validator.showMessages();
-            this.setState({ warning: true });
-            this.forceUpdate();
-        }
+                    this.forceUpdate();
+                }
     }
 
     handleChange = (el) => {
@@ -79,7 +108,7 @@ export class NewPatient extends Component {
 
     updateState = (inputName, inputValue, objName) => {
         let statusCopy = Object.assign({}, this.state);
-        statusCopy[objName][inputName] = parseInt(inputValue);
+        statusCopy[objName][inputName] = inputValue;
         this.setState(statusCopy);
     };
 

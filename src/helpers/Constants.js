@@ -55,3 +55,7 @@ export const path = {
   DIAGNOSTIC_TESTS_IMGS_PATH: 'http://localhost:3000/dist/img/',
 }
 
+export const role = {
+  CARMANAGER: 3,
+  DOCTOR:1
+}

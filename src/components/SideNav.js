@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
+import { role} from '../helpers/Constants';
 const SideNav = () => {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
     const [patientProfile, setPatientProfile] = useState([]);
     const user = JSON.parse(localStorage.getItem("role"));
-    const isCarManger = user.idRole === 4 ? true : false
+    const isCarManger = user.idRole === role.CARMANAGER ? true : false
     return (
         <div>
             {/* Main Sidebar Container */}

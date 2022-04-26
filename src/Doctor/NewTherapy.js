@@ -2,7 +2,7 @@ import React, { Component, useState, useEffect } from 'react';
 import '../css/style.css';
 import { Tabs, Tab, Container, Form, Row, InputGroup, Button, FormControl, Table, Modal } from 'react-bootstrap';
 import { Link } from "react-router-dom";
-import { PatientInfo } from "./PatientComponent"
+import { RowCustom } from "./PatientComponent"
 import { medico, pianoterapeutico, patient } from '../helpers/api/api';
 import DatePicker from "react-datepicker";
 import { PatientRow, PatientAllergyRow } from "./PatientComponent";
@@ -13,6 +13,9 @@ export class NewTherapy extends Component {
     constructor(props) {
         super(props);
         this.state = {
+
+
+
             items: [],
             dateNow: '',
             patients: [],
@@ -25,17 +28,24 @@ export class NewTherapy extends Component {
                 nomeFarmaco: "",
                 idPatientProfile: 0
             },
+            isOpenModalOntozry: false,
             therapyDto: {
                 id: 1,
+
                 versione: 0,
                 maxReminderNotification: 0,
-                dataPrescrizione: moment(new Date()),
-                inizioTerapia: moment(new Date()),
-                dataFineTerapia: moment(new Date()),
+                dataPrescrizione: "",
+                inizioTerapia: "",
+                dataFineTerapia: "",
                 motivoFineTerapia: "",
-                idDoctor: 1,
-                idPatientProfile: 1
-            }
+                idDoctor: 0,
+                idPatientProfile: 0,
+                elencoFarmaciPrescritti: [],
+                ontozryMedication: [],
+                otherMedication: [],
+                medicationAllergies: [],
+                storicPlan: [],
+            },
         };
     }
 
@@ -96,17 +106,17 @@ export class NewTherapy extends Component {
 
 
     }
-     deleteItem  (el) {
+    deleteItem(el) {
         patient.delete("Allergy/", el)
-        .then((response) => {
-            if (response.status === 200) {
-                this.setState({
-                    pharmacyPatients: response.data.dati,
-                });
-            }
-        }).catch((error) => {
-            this.setState({ error: 1 })
-        });
+            .then((response) => {
+                if (response.status === 200) {
+                    this.setState({
+                        pharmacyPatients: response.data.dati,
+                    });
+                }
+            }).catch((error) => {
+                this.setState({ error: 1 })
+            });
     }
     setCurrentPage = (n) => {
         this.setState({ currentPage: n });
@@ -154,11 +164,17 @@ export class NewTherapy extends Component {
         statusCopy[objName][inputName] = inputValue;
         this.setState(statusCopy);
     };
+    openModalOntozry = () => {
+        this.setState({ isOpenModalOntozry: true });
+    }
+    handleClose = () => {
+        this.setState({ isOpenModalOntozry: false });
+    }
     returnToMenu = () => {
         localStorage.removeItem('newPatient');
         window.location.href = "/Dashboard";
     }
-    
+
     render() {
         const indexOfLastPatient = this.state.currentPage * this.state.patientsPerPage;
         const indexOfFirstPatient = indexOfLastPatient - this.state.patientsPerPage;
@@ -166,6 +182,7 @@ export class NewTherapy extends Component {
         const indexOfFirstpharmacyPatient = indexOfLastPatient - this.state.patientsPerPage;
         const currentPatients = this.state.patients.slice(indexOfFirstPatient, indexOfLastPatient);
         const pharmacyPatients = this.state.pharmacyPatients.slice(indexOfFirstpharmacyPatient, indexOfLastpharmacyPatient);
+        const currentItem = this.state.therapyDto.ontozryMedication.slice(indexOfFirstPatient, indexOfLastPatient);
         return (
             <Container className=''>
                 <Row className='col-12 pt-4' >
@@ -218,26 +235,97 @@ export class NewTherapy extends Component {
                             </Form>
                         </Tab>
                         <Tab eventKey="ontozry" title="Ontozry">
-                            <Row>
-
+                            <Row className='col-12 pt-4' >
+                                <div className='col-12'>
+                                    <Button onClick={() => this.openModalOntozry()}>Aggiungi </Button>
+                                </div>
+                            </Row>
+                            <Row className='col-12 pt-4' >
+                                <Table striped bordered hover size="sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Ontozry</th>
+                                            <th>Quantita</th>
+                                            <th>Data Inizio</th>
+                                            <th>Data Fine</th>
+                                            <th>Orario Assunzione</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            currentItem.map((pa) => <RowCustom colums={["fiscalCode", "surName", "name", "email", "Centro Medico"]} link={'fiscalCode'} reference={'id'} controller={'DoctorProfile'} item={pa} />)
+                                        }
+                                    </tbody>
+                                </Table>
                             </Row>
                             <Row>
                                 <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
                                     <Button variant="btn btn-info bi bi-arrow-left" >
-
+                                        Indietro
                                     </Button>
                                 </Form.Group>
                                 <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
                                     <Button variant="btn btn-info  bi bi-arrow-right">
-
-                                    </Button>
-                                </Form.Group>
-                                <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                    <Button variant="btn btn-success bi-cloud-check" >
-
+                                        Avanti
                                     </Button>
                                 </Form.Group>
                             </Row>
+                            <Modal
+                                show={this.state.isOpenModalOntozry}
+                                onHide={() => this.handleClose()}
+                                backdrop="static"
+                                keyboard={false}
+                            >
+                                <Modal.Header closeButton>
+                                    <Modal.Title>{'Aggiungi Ontozry'}</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <Row className="col-12 mb-3">
+                                        <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                            <Form.Label className="text-">Ontozry</Form.Label>
+                                            <Form.Control id="nomeFarmaco" onChange={this.handleChangeFarmaco} alt="allergiesDTO" name="nomeFarmaco" placeholder="Inserisci farmaco" />
+                                        </Form.Group>
+                                        <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                            <Form.Label className="text-">Quantita</Form.Label>
+                                            <Form.Control id="nomeFarmaco" onChange={this.handleChangeFarmaco} alt="allergiesDTO" name="nomeFarmaco" placeholder="Inserisci farmaco" />
+                                        </Form.Group>
+                                    </Row>
+                                    <Row className="col-14 mb-3">
+                                        <Form.Group className="col-6 mb-3" >
+                                            <Form.Label className="text">Data inizio terapia</Form.Label>
+                                            <InputGroup className="mb-3">
+                                                <Button variant="outline-secondary" className='bi bi-calendar-date-fill' id="button-addon1" />
+                                                <div className='datepicker-wrapper-datemodal datepicker-wrapper-modal'>
+                                                    <DatePicker id='startTherapy' name={'startTherapy'} aria-label="Example text with button addon"
+                                                        aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.dateNow} onChange={this.handleChange} />
+                                                </div>
+                                            </InputGroup>
+                                        </Form.Group>
+                                        <Form.Group className="col-6 mb-3" >
+                                            <Form.Label className="text">Data fine terapia</Form.Label>
+                                            <InputGroup className="mb-3">
+                                                <Button variant="outline-secondary" className='bi bi-calendar-date-fill' id="button-addon1" />
+                                                <div className='datepicker-wrapper-datemodal datepicker-wrapper-modal'>
+                                                    <DatePicker id='startTherapy' name={'startTherapy'} aria-label="Example text with button addon"
+                                                        aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.dateNow} onChange={this.handleChange} />
+                                                </div>
+                                            </InputGroup>
+                                        </Form.Group>
+                                    </Row>
+                                    <Row className="col-12 mb-3">
+                                        <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                            <Form.Label className="text-">Orario  consigliato passunzione</Form.Label>
+                                            <Form.Control id="nomeFarmaco" onChange={this.handleChangeFarmaco} alt="allergiesDTO" name="nomeFarmaco" placeholder="Inserisci farmaco" />
+                                        </Form.Group>
+                                    </Row>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={() => this.handleClose()}>
+                                        Chiudi
+                                    </Button>
+                                    <Button variant="primary" onClick={() => this.addOntozry()}>{'Aggiungi'}</Button>
+                                </Modal.Footer>
+                            </Modal>
                         </Tab>
                         <Tab eventKey="altriFarmaci" title="Altri Farmaci" >
                             <Modal
@@ -386,7 +474,7 @@ export class NewTherapy extends Component {
                                 </thead>
                                 <tbody>
                                     {
-                                        pharmacyPatients.map((pa) => <PatientAllergyRow key={pa.id} allergy={pa.nomeFarmaco} delete={(el)=>this.deleteItem(el)}   id={pa.id}/>)
+                                        pharmacyPatients.map((pa) => <PatientAllergyRow key={pa.id} allergy={pa.nomeFarmaco} delete={(el) => this.deleteItem(el)} id={pa.id} />)
                                     }
                                 </tbody>
                             </Table>

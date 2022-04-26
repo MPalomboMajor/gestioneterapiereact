@@ -14,7 +14,7 @@ export class Register extends Component {
         id: 0,
         username: '',
         password: '',
-        idRole: 2,
+        idRole: 1,
 
     });
     medicoModelProp = () => ({
