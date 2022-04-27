@@ -158,7 +158,7 @@ const SideNav = () => {
                                     :
                                     ///MENU LATERALE MEDICO
                                     <>
-                                        {window.location.pathname === "/Dashboard" || window.location.pathname === "/NewPatient" || window.location.pathname === "/DoctorProfile"  || window.location.pathname === "/RichiediCodice" ? <>
+                                        {window.location.pathname === "/Dashboard" || window.location.pathname === "/NewPatient" || window.location.pathname === "/DoctorProfile"  || window.location.pathname === "/RichiediCodice" || window.location.pathname === "/AssociatePatient" ? <>
                                             <li className="nav-item">
                                                 <a href="/Dashboard" className="nav-link">
                                                     <i className="nav-icon fas fa-hospital-user" />
