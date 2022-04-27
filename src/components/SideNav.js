@@ -176,7 +176,7 @@ const SideNav = () => {
                                                 </a>
                                             </li>
                                             <li className="nav-item">
-                                                <a href="/#" className="nav-link">
+                                                <a href="/AssociatePatient" className="nav-link">
                                                     <i className="nav-icon fas fa-user-cog" />
                                                     <p>
                                                         Collega paziente già assistito

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../css/style.css';
 import { Row, Container, Form, Button } from 'react-bootstrap';
-import { patientcode, patient , user} from '../helpers/api/api';
+import { patientcode, patient, user } from '../helpers/api/api';
 import { Link } from "react-router-dom";
 import moment from 'moment';
 import SimpleReactValidator from 'simple-react-validator';
@@ -22,81 +22,75 @@ export class NewPatient extends Component {
                 ...this.userModelProp(),
             },
             patiendDto:
-                {
-                   id: 0,
-                   name: "",
-                   surName: "",
-                   codicePaziente: 0,
-                   age: 0,
-                   sex: "",
-                   fiscalCode: "",
-                   phoneNumber: "",
-                   email: "",
-                   isActive: 0,
-                   disabledDate: moment(new Date()),
-                   disabledCause: 0,
-                   numeroCrisiPartenza: 0,
-                   idUser: 0,
-                   canTravel: true,
-                   canDrive: true,
-                   healthInfo: "",
-                   satisfactionInfo: 0,
-                   giornoTrackingMoodSettimanale:"",
-                   oraTrackingMoodSettimanale: 0,
-                   oraTrackingMoodGiornaliero:0,
-                   isFumatore: true,
-                   isAlcool: true,
-                   doctorNameIdDTOs: [
-                        ]
-                      
-                }
+            {
+                id: 0,
+                name: "",
+                surName: "",
+                codicePaziente: 0,
+                age: 0,
+                sex: "",
+                fiscalCode: "",
+                phoneNumber: "",
+                email: "",
+                isActive: true,
+                disabledDate: moment(new Date()),
+                disabledCause: 0,
+                numeroCrisiPartenza: 0,
+                idUser: 0,
+                canTravel: true,
+                canDrive: true,
+                healthInfo: "",
+                satisfactionInfo: 0,
+                giornoTrackingMoodSettimanale: "",
+                oraTrackingMoodSettimanale: 0,
+                oraTrackingMoodGiornaliero: 0,
+                isFumatore: true,
+                isAlcool: true,
+                doctorNameIdDTOs: [
+                ]
+
+            }
 
         }
     }
 
     InsertPatient = () => {
         if (this.validator.allValid()) {
-            user.post("Save", this.state.userDto)
-            .then((response) => {
-                if (response.status === 200) {
-                    var  DTO =  this.state.patiendDto;
+
+            patientcode.post("check/", parseInt(this.state.patiendDto.codicePaziente))
+                .then((response) => {
+                    if (response.data.dati) {
+
+                        var local = JSON.parse(localStorage.getItem("role"));
+                        var doctor = {
+                            idDoctor: local.id,
+                            nameDoctor: local.username
+                        };
+                        var DTO = this.state.patiendDto;
                         DTO.codicePaziente = parseInt(this.state.patiendDto.codicePaziente)
-                        DTO.idUser =response.data.dati.id;
-                            patientcode.post("check/", parseInt(this.state.patiendDto.codicePaziente))
-                                .then((response) => {
-                                    if (response.data.dati) {
-                                        
-                                        var  local = JSON.parse(localStorage.getItem("role")  );
-                                        var  doctor = {
-                                            idDoctor: local.id  ,
-                                            nameDoctor: local.username
-                                        };
-                                        DTO.doctorNameIdDTOs.push(doctor)
-                                        patient.post("Save", DTO)
-                                            .then((response) => {
-                                                if (response.data.dati) {
-                                                    localStorage.setItem('newPatient', '1');
-                                                    window.location.href = "/NewTherapy/1";
-                                                } else {
+                        DTO.doctorNameIdDTOs.push(doctor)
+                        patient.post("Save", parseInt(this.state.patiendDto.codicePaziente))
+                            .then((response) => {
+                                if (response.data.dati) {
+                                    localStorage.setItem('newPatient', '1');
+                                    window.location.href = "/NewTherapy/1";
+                                } else {
 
-                                                }
-                                            }).catch((error) => {
-                                                this.setState({ warning: true });
-                                            });
-                                    } else {
+                                }
+                            }).catch((error) => {
+                                this.setState({ warning: true });
+                            });
+                    } else {
 
-                                    }
-                                }).catch((error) => {
-                                    this.setState({ warning: true });
-                                });
-                    }}).catch((error) => {
-                        this.setState({ warning: true });
-                    })
-                } else {
-                    this.validator.showMessages();
+                    }
+                }).catch((error) => {
                     this.setState({ warning: true });
-                    this.forceUpdate();
-                }
+                });
+        } else {
+            this.validator.showMessages();
+            this.setState({ warning: true });
+            this.forceUpdate();
+        }
     }
 
     handleChange = (el) => {

@@ -19,6 +19,7 @@ import NewTherapy from '../Doctor/NewTherapy';
 import DoctorProfile from '../Doctor/DoctorProfile';
 import PatientTabbedInterface from '../Doctor/PatientTabbedInterface';
 import NewCode from '../Doctor/NewCode';
+import AssociatePatient from '../Doctor/AssociatePatient';
 import { PatientRegistry } from '../Doctor/PatientRegistry';
 import { PatientProfile } from '../Doctor/PatientProfile';
 import { AdverseEventsInfo } from '../Doctor/AdverseEventsTable';
@@ -80,6 +81,7 @@ export default class Layout extends Component {
                             <Route path="/ContactInfo" element={<ContactInfo />}></Route>
                             <Route path="/ContactInfoPatient/:idPatient" element={<ContactInfoPatient />}></Route>
                             <Route path="/RichiediCodice" element={<NewCode />}></Route>
+                            <Route path="/AssociatePatient" element={<AssociatePatient />}></Route>
                           </>
                           : ''}
                       </Routes>

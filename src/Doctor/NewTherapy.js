@@ -3,7 +3,7 @@ import '../css/style.css';
 import { Tabs, Tab, Container, Form, Row, InputGroup, Button, FormControl, Table, Modal } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { RowCustom } from "./PatientComponent"
-import { medico, pianoterapeutico, patient } from '../helpers/api/api';
+import { medico, pianoterapeutico, patient, medication } from '../helpers/api/api';
 import DatePicker from "react-datepicker";
 import { PatientRow, PatientAllergyRow } from "./PatientComponent";
 import moment from 'moment';
@@ -12,21 +12,29 @@ import Pagination from '../helpers/pagination';
 export class NewTherapy extends Component {
     farmaciProps = () => ({
         id: 1,
-                quantitaPrescrizione: 0,
-                oraAssunzioneIndicata: '',
-                dataFine: '',
-                dataInizio: '',
-                isActiveReminder: false,
-                idPianoTerapeutico: 1,
-                nome: "Ontozry",
-                isOntozry: false,
+        quantitaPrescrizione: 0,
+        oraAssunzioneIndicata: '',
+        dataFine: '',
+        dataInizio: '',
+        isActiveReminder: false,
+        idPianoTerapeutico: 1,
+        farmaco: {
+            id: 1,
+            nome: "Ontozry",
+            isOntozry: false
+        },
+        formulazione: {
+            id: 1,
+            formula: "",
+            idFarmaco: 1
+        }
     })
     constructor(props) {
         super(props);
         this.state = {
 
-
-
+            listOntozry: [],
+            isOntozryFlag: false,
             items: [],
             dateNow: '',
             patients: [],
@@ -58,7 +66,7 @@ export class NewTherapy extends Component {
                 storicPlan: [],
             },
             medicationDTO: {
-               ...this.farmaciProps()
+                ...this.farmaciProps()
             },
         };
     }
@@ -74,7 +82,16 @@ export class NewTherapy extends Component {
             }).catch((error) => {
                 this.setState({ error: 1 })
             });
-
+        medication.getAll("GetAllOntozry/")
+            .then((response) => {
+                if (response.status === 200) {
+                    this.setState({
+                        listOntozry: response.data.dati,
+                    });
+                }
+            }).catch((error) => {
+                this.setState({ error: 1 })
+            });
         patient.get("GetAllergies/", this.state.therapyDto.idPatientProfile)
             .then((response) => {
                 if (response.status === 200) {
@@ -140,11 +157,7 @@ export class NewTherapy extends Component {
         this.setState({ isOpenOtherPharmacy: false });
     }
     handleShowOtherPharmacy = () => {
-        const statusCopy = { ...this.state };
-        statusCopy['medicationDTO']['isOntozry'] = false;
-
-        this.setState(statusCopy);
-        this.setState({ isOpenModalOntozry: true });
+        this.setState({ isOpenModalOntozry: true , isOntozryFlag:false});
     }
 
     handleCloseAllergic = () => {
@@ -203,18 +216,11 @@ export class NewTherapy extends Component {
         this.setState(statusCopy);
     };
     openModalOntozry = () => {
-        const statusCopy = { ...this.state };
-        statusCopy['medicationDTO']['isOntozry'] = true;
-
-        this.setState(statusCopy);
-        this.setState({ isOpenModalOntozry: true });
+        
+        this.setState({ isOpenModalOntozry: true , isOntozryFlag:true });
     }
     handleClose = () => {
-        const statusCopy = { ...this.state };
-        statusCopy['medicationDTO']['isOntozry'] = false;
-
-        this.setState(statusCopy);
-        this.setState({ isOpenModalOntozry: false });
+        this.setState({ isOpenModalOntozry: false , isOntozryFlag:false });
     }
     returnToMenu = () => {
         localStorage.removeItem('newPatient');
@@ -225,21 +231,27 @@ export class NewTherapy extends Component {
         this.updateState('isActiveReminder', inputValue, 'medicationDTO');
     }
     addOntozry = () => {
-        var list =  [];
-        var  farmaco =  this.state.medicationDTO;
-        list =this.state.therapyDto.ontozryMedication;
+        var list = [];
+        var farmaco = this.state.medicationDTO;
+        list = this.state.therapyDto.ontozryMedication;
         list.push(farmaco);
-        this.setState({ ontozryMedication: {list} ,  isOpenModalOntozry: false,   medicationDTO:{ ...this.farmaciProps()}});
-        
+        this.setState({ ontozryMedication: { list }, isOpenModalOntozry: false, medicationDTO: { ...this.farmaciProps() } });
+
     }
     addOther = () => {
-        var list =  [];
-        var  farmaco =  this.state.medicationDTO;
-        list =this.state.therapyDto.otherMedication;
+        var list = [];
+        var farmaco = this.state.medicationDTO;
+        list = this.state.therapyDto.otherMedication;
         list.push(farmaco);
-        this.setState({ otherMedication: {list} ,  isOpenModalOntozry: false,   medicationDTO:{ ...this.farmaciProps()}});
-        
+        this.setState({ otherMedication: { list }, isOpenModalOntozry: false, medicationDTO: { ...this.farmaciProps() } });
+
     }
+    onChangeDrop = (inputName) => {
+        const selected = inputName.target;
+        const id = selected.children[selected.selectedIndex].id;
+        var element = this.state.listOntozry.filter(x => x.id == id)
+
+    };
     render() {
         const indexOfLastPatient = this.state.currentPage * this.state.patientsPerPage;
         const indexOfFirstPatient = indexOfLastPatient - this.state.patientsPerPage;
@@ -341,14 +353,25 @@ export class NewTherapy extends Component {
                                 keyboard={false}
                             >
                                 <Modal.Header closeButton>
-                                    <Modal.Title>{this.state.medicationDTO.isOntozry ? 'Aggiungi Ontozry' :  'Aggiungi nuovi farmaci' }</Modal.Title>
+                                    <Modal.Title>{this.state.isOntozryFlag? 'Aggiungi Ontozry' : 'Aggiungi nuovi farmaci'}</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
                                     <Row className="col-12 mb-3">
-                                        <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
-                                            <Form.Label className="text-">{this.state.medicationDTO.isOntozry ? 'Ontozry' :  'Farmaco' } </Form.Label>
-                                            <Form.Control id="nome" onChange={this.handleChangeTherapy} alt="medicationDTO" name="nome" placeholder="Inserisci farmaco" />
-                                        </Form.Group>
+                                        {!this.state.isOntozryFlag ?
+                                            <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                                <Form.Label className="text-">{this.state.isOntozryFlag ? 'Ontozry' : 'Farmaco'} </Form.Label>
+                                                <Form.Control id="nome" onChange={this.handleChangeTherapy} alt="medicationDTO" name="nome" placeholder="Inserisci farmaco" />
+                                            </Form.Group>
+                                            :
+                                            <Form.Group className="col-6 mb-3 input-layout-wrapper" >
+                                                <Form.Label className="text">Ontozry</Form.Label>
+                                                <Form.Select onChange={(el)=>this.onChangeDrop(el)} name="mendicalCenter" alt="medicoDTO" placeholder="Enter centro medico" >
+                                                    <option id="0">Seleziona </option>
+                                                    {this.state.listOntozry.filter(x => x.isOntozry != false).map((item) =>
+                                                        <option id={item.id}>{item.nome}</option>
+                                                    )}
+                                                </Form.Select>
+                                            </Form.Group>}
                                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                             <Form.Label className="text-">Quantita</Form.Label>
                                             <Form.Control id="quantitaPrescrizione" onChange={this.handleChangeTherapy} type='number' alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci farmaco" />
@@ -378,11 +401,11 @@ export class NewTherapy extends Component {
                                     </Row>
                                     <Row className="col-12 mb-3">
                                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
-                                            <Form.Label className="text-">Orario  consigliato assunzione {this.state.medicationDTO.isOntozry ? 'Ontozry' :  '' } </Form.Label>
+                                            <Form.Label className="text-">Orario  consigliato assunzione {this.state.isOntozryFlag ? 'Ontozry' : ''} </Form.Label>
                                             <Form.Control id="oraAssunzioneIndicata" onChange={this.handleChangeTherapy} alt="medicationDTO" name="oraAssunzioneIndicata" placeholder="Inserisci farmaco" />
                                         </Form.Group>
                                         <Form.Group className="col-2 mb-3" controlId="formBasicEmail">
-                                        <Form.Label className="text-">Promemoria Terapie</Form.Label>
+                                            <Form.Label className="text-">Promemoria Terapie</Form.Label>
                                             <Form.Check
                                                 type="switch"
                                                 defaultChecked={this.state.medicationDTO.isActiveReminder}
@@ -397,10 +420,10 @@ export class NewTherapy extends Component {
                                     <Button variant="secondary" onClick={() => this.handleClose()}>
                                         Chiudi
                                     </Button>
-                                    {this.state.medicationDTO.isOntozry ? 
-                                    <Button variant="primary" onClick={() => this.addOntozry()}>{'Aggiungi'}</Button> :  
-                                    <Button variant="primary" onClick={() => this.addOther()}>{'Aggiungi'}</Button> } 
-                                    
+                                    {this.state.isOntozryFlag ?
+                                        <Button variant="primary" onClick={() => this.addOntozry()}>{'Aggiungi'}</Button> :
+                                        <Button variant="primary" onClick={() => this.addOther()}>{'Aggiungi'}</Button>}
+
                                 </Modal.Footer>
                             </Modal>
                         </Tab>
@@ -418,10 +441,10 @@ export class NewTherapy extends Component {
                                     <Row>
                                         <Form.Group className="col-8 mb-3" controlId="formBasicEmail">
                                             <Form.Label className="text-">Farmaco</Form.Label>
-                                            <Form.Control  name="farmaco" placeholder="Inserisci farmaco" onChange={this.handleChangeTherapy}  />
+                                            <Form.Control name="farmaco" placeholder="Inserisci farmaco" onChange={this.handleChangeTherapy} />
                                         </Form.Group>
                                         <Form.Group className="col-2 mb-3" controlId="formBasicEmail">
-                                        <Form.Label className="text-">Promemoria Terapie</Form.Label>
+                                            <Form.Label className="text-">Promemoria Terapie</Form.Label>
                                             <Form.Check
                                                 type="switch"
                                                 defaultChecked={this.state.medicationDTO.isActiveReminder}
@@ -434,11 +457,11 @@ export class NewTherapy extends Component {
                                     <Row>
                                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                             <Form.Label className="text-">Doagio</Form.Label>
-                                            <Form.Control  name="dosagio" placeholder="Inserisci Dosagio" onChange={this.handleChangeTherapy}  />
+                                            <Form.Control name="dosagio" placeholder="Inserisci Dosagio" onChange={this.handleChangeTherapy} />
                                         </Form.Group>
                                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                             <Form.Label className="text-">Quantita</Form.Label>
-                                            <Form.Control  name="quantita" placeholder="Inserisci quantita" onChange={this.handleChangeTherapy} />
+                                            <Form.Control name="quantita" placeholder="Inserisci quantita" onChange={this.handleChangeTherapy} />
                                         </Form.Group>
                                     </Row>
                                     <Row>

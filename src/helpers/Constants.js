@@ -7,7 +7,8 @@ export const entities = {
   PATIENT:'patient',
   PATIENTCODE:'patientcode',
   PIANOTERAPEUTICO:'pianoterapeutico', 
-  CAREMANAGER:'caremanager'
+  CAREMANAGER:'caremanager',
+  MEDICATION:'medication'
 };
 
 export const API = {
@@ -18,6 +19,7 @@ export const API = {
   PATIENTCODE: textFormat(entities.PATIENTCODE),
   PIANOTERAPEUTICO: textFormat(entities.PIANOTERAPEUTICO),
   CAREMANAGER: textFormat(entities.CAREMANAGER),
+  MEDICATION: textFormat(entities.MEDICATION),
 };
 
 export const entitiesLabels = {
