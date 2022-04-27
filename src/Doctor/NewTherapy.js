@@ -10,6 +10,11 @@ import moment from 'moment';
 import Pagination from '../helpers/pagination';
 
 export class NewTherapy extends Component {
+    allergiesProps = () => ({
+        id: 0,
+        nomeFarmaco: "",
+        idPatientProfile: 0
+    })
     farmaciProps = () => ({
         id: 1,
         quantitaPrescrizione: 0,
@@ -20,7 +25,7 @@ export class NewTherapy extends Component {
         idPianoTerapeutico: 1,
         farmaco: {
             id: 1,
-            nome: "Ontozry",
+            nome: "",
             isOntozry: false
         },
         formulazione: {
@@ -41,12 +46,8 @@ export class NewTherapy extends Component {
             pharmacyPatients: [],
             currentPage: 1,
             patientsPerPage: 5,
-            allergiesDTO:
-            {
-                id: 0,
-                nomeFarmaco: "",
-                idPatientProfile: 0
-            },
+            allergiesDTO: { ...this.allergiesProps() },
+            isOpenAllergic: false,
             isOpenModalOntozry: false,
             therapyDto: {
                 id: 1,
@@ -57,7 +58,7 @@ export class NewTherapy extends Component {
                 inizioTerapia: "",
                 dataFineTerapia: "",
                 motivoFineTerapia: "",
-                idDoctor: 0,
+                idDoctor: JSON.parse(localStorage.getItem("role")).id,
                 idPatientProfile: 0,
                 elencoFarmaciPrescritti: [],
                 ontozryMedication: [],
@@ -72,6 +73,7 @@ export class NewTherapy extends Component {
     }
 
     componentDidMount() {
+        localStorage.removeItem('newPatient');
         pianoterapeutico.get("Get/", this.state.therapyDto.idPatientProfile)
             .then((response) => {
                 if (response.status === 200) {
@@ -123,22 +125,31 @@ export class NewTherapy extends Component {
             let updateDTO = this.state.allergiesDTO;
             updateDTO.idPatientProfile = this.state.therapyDto.idPatientProfile;
         }
-        patient.post("Allergy", this.state.allergiesDTO)
-            .then((response) => {
-                if (response.status === 200) {
-                    this.setState({
-                        pharmacyPatients: response.data.dati,
-                        isOpenAllergic: false
-                    });
-                }
-            }).catch((error) => {
-                this.setState({ error: 1 })
-            });
+        var list = [];
+        var allergia = this.state.allergiesDTO;
+        list = this.state.therapyDto.medicationAllergies;
+        var id = this.state.therapyDto.medicationAllergies.length;
+        allergia.id = id + 1;
+        list.push(allergia);
+        this.setState({ isOpenAllergic: false, allergiesDTO: { ...this.allergiesProps() } });
+        /* patient.post("Allergy", this.state.allergiesDTO)
+             .then((response) => {
+                 if (response.status === 200) {
+                     this.setState({
+                         pharmacyPatients: response.data.dati,
+                         isOpenAllergic: false
+                     });
+                 }
+             }).catch((error) => {
+                 this.setState({ error: 1 })
+             });*/
 
 
     }
     deleteItem(el) {
-        patient.delete("Allergy/", el)
+        var listFilter = this.state.therapyDto.medicationAllergies.filter(x => x.id != el)
+        this.updateState('medicationAllergies', listFilter, 'therapyDto');
+        /*patient.delete("Allergy/", el)
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({
@@ -147,7 +158,7 @@ export class NewTherapy extends Component {
                 }
             }).catch((error) => {
                 this.setState({ error: 1 })
-            });
+            });*/
     }
     setCurrentPage = (n) => {
         this.setState({ currentPage: n });
@@ -157,7 +168,7 @@ export class NewTherapy extends Component {
         this.setState({ isOpenOtherPharmacy: false });
     }
     handleShowOtherPharmacy = () => {
-        this.setState({ isOpenModalOntozry: true , isOntozryFlag:false});
+        this.setState({ isOpenModalOntozry: true, isOntozryFlag: false });
     }
 
     handleCloseAllergic = () => {
@@ -216,11 +227,11 @@ export class NewTherapy extends Component {
         this.setState(statusCopy);
     };
     openModalOntozry = () => {
-        
-        this.setState({ isOpenModalOntozry: true , isOntozryFlag:true });
+
+        this.setState({ isOpenModalOntozry: true, isOntozryFlag: true });
     }
     handleClose = () => {
-        this.setState({ isOpenModalOntozry: false , isOntozryFlag:false });
+        this.setState({ isOpenModalOntozry: false, isOntozryFlag: false });
     }
     returnToMenu = () => {
         localStorage.removeItem('newPatient');
@@ -233,33 +244,69 @@ export class NewTherapy extends Component {
     addOntozry = () => {
         var list = [];
         var farmaco = this.state.medicationDTO;
-        list = this.state.therapyDto.ontozryMedication;
-        list.push(farmaco);
+
+        var id = this.state.therapyDto.ontozryMedication.length;
+        farmaco.id = id + 1;
+        var list = this.state.therapyDto.ontozryMedication.push(farmaco);
         this.setState({ ontozryMedication: { list }, isOpenModalOntozry: false, medicationDTO: { ...this.farmaciProps() } });
 
     }
     addOther = () => {
         var list = [];
         var farmaco = this.state.medicationDTO;
+        list = this.state.therapyDto.ontozryMedication;
+        var id = this.state.therapyDto.otherMedication.length;
+        farmaco.id = id + 1;
         list = this.state.therapyDto.otherMedication;
         list.push(farmaco);
         this.setState({ otherMedication: { list }, isOpenModalOntozry: false, medicationDTO: { ...this.farmaciProps() } });
 
     }
+    handleChangeDosagio = (inputName) => {
+        var formulaziones = {
+            id: 1,
+            formula: inputName.target.value,
+            idFarmaco: 0,
+        };
+        this.updateState('dosagio', inputName.target.value, 'medicationDTO');
+        this.updateState('formulazione', formulaziones, 'medicationDTO');
+    }
     onChangeDrop = (inputName) => {
         const selected = inputName.target;
         const id = selected.children[selected.selectedIndex].id;
         var element = this.state.listOntozry.filter(x => x.id == id)
-
+        var farmaciProps = {
+            id: element[0].id,
+            nome: element[0].formula,
+            isOntozry: true
+        },
+            formulazione = {
+                id: 1,
+                formula: element[0].id,
+                idFarmaco: element[0].id,
+            }
+        this.updateState('nome', farmaciProps.nome, 'medicationDTO');
+        this.updateState('farmaco', farmaciProps, 'medicationDTO');
+        this.updateState('formulazione', formulazione, 'medicationDTO');
     };
+    deleteElementOnto = (el) => {
+        var listFilter = this.state.therapyDto.ontozryMedication.filter(x => x.id != el)
+        this.updateState('ontozryMedication', listFilter, 'therapyDto');
+    }
+    deleteElementOther = (el) => {
+        var listFilter = this.state.therapyDto.otherMedication.filter(x => x.id != el)
+        this.updateState('otherMedication', listFilter, 'therapyDto');
+    }
     render() {
         const indexOfLastPatient = this.state.currentPage * this.state.patientsPerPage;
         const indexOfFirstPatient = indexOfLastPatient - this.state.patientsPerPage;
         const indexOfLastpharmacyPatient = this.state.currentPage * this.state.patientsPerPage;
         const indexOfFirstpharmacyPatient = indexOfLastPatient - this.state.patientsPerPage;
-        const currentPatients = this.state.therapyDto.otherMedication.slice(indexOfFirstPatient, indexOfLastPatient);
-        const pharmacyPatients = this.state.pharmacyPatients.slice(indexOfFirstpharmacyPatient, indexOfLastpharmacyPatient);
+        const currentFarmaci = this.state.therapyDto.otherMedication.slice(indexOfFirstPatient, indexOfLastPatient);
+        const pharmacyPatients = this.state.therapyDto.medicationAllergies.slice(indexOfFirstpharmacyPatient, indexOfLastpharmacyPatient);
         const currentItem = this.state.therapyDto.ontozryMedication.slice(indexOfFirstPatient, indexOfLastPatient);
+        currentFarmaci.map((pa) => { pa.delete = 'delete'; });
+        currentItem.map((pa) => { pa.delete = 'delete'; });
         return (
             <Container className=''>
                 <Row className='col-12 pt-4' >
@@ -326,11 +373,12 @@ export class NewTherapy extends Component {
                                         <th>Data Inizio</th>
                                         <th>Data Fine</th>
                                         <th>Orario Assunzione</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        currentItem.map((pa) => <RowCustom colums={["nome", "quantitaPrescrizione", "dataInizio", "dataFine", "oraAssunzioneIndicata"]} link={'fiscalCode'} reference={'id'} controller={'DoctorProfile'} item={pa} />)
+                                        currentItem.map((pa) => <RowCustom colums={["nome", "quantitaPrescrizione", "dataInizio", "dataFine", "oraAssunzioneIndicata", "delete"]} elementDelete={"delete"} reference={'id'} delete={(el) => this.deleteElementOnto(el)} item={pa} />)
                                     }
                                 </tbody>
                             </Table>
@@ -353,29 +401,39 @@ export class NewTherapy extends Component {
                                 keyboard={false}
                             >
                                 <Modal.Header closeButton>
-                                    <Modal.Title>{this.state.isOntozryFlag? 'Aggiungi Ontozry' : 'Aggiungi nuovi farmaci'}</Modal.Title>
+                                    <Modal.Title>{this.state.isOntozryFlag ? 'Aggiungi Ontozry' : 'Aggiungi nuovi farmaci'}</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
                                     <Row className="col-12 mb-3">
                                         {!this.state.isOntozryFlag ?
-                                            <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                            <Form.Group className={this.state.isOntozryFlag ? "col-6 mb-3" : "col-12 mb-3"} controlId="formBasicEmail">
                                                 <Form.Label className="text-">{this.state.isOntozryFlag ? 'Ontozry' : 'Farmaco'} </Form.Label>
                                                 <Form.Control id="nome" onChange={this.handleChangeTherapy} alt="medicationDTO" name="nome" placeholder="Inserisci farmaco" />
                                             </Form.Group>
                                             :
                                             <Form.Group className="col-6 mb-3 input-layout-wrapper" >
-                                                <Form.Label className="text">Ontozry</Form.Label>
-                                                <Form.Select onChange={(el)=>this.onChangeDrop(el)} name="mendicalCenter" alt="medicoDTO" placeholder="Enter centro medico" >
+                                                <Form.Label className="text">Formualzione</Form.Label>
+                                                <Form.Select onChange={(el) => this.onChangeDrop(el)} name="mendicalCenter" alt="medicoDTO" placeholder="Enter centro medico" >
                                                     <option id="0">Seleziona </option>
                                                     {this.state.listOntozry.filter(x => x.isOntozry != false).map((item) =>
-                                                        <option id={item.id}>{item.nome}</option>
+                                                        <option id={item.id}>{item.formula}</option>
                                                     )}
                                                 </Form.Select>
                                             </Form.Group>}
-                                        <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
-                                            <Form.Label className="text-">Quantita</Form.Label>
-                                            <Form.Control id="quantitaPrescrizione" onChange={this.handleChangeTherapy} type='number' alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci farmaco" />
-                                        </Form.Group>
+                                        {!this.state.isOntozryFlag ? <>
+                                            <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                                <Form.Label className="text-">Dosagio</Form.Label>
+                                                <Form.Control id="quantitaPrescrizione" onChange={this.handleChangeDosagio} alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci farmaco" />
+                                            </Form.Group>
+                                            <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                                <Form.Label className="text-">Quantita</Form.Label>
+                                                <Form.Control id="quantitaPrescrizione" onChange={this.handleChangeTherapy} type='number' alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci farmaco" />
+                                            </Form.Group>
+                                        </>
+                                            : <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                                <Form.Label className="text-">Quantita</Form.Label>
+                                                <Form.Control id="quantitaPrescrizione" onChange={this.handleChangeTherapy} type='number' alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci farmaco" />
+                                            </Form.Group>}
                                     </Row>
                                     <Row className="col-14 mb-3">
                                         <Form.Group className="col-6 mb-3" >
@@ -400,6 +458,7 @@ export class NewTherapy extends Component {
                                         </Form.Group>
                                     </Row>
                                     <Row className="col-12 mb-3">
+
                                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                             <Form.Label className="text-">Orario  consigliato assunzione {this.state.isOntozryFlag ? 'Ontozry' : ''} </Form.Label>
                                             <Form.Control id="oraAssunzioneIndicata" onChange={this.handleChangeTherapy} alt="medicationDTO" name="oraAssunzioneIndicata" placeholder="Inserisci farmaco" />
@@ -505,16 +564,18 @@ export class NewTherapy extends Component {
                             <Table striped bordered hover size="sm">
                                 <thead>
                                     <tr>
-                                        <th>Ontozry</th>
+                                        <th>Farmaco</th>
+                                        <th>Dosagio</th>
                                         <th>Quantita</th>
                                         <th>Data Inizio</th>
                                         <th>Data Fine</th>
                                         <th>Orario Assunzione</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        currentPatients.map((pa) => <RowCustom colums={["nome", "quantitaPrescrizione", "dataInizio", "dataFine", "oraAssunzioneIndicata"]} link={'fiscalCode'} reference={'id'} controller={'DoctorProfile'} item={pa} />)
+                                        currentFarmaci.map((pa) => <RowCustom colums={["nome", "dosagio", "quantitaPrescrizione", "dataInizio", "dataFine", "oraAssunzioneIndicata", "delete"]} elementDelete={"delete"} reference={'id'} delete={(el) => this.deleteElementOther(el)} item={pa} />)
                                     }
                                 </tbody>
                             </Table>

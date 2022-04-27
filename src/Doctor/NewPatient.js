@@ -72,8 +72,8 @@ export class NewPatient extends Component {
                         patient.post("Save", parseInt(this.state.patiendDto.codicePaziente))
                             .then((response) => {
                                 if (response.data.dati) {
-                                    localStorage.setItem('newPatient', '1');
-                                    window.location.href = "/NewTherapy/1";
+                                    localStorage.setItem('newPatient', response.data.dati.patientCode);
+                                    window.location.href = "/NewTherapy/"+response.data.dati.patientCode;
                                 } else {
 
                                 }

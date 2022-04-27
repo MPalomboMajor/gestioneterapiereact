@@ -58,6 +58,7 @@ export default class Layout extends Component {
                   <Router>
                     <SideNav></SideNav>
                     <div>
+                      
                       <Routes>
                         <Route path="/" element={<Login />}></Route>
                         <Route path="/Register" element={<Register />}></Route>

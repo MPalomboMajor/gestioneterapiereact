@@ -16,30 +16,29 @@ function PatientInfo() {
 
     useEffect(() => {
         const fetchPatients = async () => {
-            setLoading(true);     
-            if(JSON.parse(localStorage.getItem("role")).idRole == 4   )   
-            {
+            setLoading(true);
+            if (JSON.parse(localStorage.getItem("role")).idRole == 4) {
                 await patient.getAll("Get")
-                .then((response) => {
-                    if (response.status === 200) {
-                        setPatients(response.data.dati);
-                setLoading(false);
-                    }
-                }).catch((error) => {
-                    
-                });
-            }else{
+                    .then((response) => {
+                        if (response.status === 200) {
+                            setPatients(response.data.dati);
+                            setLoading(false);
+                        }
+                    }).catch((error) => {
+
+                    });
+            } else {
                 await patient.get("GetByDoctor/", JSON.parse(localStorage.getItem("role")).id)
-                .then((response) => {
-                    if (response.status === 200) {
-                        setPatients(response.data.dati);
-                setLoading(false);
-                    }
-                }).catch((error) => {
-                    
-                });
+                    .then((response) => {
+                        if (response.status === 200) {
+                            setPatients(response.data.dati);
+                            setLoading(false);
+                        }
+                    }).catch((error) => {
+
+                    });
             }
-            
+
         };
         fetchPatients();
     }, []);
@@ -142,18 +141,31 @@ function RowCustom(props) {
                 element.value = props.item[item];
                 element.controller = props.controller;
                 element.isLink = true;
-                element.isUpdate= false;
+                element.isUpdate = false;
+                element.isDelete = false;
                 listValue.push({ element });
             }
             //RICHIAMA FUNZIONE PADRE (UPDATE)
             else if (props.elementUpdate === item) {
-                    var element = {};
-                    element.id = props.item[String(props.reference)];
-                    element.value = props.item[item];
-                    element.controller = props.controller;
-                    element.isLink = false;
-                    element.isUpdate= true;
-                    listValue.push({ element });
+                var element = {};
+                element.id = props.item[String(props.reference)];
+                element.value = props.item[item];
+                element.controller = props.controller;
+                element.isLink = false;
+                element.isUpdate = true;
+                element.isDelete = false;
+                listValue.push({ element });
+            }
+            //RICHIAMA FUNZIONE PADRE (DELETE)
+            else if (props.elementDelete === item) {
+                var element = {};
+                element.id = props.item[String(props.reference)];
+                element.value = props.item[item];
+                element.controller = props.controller;
+                element.isLink = false;
+                element.isUpdate = false;
+                element.isDelete = true;
+                listValue.push({ element });
             }
             //MOSTRA IL VALORE
             else {
@@ -162,7 +174,8 @@ function RowCustom(props) {
                 element.controller = props.controller;
                 element.value = props.item[item];
                 element.isLink = false;
-                element.isUpdate= false;
+                element.isUpdate = false;
+                element.isDelete = false;
                 listValue.push({ element });
             }
         })
@@ -176,7 +189,11 @@ function RowCustom(props) {
             el.element.isUpdate ?
                 <td ><Button onClick={() => props.update(el.element.id)} className='btn btn-primary bi bi-pencil-square'></Button></td>
                 :
-                <td>{el.element.value != null ? String(el.element.value) : ''}</td>
+            el.element.isDelete ?
+                <td ><Button onClick={() => props.delete(el.element.id)} className='btn btn-danger bi bi-trash'></Button></td>
+                :
+            <td>{el.element.value != null ? String(el.element.value) : ''}</td>
+
 
         )}
     </tr>);

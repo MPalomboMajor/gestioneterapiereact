@@ -14,9 +14,11 @@ export class DashboardDoctors extends Component {
             isLoaded: false,
             items: []
         };
+        localStorage.removeItem('newPatient');
     }
 
-    // componentDidMount() {
+     componentDidMount() {
+        localStorage.removeItem('newPatient');
     //     api.getAll("/GetPatients")
     //         .then((response) => {
     //             if (response.status === 200) {
@@ -28,8 +30,8 @@ export class DashboardDoctors extends Component {
     //         }).catch((error) => {
     //             this.setState({ error: 1 })
     //         });
-    // }
-
+     }
+    
     render() {
         return (
             

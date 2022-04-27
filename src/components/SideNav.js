@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { role} from '../helpers/Constants';
+import { role } from '../helpers/Constants';
 const SideNav = () => {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
     const [patientProfile, setPatientProfile] = useState([]);
@@ -30,7 +30,7 @@ const SideNav = () => {
                                 isCarManger ?
 
                                     <>
-                                        {window.location.pathname === "/Dashboard" || window.location.pathname === "/PatientRegistry" || window.location.pathname === "/ListDoctor" || window.location.pathname === "/MedicalCenter" || window.location.pathname === "/ContactInfo" || window.location.pathname === "/ContactInfoPatient"?
+                                        {window.location.pathname === "/Dashboard" || window.location.pathname === "/PatientRegistry" || window.location.pathname === "/ListDoctor" || window.location.pathname === "/MedicalCenter" || window.location.pathname === "/ContactInfo" || window.location.pathname === "/ContactInfoPatient" ?
                                             <>
                                                 <li className="nav-item">
                                                     <a href="/Dashboard" className="nav-link">
@@ -67,16 +67,18 @@ const SideNav = () => {
                                             </>
                                             :
                                             <>
+                                                
+                                                    <li className="nav-item">
+                                                        <a href="/Dashboard" className="nav-link">
+                                                            <i className="nav-icon fas fa-hospital-user" />
+                                                            <p>
+                                                                Elenco pazienti
+                                                            </p>
+                                                        </a>
+                                                    </li>
                                                 {localStorage.getItem("newPatient") != null ? '' :
                                                     <>
-                                                        <li className="nav-item">
-                                                            <a href="/Dashboard" className="nav-link">
-                                                                <i className="nav-icon fas fa-hospital-user" />
-                                                                <p>
-                                                                    Elenco pazienti
-                                                                </p>
-                                                            </a>
-                                                        </li>
+
                                                         <li className="nav-item">
                                                             <Link to={`/PatientRegistry/${patientId}`} className="nav-link">
                                                                 <i className="nav-icon fas fa-laptop-medical " />
@@ -158,7 +160,7 @@ const SideNav = () => {
                                     :
                                     ///MENU LATERALE MEDICO
                                     <>
-                                        {window.location.pathname === "/Dashboard" || window.location.pathname === "/NewPatient" || window.location.pathname === "/DoctorProfile"  || window.location.pathname === "/RichiediCodice" || window.location.pathname === "/AssociatePatient" ? <>
+                                        {window.location.pathname === "/Dashboard" || window.location.pathname === "/NewPatient" || window.location.pathname === "/DoctorProfile" || window.location.pathname === "/RichiediCodice" || window.location.pathname === "/AssociatePatient" ? <>
                                             <li className="nav-item">
                                                 <a href="/Dashboard" className="nav-link">
                                                     <i className="nav-icon fas fa-hospital-user" />
@@ -199,11 +201,9 @@ const SideNav = () => {
                                                     </p>
                                                 </a>
                                             </li>
-                                             </>
+                                        </>
                                             : <>
-                                                {localStorage.getItem("newPatient") != null ? '' :
-                                                    <>
-                                                        <li className="nav-item">
+                                            <li className="nav-item">
                                                             <a href="/Dashboard" className="nav-link">
                                                                 <i className="nav-icon fas fa-hospital-user" />
                                                                 <p>
@@ -211,6 +211,9 @@ const SideNav = () => {
                                                                 </p>
                                                             </a>
                                                         </li>
+                                                {localStorage.getItem("newPatient") != null ? '' :
+                                                    <>
+                                                        
                                                         <li className="nav-item">
                                                             <Link to={`/PatientRegistry/${patientId}`} className="nav-link">
                                                                 <i className="nav-icon fas fa-laptop-medical " />
