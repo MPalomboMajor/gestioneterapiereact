@@ -111,6 +111,18 @@ function AdverseEventsModal(props) {
         });
     };
 
+    const clearState = () => {
+        setNewAdverseEvent({
+            idPatient: window.location.pathname.split('/').pop(),
+            idAdverseEvent: 0,
+            disorder: 0,
+            description: "",
+            dateEvent: "",
+            intensity: 0,
+            otherDisorder: ""
+        })
+    }
+
     function saveAdverseEvent() {
         newAdverseEvent.idPatient = parseInt(newAdverseEvent.idPatient);
         newAdverseEvent.intensity = parseInt(newAdverseEvent.intensity);
@@ -125,6 +137,7 @@ function AdverseEventsModal(props) {
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
+        clearState();
         document.getElementById("adverseEventForm").reset();
     };
 

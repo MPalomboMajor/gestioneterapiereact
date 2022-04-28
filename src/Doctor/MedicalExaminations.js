@@ -139,6 +139,7 @@ function MedicalExaminationsModal(props) {
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
+        clearState();
         document.getElementById("medicalExaminationForm").reset();
     };
 
@@ -148,16 +149,15 @@ function MedicalExaminationsModal(props) {
             filesArray.push(e.target.files.item(i));
         }
         console.log(filesArray);
-        // const formData = new FormData();
-        // filesArray.forEach(file => {
-        //     formData.append("arrayOfFilesName", file);
-        // });
-        // console.log(formData);
-        //in case you wan to print the file selected
-        // console.log(formData);
-        // setFile(e.target.files[0]);
-        // setFileName(e.target.files[0].name)
     };
+
+    const clearState = () => {
+        setData();
+        setType();
+        setInformation();
+        setFilesArray([]);
+    }
+
 
     return (
         <>

@@ -56,7 +56,7 @@ function EpilepticSeizuresInfo() {
         });
     };
 
-    function editPatient() {  
+    function editPatient() {
         patient.post("UpdateProfile/", patientProfile)
             .then((response) => {
                 if (response.status === 200) {
@@ -79,12 +79,15 @@ function EpilepticSeizuresInfo() {
                 <EpilepticSeizuresForm numberStartingSeizures={patientProfile.numeroCrisiPartenza} onChange={handleChange} />
             </Col>
             <Col className='mb-3'>
+                <Button onClick={() => editPatient()} >Salva modifica</Button>
+            </Col>
+
+            <Col className='mb-3'>
                 <EpilepticSeizuresTable epilepticSeizures={epilepticSeizures} />
             </Col>
             <EpilepticSeizuresModal show={show} handleClose={handleClose} patientId={patientId} />
             <Col className='mb-3'>
                 <Button variant="primary" id="btnAdd" onClick={handleShow}>Aggiungi crisi epilettiche <i class="fas fa-plus"></i></Button>&nbsp;&nbsp;
-                <Button onClick={() => editPatient()} >Salva le modifiche</Button>
             </Col>
             < NotificationContainer />
         </>
@@ -140,8 +143,8 @@ function EpilepticSeizureRowData(props) {
     return (<>
         <td>{props.epilepticSeizure.dateTimeEventOccured.split(' ')[0]}</td>
         <td>{props.epilepticSeizure.description}</td>
-        {/* <td>{props.epilepticSeizure.elencoContestualita.contesto}</td> */}
-        <td>{props.epilepticSeizure.intensity}</td>
+        {/* <td>{props.epilepticSeizure.elencoComportamenti[0].comportamento}</td>
+        <td>{props.epilepticSeizure.elencoContestualita[0].contesto}</td> */}
     </>
     );
 }
@@ -190,9 +193,34 @@ function EpilepticSeizuresModal(props) {
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
-            document.getElementById("epilepticSeizureForm").reset();
+        clearState();
+        document.getElementById("epilepticSeizureForm").reset();
     };
 
+    const clearState = () => {
+        setNewEpilepticSeizures({
+            idCrisi: 0,
+            idPatient: props.patientId,
+            intesity: 0,
+            description: "",
+            dateTimeEventOccured: "",
+            elencoComportamenti: [
+                {
+                    id: 0,
+                    comportamento: 0,
+                    idEpilepticSeizureEvent: 0
+                }
+            ],
+            elencoContestualita: [
+                {
+                    id: 0,
+                    contesto: 0,
+                    idEpilepticSeizureEvent: 0
+                }
+            ],
+            altroComportamento: ""
+        })
+    }
 
     return (
         <>
@@ -210,47 +238,43 @@ function EpilepticSeizuresModal(props) {
                             <Form.Label>Descrizione</Form.Label>
                             <Form.Control as="textarea" name="description" placeholder="Descrizione" onChange={handleChange} rows={5} />
                         </Form.Group>
+                        <Form.Group className="mb-3" controlId="epilepticSeizureBehavior">
+                            <Form.Label>Comportamenti</Form.Label>
+                            <Form.Select aria-label="epilepticSeizureBehavior" name="comportamento" onChange={(event) => {
+                                setNewEpilepticSeizures(prevEpilepticSeizure => ({
+                                    ...prevEpilepticSeizure,
+                                    elencoComportamenti: [{ ...prevEpilepticSeizure.elencoComportamenti[0], comportamento: parseInt(event.target.value) }]
+                                }));
+                            }} >
+                                <option></option>
+                                <option value="0">Crisi convulsiva generalizzata</option>
+                                <option value="1">Assenza/crisi focale</option>
+                                <option value="2">Perdita di coscienza</option>
+                                <option value="3">Caduta a terra</option>
+                            </Form.Select>
+                        </Form.Group>
                         <Form.Group className="mb-3" controlId="epilepticSeizureContext">
                             <Form.Label>Contesto</Form.Label>
-                            <Form.Control type="text" name="contesto" placeholder="Contesto" onChange={(event) => {
+                            <Form.Select aria-label="epilepticSeizureContext" name="contesto" onChange={(event) => {
                                 setNewEpilepticSeizures(prevEpilepticSeizure => ({
                                     ...prevEpilepticSeizure,
                                     elencoContestualita: [{ ...prevEpilepticSeizure.elencoContestualita[0], contesto: parseInt(event.target.value) }]
                                 }));
-                            }} />
+                            }} >
+                                <option></option>
+                                <option value="0">Casa</option>
+                                <option value="1">Lavoro</option>
+                                <option value="2">Tempo libero</option>
+                                <option value="3">Veglia</option>
+                                <option value="4">Sonno</option>
+                            </Form.Select>
+                            {/* <Form.Control type="text" name="contesto" placeholder="Contesto" onChange={(event) => {
+                                setNewEpilepticSeizures(prevEpilepticSeizure => ({
+                                    ...prevEpilepticSeizure,
+                                    elencoContestualita: [{ ...prevEpilepticSeizure.elencoContestualita[0], contesto: parseInt(event.target.value) }]
+                                }));
+                            }} /> */}
                         </Form.Group>
-                        <Form.Label>Intensità</Form.Label>
-                        {['radio'].map((type) => (
-                            <div key={`inline-${type}`} className="mb-3">
-                                <Form.Check
-                                    inline
-                                    label="Lieve"
-                                    name="intesity"
-                                    type={type}
-                                    id={`inline-${type}-1`}
-                                    value="1"
-                                    onChange={handleChange}
-                                />
-                                <Form.Check
-                                    inline
-                                    label="Moderata"
-                                    name="intesity"
-                                    type={type}
-                                    id={`inline-${type}-2`}
-                                    value="2"
-                                    onChange={handleChange}
-                                />
-                                <Form.Check
-                                    inline
-                                    label="Severa"
-                                    name="intesity"
-                                    type={type}
-                                    id={`inline-${type}-3`}
-                                    value="3"
-                                    onChange={handleChange}
-                                />
-                            </div>
-                        ))}
 
                     </Form>
                     < NotificationContainer />
