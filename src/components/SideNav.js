@@ -135,12 +135,13 @@ const SideNav = () => {
                                                             </Link>
                                                         </li>
                                                         <li className="nav-item">
-                                                            <a href="#" className="nav-link">
+                                                            <Link to={`/MedicalExaminations/${patientId}`} className="nav-link">
                                                                 <i className="nav-icon fas fa-diagnoses" />
                                                                 <p>
                                                                     Visite mediche
                                                                 </p>
-                                                            </a>
+                                                            </Link>
+
                                                         </li>
                                                         <li className="nav-item">
                                                             <a href="#" className="nav-link">
@@ -270,12 +271,13 @@ const SideNav = () => {
                                                             </Link>
                                                         </li>
                                                         <li className="nav-item">
-                                                            <a href="#" className="nav-link">
+                                                            <Link to={`/MedicalExaminations/${patientId}`} className="nav-link">
                                                                 <i className="nav-icon fas fa-diagnoses" />
                                                                 <p>
                                                                     Visite mediche
                                                                 </p>
-                                                            </a>
+                                                            </Link>
+
                                                         </li>
                                                         <li className="nav-item">
                                                             <Link to={`/MoodMonitoring/${patientId}`} className="nav-link">

@@ -11,6 +11,8 @@ function PatientProfile() {
     const [patientProfile, setPatientProfile] = useState([]);
     const [canTravel, setCanTravel] = useState();
     const [canDrive, setCanDrive] = useState();
+    const [isFumatore, setIsFumatore] = useState();
+    const [isAlcool, setIsAlcool] = useState();
 
     useEffect(() => {
         const fetchPatient = async () => {
@@ -20,6 +22,8 @@ function PatientProfile() {
                         setPatientProfile(response.data.dati);
                         setCanTravel(response.data.dati.canTravel);
                         setCanDrive(response.data.dati.canDrive);
+                        setIsFumatore(response.data.dati.isFumatore);
+                        setIsAlcool(response.data.dati.isAlcool);
                     }
                 }).catch((error) => {
 
@@ -29,7 +33,7 @@ function PatientProfile() {
     }, []);
 
     function editPatient() {  
-        patient.post("Save/", patientProfile)
+        patient.post("UpdateProfile/", patientProfile)
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
@@ -53,6 +57,22 @@ function PatientProfile() {
                 !canDrive
         });
         setCanDrive(!canDrive);
+    }
+
+    const updateStatesIsFumatore = () => {
+        setPatientProfile({
+            ...patientProfile, isFumatore:
+                !isFumatore
+        });
+        setIsFumatore(!isFumatore);
+    }
+
+    const updateStatesIsAlcool = () => {
+        setPatientProfile({
+            ...patientProfile, isAlcool:
+                !isAlcool
+        });
+        setIsAlcool(!isAlcool);
     }
 
     const handleChange = (e) => {       
@@ -97,15 +117,35 @@ function PatientProfile() {
                                 onChange={() => updateStatesCanDrive()
                                 }
                             />
+                            <Form.Check
+                                checked={patientProfile.isFumatore}
+                                inline
+                                label="È fumatore?"
+                                name="isFumatore"
+                                type={type}
+                                id={`inline-${type}-3`}
+                                onChange={() => updateStatesIsFumatore()
+                                }
+                            />
+                            <Form.Check
+                                checked={patientProfile.isAlcool}
+                                inline
+                                label="Assume alcool?"
+                                name="isAlcool"
+                                type={type}
+                                id={`inline-${type}-4`}
+                                onChange={() => updateStatesIsAlcool()
+                                }
+                            />
                         </div>
                     ))}
                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                         <Form.Label>Note</Form.Label>
-                        <Form.Control as="textarea" name="healthInfo" rows={10} defaultValue={patientProfile.healthInfo} onChange={handleChange} disabled/>
+                        <Form.Control as="textarea" name="healthInfo" rows={10} defaultValue={patientProfile.healthInfo} onChange={handleChange} />
                     </Form.Group>
                 </div>
                 <div className='mb-3'>
-                    <Button >Indietro</Button> <Button onClick={() => editPatient()} >Salva le modifiche</Button> <Button >Annulla</Button> <Button >Avanti</Button>
+                    <Button onClick={() => editPatient()} >Salva le modifiche</Button>
                 </div>
             </Form>
             < NotificationContainer />

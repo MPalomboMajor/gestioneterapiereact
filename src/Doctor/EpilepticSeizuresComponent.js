@@ -57,7 +57,7 @@ function EpilepticSeizuresInfo() {
     };
 
     function editPatient() {  
-        patient.post("Save/", patientProfile)
+        patient.post("UpdateProfile/", patientProfile)
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
@@ -83,9 +83,10 @@ function EpilepticSeizuresInfo() {
             </Col>
             <EpilepticSeizuresModal show={show} handleClose={handleClose} patientId={patientId} />
             <Col className='mb-3'>
-                <Button variant="primary" id="btnAdd" onClick={handleShow}>Aggiungi crisi epilettiche <i class="fas fa-plus"></i></Button>
+                <Button variant="primary" id="btnAdd" onClick={handleShow}>Aggiungi crisi epilettiche <i class="fas fa-plus"></i></Button>&nbsp;&nbsp;
                 <Button onClick={() => editPatient()} >Salva le modifiche</Button>
             </Col>
+            < NotificationContainer />
         </>
     );
 }
@@ -137,7 +138,7 @@ function EpilepticSeizureRow(props) {
 
 function EpilepticSeizureRowData(props) {
     return (<>
-        <td>{moment(props.epilepticSeizure.dateTimeEventOccured).format("DD/MM/YYYY")}</td>
+        <td>{props.epilepticSeizure.dateTimeEventOccured.split(' ')[0]}</td>
         <td>{props.epilepticSeizure.description}</td>
         {/* <td>{props.epilepticSeizure.elencoContestualita.contesto}</td> */}
         <td>{props.epilepticSeizure.intensity}</td>

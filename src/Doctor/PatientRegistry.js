@@ -52,16 +52,17 @@ function PatientRegistry() {
                 setIsActive(!isActive);
         }
 
-        // function editPatient() {
-        //         patient.post("Save/", patientProfile)
-        //                 .then((response) => {
-        //                         if (response.status === 200) {
-        //                                 NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
-        //                         }
-        //                 }).catch((error) => {
-        //                         NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
-        //                 });
-        // };
+        function editPatient() {
+                patientProfile.disabledCause = parseInt(patientProfile.disabledCause);
+                patient.post("UpdateProfile/", patientProfile)
+                        .then((response) => {
+                                if (response.status === 200) {
+                                        NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                                }
+                        }).catch((error) => {
+                                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+                        });
+        };
 
 
         return (
@@ -79,7 +80,7 @@ function PatientRegistry() {
                                                 <div >
                                                         <Form.Group controlId='selectedPatientCode'>
                                                                 <Form.Label>Codice paziente</Form.Label>
-                                                                <Form.Control type='text' name="codicePaziente" defaultValue={patientProfile.codicePaziente} onChange={handleChange} disabled/>
+                                                                <Form.Control type='text' name="codicePaziente" defaultValue={patientProfile.codicePaziente} onChange={handleChange} disabled />
 
                                                         </Form.Group>
                                                         <Form.Group controlId='selectedFiscalCode'>
@@ -116,22 +117,29 @@ function PatientRegistry() {
                                                                 name="canTravel"
                                                                 onChange={() => updateStatesIsActive()}
                                                         />
-                                                        <strong>Data di disattivazione:</strong> {moment(patientProfile.disabledDate).format("DD/MM/YYYY")}
+                                                        <strong>Data di disattivazione:</strong> {patientProfile.disabledDate}
                                                 </Form>
                                         </Row>
                                         &nbsp;&nbsp;
                                         <Row className='mt-6'>
-                                                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                                                <Form.Label>Causa disabilitazione</Form.Label>
+                                                <Form.Select aria-label="disabledCause" name="disabledCause" onChange={handleChange}>
+                                                        <option></option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                </Form.Select>
+                                                {/* <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                                         <Form.Label>Causa disabilitazione</Form.Label>
-                                                        <Form.Control as="textarea" rows={10} name="disabledCause" value={patientProfile.disabledCause} onChange={handleChange} disabled/>
-                                                </Form.Group>
+                                                        <Form.Control as="textarea" rows={10} name="disabledCause" value={patientProfile.disabledCause} onChange={handleChange} />
+                                                </Form.Group> */}
                                         </Row>
                                 </Col>
 
                         </Row>
                         <div className='col-6 mt-4'>
-                                <Button className='mt-100' >Indietro</Button> <Button >Avanti</Button> 
-                                {/* <Button onClick={() => editPatient()} >Salva le modifiche</Button> */}
+
+                                <Button onClick={() => editPatient()} >Salva le modifiche</Button>
                         </div>
                         < NotificationContainer />
 

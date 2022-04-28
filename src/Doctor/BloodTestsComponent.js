@@ -7,11 +7,13 @@ import { useParams } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import moment from 'moment';
 import { path } from '../helpers/Constants';
+import { patient } from '../helpers/api/api';
 
 function BloodTestsInfo() {
     const location = useLocation();
     const selectedDiagnosticTest = location.state;
     const selectedPatientId = location.patientId;
+    const [imgsNames, setImgsNames] = useState([]);
     const [diagnosticTest, setDiagnosticTest] = useState(selectedDiagnosticTest);
     const [patientId, setPatientId] = useState(selectedPatientId);
 
@@ -19,6 +21,19 @@ function BloodTestsInfo() {
     // const [diagnosticTests, setDiagnosticTests] = useState([]);
     // const [patientProfile, setPatientProfile] = useState([]);
 
+    useEffect(() => {
+        const fetchImgsNames = async () => {
+            await patient.get("GetFileName/", window.location.pathname.split('/').pop())
+                .then((response) => {
+                    if (response.status === 200) {
+                        setImgsNames(response.data.dati);
+                    }
+                }).catch((error) => {
+
+                });
+        };
+        fetchImgsNames();
+    }, []);
 
     return (
         <>
@@ -32,7 +47,7 @@ function BloodTestsInfo() {
 
             <Row>
                 <Col>
-                    <ControlledCarouselBloodTests selectedDiagnosticTest={selectedDiagnosticTest} />
+                    <ControlledCarouselBloodTests selectedDiagnosticTest={selectedDiagnosticTest} imgsNames={imgsNames} />
                 </Col>
                 <Col>
                     <div><strong>Referto del:</strong> {moment(diagnosticTest.uploadedDateTime).format("DD/MM/YYYY")}</div>
@@ -58,54 +73,25 @@ function ControlledCarouselBloodTests(props) {
 
     return (
         <Carousel activeIndex={index} onSelect={handleSelect} interval={null}>
-            
-                <Carousel.Item >
+            {props.imgsNames?.map((imgName, index) => (
+                <Carousel.Item key={index}>
                     <img
-                        className="selectedDiagnosticTestImages d-block w-50"
-                        src={path.DIAGNOSTIC_TESTS_IMGS_PATH + props.selectedDiagnosticTest.fileName}
-                        // alt={img.author}
+                        className="selectedDiagnosticTestImages d-block w-100"
+                        src={path.DIAGNOSTIC_TESTS_IMGS_PATH + imgName.split('\\').pop()}
                     />
                     
                 </Carousel.Item>
-            
-            {/* <Carousel.Item>
+            ))}
+            {/* <Carousel.Item >
                 <img
-                    className="d-block w-100"
-                    src="https://pbs.twimg.com/media/C7M4QqPXkAAy5o8?format=jpg&name=medium"
-                    alt="First slide"
-                />
-                <Carousel.Caption>
-                    <h3>First slide label</h3>
-                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item>
-                <img
-                    className="d-block w-100"
-                    src="https://pbs.twimg.com/media/C7M4QqbXgAAYfiR?format=jpg&name=large"
-                    alt="Second slide"
+                    className="selectedDiagnosticTestImages d-block w-50"
+                    src={path.DIAGNOSTIC_TESTS_IMGS_PATH + props.selectedDiagnosticTest.fileName}
+                // alt={img.author}
                 />
 
-                <Carousel.Caption>
-                    <h3>Second slide label</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </Carousel.Caption>
-            </Carousel.Item>
-            <Carousel.Item>
-                <img
-                    className="d-block w-100"
-                    src="https://pbs.twimg.com/media/C7M4QqcXkAANKpV?format=jpg&name=large"
-                    alt="Third slide"
-                />
-
-                <Carousel.Caption>
-                    <h3>Third slide label</h3>
-                    <p>
-                        Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-                    </p>
-                </Carousel.Caption>
             </Carousel.Item> */}
-            
+
+           
         </Carousel>
     );
 }

@@ -102,7 +102,7 @@ function DiagnosticTestRowData(props) {
 
     return (<>
         <td><Link to={`/BloodTest/${props.diagnosticTest.id}`} state={props.diagnosticTest} patientId={props.patientId} >{props.diagnosticTest.id}</Link></td>
-        <td>{moment(props.diagnosticTest.uploadedDateTime).format("DD/MM/YYYY")}</td>
+        <td>{props.diagnosticTest.uploadedDateTime.split(' ')[0]}</td>
         <td>{props.diagnosticTest.tipoReferto}</td>
         <td><img src={path.DIAGNOSTIC_TESTS_IMGS_PATH + props.diagnosticTest.fileName} style={{ width: 100, height: 70 }} /></td>
     </>
@@ -129,7 +129,7 @@ function DiagnosticTestsModal(props) {
         console.log(files);
         patient.postDiagnosticTest("Analisi/", files, {
             params:
-                { idPaziente, idAnalisi, dateReferto }, headers: {
+                { idPaziente, idAnalisi, dateReferto, tipoReferto }, headers: {
                     'Content-Type': 'multipart/form-data'
                 }
         })
