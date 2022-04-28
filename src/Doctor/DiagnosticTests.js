@@ -10,12 +10,17 @@ import { Link } from 'react-router-dom';
 import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import Pagination from '../helpers/pagination';
 
 function DiagnosticTestsInfo() {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
     const [diagnosticTests, setDiagnosticTests] = useState([]);
     const [patientProfile, setPatientProfile] = useState([]);
     const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [diagnosticTestsPerPage] = useState(5);
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -35,10 +40,12 @@ function DiagnosticTestsInfo() {
 
     useEffect(() => {
         const fetchDiagnosticTests = async () => {
+            setLoading(true);
             await patient.get("Analysis/", patientId)
                 .then((response) => {
                     if (response.status === 200) {
                         setDiagnosticTests(response.data.dati);
+                        setLoading(false);
                     }
                 }).catch((error) => {
 
@@ -46,6 +53,14 @@ function DiagnosticTestsInfo() {
         };
         fetchDiagnosticTests();
     }, [show]);
+
+    // Get current
+    const indexOfLastDiagnosticTest = currentPage * diagnosticTestsPerPage;
+    const indexOfFirstDiagnosticTest = indexOfLastDiagnosticTest - diagnosticTestsPerPage;
+    const currentDiagnosticTests = diagnosticTests?.slice(indexOfFirstDiagnosticTest, indexOfLastDiagnosticTest);
+
+    // Change page
+    const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (
         <>
@@ -56,7 +71,12 @@ function DiagnosticTestsInfo() {
             </Row>
             &nbsp;&nbsp;
             <Col className='mb-3'>
-                <DiagnosticTestsTable diagnosticTests={diagnosticTests} patientId={patientId} />
+                <DiagnosticTestsTable diagnosticTests={currentDiagnosticTests} patientId={patientId} />
+                <Pagination
+                    patientsPerPage={diagnosticTestsPerPage}
+                    totalPatients={diagnosticTests?.length}
+                    paginate={paginate}
+                />
             </Col>
             <DiagnosticTestsModal show={show} handleClose={handleClose} patientId={patientId} />
             <Col className='mb-3'>

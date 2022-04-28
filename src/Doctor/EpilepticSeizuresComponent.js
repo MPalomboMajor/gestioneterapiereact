@@ -8,12 +8,16 @@ import { patient } from '../helpers/api/api';
 import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import Pagination from '../helpers/pagination';
 
 function EpilepticSeizuresInfo() {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
     const [epilepticSeizures, setEpilepticSeizures] = useState([]);
     const [patientProfile, setPatientProfile] = useState([]);
     const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [epilepticSeizuresPerPage] = useState(5);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -35,10 +39,12 @@ function EpilepticSeizuresInfo() {
 
     useEffect(() => {
         const fetchEpilepticSeizures = async () => {
+            setLoading(true);
             await patient.get("Seizures/", patientId)
                 .then((response) => {
                     if (response.status === 200) {
                         setEpilepticSeizures(response.data.dati);
+                        setLoading(false);
                     }
                 }).catch((error) => {
 
@@ -46,6 +52,14 @@ function EpilepticSeizuresInfo() {
         };
         fetchEpilepticSeizures();
     }, [show]);
+
+    // Get current
+    const indexOfLastEpilepticSeizure = currentPage * epilepticSeizuresPerPage;
+    const indexOfFirstEpilepticSeizure = indexOfLastEpilepticSeizure - epilepticSeizuresPerPage;
+    const currentEpilepticSeizures = epilepticSeizures?.slice(indexOfFirstEpilepticSeizure, indexOfLastEpilepticSeizure);
+
+    // Change page
+    const paginate = pageNumber => setCurrentPage(pageNumber);
 
     const handleChange = (e) => {
         const inputValue = parseInt(e.target.value);
@@ -83,7 +97,12 @@ function EpilepticSeizuresInfo() {
             </Col>
 
             <Col className='mb-3'>
-                <EpilepticSeizuresTable epilepticSeizures={epilepticSeizures} />
+                <EpilepticSeizuresTable epilepticSeizures={currentEpilepticSeizures} />
+                <Pagination
+                    patientsPerPage={epilepticSeizuresPerPage}
+                    totalPatients={epilepticSeizures?.length}
+                    paginate={paginate}
+                />
             </Col>
             <EpilepticSeizuresModal show={show} handleClose={handleClose} patientId={patientId} />
             <Col className='mb-3'>

@@ -7,21 +7,27 @@ import { patient } from '../helpers/api/api';
 import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import Pagination from '../helpers/pagination';
 
 function AdverseEventsInfo() {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
     const [adverseEvents, setAdverseEvents] = useState([]);
     const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [adverseEventsPerPage] = useState(7);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     useEffect(() => {
         const fetchAdverseEvents = async () => {
+            setLoading(true);
             await patient.get("Events/", patientId)
                 .then((response) => {
                     if (response.status === 200) {
                         setAdverseEvents(response.data.dati);
+                        setLoading(false);
                     }
                 }).catch((error) => {
 
@@ -30,6 +36,13 @@ function AdverseEventsInfo() {
         fetchAdverseEvents();
     }, [show]);
 
+// Get current
+const indexOfLastAdverseEvent = currentPage * adverseEventsPerPage;
+const indexOfFirstAdverseEvent = indexOfLastAdverseEvent - adverseEventsPerPage;
+const currentAdverseEvents = adverseEvents?.slice(indexOfFirstAdverseEvent, indexOfLastAdverseEvent);
+
+// Change page
+const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (
         <>
@@ -40,14 +53,26 @@ function AdverseEventsInfo() {
             </Row>
             &nbsp;&nbsp;
             <Col>
-                <AdverseEventsTable adverseEvents={adverseEvents} handleShow={handleShow} />
+                <AdverseEventsTable adverseEvents={currentAdverseEvents} handleShow={handleShow} loading={loading} />
+                <Pagination
+                patientsPerPage={adverseEventsPerPage}
+                totalPatients={adverseEvents?.length}
+                paginate={paginate}
+            />
             </Col>
+            <div className='mb-3'>
+                <Button variant="primary" id="btnAdd" onClick={handleShow}>Aggiungi eventi avversi <i class="fas fa-plus"></i></Button>
+            </div>
             <AdverseEventsModal show={show} handleClose={handleClose} />
         </>
     );
 }
 
 function AdverseEventsTable(props) {
+    if (props.loading) {
+        return <h2>Loading...</h2>;
+    }
+
     return (
         <>
 
@@ -68,9 +93,7 @@ function AdverseEventsTable(props) {
                     </tbody>
                 </Table>
             </div>
-            <div className='mb-3'>
-                <Button variant="primary" id="btnAdd" onClick={props.handleShow}>Aggiungi eventi avversi <i class="fas fa-plus"></i></Button>
-            </div>
+            
 
 
         </>

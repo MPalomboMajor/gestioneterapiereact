@@ -10,12 +10,17 @@ import { Link } from 'react-router-dom';
 import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import Pagination from '../helpers/pagination';
 
 function MedicalExaminationsInfo() {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
     const [medicalExaminations, setMedicalExaminations] = useState([]);
     const [patientProfile, setPatientProfile] = useState([]);
     const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [medicalExaminationsPerPage] = useState(5);
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -35,10 +40,12 @@ function MedicalExaminationsInfo() {
 
     useEffect(() => {
         const fetchMedicalExaminations = async () => {
+            setLoading(true);
             await patient.get("MedicalExams/", patientId)
                 .then((response) => {
                     if (response.status === 200) {
                         setMedicalExaminations(response.data.dati);
+                        setLoading(false);
                     }
                 }).catch((error) => {
 
@@ -46,6 +53,14 @@ function MedicalExaminationsInfo() {
         };
         fetchMedicalExaminations();
     }, [show]);
+
+    // Get current
+    const indexOfLastmedicalExamination = currentPage * medicalExaminationsPerPage;
+    const indexOfFirstmedicalExamination = indexOfLastmedicalExamination - medicalExaminationsPerPage;
+    const currentmedicalExaminations = medicalExaminations?.slice(indexOfFirstmedicalExamination, indexOfLastmedicalExamination);
+
+    // Change page
+    const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (
         <>
@@ -56,7 +71,12 @@ function MedicalExaminationsInfo() {
             </Row>
             &nbsp;&nbsp;
             <Col className='mb-3'>
-                <MedicalExaminationsTable medicalExaminations={medicalExaminations} patientId={patientId} />
+                <MedicalExaminationsTable medicalExaminations={currentmedicalExaminations} patientId={patientId} />
+                <Pagination
+                    patientsPerPage={medicalExaminationsPerPage}
+                    totalPatients={medicalExaminations?.length}
+                    paginate={paginate}
+                />
             </Col>
             <MedicalExaminationsModal show={show} handleClose={handleClose} patientId={patientId} />
             <Col className='mb-3'>
