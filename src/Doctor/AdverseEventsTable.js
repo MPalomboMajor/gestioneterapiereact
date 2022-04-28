@@ -81,7 +81,6 @@ function AdverseEventsTable(props) {
                     <thead>
                         <tr>
                             <th>Data</th>
-                            <th>Evento</th>
                             <th>Intensità</th>
                             <th>Descrizione</th>
                         </tr>
@@ -107,7 +106,6 @@ function AdverseEventRow(props) {
 function AdverseEventRowData(props) {
     return (<>
         <td>{props.adverseEvent.dateEvent.split(' ')[0]}</td>
-        <td>{props.adverseEvent.disorder}</td>
         <td>{props.adverseEvent.intensity}</td>
         <td>{props.adverseEvent.description}</td>
     </>
@@ -176,34 +174,7 @@ function AdverseEventsModal(props) {
                         <Form.Group controlId="adverseEventDate">
                             <Form.Label>Data evento</Form.Label>
                             <Form.Control type="date" name="dateEvent" placeholder="Inizio" onChange={handleChange} />
-                        </Form.Group>
-                        <Form.Label>Evento</Form.Label>
-                        <Form.Select aria-label="adverseEventType" name="disorder" onChange={handleChange}>
-                            <option></option>
-                            <option value="0">Ipersensibilità</option>
-                            <option value="1">Ipersensibilità al farmaco</option>
-                            <option value="2">Edema palpebra</option>
-                            <option value="3">Stato confusionale</option>
-                            <option value="4">Irritabilità</option>
-                            <option value="5">Sonnolenza</option>
-                            <option value="6">Stanchezza</option>
-                            <option value="7">Sedazione e ipersonnia</option>
-                            <option value="8">Capogiro</option>
-                            <option value="9">Vertigine</option>
-                            <option value="10">Disturbo equilibrio</option>
-                            <option value="11">Atassia</option>
-                            <option value="12">Alterazione andatura e coordinazione</option>
-                            <option value="13">Cefalea</option>
-                            <option value="14">Disartria</option>
-                            <option value="15">Nistagmo</option>
-                            <option value="16">Afasia</option>
-                            <option value="17">CompromissioneMemoria</option>
-                        </Form.Select>
-
-                        {/* <Form.Group className="mb-3" controlId="adverseEventType">
-                            <Form.Label>Evento</Form.Label>
-                            <Form.Control type="text" name="disorder" placeholder="Tipo di evento" onChange={handleChange} />
-                        </Form.Group> */}
+                        </Form.Group>                      
                         <Form.Label>Intensità</Form.Label>
                         {['radio'].map((type) => (
                             <div key={`inline-${type}`} className="mb-3">
