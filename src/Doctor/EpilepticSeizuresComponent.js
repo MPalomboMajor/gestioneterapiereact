@@ -162,8 +162,8 @@ function EpilepticSeizureRowData(props) {
     return (<>
         <td>{props.epilepticSeizure.dateTimeEventOccured.split(' ')[0]}</td>
         <td>{props.epilepticSeizure.description}</td>
-        {/* <td>{props.epilepticSeizure.elencoComportamenti[0].comportamento}</td>
-        <td>{props.epilepticSeizure.elencoContestualita[0].contesto}</td> */}
+        <td>{props.epilepticSeizure.elencoComportamenti[0].comportamento}</td>
+        <td>{props.epilepticSeizure.elencoContestualita[0].contesto}</td>
     </>
     );
 }

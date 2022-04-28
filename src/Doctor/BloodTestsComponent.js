@@ -67,32 +67,21 @@ function BloodTestsInfo() {
 function ControlledCarouselBloodTests(props) {
 
     const [index, setIndex] = useState(0);
-
+    const imgsFolder = props.selectedDiagnosticTest.idBloodData + "/";
     const handleSelect = (selectedIndex, e) => {
         setIndex(selectedIndex);
     };
 
     return (
         <Carousel activeIndex={index} onSelect={handleSelect} interval={null}>
-            {props.imgsNames?.map((imgName, index) => (
+            {props.imgsNames?.map((imgName, index) => (        
                 <Carousel.Item key={index}>
                     <img
                         className="selectedDiagnosticTestImages d-block w-100"
-                        src={path.DIAGNOSTIC_TESTS_IMGS_PATH + imgName.split('\\').pop()}
+                        src={"../" + `${process.env.REACT_APP_DIAGNOSTIC_TESTS_IMGS_PATH}` + imgsFolder + imgName.split('\\').pop() }
                     />
-                    
                 </Carousel.Item>
             ))}
-            {/* <Carousel.Item >
-                <img
-                    className="selectedDiagnosticTestImages d-block w-50"
-                    src={path.DIAGNOSTIC_TESTS_IMGS_PATH + props.selectedDiagnosticTest.fileName}
-                // alt={img.author}
-                />
-
-            </Carousel.Item> */}
-
-           
         </Carousel>
     );
 }

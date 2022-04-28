@@ -121,7 +121,7 @@ function MedicalExaminationRowData(props) {
         <td><Link to={`/MedicalExaminationDetails/${props.patientId}/${props.medicalExamination.id}`} state={props.medicalExamination} patientId={props.patientId} >{props.medicalExamination.id}</Link></td>
         <td>{props.medicalExamination.dataVisita.split(' ')[0]}</td>
         <td>{props.medicalExamination.tipoVisita}</td>
-        <td><img src={path.DIAGNOSTIC_TESTS_IMGS_PATH + props.medicalExamination.elencoRefertiVisita[0].immagineReferto} style={{ width: 100, height: 70 }} /></td>
+        <td><img src={`${process.env.REACT_APP_VISIT_REPORT_IMGS_PATH}` + props.medicalExamination.id + "/" + props.medicalExamination.elencoRefertiVisita[0].immagineReferto.split('\\').pop() }  style={{ width: 100, height: 70 }} /></td>
     </>
     );
 }

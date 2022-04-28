@@ -19,17 +19,21 @@ function MedicalExaminationDetailsInfo() {
     const [medicalExamination, setMedicalExamination] = useState(selectedMedicalExamination);
     const [patientId, setPatientId] = useState(selectedPatientId);
     const navigate = useNavigate();
-
-    // const [diagnosticTestId, setDiagnosticTestId] = useState(window.location.pathname.split('/').pop());
-    // const [diagnosticTests, setDiagnosticTests] = useState([]);
-    // const [patientProfile, setPatientProfile] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [isPageLoaded, setIsPageLoaded] = useState(false); //this helps
 
     useEffect(() => {
-        for (var i = 0; i < selectedMedicalExamination.elencoRefertiVisita.length; i++) {
-            filesArray.push(selectedMedicalExamination.elencoRefertiVisita[i].immagineReferto);
+        setIsLoaded(true);
+    }, []);
+    
+    useEffect(() => {
+        if (isLoaded) {
+            setIsPageLoaded(true);
+            for (var i = 0; i < selectedMedicalExamination.elencoRefertiVisita.length; i++) {
+                filesArray.push(selectedMedicalExamination.elencoRefertiVisita[i].immagineReferto);
+            }
         }
-        console.log(filesArray);
-    });
+    }, [isLoaded]);
 
     return (
         <>
@@ -43,7 +47,7 @@ function MedicalExaminationDetailsInfo() {
 
             <Row>
                 <Col>
-                    <ControlledCarouselBloodTests selectedMedicalExamination={selectedMedicalExamination} imgsNames={filesArray} />
+                    <ControlledCarouselMedicalExamination selectedMedicalExamination={selectedMedicalExamination} imgsNames={filesArray} />
                 </Col>
                 <Col>
                     <div><strong>Visita del:</strong> {medicalExamination.dataVisita}</div>
@@ -60,82 +64,27 @@ function MedicalExaminationDetailsInfo() {
     );
 }
 
-function ControlledCarouselBloodTests(props) {
-
+function ControlledCarouselMedicalExamination(props) {
     const [index, setIndex] = useState(0);
-
+    const imgsFolder = props.selectedMedicalExamination.id + "/";
     const handleSelect = (selectedIndex, e) => {
         setIndex(selectedIndex);
     };
-
+    console.log(process.env.REACT_APP_VISIT_REPORT_IMGS_PATH);
+    console.log(imgsFolder);
     return (
         <Carousel activeIndex={index} onSelect={handleSelect} interval={null}>
             {props.imgsNames?.map((imgName, index) => (
                 <Carousel.Item key={index}>
                     <img
-                        className="selectedDiagnosticTestImages d-block w-100"
-                        src={path.DIAGNOSTIC_TESTS_IMGS_PATH + imgName.split('\\').pop()}
+                        className="selectedDiagnosticTestImages d-block w-100"  
+                        src={"../" + `${process.env.REACT_APP_VISIT_REPORT_IMGS_PATH}` + imgsFolder + imgName.split('\\').pop() }
                     />
-
                 </Carousel.Item>
             ))}
-            {/* <Carousel.Item >
-                <img
-                    className="selectedDiagnosticTestImages d-block w-50"
-                    src={path.DIAGNOSTIC_TESTS_IMGS_PATH + props.selectedDiagnosticTest.fileName}
-                // alt={img.author}
-                />
-
-            </Carousel.Item> */}
-
-
         </Carousel>
     );
 }
-
-// function BloodTestTable(response) {
-//     return (
-//         <>
-//             <div className='col-6'>
-//                 <Table striped bordered hover size="sm">
-//                     <thead>
-//                         <tr>
-
-//                             <th>Esame</th>
-//                             <th>Valore</th>
-//                         </tr>
-//                     </thead>
-//                     <tbody>
-//                         {
-//                             response.data?.map((drugNameConcentration) => <BloodTestRow key={drugNameConcentration.id} drugNameConcentration={drugNameConcentration} />)
-//                         }
-//                     </tbody>
-//                 </Table>
-//             </div>
-
-
-
-//         </>
-//     );
-// }
-
-// function BloodTestRow(props) {
-//     return <tr><BloodTestRowData drugNameConcentration={props.drugNameConcentration} /></tr>
-// }
-
-// function BloodTestRowData(props) {
-//     return (<>
-//         <td>{props.drugNameConcentration.name === 0 ? "dataEvento" : "dataEvento"}</td>
-//         <td>{props.drugNameConcentration.concentration === 0 ? "disturboEvento" : "disturboEvento"}</td>
-
-//     </>
-//     );
-// }
-
-
-
-
-
 
 export { MedicalExaminationDetailsInfo };
 
