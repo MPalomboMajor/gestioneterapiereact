@@ -18,6 +18,7 @@ function MedicalExaminationDetailsInfo() {
     const [imgsNames, setImgsNames] = useState([]);
     const [medicalExamination, setMedicalExamination] = useState(selectedMedicalExamination);
     const [patientId, setPatientId] = useState(selectedPatientId);
+    const navigate = useNavigate();
 
     // const [diagnosticTestId, setDiagnosticTestId] = useState(window.location.pathname.split('/').pop());
     // const [diagnosticTests, setDiagnosticTests] = useState([]);
@@ -52,7 +53,7 @@ function MedicalExaminationDetailsInfo() {
                 </Col>
             </Row>
             <div className='mb-3'>
-                <Button type='submit' >Indietro</Button> <Button type='submit' >Torna a elenco pazienti</Button> <Button type='submit' >Avanti</Button>
+                <Button type='submit' onClick={() => navigate(-1)}>Torna a elenco visite </Button>
             </div>
 
         </>
@@ -75,7 +76,7 @@ function ControlledCarouselBloodTests(props) {
                         className="selectedDiagnosticTestImages d-block w-100"
                         src={path.DIAGNOSTIC_TESTS_IMGS_PATH + imgName.split('\\').pop()}
                     />
-                    
+
                 </Carousel.Item>
             ))}
             {/* <Carousel.Item >
@@ -87,7 +88,7 @@ function ControlledCarouselBloodTests(props) {
 
             </Carousel.Item> */}
 
-           
+
         </Carousel>
     );
 }

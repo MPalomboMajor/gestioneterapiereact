@@ -76,9 +76,9 @@ export default class Layout extends Component {
                             <Route path="/AdverseEvents/:idPaziente" element={<AdverseEventsInfo />}></Route>
                             <Route path="/EpilepticSeizures/:idPaziente" element={<EpilepticSeizuresInfo />}></Route>
                             <Route path="/DiagnosticTests/:idPaziente" element={<DiagnosticTestsInfo />}></Route>
-                            <Route path="/BloodTest/:idTest" element={<BloodTestsInfo />}></Route>
+                            <Route path="/BloodTest/:idPaziente/:idTest" element={<BloodTestsInfo />}></Route>
                             <Route path="/MedicalExaminations/:idPaziente" element={<MedicalExaminationsInfo />}></Route>
-                            <Route path="/MedicalExaminationDetails/:idMedicalExam" element={<MedicalExaminationDetailsInfo />}></Route>
+                            <Route path="/MedicalExaminationDetails/:idPaziente/:idMedicalExam" element={<MedicalExaminationDetailsInfo />}></Route>
                             <Route path="/MoodMonitoring/:idPaziente" element={<PatientMoodInterface />}></Route>
                             <Route path="/DoctorProfile/:idDocotr" element={<DoctorProfile />}></Route>
                             <Route path="/MedicalCenter" element={<MedicalCenter />}></Route>
@@ -110,9 +110,9 @@ export default class Layout extends Component {
                     <Route path="/PatientProfile/:idPaziente" element={<PatientProfile />}></Route>
                     <Route path="/AdverseEvents/:idPaziente" element={<AdverseEventsInfo />}></Route>
                     <Route path="/DiagnosticTests/:idPaziente" element={<DiagnosticTestsInfo />}></Route>
-                    <Route path="/BloodTest/:idTest" element={<BloodTestsInfo />}></Route>
+                    <Route path="/BloodTest/:idPaziente/:idTest" element={<BloodTestsInfo />}></Route>
                     <Route path="/MedicalExaminations/:idPaziente" element={<MedicalExaminationsInfo />}></Route>
-                            <Route path="/MedicalExaminationDetails/:idMedicalExam" element={<MedicalExaminationDetailsInfo />}></Route>
+                            <Route path="/MedicalExaminationDetails/:idPaziente/:idMedicalExam" element={<MedicalExaminationDetailsInfo />}></Route>
                     <Route path="/MoodMonitoring/:idPaziente" element={<PatientMoodInterface />}></Route>
                   </>
                   : ''}

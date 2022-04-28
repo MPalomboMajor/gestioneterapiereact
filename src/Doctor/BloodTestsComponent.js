@@ -16,6 +16,7 @@ function BloodTestsInfo() {
     const [imgsNames, setImgsNames] = useState([]);
     const [diagnosticTest, setDiagnosticTest] = useState(selectedDiagnosticTest);
     const [patientId, setPatientId] = useState(selectedPatientId);
+    const navigate = useNavigate();
 
     // const [diagnosticTestId, setDiagnosticTestId] = useState(window.location.pathname.split('/').pop());
     // const [diagnosticTests, setDiagnosticTests] = useState([]);
@@ -56,7 +57,7 @@ function BloodTestsInfo() {
                 </Col>
             </Row>
             <div className='mb-3'>
-                <Button type='submit' >Indietro</Button> <Button type='submit' >Torna a elenco pazienti</Button> <Button type='submit' >Avanti</Button>
+                <Button type='submit'onClick={() => navigate(-1)}>Torna a elenco esami </Button>
             </div>
 
         </>
