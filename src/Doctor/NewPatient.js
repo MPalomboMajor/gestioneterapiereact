@@ -15,7 +15,6 @@ export class NewPatient extends Component {
     });
     constructor(props) {
         super(props);
-
         this.validator = new SimpleReactValidator();
         this.state = {
             userDto: {
@@ -53,7 +52,9 @@ export class NewPatient extends Component {
 
         }
     }
-
+    componentDidMount() {
+        localStorage.removeItem('newPatient');
+     }
     InsertPatient = () => {
         if (this.validator.allValid()) {
 
@@ -69,7 +70,7 @@ export class NewPatient extends Component {
                         var DTO = this.state.patiendDto;
                         DTO.codicePaziente = parseInt(this.state.patiendDto.codicePaziente)
                         DTO.doctorNameIdDTOs.push(doctor)
-                        patient.post("Save", parseInt(this.state.patiendDto.codicePaziente))
+                        patient.post("Save", this.state.patiendDto)
                             .then((response) => {
                                 if (response.data.dati) {
                                     localStorage.setItem('newPatient', response.data.dati.patientCode);
@@ -126,7 +127,13 @@ export class NewPatient extends Component {
                     <Row className='col-12 pt-4' >
                         <Form.Group className="mb-3">
                             <Form.Label>Codice Paziente</Form.Label>
-                            <Form.Control id="codicePaziente" onChange={this.handleChange} alt="patiendDto" type="number" name="codicePaziente" isInvalid={validations.codicePaziente != null} placeholder="Inserisci Codice Paziente" />
+                            <Form.Control id="codicePaziente" onChange={this.handleChange} alt="patiendDto" type="number" name="codicePaziente"  placeholder="Inserisci Codice Paziente" />
+                        </Form.Group>
+                    </Row>
+                    <Row className='col-12 pt-4' >
+                        <Form.Group className="mb-3">
+                            <Form.Label>Telefono</Form.Label>
+                            <Form.Control id="phoneNumber" onChange={this.handleChange} alt="patiendDto" type="" name="phoneNumber"  placeholder="Inserisci Codice Paziente" />
                         </Form.Group>
                     </Row>
                 </Row>

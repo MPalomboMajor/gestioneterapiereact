@@ -6,7 +6,6 @@ import Pagination from '../helpers/pagination';
 export class NewCode extends Component {
 
     constructor(props) {
-        localStorage.removeItem('newPatient');
         super(props);
         this.state = {
             code: 0,
@@ -14,7 +13,8 @@ export class NewCode extends Component {
         }
     }
     componentDidMount() {
-    }
+        localStorage.removeItem('newPatient');
+     }
 
     getCode = () => {
         patientcode.getAll("GetNuovoCodicePaziente")

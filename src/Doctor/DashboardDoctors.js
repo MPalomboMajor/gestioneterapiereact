@@ -14,7 +14,6 @@ export class DashboardDoctors extends Component {
             isLoaded: false,
             items: []
         };
-        localStorage.removeItem('newPatient');
     }
 
      componentDidMount() {

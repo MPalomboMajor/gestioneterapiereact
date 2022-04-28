@@ -13,25 +13,25 @@ export class NewTherapy extends Component {
     allergiesProps = () => ({
         id: 0,
         nomeFarmaco: "",
-        idPatientProfile: 0
+        idPatientProfile:parseInt( window.location.pathname.split('/').pop())
     })
     farmaciProps = () => ({
-        id: 1,
+        id: 0,
         quantitaPrescrizione: 0,
-        oraAssunzioneIndicata: '',
+        oraAssunzioneIndicata: 0,
         dataFine: '',
         dataInizio: '',
         isActiveReminder: false,
         idPianoTerapeutico: 1,
-        farmaco: {
-            id: 1,
-            nome: "",
-            isOntozry: false
-        },
-        formulazione: {
-            id: 1,
-            formula: "",
-            idFarmaco: 1
+        formulazione : {
+            id: 0,
+            formula:0,
+            idFarmaco: 0,
+            farmaco: {
+              id: 0,
+              nome:  '',
+              isOntozry: false
+            }
         }
     })
     constructor(props) {
@@ -45,22 +45,26 @@ export class NewTherapy extends Component {
             patients: [],
             pharmacyPatients: [],
             currentPage: 1,
+            storicPlan: [],
             patientsPerPage: 5,
             allergiesDTO: { ...this.allergiesProps() },
             isOpenAllergic: false,
             isOpenModalOntozry: false,
             therapyDto: {
-                id: 1,
+                
+                therapeuticPlan:{
+                    id: 0,
 
-                versione: 0,
-                maxReminderNotification: 0,
-                dataPrescrizione: "",
-                inizioTerapia: "",
-                dataFineTerapia: "",
-                motivoFineTerapia: "",
-                idDoctor: JSON.parse(localStorage.getItem("role")).id,
-                idPatientProfile: 0,
-                elencoFarmaciPrescritti: [],
+                    versione: 0,
+                    maxReminderNotification: 0,
+                    dataPrescrizione: "07/04/2022",
+                    inizioTerapia: "07/04/2022",
+                    dataFineTerapia: "07/04/2022",
+                    motivoFineTerapia: "aaa",
+                    idDoctor: JSON.parse(localStorage.getItem("role")).id,
+                    idPatientProfile: parseInt( window.location.pathname.split('/').pop()),
+                    elencoFarmaciPrescritti: [],
+                },
                 ontozryMedication: [],
                 otherMedication: [],
                 medicationAllergies: [],
@@ -74,16 +78,6 @@ export class NewTherapy extends Component {
 
     componentDidMount() {
         localStorage.removeItem('newPatient');
-        pianoterapeutico.get("Get/", this.state.therapyDto.idPatientProfile)
-            .then((response) => {
-                if (response.status === 200) {
-                    this.setState({
-
-                    });
-                }
-            }).catch((error) => {
-                this.setState({ error: 1 })
-            });
         medication.getAll("GetAllOntozry/")
             .then((response) => {
                 if (response.status === 200) {
@@ -94,7 +88,7 @@ export class NewTherapy extends Component {
             }).catch((error) => {
                 this.setState({ error: 1 })
             });
-        patient.get("GetAllergies/", this.state.therapyDto.idPatientProfile)
+        patient.get("GetAllergies/",  window.location.pathname.split('/').pop())
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({
@@ -104,10 +98,32 @@ export class NewTherapy extends Component {
             }).catch((error) => {
                 this.setState({ error: 1 })
             });
+       pianoterapeutico.get("Get/", parseInt( window.location.pathname.split('/').pop()))
+            .then((response) => {
+                if (response.status === 200) {
+                    this.setState({
+                        object: response.data.dati,
+                    });
+                }
+            }).catch((error) => {
+                this.setState({ error: 1 })
+            });
+            pianoterapeutico.get("Storico/", parseInt( window.location.pathname.split('/').pop()))
+            .then((response) => {
+                if (response.status === 200) {
+                    this.setState({
+                        storicPlan: response.data.dati,
+                    });
+                }
+            }).catch((error) => {
+                this.setState({ error: 1 })
+            });
     }
     //FUNZIONI POST
     updateTherapy = () => {
-        pianoterapeutico.post("Save", this.state.therapyDto)
+this.state.therapyDto.otherMedication.map((item) => {delete item['dosagio'];delete item['delete'];delete item['nome'];})
+this.state.therapyDto.ontozryMedication.map((item) => {delete item['delete'];delete item['nome'];})
+        pianoterapeutico.post("SaveCompleteTherapy", this.state.therapyDto)
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({
@@ -123,7 +139,7 @@ export class NewTherapy extends Component {
     AddAllergies = () => {
         if (this.state.therapyDto.idPatientProfile != 0) {
             let updateDTO = this.state.allergiesDTO;
-            updateDTO.idPatientProfile = this.state.therapyDto.idPatientProfile;
+            updateDTO.idPatientProfile = this.state.therapyDto.therapeuticPlan.idPatientProfile;
         }
         var list = [];
         var allergia = this.state.allergiesDTO;
@@ -221,6 +237,12 @@ export class NewTherapy extends Component {
         const inputValue = el.target.value;
         this.updateState(inputName, inputValue, objName);
     };
+    handleChangeIntTherapy = (el) => {
+        let objName = el.target.alt;
+        const inputName = el.target.name;
+        const inputValue = el.target.value;
+        this.updateState(inputName, parseInt(inputValue), objName);
+    };
     updateState = (inputName, inputValue, objName) => {
         let statusCopy = Object.assign({}, this.state);
         statusCopy[objName][inputName] = inputValue;
@@ -267,6 +289,11 @@ export class NewTherapy extends Component {
             id: 1,
             formula: inputName.target.value,
             idFarmaco: 0,
+            farmaco: {
+                id: 0,
+                nome:  inputName.target.value,
+                isOntozry: false
+              }
         };
         this.updateState('dosagio', inputName.target.value, 'medicationDTO');
         this.updateState('formulazione', formulaziones, 'medicationDTO');
@@ -275,18 +302,18 @@ export class NewTherapy extends Component {
         const selected = inputName.target;
         const id = selected.children[selected.selectedIndex].id;
         var element = this.state.listOntozry.filter(x => x.id == id)
-        var farmaciProps = {
-            id: element[0].id,
-            nome: element[0].formula,
-            isOntozry: true
-        },
-            formulazione = {
-                id: 1,
-                formula: element[0].id,
+        
+        var  formulazione = {
+                id: element[0].id,
+                formula: element[0].formula,
                 idFarmaco: element[0].id,
+                farmaco: {
+                  id: element[0].id,
+                  nome:  'Ontozry',
+                  isOntozry: true
+                }
             }
-        this.updateState('nome', farmaciProps.nome, 'medicationDTO');
-        this.updateState('farmaco', farmaciProps, 'medicationDTO');
+        this.updateState('nome', formulazione.farmaco.nome, 'medicationDTO');
         this.updateState('formulazione', formulazione, 'medicationDTO');
     };
     deleteElementOnto = (el) => {
@@ -305,6 +332,7 @@ export class NewTherapy extends Component {
         const currentFarmaci = this.state.therapyDto.otherMedication.slice(indexOfFirstPatient, indexOfLastPatient);
         const pharmacyPatients = this.state.therapyDto.medicationAllergies.slice(indexOfFirstpharmacyPatient, indexOfLastpharmacyPatient);
         const currentItem = this.state.therapyDto.ontozryMedication.slice(indexOfFirstPatient, indexOfLastPatient);
+        const currentstoric = this.state.storicPlan.slice(indexOfFirstPatient, indexOfLastPatient);
         currentFarmaci.map((pa) => { pa.delete = 'delete'; });
         currentItem.map((pa) => { pa.delete = 'delete'; });
         return (
@@ -427,12 +455,12 @@ export class NewTherapy extends Component {
                                             </Form.Group>
                                             <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                                 <Form.Label className="text-">Quantita</Form.Label>
-                                                <Form.Control id="quantitaPrescrizione" onChange={this.handleChangeTherapy} type='number' alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci farmaco" />
+                                                <Form.Control id="quantitaPrescrizione" onChange={this.handleChangeIntTherapy} type='number' alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci farmaco" />
                                             </Form.Group>
                                         </>
                                             : <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                                 <Form.Label className="text-">Quantita</Form.Label>
-                                                <Form.Control id="quantitaPrescrizione" onChange={this.handleChangeTherapy} type='number' alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci farmaco" />
+                                                <Form.Control id="quantitaPrescrizione" onChange={this.handleChangeIntTherapy} type='number' alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci farmaco" />
                                             </Form.Group>}
                                     </Row>
                                     <Row className="col-14 mb-3">
@@ -461,7 +489,7 @@ export class NewTherapy extends Component {
 
                                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                             <Form.Label className="text-">Orario  consigliato assunzione {this.state.isOntozryFlag ? 'Ontozry' : ''} </Form.Label>
-                                            <Form.Control id="oraAssunzioneIndicata" onChange={this.handleChangeTherapy} alt="medicationDTO" name="oraAssunzioneIndicata" placeholder="Inserisci farmaco" />
+                                            <Form.Control id="oraAssunzioneIndicata" onChange={this.handleChangeIntTherapy} alt="medicationDTO" name="oraAssunzioneIndicata" placeholder="Inserisci farmaco" />
                                         </Form.Group>
                                         <Form.Group className="col-2 mb-3" controlId="formBasicEmail">
                                             <Form.Label className="text-">Promemoria Terapie</Form.Label>
@@ -653,19 +681,54 @@ export class NewTherapy extends Component {
                                     </Button>
                                 </Form.Group>
                                 <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                    <Button variant="btn btn-primary bi-cloud-check" >
+                                    <Button variant="btn btn-primary bi-cloud-check" onClick={() => this.updateTherapy()} >
                                         Salva Terapia
                                     </Button>
                                 </Form.Group>
                             </Row>
                         </Tab>
                         <Tab eventKey="storicoTerapie" title="Storico Terapie" >
-
+                       <Row>
+{
+  currentstoric.map((el)=>
+        <Row className='pb-2 mb-5'>
+                               <div className='col-4'>
+                               <div className='col-12'>
+                                <b>Dottore:</b>  {el.nameDoctor}
+                               </div>
+                               <div className='col-12 '>
+                               <b>Initzio  terapia: </b>  {el.inizioTerapia}
+                               </div>
+                               <div className='col-12'>
+                               <b>Fine Terapia:</b>  {el.dataFineTerapia}
+                               </div>
+                               </div>
+                               <div className='col-8'>
+                               <Table striped bordered hover size="sm">
+                                <thead>
+                                    <tr>
+                                        <th>Farmaco</th>
+                                        <th>Formula</th>
+                                        <th>Quantita</th>
+                                        <th>Data Inizio</th>
+                                        <th>Data DataFine</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                       el.elencoFarmaciPrescritti  != [] ?  el.elencoFarmaciPrescritti.map((pa) => <RowCustom colums={["nome", "formula", "quantitaPrescrizione", "dataInizio", "dataFine"]}  item={pa} />) : ''
+                                    }
+                                </tbody>
+                            </Table>
+                               </div>
+         </Row>
+    ) 
+}
+</Row>
                         </Tab>
                     </Tabs>
                 </Row></Container>
         );
-        // }
     }
 }
 
