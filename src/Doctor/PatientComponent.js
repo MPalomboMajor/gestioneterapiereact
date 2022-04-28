@@ -134,6 +134,7 @@ function RowCustom(props) {
     const listValue = [];
     {
         props.colums.map((item) => {
+            
             //CREA ELEMENTO PER LINK
             if (props.link === item) {
                 var element = {};
@@ -169,10 +170,20 @@ function RowCustom(props) {
             }
             //MOSTRA IL VALORE
             else {
+                var object = item.split('.');
                 var element = {};
                 element.id = props.item[String(props.reference)];
                 element.controller = props.controller;
-                element.value = props.item[item];
+                if (object.length == 1) {
+                    element.value = props.item[item];
+                }
+                if (object.length == 2) {
+                    element.value = props.item[object[0]][object[1]];
+                }
+                if (object.length == 3) {
+                    element.value = props.item[object[0]][object[1]][object[2]];
+                }
+                
                 element.isLink = false;
                 element.isUpdate = false;
                 element.isDelete = false;
@@ -186,13 +197,13 @@ function RowCustom(props) {
             el.element.isLink ?
                 <td><Link to={`/${el.element.controller}/${el.element.id}`}>{el.element.value != null ? String(el.element.value) : ''}</Link></td>
                 :
-            el.element.isUpdate ?
-                <td ><Button onClick={() => props.update(el.element.id)} className='btn btn-primary bi bi-pencil-square'></Button></td>
-                :
-            el.element.isDelete ?
-                <td ><Button onClick={() => props.delete(el.element.id)} className='btn btn-danger bi bi-trash'></Button></td>
-                :
-            <td>{el.element.value != null ? String(el.element.value) : ''}</td>
+                el.element.isUpdate ?
+                    <td ><Button onClick={() => props.update(el.element.id)} className='btn btn-primary bi bi-pencil-square'></Button></td>
+                    :
+                    el.element.isDelete ?
+                        <td ><Button onClick={() => props.delete(el.element.id)} className='btn btn-danger bi bi-trash'></Button></td>
+                        :
+                        <td>{el.element.value != null ? String(el.element.value) : ''}</td>
 
 
         )}

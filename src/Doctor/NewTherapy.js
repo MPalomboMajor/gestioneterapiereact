@@ -57,10 +57,10 @@ export class NewTherapy extends Component {
 
                     versione: 0,
                     maxReminderNotification: 0,
-                    dataPrescrizione: "07/04/2022",
-                    inizioTerapia: "07/04/2022",
-                    dataFineTerapia: "07/04/2022",
-                    motivoFineTerapia: "aaa",
+                    dataPrescrizione: "",
+                    inizioTerapia: "",
+                    dataFineTerapia: "",
+                    motivoFineTerapia: "",
                     idDoctor: JSON.parse(localStorage.getItem("role")).id,
                     idPatientProfile: parseInt( window.location.pathname.split('/').pop()),
                     elencoFarmaciPrescritti: [],
@@ -100,9 +100,10 @@ export class NewTherapy extends Component {
             });
        pianoterapeutico.get("Get/", parseInt( window.location.pathname.split('/').pop()))
             .then((response) => {
-                if (response.status === 200) {
+                if (response.status === 200 && response.data.dati != null) {
+                    
                     this.setState({
-                        object: response.data.dati,
+                        therapyDto: response.data.dati,
                     });
                 }
             }).catch((error) => {
@@ -121,8 +122,7 @@ export class NewTherapy extends Component {
     }
     //FUNZIONI POST
     updateTherapy = () => {
-this.state.therapyDto.otherMedication.map((item) => {delete item['dosagio'];delete item['delete'];delete item['nome'];})
-this.state.therapyDto.ontozryMedication.map((item) => {delete item['delete'];delete item['nome'];})
+
         pianoterapeutico.post("SaveCompleteTherapy", this.state.therapyDto)
             .then((response) => {
                 if (response.status === 200) {
@@ -133,8 +133,6 @@ this.state.therapyDto.ontozryMedication.map((item) => {delete item['delete'];del
             }).catch((error) => {
                 this.setState({ error: 1 })
             });
-
-
     }
     AddAllergies = () => {
         if (this.state.therapyDto.idPatientProfile != 0) {
@@ -148,33 +146,10 @@ this.state.therapyDto.ontozryMedication.map((item) => {delete item['delete'];del
         allergia.id = id + 1;
         list.push(allergia);
         this.setState({ isOpenAllergic: false, allergiesDTO: { ...this.allergiesProps() } });
-        /* patient.post("Allergy", this.state.allergiesDTO)
-             .then((response) => {
-                 if (response.status === 200) {
-                     this.setState({
-                         pharmacyPatients: response.data.dati,
-                         isOpenAllergic: false
-                     });
-                 }
-             }).catch((error) => {
-                 this.setState({ error: 1 })
-             });*/
-
-
     }
     deleteItem(el) {
         var listFilter = this.state.therapyDto.medicationAllergies.filter(x => x.id != el)
         this.updateState('medicationAllergies', listFilter, 'therapyDto');
-        /*patient.delete("Allergy/", el)
-            .then((response) => {
-                if (response.status === 200) {
-                    this.setState({
-                        pharmacyPatients: response.data.dati,
-                    });
-                }
-            }).catch((error) => {
-                this.setState({ error: 1 })
-            });*/
     }
     setCurrentPage = (n) => {
         this.setState({ currentPage: n });
@@ -203,7 +178,9 @@ this.state.therapyDto.ontozryMedication.map((item) => {delete item['delete'];del
             dateNow: moment(value).format("DD/MM/YYYY"),
             formattedValue: formattedValue
         });
-        this.updateState('dataFineTerapia', moment(value).format("DD/MM/YYYY"), 'therapyDto');
+        var plan =  this.state.therapyDto.therapeuticPlan;
+        plan.dataFineTerapia=moment(value).format("DD/MM/YYYY");
+        this.updateState('therapeuticPlan', plan, 'therapyDto');
     }
     handleChangeStartDateMedication = (value, formattedValue) => {
         this.setState({
@@ -220,10 +197,9 @@ this.state.therapyDto.ontozryMedication.map((item) => {delete item['delete'];del
         this.updateState('dataFine', moment(value).format("DD/MM/YYYY"), 'medicationDTO');
     }
     handleChangeNote = (el) => {
-        let objName = el.target.alt;
-        const inputName = el.target.name;
-        const inputValue = el.target.value;
-        this.updateState(inputName, inputValue, 'therapyDto');
+        var plan =  this.state.therapyDto.therapeuticPlan;
+        plan.motivoFineTerapia=el.target.value;
+        this.updateState('therapeuticPlan', plan, 'therapyDto');
     };
     handleChangeFarmaco = (el) => {
         let objName = el.target.alt;
@@ -285,17 +261,13 @@ this.state.therapyDto.ontozryMedication.map((item) => {delete item['delete'];del
 
     }
     handleChangeDosagio = (inputName) => {
-        var formulaziones = {
-            id: 1,
-            formula: inputName.target.value,
-            idFarmaco: 0,
-            farmaco: {
-                id: 0,
-                nome:  inputName.target.value,
-                isOntozry: false
-              }
-        };
-        this.updateState('dosagio', inputName.target.value, 'medicationDTO');
+        var formulaziones =  this.state.medicationDTO.formulazione;
+        formulaziones.formula=inputName.target.value;
+        this.updateState('formulazione', formulaziones, 'medicationDTO');
+    }
+    handleChangeNameFarmaco = (inputName) => {
+        var formulaziones =  this.state.medicationDTO.formulazione;
+        formulaziones.farmaco.nome=inputName.target.value;
         this.updateState('formulazione', formulaziones, 'medicationDTO');
     }
     onChangeDrop = (inputName) => {
@@ -313,7 +285,6 @@ this.state.therapyDto.ontozryMedication.map((item) => {delete item['delete'];del
                   isOntozry: true
                 }
             }
-        this.updateState('nome', formulazione.farmaco.nome, 'medicationDTO');
         this.updateState('formulazione', formulazione, 'medicationDTO');
     };
     deleteElementOnto = (el) => {
@@ -332,7 +303,7 @@ this.state.therapyDto.ontozryMedication.map((item) => {delete item['delete'];del
         const currentFarmaci = this.state.therapyDto.otherMedication.slice(indexOfFirstPatient, indexOfLastPatient);
         const pharmacyPatients = this.state.therapyDto.medicationAllergies.slice(indexOfFirstpharmacyPatient, indexOfLastpharmacyPatient);
         const currentItem = this.state.therapyDto.ontozryMedication.slice(indexOfFirstPatient, indexOfLastPatient);
-        const currentstoric = this.state.storicPlan.slice(indexOfFirstPatient, indexOfLastPatient);
+        const currentstoric =this.state.storicPlan ?  this.state.storicPlan.slice(indexOfFirstPatient, indexOfLastPatient) :[];
         currentFarmaci.map((pa) => { pa.delete = 'delete'; });
         currentItem.map((pa) => { pa.delete = 'delete'; });
         return (
@@ -349,7 +320,7 @@ this.state.therapyDto.ontozryMedication.map((item) => {delete item['delete'];del
                                             <Button disabled variant="outline-secondary" className='bi bi-calendar-date-fill' id="button-addon1" />
                                             <div className='datepicker-wrapper-date datepicker-wrapper'>
                                                 <DatePicker disabled id='startTherapy' name={'startTherapy'} aria-label="Example text with button addon"
-                                                    aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.therapyDto.inizioTerapia} onChange={this.handleChange} />
+                                                    aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.therapyDto.therapeuticPlan.inizioTerapia} onChange={this.handleChange} />
                                             </div>
                                         </InputGroup>
                                     </Form.Group>
@@ -359,7 +330,7 @@ this.state.therapyDto.ontozryMedication.map((item) => {delete item['delete'];del
                                             <Button variant="outline-secondary" className='bi bi-calendar-date-fill' id="button-addon1" />
                                             <div className='datepicker-wrapper-date datepicker-wrapper'>
                                                 <DatePicker id='endTherapy' name={'endTherapy'} aria-label="Example text with button addon"
-                                                    aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.therapyDto.dataFineTerapia} onChange={this.handleChange} />
+                                                    aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.therapyDto.therapeuticPlan.dataFineTerapia} onChange={this.handleChange} />
                                             </div>
                                         </InputGroup>
                                     </Form.Group>
@@ -406,7 +377,7 @@ this.state.therapyDto.ontozryMedication.map((item) => {delete item['delete'];del
                                 </thead>
                                 <tbody>
                                     {
-                                        currentItem.map((pa) => <RowCustom colums={["nome", "quantitaPrescrizione", "dataInizio", "dataFine", "oraAssunzioneIndicata", "delete"]} elementDelete={"delete"} reference={'id'} delete={(el) => this.deleteElementOnto(el)} item={pa} />)
+                                        currentItem.map((pa) => <RowCustom colums={["formulazione.formula", "quantitaPrescrizione", "dataInizio", "dataFine", "oraAssunzioneIndicata", "delete"]} elementDelete={"delete"} reference={'id'} delete={(el) => this.deleteElementOnto(el)} item={pa} />)
                                     }
                                 </tbody>
                             </Table>
@@ -436,7 +407,7 @@ this.state.therapyDto.ontozryMedication.map((item) => {delete item['delete'];del
                                         {!this.state.isOntozryFlag ?
                                             <Form.Group className={this.state.isOntozryFlag ? "col-6 mb-3" : "col-12 mb-3"} controlId="formBasicEmail">
                                                 <Form.Label className="text-">{this.state.isOntozryFlag ? 'Ontozry' : 'Farmaco'} </Form.Label>
-                                                <Form.Control id="nome" onChange={this.handleChangeTherapy} alt="medicationDTO" name="nome" placeholder="Inserisci farmaco" />
+                                                <Form.Control id="nome" onChange={this.handleChangeNameFarmaco} alt="medicationDTO" name="nome" placeholder="Inserisci farmaco" />
                                             </Form.Group>
                                             :
                                             <Form.Group className="col-6 mb-3 input-layout-wrapper" >
@@ -603,7 +574,7 @@ this.state.therapyDto.ontozryMedication.map((item) => {delete item['delete'];del
                                 </thead>
                                 <tbody>
                                     {
-                                        currentFarmaci.map((pa) => <RowCustom colums={["nome", "dosagio", "quantitaPrescrizione", "dataInizio", "dataFine", "oraAssunzioneIndicata", "delete"]} elementDelete={"delete"} reference={'id'} delete={(el) => this.deleteElementOther(el)} item={pa} />)
+                                        currentFarmaci.map((pa) => <RowCustom colums={["formulazione.farmaco.nome", "formulazione.formula", "quantitaPrescrizione", "dataInizio", "dataFine", "oraAssunzioneIndicata", "delete"]} elementDelete={"delete"} reference={'id'} delete={(el) => this.deleteElementOther(el)} item={pa} />)
                                     }
                                 </tbody>
                             </Table>
@@ -716,7 +687,7 @@ this.state.therapyDto.ontozryMedication.map((item) => {delete item['delete'];del
                                 </thead>
                                 <tbody>
                                     {
-                                       el.elencoFarmaciPrescritti  != [] ?  el.elencoFarmaciPrescritti.map((pa) => <RowCustom colums={["nome", "formula", "quantitaPrescrizione", "dataInizio", "dataFine"]}  item={pa} />) : ''
+                                       el.elencoFarmaciPrescritti  != [] ?  el.elencoFarmaciPrescritti.map((pa) => <RowCustom colums={["formulazione.farmaco.nome", "formulazione.formula", "quantitaPrescrizione", "dataInizio", "dataFine"]} oBoB={["formulazione.formula ", "formulazione.formula.nome"]} item={pa} />) : ''
                                     }
                                 </tbody>
                             </Table>
