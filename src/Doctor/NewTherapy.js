@@ -123,7 +123,13 @@ export class NewTherapy extends Component {
     }
     //FUNZIONI POST
     updateTherapy = () => {
-console.log(this.state.therapyDto);
+this.state.therapyDto.ontozryMedication.map((el) => 
+el.id != 0 ?  el.id= 0 :  ''
+) 
+ this.state.therapyDto.otherMedication.map((el) => 
+el.id != 0 ?  el.id= 0 :  ''
+) 
+this.state.therapyDto.therapeuticPlan.id = 0;
         pianoterapeutico.post("SaveCompleteTherapy", this.state.therapyDto)
             .then((response) => {
                 if (response.status === 200) {
@@ -260,7 +266,7 @@ console.log(this.state.therapyDto);
         var farmaco = this.state.medicationDTO;
         list = this.state.therapyDto.ontozryMedication;
         var id = this.state.therapyDto.otherMedication.length;
-        farmaco.id = id + 1;
+        farmaco.id = 0;
         list = this.state.therapyDto.otherMedication;
         list.push(farmaco);
         this.setState({ otherMedication: { list }, isOpenModalOntozry: false, medicationDTO: { ...this.farmaciProps() } });
@@ -282,9 +288,9 @@ console.log(this.state.therapyDto);
         var element = this.state.listOntozry.filter(x => x.id == id)
         
         var  formulazione = {
-                id: element[0].id,
+                id: 0,
                 formula: element[0].formula,
-                idFarmaco: element[0].id,
+                idFarmaco: 0,
                 farmaco: {
                   id: element[0].id,
                   nome:  'Ontozry',
