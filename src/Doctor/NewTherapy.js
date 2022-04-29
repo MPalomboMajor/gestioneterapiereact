@@ -1,10 +1,11 @@
 import React, { Component, useState, useEffect } from 'react';
 import '../css/style.css';
 import { Tabs, Tab, Container, Form, Row, InputGroup, Button, FormControl, Table, Modal } from 'react-bootstrap';
-import { Link } from "react-router-dom";
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { RowCustom } from "./PatientComponent"
 import { medico, pianoterapeutico, patient, medication } from '../helpers/api/api';
 import DatePicker from "react-datepicker";
+import { entitiesLabels, message } from '../helpers/Constants';
 import { PatientRow, PatientAllergyRow } from "./PatientComponent";
 import moment from 'moment';
 import Pagination from '../helpers/pagination';
@@ -19,8 +20,8 @@ export class NewTherapy extends Component {
         id: 0,
         quantitaPrescrizione: 0,
         oraAssunzioneIndicata: 0,
-        dataFine: '',
-        dataInizio: '',
+        dataFine: null,
+        dataInizio: null,
         isActiveReminder: false,
         idPianoTerapeutico: 1,
         formulazione : {
@@ -57,9 +58,9 @@ export class NewTherapy extends Component {
 
                     versione: 0,
                     maxReminderNotification: 0,
-                    dataPrescrizione: "",
-                    inizioTerapia: "",
-                    dataFineTerapia: "",
+                    dataPrescrizione: null,
+                    inizioTerapia: null,
+                    dataFineTerapia: null,
                     motivoFineTerapia: "",
                     idDoctor: JSON.parse(localStorage.getItem("role")).id,
                     idPatientProfile: parseInt( window.location.pathname.split('/').pop()),
@@ -86,7 +87,7 @@ export class NewTherapy extends Component {
                     });
                 }
             }).catch((error) => {
-                this.setState({ error: 1 })
+                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
         patient.get("GetAllergies/",  window.location.pathname.split('/').pop())
             .then((response) => {
@@ -96,7 +97,7 @@ export class NewTherapy extends Component {
                     });
                 }
             }).catch((error) => {
-                this.setState({ error: 1 })
+                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
        pianoterapeutico.get("Get/", parseInt( window.location.pathname.split('/').pop()))
             .then((response) => {
@@ -117,21 +118,26 @@ export class NewTherapy extends Component {
                     });
                 }
             }).catch((error) => {
-                this.setState({ error: 1 })
+                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
     }
     //FUNZIONI POST
     updateTherapy = () => {
-
+console.log(this.state.therapyDto);
         pianoterapeutico.post("SaveCompleteTherapy", this.state.therapyDto)
             .then((response) => {
                 if (response.status === 200) {
+                    if (response.data.dati.statoesito != 1) {
+                    NotificationManager.success(message.TERAPIA + message.SuccessInsert, entitiesLabels.SUCCESS, 3000);
                     this.setState({
-
+                        therapyDto: response.data.dati,
                     });
+                    }else{
+                        NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+                    }
                 }
             }).catch((error) => {
-                this.setState({ error: 1 })
+                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
     }
     AddAllergies = () => {
@@ -698,7 +704,9 @@ export class NewTherapy extends Component {
 </Row>
                         </Tab>
                     </Tabs>
-                </Row></Container>
+                </Row>
+                < NotificationContainer />
+                </Container>
         );
     }
 }

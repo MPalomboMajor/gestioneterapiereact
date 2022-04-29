@@ -41,6 +41,7 @@ export const message = {
   ///OBJECT
   USER: 'user',
   MEDICO: 'Medico ',
+  TERAPIA: 'Terapia ',
   CODICE: 'Codice ',
   PATIENT: 'Paziente ',
   CARMANAGER: 'CarManager ',
