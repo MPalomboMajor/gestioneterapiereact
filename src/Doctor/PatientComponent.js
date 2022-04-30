@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { patient } from '../helpers/api/api';
 import Pagination from '../helpers/pagination';
 import { Link } from 'react-router-dom';
+import { role } from '../helpers/Constants';
 import { PatchMinus } from 'react-bootstrap-icons';
 
 function PatientInfo() {
@@ -17,8 +18,8 @@ function PatientInfo() {
     useEffect(() => {
         const fetchPatients = async () => {
             setLoading(true);
-            if (JSON.parse(localStorage.getItem("role")).idRole == 4) {
-                await patient.getAll("Get")
+            if (JSON.parse(localStorage.getItem("role")).idRole == role.CARMANAGER ) {
+                await patient.getAll("GetAll")
                     .then((response) => {
                         if (response.status === 200) {
                             setPatients(response.data.dati);
