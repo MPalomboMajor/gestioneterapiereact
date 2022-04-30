@@ -129,6 +129,7 @@ el.id != 0 ?  el.id= 0 :  ''
  this.state.therapyDto.otherMedication.map((el) => 
 el.id != 0 ?  el.id= 0 :  ''
 ) 
+
 this.state.therapyDto.therapeuticPlan.id = 0;
         pianoterapeutico.post("SaveCompleteTherapy", this.state.therapyDto)
             .then((response) => {

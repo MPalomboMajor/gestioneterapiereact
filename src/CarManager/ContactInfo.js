@@ -28,10 +28,12 @@ export class ContactInfo extends Component {
         this.GetListPatient();
     }
     GetListPatient = () => {
-        patient.getAll("Get")
+        patient.getAll("GetAll")
             .then(async (response) => {
                 if (response.status == 200) {
-                    this.setState({ listPatient: response.data.dati });
+                    this.setState({
+                        listPatient: response.data.dati,
+                    });
                 }
             }).catch((error) => {
 
@@ -88,7 +90,7 @@ export class ContactInfo extends Component {
     render() {
         const indexOfLastPatient = this.state.currentPage * this.state.itemPerPage;
         const indexOfFirstPatient = indexOfLastPatient - this.state.itemPerPage;
-        const currentItem = this.state.listPatient.slice(indexOfFirstPatient, indexOfLastPatient);
+        const currentItem = this.state.listPatient != [] ? this.state.listPatient.slice(indexOfFirstPatient, indexOfLastPatient) : [];
         const element = {};
         currentItem.map((pa) => { pa.openModal = 'openModal'; });
         return (
@@ -110,7 +112,7 @@ export class ContactInfo extends Component {
                         </thead>
                         <tbody>
                             {
-                                currentItem.map((pa) => <RowCustom colums={["codicePaziente", "fiscalCode", "surName", "name" , "Medico", "phoneNumber","email"]} link={'codicePaziente'} reference={'codicePaziente'} controller={'ContactInfoPatient'}   item={pa} />)
+                                currentItem.map((pa) => <RowCustom colums={["id","codicePaziente", "fiscalCode", "surName", "name" , "Medico", "phoneNumber","email"]} link={'id'} reference={'id'} controller={'ContactInfoPatient'}   item={pa} />)
                             }
                         </tbody>
                     </Table>

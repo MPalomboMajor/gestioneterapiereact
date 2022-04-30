@@ -6,7 +6,7 @@ import { user, medico, patient, patientcode } from '../helpers/api/api';
 import '../css/style.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { NotificationContainer as ContainerModal, NotificationManager as ManagerModal } from 'react-notifications';
-import { entitiesLabels, message } from '../helpers/Constants';
+import { entitiesLabels, message , role } from '../helpers/Constants';
 import SimpleReactValidator from 'simple-react-validator';
 export class DoctorProfile extends Component {
     userModelProp = () => ({
@@ -92,7 +92,7 @@ export class DoctorProfile extends Component {
 
                     const statusCopy = { ...this.state };
                     statusCopy['userDto']['idDoctor'] = response.data.dati.id;
-                    if (JSON.parse(localStorage.getItem("role")).idRole == 4) {
+                    if (JSON.parse(localStorage.getItem("role")).idRole == role.CARMANAGER) {
 
                         patient.get("GetByDoctor/", response.data.dati.id)
                             .then((response) => {
@@ -244,7 +244,7 @@ export class DoctorProfile extends Component {
         const currentItem =this.state.listPatient ? this.state.listPatient.slice(indexOfFirstPatient, indexOfLastPatient) : [];
         const currentItemsCode =this.state.listPatientCode ? this.state.listPatientCode.slice(indexOfFirstPatient, indexOfLastPatient) :[];
         return (<>
-            {JSON.parse(localStorage.getItem("role")).idRole == 4 ?
+            {JSON.parse(localStorage.getItem("role")).idRole == role.CARMANAGER ?
                 //CARMANAGER
                 <>
                     <Container className='col-12 pt-4 row'>
@@ -378,6 +378,7 @@ export class DoctorProfile extends Component {
                                 <Table striped bordered hover size="sm">
                                     <thead>
                                         <tr>
+                                        <th>Codice Paziente</th>
                                             <th>Codice Paziente</th>
                                             <th>Codice Fiscale</th>
                                             <th>Cognome</th>
@@ -389,7 +390,7 @@ export class DoctorProfile extends Component {
                                     </thead>
                                     <tbody>
                                         {
-                                          this.state.listPatient ?  currentItem.map((pa) => <RowCustom colums={["codicePaziente", "fiscalCode", "surName", "name", "email", "phoneNumber", "isActive"]} link={'codicePaziente'} reference={'codicePaziente'} controller={'PatientRegistry'} item={pa} />) : ''
+                                          this.state.listPatient ?  currentItem.map((pa) => <RowCustom colums={["id","codicePaziente", "fiscalCode", "surName", "name", "email", "phoneNumber", "isActive"]} link={'id'} reference={'id'} controller={'PatientRegistry'} item={pa} />) : ''
                                         }
                                     </tbody>
                                 </Table>

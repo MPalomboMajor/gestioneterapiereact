@@ -8,8 +8,8 @@ import SimpleReactValidator from 'simple-react-validator';
 export class NewPatient extends Component {
     userModelProp = () => ({
         id: 0,
-        username: 'T@T.com',
-        password: 'AdminAdmin02!',
+        username: '',
+        password: '',
         idRole: 1,
 
     });
@@ -73,8 +73,8 @@ export class NewPatient extends Component {
                         patient.post("Save", this.state.patiendDto)
                             .then((response) => {
                                 if (response.data.dati) {
-                                    localStorage.setItem('newPatient', response.data.dati.patientCode);
-                                    window.location.href = "/NewTherapy/"+response.data.dati.patientCode;
+                                    localStorage.setItem('newPatient', response.data.dati.id);
+                                    window.location.href = "/NewTherapy/"+response.data.dati.id;
                                 } else {
 
                                 }
