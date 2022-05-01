@@ -36,29 +36,27 @@ function AdverseEventsInfo() {
         fetchAdverseEvents();
     }, [show]);
 
-// Get current
-const indexOfLastAdverseEvent = currentPage * adverseEventsPerPage;
-const indexOfFirstAdverseEvent = indexOfLastAdverseEvent - adverseEventsPerPage;
-const currentAdverseEvents = adverseEvents?.slice(indexOfFirstAdverseEvent, indexOfLastAdverseEvent);
+    // Get current
+    const indexOfLastAdverseEvent = currentPage * adverseEventsPerPage;
+    const indexOfFirstAdverseEvent = indexOfLastAdverseEvent - adverseEventsPerPage;
+    const currentAdverseEvents = adverseEvents?.slice(indexOfFirstAdverseEvent, indexOfLastAdverseEvent);
 
-// Change page
-const paginate = pageNumber => setCurrentPage(pageNumber);
+    // Change page
+    const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (
         <>
-            <Row className='col-12 pt-4' >
-                <div className='col-12'>
-                    <h2>Eventi avversi</h2>
-                </div>
-            </Row>
+
+            <h1>Eventi avversi</h1>
+
             &nbsp;&nbsp;
             <Col>
                 <AdverseEventsTable adverseEvents={currentAdverseEvents} handleShow={handleShow} loading={loading} />
                 <Pagination
-                patientsPerPage={adverseEventsPerPage}
-                totalPatients={adverseEvents?.length}
-                paginate={paginate}
-            />
+                    patientsPerPage={adverseEventsPerPage}
+                    totalPatients={adverseEvents?.length}
+                    paginate={paginate}
+                />
             </Col>
             <div className='mb-3'>
                 <Button variant="primary" id="btnAdd" onClick={handleShow}>Aggiungi eventi avversi <i class="fas fa-plus"></i></Button>
@@ -92,7 +90,7 @@ function AdverseEventsTable(props) {
                     </tbody>
                 </Table>
             </div>
-            
+
 
 
         </>
@@ -106,21 +104,53 @@ function AdverseEventRow(props) {
 function AdverseEventRowData(props) {
     return (<>
         <td>{props.adverseEvent.dateEvent.split(' ')[0]}</td>
-        <td>{props.adverseEvent.intensity}</td>
+        <td>{props.adverseEvent.idIntensity}</td>
         <td>{props.adverseEvent.description}</td>
+        {/* {[''].map((type) => (
+            <div key={`inline-${type}`} className="mb-3">
+                <Form.Check
+                    defaultChecked={props.adverseEvent.idIntensity}
+                    inline
+                    label="Lieve"
+                    name="idIntensity"
+                    type={type}
+                    id={`inline-${type}-1`}
+                    value="1"
+                    disabled
+                />
+                <Form.Check
+                    defaultChecked={props.adverseEvent.idIntensity}
+                    inline
+                    label="Moderata"
+                    name="idIntensity"
+                    type={type}
+                    id={`inline-${type}-2`}
+                    value="2"
+                    disabled
+                />
+                <Form.Check
+                    defaultChecked={props.adverseEvent.idIntensity}
+                    inline
+                    label="Severa"
+                    name="idIntensity"
+                    type={type}
+                    id={`inline-${type}-3`}
+                    value="3"
+                    disabled
+                />
+            </div>
+        ))} */}
     </>
     );
 }
 
 function AdverseEventsModal(props) {
     const [newAdverseEvent, setNewAdverseEvent] = useState({
-        idPatient: window.location.pathname.split('/').pop(),
-        idAdverseEvent: 0,
-        disorder: 0,
+        idPatientProfile: window.location.pathname.split('/').pop(),
+        id: 0,
         description: "",
         dateEvent: "",
-        intensity: 0,
-        otherDisorder: ""
+        idIntensity: 0,
     });
 
     const handleChange = (e) => {
@@ -134,20 +164,17 @@ function AdverseEventsModal(props) {
 
     const clearState = () => {
         setNewAdverseEvent({
-            idPatient: window.location.pathname.split('/').pop(),
-            idAdverseEvent: 0,
-            disorder: 0,
+            idPatientProfile: window.location.pathname.split('/').pop(),
+            id: 0,
             description: "",
             dateEvent: "",
-            intensity: 0,
-            otherDisorder: ""
+            idIntensity: 0,
         })
     }
 
     function saveAdverseEvent() {
-        newAdverseEvent.idPatient = parseInt(newAdverseEvent.idPatient);
-        newAdverseEvent.intensity = parseInt(newAdverseEvent.intensity);
-        newAdverseEvent.disorder = parseInt(newAdverseEvent.disorder);
+        newAdverseEvent.idPatientProfile = parseInt(newAdverseEvent.idPatientProfile);
+        newAdverseEvent.idIntensity = parseInt(newAdverseEvent.idIntensity);
         moment(newAdverseEvent.dateEvent).format("DD/MM/YYYY")
         // newAdverseEvent.dateEvent = moment(newAdverseEvent.dateEvent).format("DD/MM/YYYY")
         patient.post("Events/", newAdverseEvent)
@@ -174,35 +201,35 @@ function AdverseEventsModal(props) {
                         <Form.Group controlId="adverseEventDate">
                             <Form.Label>Data evento</Form.Label>
                             <Form.Control type="date" name="dateEvent" placeholder="Inizio" onChange={handleChange} />
-                        </Form.Group>                      
+                        </Form.Group>
                         <Form.Label>Intensità</Form.Label>
                         {['radio'].map((type) => (
                             <div key={`inline-${type}`} className="mb-3">
                                 <Form.Check
                                     inline
                                     label="Lieve"
-                                    name="intensity"
+                                    name="idIntensity"
                                     type={type}
                                     id={`inline-${type}-1`}
-                                    value="0"
-                                    onChange={handleChange}
-                                />
-                                <Form.Check
-                                    inline
-                                    label="Moderata"
-                                    name="intensity"
-                                    type={type}
-                                    id={`inline-${type}-2`}
                                     value="1"
                                     onChange={handleChange}
                                 />
                                 <Form.Check
                                     inline
+                                    label="Moderata"
+                                    name="idIntensity"
+                                    type={type}
+                                    id={`inline-${type}-2`}
+                                    value="2"
+                                    onChange={handleChange}
+                                />
+                                <Form.Check
+                                    inline
                                     label="Severa"
-                                    name="intensity"
+                                    name="idIntensity"
                                     type={type}
                                     id={`inline-${type}-3`}
-                                    value="2"
+                                    value="3"
                                     onChange={handleChange}
                                 />
                             </div>
