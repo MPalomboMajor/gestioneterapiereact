@@ -275,7 +275,7 @@ function EpilepticSeizureRowData(props) {
 function EpilepticSeizuresModal(props) {
     const [newEpilepticSeizures, setNewEpilepticSeizures] = useState({
         id: 0,
-        idPatient: props.patientId,
+        idPatientProfile: props.patientId,
         description: "",
         dateTimeEventOccured: "",
         elencoComportamenti: [
@@ -459,7 +459,7 @@ function EpilepticSeizuresModal(props) {
     };
 
     function saveEpilepticSeizure() {
-        newEpilepticSeizures.idPatient = parseInt(props.patientId);
+        newEpilepticSeizures.idPatientProfile = parseInt(props.patientId);
         newEpilepticSeizures.elencoContestualita.splice(0, 1);
         newEpilepticSeizures.elencoComportamenti.splice(0, 1);
         patient.post("Seizures/", newEpilepticSeizures)
@@ -477,7 +477,7 @@ function EpilepticSeizuresModal(props) {
     const clearState = () => {
         setNewEpilepticSeizures({
             id: 0,
-            idPatient: props.patientId,
+            idPatientProfile: props.patientId,
             description: "",
             dateTimeEventOccured: "",
             elencoComportamenti: [
