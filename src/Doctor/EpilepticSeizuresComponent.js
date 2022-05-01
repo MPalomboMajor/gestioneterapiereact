@@ -83,11 +83,9 @@ function EpilepticSeizuresInfo() {
 
     return (
         <>
-            <Row className='col-12 pt-4' >
-                <div className='col-12'>
-                    <h2>Crisi epilettiche</h2>
-                </div>
-            </Row>
+
+            <h1>Crisi epilettiche</h1>
+
             &nbsp;&nbsp;
             <Col className='mb-3'>
                 <EpilepticSeizuresForm numberStartingSeizures={patientProfile.numeroCrisiPartenza} onChange={handleChange} />
@@ -160,18 +158,19 @@ function EpilepticSeizureRow(props) {
 
 function EpilepticSeizureRowData(props) {
 
-    const comportamentoCheck = props.epilepticSeizure.elencoComportamenti.map(c => c.comportamento);
-    const contestoCheck = props.epilepticSeizure.elencoContestualita.map(c => c.contesto);
-console.log(comportamentoCheck);
-console.log(contestoCheck);
+    const comportamentoCheck = props.epilepticSeizure.elencoComportamenti.map(c => c.id);
+    const contestoCheck = props.epilepticSeizure.elencoContestualita.map(c => c.id);
+    console.log(comportamentoCheck);
+    console.log(contestoCheck);
+
     return (<>
         <td>{props.epilepticSeizure.dateTimeEventOccured.split(' ')[0]}</td>
         <td>{props.epilepticSeizure.description}</td>
         <td><div className='col-8'>
             {['checkbox'].map((type) => (
                 <div key={`inline-${type}`} className="mb-3">
-                    <Form.Check                   
-                        checked={comportamentoCheck.includes('CrisiConvulsivaGeneralizzata')}
+                    <Form.Check
+                        checked={comportamentoCheck.includes(1)}
                         value="1"
                         inline
                         label="Crisi convulsiva generalizzata"
@@ -181,7 +180,7 @@ console.log(contestoCheck);
                         disabled
                     />
                     <Form.Check
-                        checked={comportamentoCheck.includes('AssenzaOCrisiFocale')}
+                        checked={comportamentoCheck.includes(2)}
                         value="2"
                         inline
                         label="Assenza/crisi focale"
@@ -191,7 +190,7 @@ console.log(contestoCheck);
                         disabled
                     />
                     <Form.Check
-                        checked={comportamentoCheck.includes('PerditaDiCoscienza')}
+                        checked={comportamentoCheck.includes(3)}
                         value="3"
                         inline
                         label="Perdita di coscienza"
@@ -201,7 +200,7 @@ console.log(contestoCheck);
                         disabled
                     />
                     <Form.Check
-                        checked={comportamentoCheck.includes('CadutaATerra')}
+                        checked={comportamentoCheck.includes(4)}
                         value="4"
                         inline
                         label="Caduta a terra"
@@ -217,7 +216,7 @@ console.log(contestoCheck);
             {['checkbox'].map((type) => (
                 <div key={`inline-${type}`} className="mb-3">
                     <Form.Check
-                        checked={contestoCheck.includes('Casa')}
+                        checked={contestoCheck.includes(1)}
                         value="1"
                         inline
                         label="Casa"
@@ -227,7 +226,7 @@ console.log(contestoCheck);
                         disabled
                     />
                     <Form.Check
-                        checked={contestoCheck.includes('Lavoro')}
+                        checked={contestoCheck.includes(2)}
                         value="2"
                         inline
                         label="Lavoro"
@@ -237,7 +236,7 @@ console.log(contestoCheck);
                         disabled
                     />
                     <Form.Check
-                        checked={contestoCheck.includes('TempoLibero')}
+                        checked={contestoCheck.includes(3)}
                         value="3"
                         inline
                         label="Tempo libero"
@@ -247,7 +246,7 @@ console.log(contestoCheck);
                         disabled
                     />
                     <Form.Check
-                        checked={contestoCheck.includes('Veglia')}
+                        checked={contestoCheck.includes(4)}
                         value="4"
                         inline
                         label="Veglia"
@@ -257,7 +256,7 @@ console.log(contestoCheck);
                         disabled
                     />
                     <Form.Check
-                        checked={contestoCheck.includes('Sonno')}
+                        checked={contestoCheck.includes(5)}
                         value="5"
                         inline
                         label="Sonno"
@@ -304,7 +303,7 @@ function EpilepticSeizuresModal(props) {
         if (!crisiConvulsivaGeneralizzata) {
             setNewEpilepticSeizures({
                 ...newEpilepticSeizures,
-                elencoComportamenti: [...newEpilepticSeizures.elencoComportamenti, { id: 0, comportamento: parseInt(e.target.value), idEpilepticSeizureEvent: 0 }],
+                elencoComportamenti: [...newEpilepticSeizures.elencoComportamenti, { description: "Crisi Convulsiva Generalizzata", id: parseInt(e.target.value) }],
             });
         } else {
             var Id = e.target.value;
@@ -320,7 +319,7 @@ function EpilepticSeizuresModal(props) {
         if (!assenzaCrisiFocale) {
             setNewEpilepticSeizures({
                 ...newEpilepticSeizures,
-                elencoComportamenti: [...newEpilepticSeizures.elencoComportamenti, { id: 0, comportamento: parseInt(e.target.value), idEpilepticSeizureEvent: 0 }],
+                elencoComportamenti: [...newEpilepticSeizures.elencoComportamenti, { description: "Assenza / Crisi Focale", id: parseInt(e.target.value) }],
             });
         } else {
             var Id = e.target.value;
@@ -336,7 +335,7 @@ function EpilepticSeizuresModal(props) {
         if (!perditaDiCoscienza) {
             setNewEpilepticSeizures({
                 ...newEpilepticSeizures,
-                elencoComportamenti: [...newEpilepticSeizures.elencoComportamenti, { id: 0, comportamento: parseInt(e.target.value), idEpilepticSeizureEvent: 0 }],
+                elencoComportamenti: [...newEpilepticSeizures.elencoComportamenti, { description: "Perdita di Coscienza", id: parseInt(e.target.value) }],
             });
         } else {
             var Id = e.target.value;
@@ -352,7 +351,7 @@ function EpilepticSeizuresModal(props) {
         if (!cadutaATerra) {
             setNewEpilepticSeizures({
                 ...newEpilepticSeizures,
-                elencoComportamenti: [...newEpilepticSeizures.elencoComportamenti, { id: 0, comportamento: parseInt(e.target.value), idEpilepticSeizureEvent: 0 }],
+                elencoComportamenti: [...newEpilepticSeizures.elencoComportamenti, { description: "Caduta a Terra", id: parseInt(e.target.value) }],
             });
         } else {
             var Id = e.target.value;
@@ -374,7 +373,7 @@ function EpilepticSeizuresModal(props) {
         if (!casa) {
             setNewEpilepticSeizures({
                 ...newEpilepticSeizures,
-                elencoContestualita: [...newEpilepticSeizures.elencoContestualita, { id: 0, contesto: parseInt(e.target.value), idEpilepticSeizureEvent: 0 }],
+                elencoContestualita: [...newEpilepticSeizures.elencoContestualita, { description: "Casa", id: parseInt(e.target.value) }],
             });
         } else {
             var Id = e.target.value;
@@ -390,7 +389,7 @@ function EpilepticSeizuresModal(props) {
         if (!lavoro) {
             setNewEpilepticSeizures({
                 ...newEpilepticSeizures,
-                elencoContestualita: [...newEpilepticSeizures.elencoContestualita, { id: 0, contesto: parseInt(e.target.value), idEpilepticSeizureEvent: 0 }],
+                elencoContestualita: [...newEpilepticSeizures.elencoContestualita, { description: "Lavoro", id: parseInt(e.target.value) }],
             });
         } else {
             var Id = e.target.value;
@@ -406,7 +405,7 @@ function EpilepticSeizuresModal(props) {
         if (!tempoLibero) {
             setNewEpilepticSeizures({
                 ...newEpilepticSeizures,
-                elencoContestualita: [...newEpilepticSeizures.elencoContestualita, { id: 0, contesto: parseInt(e.target.value), idEpilepticSeizureEvent: 0 }],
+                elencoContestualita: [...newEpilepticSeizures.elencoContestualita, { description: "Tempo Libero", id: parseInt(e.target.value) }],
             });
         } else {
             var Id = e.target.value;
@@ -422,7 +421,7 @@ function EpilepticSeizuresModal(props) {
         if (!veglia) {
             setNewEpilepticSeizures({
                 ...newEpilepticSeizures,
-                elencoContestualita: [...newEpilepticSeizures.elencoContestualita, { id: 0, contesto: parseInt(e.target.value), idEpilepticSeizureEvent: 0 }],
+                elencoContestualita: [...newEpilepticSeizures.elencoContestualita, { description: "Veglia", id: parseInt(e.target.value) }],
             });
         } else {
             var Id = e.target.value;
@@ -438,7 +437,7 @@ function EpilepticSeizuresModal(props) {
         if (!sonno) {
             setNewEpilepticSeizures({
                 ...newEpilepticSeizures,
-                elencoContestualita: [...newEpilepticSeizures.elencoContestualita, { id: 0, contesto: parseInt(e.target.value), idEpilepticSeizureEvent: 0 }],
+                elencoContestualita: [...newEpilepticSeizures.elencoContestualita, { description: "Sonno", id: parseInt(e.target.value) }],
             });
         } else {
             var Id = e.target.value;
