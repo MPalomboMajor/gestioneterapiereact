@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import SideNav from '../components/SideNav';
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom';
 import Login from './Login';
+import Splash from './Splash';
 import Register from './Register';
 
 
@@ -52,9 +53,9 @@ export default class Layout extends Component {
 
     return (
       <>
-        {localStorage.getItem("accessToken") != null && this.state.url != "/" && this.state.url != "/Register" ?
+        {localStorage.getItem("accessToken") != null && this.state.url != "/" && this.state.url != "/Register" && this.state.url != "/Login"  ?
           <>
-           
+
             <div class="wrapper custom-login" >
               <div class="container-lg page-wrapper">
                 <div class="row">
@@ -63,7 +64,8 @@ export default class Layout extends Component {
                     <div role="main" class="col">
 
                       <Routes>
-                        <Route path="/" element={<Login />}></Route>
+                        <Route path="/" element={<Splash />}></Route>
+                        <Route path="/Login" element={<Login />}></Route>
                         <Route path="/Register" element={<Register />}></Route>
                         {localStorage.getItem("accessToken") != null ?
                           <>
@@ -98,7 +100,8 @@ export default class Layout extends Component {
           <Router>
             <div role="main" >
               <Routes>
-                <Route path="/" element={<Login />}></Route>
+                <Route path="/" element={<Splash />}></Route>
+                <Route path="/Login" element={<Login />}></Route>
                 <Route path="/Register" element={<Register />}></Route>
                 {localStorage.getItem("accessToken") != null ?
                   <>

@@ -62,7 +62,7 @@ h2,
 .h2,
 h3,
 .h3 {
-    color: inherit
+    color: inherit !important
 }
 
 .h1,
@@ -98,11 +98,11 @@ h3 {
     color: #573d6b !important
 }
 
-.text-secondary {
+.text-secondary-custom {
     color: #f0b300 !important
 }
 
-.bg-primary {
+.bg-primary-custom {
     background-color: #573d6b !important;
     color: #fff
 }
@@ -527,7 +527,7 @@ input[type='search'] {
 }
 
 input[type='search']+.btn {
-    border-radius: 0 0.125rem 0.125rem 0
+    border-radius: 0 0.125rem 0.125rem 0 
 }
 
 .options-wrapper {
@@ -551,10 +551,10 @@ input[type='search']+.btn {
 }
 
 .btn {
-    font-size: 0.875rem;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    border-radius: 0.5rem
+    font-size: 0.875rem !important;
+    letter-spacing: 0.02em !important;
+    text-transform: uppercase !important;
+    border-radius: 0.5rem !important
 }
 
 .btn-sm {
@@ -614,6 +614,20 @@ input[type='search']+.btn {
     background: transparent url(../img/arrows/OA_arrow-right-purple.svg) center/1rem no-repeat
 }
 
+.cutom-splash-btn-primary{
+    background: -webkit-gradient(linear, left top, right top, from(#f0b300), to(#f8d167));
+    background: linear-gradient(to right, #f0b300, #f8d167);
+    border: solid 1px #f0b300;
+    color: #573d6b !important;
+
+    font-weight: 500 !important;
+}
+.cutom-splash-btn-secondary{
+    background-color: #3d2a4b !important;
+    border: solid 1px #f0b300 !important;
+    font-weight: normal !important;
+    color: white !important;
+}
 .bg-primary .btn-primary {
     font-weight: 500;
     background: -webkit-gradient(linear, left top, right top, from(#f0b300), to(#f8d167));
@@ -1074,7 +1088,7 @@ header {
 }
 
 .splash .wrapper.bg-primary .h1 {
-    color: white
+    color: white !important;
 }
 
 .splash .wrapper .h1 {
