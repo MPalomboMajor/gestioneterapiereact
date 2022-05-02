@@ -277,7 +277,7 @@ console.log(contestoCheck);
 function EpilepticSeizuresModal(props) {
     const [newEpilepticSeizures, setNewEpilepticSeizures] = useState({
         id: 0,
-        idPatient: props.patientId,
+        idPatientProfile: props.patientId,
         description: "",
         dateTimeEventOccured: "",
         elencoComportamenti: [
@@ -289,7 +289,7 @@ function EpilepticSeizuresModal(props) {
         elencoContestualita: [
             {
                 id: 0,
-                contesto: 0,
+                description: 0,
             }
         ],
     });
@@ -477,21 +477,19 @@ function EpilepticSeizuresModal(props) {
     const clearState = () => {
         setNewEpilepticSeizures({
             id: 0,
-            idPatient: props.patientId,
+            idPatientProfile: props.patientId,
             description: "",
             dateTimeEventOccured: "",
             elencoComportamenti: [
                 {
                     id: 0,
-                    comportamento: 0,
-                    idEpilepticSeizureEvent: 0
+                    description: 0,
                 }
             ],
             elencoContestualita: [
                 {
                     id: 0,
-                    contesto: 0,
-                    idEpilepticSeizureEvent: 0
+                    description: 0,
                 }
             ],
         })
