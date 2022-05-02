@@ -18,7 +18,7 @@ function PatientInfo() {
     useEffect(() => {
         const fetchPatients = async () => {
             setLoading(true);
-            if (JSON.parse(localStorage.getItem("role")).idRole == role.CARMANAGER ) {
+            if (JSON.parse(localStorage.getItem("role")).idRole == role.CARMANAGER) {
                 await patient.getAll("GetAll")
                     .then((response) => {
                         if (response.status === 200) {
@@ -74,26 +74,27 @@ const PatientTable = ({ patients, loading }) => {
 
     return (
         <>
-            <Table striped bordered hover size="sm">
-                <thead>
-                    <tr>
-                        <th>Codice Paziente</th>
-                        <th>Codice Fiscale</th>
-                        <th>Cognome</th>
-                        <th>Nome</th>
-                        <th>Telefono</th>
-                        <th>Email</th>
-                        <th>Stato Paziente</th>
+            <div class="table-wrapper">
+                <table class="table custom">
+                    <thead>
+                        <tr>
+                            <th scope="col">Codice Paziente</th>
+                            <th scope="col">Codice Fiscale</th>
+                            <th scope="col">Cognome</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Telefono</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Stato Paziente</th>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        patients?.map((pa) => <PatientRow key={pa.codicePaziente} patient={pa} />)
-                    }
-                </tbody>
-            </Table>
-
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            patients?.map((pa) => <PatientRow key={pa.codicePaziente} patient={pa} />)
+                        }
+                    </tbody>
+                </table>
+            </div>
         </>
     );
 }
@@ -104,7 +105,7 @@ function PatientRow(props) {
 
 function PatientRowData(props) {
     return (<>
-        <td><Link to={`/PatientRegistry/${props.patient.id}`}>{props.patient.codicePaziente}</Link></td>
+        <td><Link to={`/PatientRegistry/${props.patient.id}`} class="btn btn-primary btn-sm">{props.patient.codicePaziente}</Link></td>
         <td>{props.patient.fiscalCode}</td>
         <td>{props.patient.surName}</td>
         <td>{props.patient.name}</td>
@@ -135,7 +136,7 @@ function RowCustom(props) {
     const listValue = [];
     {
         props.colums.map((item) => {
-            
+
             //CREA ELEMENTO PER LINK
             if (props.link === item) {
                 var element = {};
@@ -184,7 +185,7 @@ function RowCustom(props) {
                 if (object.length == 3) {
                     element.value = props.item[object[0]][object[1]][object[2]];
                 }
-                
+
                 element.isLink = false;
                 element.isUpdate = false;
                 element.isDelete = false;

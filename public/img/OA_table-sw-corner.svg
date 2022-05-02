@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-6a4fc5e7-41be-4a62-9de0-ccdb652e231b" data-name="Livello 1" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10">
+  <defs>
+    <style>
+      .uuid-c69d7e3e-2cc5-452d-ab73-8823c5c6a79f {
+        fill: #f6f0f8;
+      }
+    </style>
+  </defs>
+  <path class="uuid-c69d7e3e-2cc5-452d-ab73-8823c5c6a79f" d="M0,.315V10H9.6851C4.3359,10,0,5.664,0,.315Z"/>
+</svg>

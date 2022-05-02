@@ -32,7 +32,7 @@ function PatientProfile() {
         fetchPatient();
     }, []);
 
-    function editPatient() {  
+    function editPatient() {
         patient.post("UpdateProfile/", patientProfile)
             .then((response) => {
                 if (response.status === 200) {
@@ -75,23 +75,21 @@ function PatientProfile() {
         setIsAlcool(!isAlcool);
     }
 
-    const handleChange = (e) => {       
+    const handleChange = (e) => {
         const inputValue = e.target.value;
         const inputName = e.target.getAttribute('name');
-        setPatientProfile({                      
-                ...patientProfile, [inputName]:
-                        inputValue
+        setPatientProfile({
+            ...patientProfile, [inputName]:
+                inputValue
         });
-};
+    };
 
     return (
 
         <>
-            <Row className='col-12 pt-4  md-6' >
-                <div className='col-12'>
-                    <h2>Profilo paziente</h2>
-                </div>
-            </Row>
+
+            <h1>Profilo paziente</h1>
+
             &nbsp;&nbsp;
             <Form>
                 <div className='col-8'>
@@ -105,7 +103,7 @@ function PatientProfile() {
                                 type={type}
                                 id={`inline-${type}-1`}
                                 onChange={() => updateStatesCanTravel()
-                            }
+                                }
                             />
                             <Form.Check
                                 checked={patientProfile.canDrive}

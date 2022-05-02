@@ -1,0 +1,83 @@
+.table-wrapper {
+  display: block;
+  white-space: nowrap;
+  width: 100%;
+  max-width: 100%;
+  overflow: auto;
+  margin-bottom: 1rem;
+}
+
+table.custom {
+  background: transparent;
+  margin-bottom: 0;
+
+  tbody,
+  thead,
+  th {
+    border: none !important;
+    font-size: 0.75rem; /* 12/16 */
+    padding: 0 0.5rem;
+    vertical-align: top;
+
+    .label {
+      display: block;
+      padding: 1rem;
+      white-space: nowrap;
+      border-radius: 0.5rem;
+    }
+  }
+
+  thead th {
+    font-weight: 500;
+    text-align: center;
+    vertical-align: bottom;
+  }
+
+  tbody th {
+    width: 20%;
+  }
+
+  tr {
+    border-bottom: 0.75rem solid $purple-10 !important;
+
+  }
+
+  td {
+    background-color: white;
+    padding: 1rem 0.5rem;
+    border-width: 0;
+    font-size: 0.75rem; /* 12/16 */
+    text-align: center;
+
+    &:first-of-type {
+      background-image: url(../img/OA_table-nw-corner.svg), url(../img/OA_table-sw-corner.svg);
+      background-position: top left, bottom left;
+      background-repeat: no-repeat, no-repeat;
+    }
+    &:last-of-type {
+      background-image: url(../img/OA_table-ne-corner.svg), url(../img/OA_table-se-corner.svg);
+      background-position: top right, bottom right;
+      background-repeat: no-repeat, no-repeat;
+    }
+
+    &.split-column {
+      background-image: url(../img/OA_table-divider-upper.svg), url(../img/OA_table-divider-lower.svg), url(../img/OA_table-divider-upper.svg), url(../img/OA_table-divider-lower.svg);
+      background-position: top left, bottom left, top right, bottom right;
+      background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    .btn-sm {
+      margin-top: -0.5rem;
+      margin-bottom: -0.5rem;
+      font-size: 0.625rem; /* 10/16 */
+      line-height: 1.313rem; /* 21/16 */
+    }
+
+  }
+}
+
+@media screen and (min-width: $xs-max) {
+
+}

@@ -1,0 +1,257 @@
+header {
+  background-color: $purple-20;
+  max-width: 22% !important;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  padding: 2.5rem 1rem 2.5rem 0 !important;
+}
+
+.logo {
+  display: inline-block;
+  margin-inline: auto;
+  margin-bottom: 5rem;
+}
+
+.main-menu {
+  margin: 0 0 auto;
+  padding: 0;
+
+  .nav-link {
+    display: inline-block;
+    font-size: 0.875rem;
+    line-height: 1rem;
+    font-weight: 500;
+    color: $purple;
+    background: transparent url() center left 1.25rem / 1.5rem no-repeat;
+    padding: 0.75rem 1.5rem 0.75rem 3.5rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+    margin: 0.25rem 0;
+    transition: all 0.2s ease;
+
+    /* menu 1 */
+
+    &.elenco-pazienti{
+      background-image: url(../img/icons/OA_icon-elenco-pazienti-off.svg)
+    }
+
+    &.anagrafica-medico {
+      background-image: url(../img/icons/OA_icon-anagrafica-medico-off.svg)
+    }
+
+    &.no-kit{
+      background-image: url(../img/icons/OA_icon-no-kit-off.svg)
+    }
+
+    &.collega-paziente {
+      background-image: url(../img/icons/OA_icon-collega-paziente-off.svg)
+    }
+
+    &.nuovo-paziente {
+      background-image: url(../img/icons/OA_icon-nuovo-paziente-off.svg)
+    }
+
+    /* menu 2 */
+
+    &.anagrafica-paziente {
+      background-image: url(../img/icons/OA_icon-anagrafica-paziente-off.svg)
+    }
+
+    &.profilo-paziente {
+      background-image: url(../img/icons/OA_icon-profilo-paziente-off.svg)
+    }
+
+    &.terapia {
+      background-image: url(../img/icons/OA_icon-terapia-off.svg)
+    }
+
+    &.eventi-avversi {
+      background-image: url(../img/icons/OA_icon-eventi-avversi-off.svg)
+    }
+
+    &.crisi-epilettiche {
+      background-image: url(../img/icons/OA_icon-crisi-epilettiche-off.svg)
+    }
+
+    &.esami-diagnostici {
+      background-image: url(../img/icons/OA_icon-esami-diagnostici-off.svg)
+    }
+
+    &.visite-mediche {
+      background-image: url(../img/icons/OA_icon-visite-mediche-off.svg)
+    }
+
+    &.piano-nutrizionale {
+      background-image: url(../img/icons/OA_icon-piano-nutrizionale-off.svg)
+    }
+
+    &.umore {
+      background-image: url(../img/icons/OA_icon-umore-off.svg)
+    }
+
+    &.active,
+    &:active,
+    &:hover,
+    &:focus {
+      color: $white;
+      background-color: $purple;
+
+      /* menu 1 */
+
+      &.elenco-pazienti{
+        background-image: url(../img/icons/OA_icon-elenco-pazienti-on.svg)
+      }
+
+      &.anagrafica-medico {
+        background-image: url(../img/icons/OA_icon-anagrafica-medico-on.svg)
+      }
+
+      &.no-kit{
+        background-image: url(../img/icons/OA_icon-no-kit-on.svg)
+      }
+
+      &.collega-paziente {
+        background-image: url(../img/icons/OA_icon-collega-paziente-on.svg)
+      }
+
+      &.nuovo-paziente {
+        background-image: url(../img/icons/OA_icon-nuovo-paziente-on.svg)
+      }
+
+      /* menu 2 */
+
+      &.anagrafica-paziente {
+        background-image: url(../img/icons/OA_icon-anagrafica-paziente-on.svg)
+      }
+
+      &.profilo-paziente {
+        background-image: url(../img/icons/OA_icon-profilo-paziente-on.svg)
+      }
+
+      &.terapia {
+        background-image: url(../img/icons/OA_icon-terapia-on.svg)
+      }
+
+      &.eventi-avversi {
+        background-image: url(../img/icons/OA_icon-eventi-avversi-on.svg)
+      }
+
+      &.crisi-epilettiche {
+        background-image: url(../img/icons/OA_icon-crisi-epilettiche-on.svg)
+      }
+
+      &.esami-diagnostici {
+        background-image: url(../img/icons/OA_icon-esami-diagnostici-on.svg)
+      }
+
+      &.visite-mediche {
+        background-image: url(../img/icons/OA_icon-visite-mediche-on.svg)
+      }
+
+      &.piano-nutrizionale {
+        background-image: url(../img/icons/OA_icon-piano-nutrizionale-on.svg)
+      }
+
+      &.umore {
+        background-image: url(../img/icons/OA_icon-umore-on.svg)
+      }
+    }
+  }
+}
+
+.angelini {
+  width: 12rem;
+  font-size: 0.625rem; /* 10/16 */
+  line-height: 1;
+  font-style: italic;
+  padding: 0.75rem 6.5rem 0.75rem 1.5rem;
+  margin: 0;
+  background: $purple-10 url(../img/OA_angelini-pharma-logo.svg) center right 1.5rem / 3.75rem no-repeat; /* 60/16 */
+  border-radius: 0 1rem 0 0
+}
+
+
+@media screen and (max-width: $md-max) {
+  header {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 0 !important;
+    width: 100%;
+    height: 3rem;
+    max-width: initial !important;
+    z-index: 10;
+  }
+
+  .logo {
+    margin: 0;
+    img {
+      height: 1.75rem;
+      width: auto;
+    }
+  }
+
+  .main-menu {
+    position: fixed;
+    top: 3rem;
+    right: -17rem;
+    padding: 1rem 0;
+    width: 17rem;
+    height: calc(100vh - 3rem);
+    background-color: $purple-20;
+    transition: right 0.4s ease;
+    z-index: 10;
+
+    .nav-link {
+      display: block;
+      border-radius: 0.25rem;
+      margin-right: 0.25rem;
+      margin-left: 0.25rem;
+      padding: 0.75rem 1.5rem 0.75rem 3rem;
+      background-position: center left 0.75rem;
+    }
+
+    &::after {
+      content: 'Realizzato con il contributo di';
+      display: block;
+      width: 12rem;
+      font-size: 0.625rem; /* 10/16 */
+      line-height: 1;
+      font-style: italic;
+      padding: 0.75rem 6.5rem 0.75rem 1.5rem;
+      margin: auto 0 0 auto;
+      background: $purple-10 url(../img/OA_angelini-pharma-logo.svg) center right 1.5rem / 3.75rem no-repeat; /* 60/16 */
+      border-radius: 1rem 0 0 0;
+    }
+  }
+
+  .menu-toggle.open {
+    & + .main-menu {
+      right: 0;
+    }
+  }
+
+}
+
+@media screen and (min-width: $sm) and (max-width: $md-max) {
+  .main-menu {
+    width: 18rem;
+    right: -14rem;
+    .nav-link {
+      margin-right: 0.5rem;
+      margin-left: 0.5rem;
+      padding-left: 3.5rem;
+      background-position: center left 1rem;
+    }
+  }
+
+  .menu-toggle.open {
+    & + .main-menu {
+      right: 0;
+    }
+  }
+}

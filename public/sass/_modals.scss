@@ -1,0 +1,22 @@
+.modal-content {
+  border-radius: 0.75rem;
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-body {
+  padding: 1.5rem 4.5rem 0;
+}
+
+.modal-footer {
+  border-top: none;
+  padding: 0 1rem 2rem;
+}
+
+@media screen and (min-width: $xs-max) {
+  .modal-sm {
+      max-width: 350px;
+  }
+}

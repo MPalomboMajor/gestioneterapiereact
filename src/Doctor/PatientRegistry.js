@@ -68,12 +68,8 @@ function PatientRegistry() {
         return (
 
                 <>
-                        <Row className='col-12 pt-4' >
-                                <div className='col-12'>
-                                        <h2>Anagrafica paziente</h2>
-                                </div>
-                        </Row>
-                        &nbsp;&nbsp;
+                        <h1>Anagrafica Paziente</h1>
+                        
                         <Row className='col-12 pt-4'>
                                 <Col className='col-6'>
                                         <Form>

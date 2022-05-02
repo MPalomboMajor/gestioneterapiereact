@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-983d1d96-913e-4408-a9cc-988b8a1cf93f" data-name="Livello 1" xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8">
+  <defs>
+    <style>
+      .uuid-5a87604b-db0d-4d9f-b073-7821ff1c0e61 {
+        fill: none;
+        stroke: #573d6b;
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+        stroke-width: .624px;
+      }
+    </style>
+  </defs>
+  <path class="uuid-5a87604b-db0d-4d9f-b073-7821ff1c0e61" d="M1.8507,1.98l1.6949,1.758c.141,.146,.141,.378,0,.524l-1.6949,1.758"/>
+  <path class="uuid-5a87604b-db0d-4d9f-b073-7821ff1c0e61" d="M4.3486,1.98l1.6949,1.758c.141,.146,.141,.378,0,.524l-1.6949,1.758"/>
+</svg>
