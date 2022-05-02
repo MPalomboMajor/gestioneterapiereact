@@ -69,7 +69,7 @@ function PatientRegistry() {
 
                 <>
                         <h1>Anagrafica Paziente</h1>
-                        
+
                         <Row className='col-12 pt-4'>
                                 <Col className='col-6'>
                                         <Form>
@@ -104,32 +104,27 @@ function PatientRegistry() {
                                         </Form>
                                 </Col>
                                 <Col className='col-6'>
-                                        <Row className='mb-6'>
-                                                <Form>
-                                                        <Form.Check
-                                                                checked={patientProfile.isActive}
-                                                                inline
-                                                                label="Utente attivo"
-                                                                name="canTravel"
-                                                                onChange={() => updateStatesIsActive()}
-                                                        />
-                                                        <strong>Data di disattivazione:</strong> {patientProfile.disabledDate}
-                                                </Form>
-                                        </Row>
+                                        <Form>
+                                                <Form.Check
+                                                        checked={patientProfile.isActive}
+                                                        inline
+                                                        label="Utente attivo"
+                                                        name="canTravel"
+                                                        onChange={() => updateStatesIsActive()}
+                                                />
+                                                <Form.Group controlId="disactivationDate">
+                                                        <Form.Label>Data di disattivazione:</Form.Label>
+                                                        <Form.Control type="date" name="disabledDate" placeholder="Inizio" onChange={handleChange} />
+                                                </Form.Group>
+                                        </Form>
                                         &nbsp;&nbsp;
-                                        <Row className='mt-6'>
-                                                <Form.Label>Causa disabilitazione</Form.Label>
-                                                <Form.Select aria-label="disabledCause" name="disabledCause" onChange={handleChange}>
-                                                        <option></option>
-                                                        <option value="1">One</option>
-                                                        <option value="2">Two</option>
-                                                        <option value="3">Three</option>
-                                                </Form.Select>
-                                                {/* <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                                        <Form.Label>Causa disabilitazione</Form.Label>
-                                                        <Form.Control as="textarea" rows={10} name="disabledCause" value={patientProfile.disabledCause} onChange={handleChange} />
-                                                </Form.Group> */}
-                                        </Row>
+                                        <Form.Label>Causa disabilitazione</Form.Label>
+                                        <select className="form-select form-select-sm mb-3" type="text" name="disabledCause" placeholder=".form-control-sm" aria-label="disabledCause" onChange={handleChange}>
+                                                <option></option>
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
+                                                <option value="3">Three</option>
+                                        </select>
                                 </Col>
 
                         </Row>
@@ -138,9 +133,7 @@ function PatientRegistry() {
                                 <Button onClick={() => editPatient()} >Salva le modifiche</Button>
                         </div>
                         < NotificationContainer />
-
                 </>
-
         )
 }
 

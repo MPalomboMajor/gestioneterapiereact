@@ -25,7 +25,7 @@ function MedicalExaminationDetailsInfo() {
     useEffect(() => {
         setIsLoaded(true);
     }, []);
-    
+
     useEffect(() => {
         if (isLoaded) {
             setIsPageLoaded(true);
@@ -37,12 +37,7 @@ function MedicalExaminationDetailsInfo() {
 
     return (
         <>
-
-            <Row className='col-12 pt-4' >
-                <div className='col-12'>
-                    <h2>Dettaglio visita medica</h2>
-                </div>
-            </Row>
+            <h2>Dettaglio visita medica</h2>
             &nbsp;&nbsp;
 
             <Row>
@@ -77,7 +72,7 @@ function ControlledCarouselMedicalExamination(props) {
             {props.imgsNames?.map((imgName, index) => (
                 <Carousel.Item key={index}>
                     <img
-                        className="selectedDiagnosticTestImages d-block w-100"  
+                        className="selectedDiagnosticTestImages d-block w-100"
                         src={imgName }
                     />
                 </Carousel.Item>

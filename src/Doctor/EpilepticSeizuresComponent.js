@@ -86,7 +86,7 @@ function EpilepticSeizuresInfo() {
             <h2>Crisi epilettiche</h2>
             &nbsp;&nbsp;
             <Col className='mb-3'>
-                <EpilepticSeizuresForm numberStartingSeizures={patientProfile.numeroCrisiPartenza} onChange={handleChange} />
+
             </Col>
             <Col className='mb-3'>
                 <Button onClick={() => editPatient()} >Salva modifica</Button>
@@ -158,8 +158,8 @@ function EpilepticSeizureRowData(props) {
 
     const comportamentoCheck = props.epilepticSeizure.elencoComportamenti.map(c => c.id);
     const contestoCheck = props.epilepticSeizure.elencoContestualita.map(c => c.id);
-console.log(comportamentoCheck);
-console.log(contestoCheck);
+    console.log(comportamentoCheck);
+    console.log(contestoCheck);
 
     return (<>
         <td>{props.epilepticSeizure.dateTimeEventOccured.split(' ')[0]}</td>
@@ -167,7 +167,7 @@ console.log(contestoCheck);
         <td><div className='col-8'>
             {['checkbox'].map((type) => (
                 <div key={`inline-${type}`} className="mb-3">
-                    <Form.Check                   
+                    <Form.Check
                         checked={comportamentoCheck.includes(1)}
                         value="1"
                         inline
@@ -455,7 +455,7 @@ function EpilepticSeizuresModal(props) {
     };
 
     function saveEpilepticSeizure() {
-        newEpilepticSeizures.idPatientProfile = parseInt(props.patientId);
+        newEpilepticSeizures.idPatientProfile = parseInt(props.idPatientProfile);
         newEpilepticSeizures.elencoContestualita.splice(0, 1);
         newEpilepticSeizures.elencoComportamenti.splice(0, 1);
         patient.post("Seizures/", newEpilepticSeizures)

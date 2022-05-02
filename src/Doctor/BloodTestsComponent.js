@@ -39,11 +39,8 @@ function BloodTestsInfo() {
     return (
         <>
 
-            <Row className='col-12 pt-4' >
-                <div className='col-12'>
-                    <h2>Dettaglio esame diagnostico</h2>
-                </div>
-            </Row>
+
+            <h2>Dettaglio esame diagnostico</h2>
             &nbsp;&nbsp;
 
             <Row>
@@ -57,7 +54,7 @@ function BloodTestsInfo() {
                 </Col>
             </Row>
             <div className='mb-3'>
-                <Button type='submit'onClick={() => navigate(-1)}>Torna a elenco esami </Button>
+                <Button type='submit' onClick={() => navigate(-1)}>Torna a elenco esami </Button>
             </div>
 
         </>
@@ -74,7 +71,7 @@ function ControlledCarouselBloodTests(props) {
 
     return (
         <Carousel activeIndex={index} onSelect={handleSelect} interval={null}>
-            {props.imgsNames?.map((imgName, index) => (        
+            {props.imgsNames?.map((imgName, index) => (
                 <Carousel.Item key={index}>
                     <img
                         className="selectedDiagnosticTestImages d-block w-100"
