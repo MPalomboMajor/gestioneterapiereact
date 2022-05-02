@@ -86,7 +86,7 @@ function EpilepticSeizuresInfo() {
             <h2>Crisi epilettiche</h2>
             &nbsp;&nbsp;
             <Col className='mb-3'>
-
+                <EpilepticSeizuresForm numberStartingSeizures={patientProfile.numeroCrisiPartenza} onChange={handleChange} />
             </Col>
             <Col className='mb-3'>
                 <Button onClick={() => editPatient()} >Salva modifica</Button>
@@ -455,7 +455,7 @@ function EpilepticSeizuresModal(props) {
     };
 
     function saveEpilepticSeizure() {
-        newEpilepticSeizures.idPatientProfile = parseInt(props.idPatientProfile);
+        newEpilepticSeizures.idPatientProfile = parseInt(props.patientId);
         newEpilepticSeizures.elencoContestualita.splice(0, 1);
         newEpilepticSeizures.elencoComportamenti.splice(0, 1);
         patient.post("Seizures/", newEpilepticSeizures)
