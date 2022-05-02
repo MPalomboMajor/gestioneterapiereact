@@ -121,7 +121,7 @@ function DiagnosticTestRowData(props) {
         <td><Link to={`/BloodTest/${props.patientId}/${props.diagnosticTest.id}`} state={props.diagnosticTest} patientId={props.patientId} >{props.diagnosticTest.id}</Link></td>
         <td>{props.diagnosticTest.uploadedDateTime.split(' ')[0]}</td>
         <td>{props.diagnosticTest.tipoReferto}</td>
-        <td><img src={`${process.env.REACT_APP_DIAGNOSTIC_TESTS_IMGS_PATH}` + props.diagnosticTest.idBloodData + "/" + props.diagnosticTest.fileName.split('\\').pop() }  style={{ width: 100, height: 70 }} /></td>
+        <td><img src={props.diagnosticTest.fileName }  style={{ width: 100, height: 70 }} /></td>
     </>
     );
 }

@@ -83,11 +83,7 @@ function EpilepticSeizuresInfo() {
 
     return (
         <>
-            <Row className='col-12 pt-4' >
-                <div className='col-12'>
-                    <h2>Crisi epilettiche</h2>
-                </div>
-            </Row>
+            <h2>Crisi epilettiche</h2>
             &nbsp;&nbsp;
             <Col className='mb-3'>
                 <EpilepticSeizuresForm numberStartingSeizures={patientProfile.numeroCrisiPartenza} onChange={handleChange} />

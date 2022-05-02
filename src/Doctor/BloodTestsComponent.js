@@ -78,7 +78,7 @@ function ControlledCarouselBloodTests(props) {
                 <Carousel.Item key={index}>
                     <img
                         className="selectedDiagnosticTestImages d-block w-100"
-                        src={"../" + `${process.env.REACT_APP_DIAGNOSTIC_TESTS_IMGS_PATH}` + imgsFolder + imgName.split('\\').pop() }
+                        src={imgName }
                     />
                 </Carousel.Item>
             ))}
