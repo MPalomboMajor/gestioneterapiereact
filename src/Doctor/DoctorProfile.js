@@ -92,7 +92,7 @@ export class DoctorProfile extends Component {
 
                     const statusCopy = { ...this.state };
                     statusCopy['userDto']['idDoctor'] = response.data.dati.id;
-                    if (JSON.parse(localStorage.getItem("role")).idRole == role.CARMANAGER) {
+                    if (JSON.parse(localStorage.getItem("role")).idRole == role.CAREMANAGER) {
 
                         patient.get("GetByDoctor/", response.data.dati.id)
                             .then((response) => {
@@ -244,8 +244,8 @@ export class DoctorProfile extends Component {
         const currentItem =this.state.listPatient ? this.state.listPatient.slice(indexOfFirstPatient, indexOfLastPatient) : [];
         const currentItemsCode =this.state.listPatientCode ? this.state.listPatientCode.slice(indexOfFirstPatient, indexOfLastPatient) :[];
         return (<>
-            {JSON.parse(localStorage.getItem("role")).idRole == role.CARMANAGER ?
-                //CARMANAGER
+            {JSON.parse(localStorage.getItem("role")).idRole == role.CAREMANAGER ?
+                //CAREMANAGER
                 <>
                     <Container className='col-12 pt-4 row'>
                         <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className=" col-12 mb-3">

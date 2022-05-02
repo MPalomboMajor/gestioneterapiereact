@@ -18,7 +18,7 @@ function PatientInfo() {
     useEffect(() => {
         const fetchPatients = async () => {
             setLoading(true);
-            if (JSON.parse(localStorage.getItem("role")).idRole == role.CARMANAGER) {
+            if (JSON.parse(localStorage.getItem("role")).idRole == role.CAREMANAGER) {
                 await patient.getAll("GetAll")
                     .then((response) => {
                         if (response.status === 200) {

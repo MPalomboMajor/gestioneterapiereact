@@ -44,7 +44,7 @@ export const message = {
   TERAPIA: 'Terapia ',
   CODICE: 'Codice ',
   PATIENT: 'Paziente ',
-  CARMANAGER: 'CarManager ',
+  CAREMANAGER: 'CareManager ',
   PIANOTERAPEUTICO:'Piano Terapeutico '
 }
 export const notificationType = {
@@ -56,6 +56,6 @@ export const notificationType = {
 }
 
 export const role = {
-  CARMANAGER: 3,
+  CAREMANAGER: 3,
   DOCTOR:1
 }
