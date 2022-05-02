@@ -152,11 +152,6 @@ const SideNav = () => {
                                 window.location.pathname === "/MedicalCenter" ||
                                 window.location.pathname === "/ContactInfo"
                                 ? <>
-
-
-
-
-
                                     <li className="nav-item">
                                         <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
                                             <p>

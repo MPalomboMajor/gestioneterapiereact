@@ -426,7 +426,7 @@ export class DoctorProfile extends Component {
                 <>
                     <Container className='col-12 pt-4 row'>
                         <Form className='col-12 pt-4 row'>
-                            <Row className="col-12 mb-3" >
+                            
                                 <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                     <Form.Label className="">Cognome</Form.Label>
                                     <Form.Control id='surName' alt='userDto' name="surName" onChange={this.handleChange} value={this.state.userDto.surName} placeholder="Enter cognome" />
@@ -435,14 +435,13 @@ export class DoctorProfile extends Component {
                                     <Form.Label className="">Nome</Form.Label>
                                     <Form.Control id='name' alt='userDto' name="name" onChange={this.handleChange} value={this.state.userDto.name} placeholder="Enter Nome" />
                                 </Form.Group>
-                            </Row>
-                            <Row>
+                           
                                 <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                     <Form.Label className="">Codice Fiscale</Form.Label>
                                     <Form.Control id='fiscalCode' alt='userDto' name="fiscalCode" onChange={this.handleChange} value={this.state.userDto.fiscalCode} placeholder="Enter Codice fiscale" />
                                 </Form.Group>
                                 <Form.Group className="col-4 mb-3 input-layout-wrapper" >
-                                    <Form.Label className="text-light">Centro Medico</Form.Label>
+                                    <Form.Label className="">Centro Medico</Form.Label>
                                     <Form.Select id='mendicalCenter' onChange={this.onChange} name="mendicalCenter" alt="medicoDTO" placeholder="Enter centro medico" >
                                         {this.state.listCentriMedici.map((item) =>
 
@@ -450,9 +449,7 @@ export class DoctorProfile extends Component {
                                         )}
                                     </Form.Select>
                                 </Form.Group>
-                            </Row>
-
-                            <Row>
+                           
                                 <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                     <Form.Label className="">Email</Form.Label>
                                     <Form.Control disabled id='email' name="email" onChange={this.handleChange} value={this.state.userDto.email} isInvalid={validations.email != null} placeholder="Enter email" />
@@ -461,8 +458,7 @@ export class DoctorProfile extends Component {
                                     <Form.Label className="">Telefono</Form.Label>
                                     <Form.Control id='phoneNumber' alt='userDto' name="phoneNumber" onChange={this.handleChange} isInvalid={validations.telephone != null} value={this.state.userDto.phoneNumber} placeholder="Enter telefono" />
                                 </Form.Group>
-                            </Row>
-                            <Row>
+                           
                                 <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
                                     <Button variant="btn btn-primary " onClick={() => this.handleShowChangePassword()}>
                                         Modifica Password
@@ -482,7 +478,7 @@ export class DoctorProfile extends Component {
                                         /> : ''
                                     }
                                 </Form.Group>
-                            </Row>
+                            
 
                         </Form>
                         <Modal
