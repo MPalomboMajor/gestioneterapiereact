@@ -55,7 +55,7 @@ export default class Layout extends Component {
         {localStorage.getItem("accessToken") != null && this.state.url != "/" && this.state.url != "/Register" ?
           <>
            
-            <div class="wrapper">
+            <div class="wrapper custom-login" >
               <div class="container-lg page-wrapper">
                 <div class="row">
                   <Router>
@@ -96,7 +96,7 @@ export default class Layout extends Component {
                 </div></div></div>
           </> :
           <Router>
-            <div role="main" class="col">
+            <div role="main" >
               <Routes>
                 <Route path="/" element={<Login />}></Route>
                 <Route path="/Register" element={<Register />}></Route>

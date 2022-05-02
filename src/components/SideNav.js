@@ -10,7 +10,7 @@ const SideNav = () => {
     const user = JSON.parse(localStorage.getItem("role"));
     const isCarManger = user.idRole === role.CARMANAGER ? true : false
     return (
-        <header className="col">
+        <header className="col-3">
             <a href className="logo"><img src={logo} alt="OntozApp" /></a>
             <button className="menu-toggle d-block d-lg-none">
                 <span />
