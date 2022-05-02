@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Tabs, Tab, Form, Button } from 'react-bootstrap';
+import { Tabs, Tab, Form, Button, Row } from 'react-bootstrap';
 import { patient } from '../helpers/api/api';
 import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
@@ -30,7 +30,7 @@ function PatientMoodInterface(props) {
         fetchPatient();
     }, []);
 
-    function editPatient() {  
+    function editPatient() {
         patient.post("Save/", patientProfile)
             .then((response) => {
                 if (response.status === 200) {
@@ -57,34 +57,38 @@ function PatientMoodInterface(props) {
         setCanDrive(!canDrive);
     }
 
-    const handleChange = (e) => {       
+    const handleChange = (e) => {
         const inputValue = e.target.value;
         const inputName = e.target.getAttribute('name');
-        setPatientProfile({                      
-                ...patientProfile, [inputName]:
-                        inputValue
+        setPatientProfile({
+            ...patientProfile, [inputName]:
+                inputValue
         });
-};
+    };
 
 
     return (
         <>
+            
+                    <h1>Umore</h1>
+                
+            &nbsp;&nbsp;
             <Tabs
                 id="mood-tabs"
                 activeKey={key}
                 onSelect={(k) => setKey(k)}
                 className="mb-3"
             >
-                <Tab eventKey="dailyMoodMonitoring" title="Monitoraggio umore quotidiano">
-                    <PatientDailyMood  />
+                <Tab eventKey="dailyMoodMonitoring" title="Umore quotidiano">
+                    <PatientDailyMood />
                 </Tab>
-                <Tab eventKey="weeklyMoodMonitoring" title="Monitoraggio umore settimanale" >
+                <Tab eventKey="weeklyMoodMonitoring" title="Umore settimanale" >
                     <PatientWeeklyMood />
-                </Tab>               
+                </Tab>
             </Tabs>
             < NotificationContainer />
-            </>
-        
+        </>
+
     );
 }
 

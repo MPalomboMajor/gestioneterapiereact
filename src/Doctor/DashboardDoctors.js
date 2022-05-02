@@ -16,38 +16,28 @@ export class DashboardDoctors extends Component {
         };
     }
 
-     componentDidMount() {
+    componentDidMount() {
         localStorage.removeItem('newPatient');
-    //     api.getAll("/GetPatients")
-    //         .then((response) => {
-    //             if (response.status === 200) {
-    //                 this.setState({
-    //                     isLoaded: true,
-    //                     items: response.data
-    //                 });
-    //             }
-    //         }).catch((error) => {
-    //             this.setState({ error: 1 })
-    //         });
-     }
-    
+        //     api.getAll("/GetPatients")
+        //         .then((response) => {
+        //             if (response.status === 200) {
+        //                 this.setState({
+        //                     isLoaded: true,
+        //                     items: response.data
+        //                 });
+        //             }
+        //         }).catch((error) => {
+        //             this.setState({ error: 1 })
+        //         });
+    }
+
     render() {
         return (
-            
-<>
-                <Row className='col-12 pt-4' >
-                    <div className='col-6'>
-                        <h1>Pazienti</h1>
-                    </div>                  
-                </Row>
+            <>
+                <h1>Elenco assistiti</h1>
                 &nbsp;&nbsp;
-                <Row className='col-12 pt-4' >
-                    <Col>
-                        <PatientInfo  />
-                    </Col>
-                </Row>
-
-                </>
+                <PatientInfo />
+            </>
         );
     }
 }

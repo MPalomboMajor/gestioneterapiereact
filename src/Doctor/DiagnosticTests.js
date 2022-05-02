@@ -64,11 +64,9 @@ function DiagnosticTestsInfo() {
 
     return (
         <>
-            <Row className='col-12 pt-4' >
-                <div className='col-12'>
-                    <h2>Esami diagnostici</h2>
-                </div>
-            </Row>
+            
+                    <h1>Esami diagnostici</h1>
+               
             &nbsp;&nbsp;
             <Col className='mb-3'>
                 <DiagnosticTestsTable diagnosticTests={currentDiagnosticTests} patientId={patientId} />
@@ -119,12 +117,10 @@ function DiagnosticTestRow(props) {
 }
 
 function DiagnosticTestRowData(props) {
-    console.log(process.env.REACT_APP_DIAGNOSTIC_TESTS_IMGS_PATH)
     return (<>
         <td><Link to={`/BloodTest/${props.patientId}/${props.diagnosticTest.id}`} state={props.diagnosticTest} patientId={props.patientId} >{props.diagnosticTest.id}</Link></td>
         <td>{props.diagnosticTest.uploadedDateTime.split(' ')[0]}</td>
         <td>{props.diagnosticTest.tipoReferto}</td>
-        
         <td><img src={`${process.env.REACT_APP_DIAGNOSTIC_TESTS_IMGS_PATH}` + props.diagnosticTest.idBloodData + "/" + props.diagnosticTest.fileName.split('\\').pop() }  style={{ width: 100, height: 70 }} /></td>
     </>
     );
@@ -147,7 +143,6 @@ function DiagnosticTestsModal(props) {
         filesArray.forEach(file => {
             files.append("files", file);
         });
-        console.log(files);
         patient.postDiagnosticTest("Analisi/", files, {
             params:
                 { idPaziente, idAnalisi, dateReferto, tipoReferto }, headers: {
@@ -211,7 +206,7 @@ function DiagnosticTestsModal(props) {
                         Chiudi
                     </Button>
                     <Button variant="primary" id="btnSave" onClick={saveDiagnosticTest}>
-                        Salva crisi
+                        Salva esame
                     </Button>
                 </Modal.Footer>
             </Modal>

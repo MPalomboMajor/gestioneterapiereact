@@ -64,11 +64,9 @@ function MedicalExaminationsInfo() {
 
     return (
         <>
-            <Row className='col-12 pt-4' >
-                <div className='col-12'>
-                    <h2>Visite mediche</h2>
-                </div>
-            </Row>
+            
+                    <h1>Visite mediche</h1>
+               
             &nbsp;&nbsp;
             <Col className='mb-3'>
                 <MedicalExaminationsTable medicalExaminations={currentmedicalExaminations} patientId={patientId} />

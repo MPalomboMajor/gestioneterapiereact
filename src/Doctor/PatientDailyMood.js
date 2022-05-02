@@ -14,7 +14,8 @@ function PatientDailyMood(props) {
     var date = new Date();
     date.setDate(date.getDate() - 4);
     const [startDate, setStartDate] = useState(date);
-    const [endDate, setEndDate] = useState();
+    // const [endDate, setEndDate] = useState();
+    const [dateRange, setDateRange] = useState();
 
     const handleChange = (e) => {
         const inputValue = e.target.value;
@@ -22,7 +23,7 @@ function PatientDailyMood(props) {
         var edate = new Date();
         edate.setDate(sdate.getDate() + 4);
         setStartDate(sdate);
-        setEndDate(edate);
+        //setEndDate(edate);
     };
     
 
@@ -35,13 +36,33 @@ function PatientDailyMood(props) {
                         <Form.Control type="date" name="startD" placeholder="Inizio" onChange={handleChange} />
                     </Form.Group>
                 </div>
-
-                <div className="col-md-4">
+                <Form.Group className="mb-3" controlId="dateRange">
+                            <Form.Label>Contesto</Form.Label>
+                            <Form.Select aria-label="dateRange" name="dateRange" onChange={(event) => {
+                                // setNewEpilepticSeizures(prevEpilepticSeizure => ({
+                                //     ...prevEpilepticSeizure,
+                                //     elencoContestualita: [{ ...prevEpilepticSeizure.elencoContestualita[0], contesto: parseInt(event.target.value) }]
+                                // }));
+                            }} >
+                                <option></option>
+                                <option value="1">1 settimana</option>
+                                <option value="2">2 settimane</option>
+                                <option value="3">3 settimane</option>
+                                <option value="4">4 settimane</option>
+                            </Form.Select>
+                            {/* <Form.Control type="text" name="contesto" placeholder="Contesto" onChange={(event) => {
+                                setNewEpilepticSeizures(prevEpilepticSeizure => ({
+                                    ...prevEpilepticSeizure,
+                                    elencoContestualita: [{ ...prevEpilepticSeizure.elencoContestualita[0], contesto: parseInt(event.target.value) }]
+                                }));
+                            }} /> */}
+                        </Form.Group>
+                {/* <div className="col-md-4">
                     <Form.Group controlId="endDate">
                         <Form.Label>Fine</Form.Label>
                         <Form.Control type="text" name="endD" placeholder="Fine" value={moment(endDate).format("DD/MM/YYYY")} disabled/>
                     </Form.Group>
-                </div>
+                </div> */}
             </Row>
             <Row className='col-12 pt-4' >
                     <Col>

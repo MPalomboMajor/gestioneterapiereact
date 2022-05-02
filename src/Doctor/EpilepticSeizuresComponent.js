@@ -83,9 +83,11 @@ function EpilepticSeizuresInfo() {
 
     return (
         <>
-
-            <h1>Crisi epilettiche</h1>
-
+            <Row className='col-12 pt-4' >
+                <div className='col-12'>
+                    <h2>Crisi epilettiche</h2>
+                </div>
+            </Row>
             &nbsp;&nbsp;
             <Col className='mb-3'>
                 <EpilepticSeizuresForm numberStartingSeizures={patientProfile.numeroCrisiPartenza} onChange={handleChange} />
@@ -160,8 +162,8 @@ function EpilepticSeizureRowData(props) {
 
     const comportamentoCheck = props.epilepticSeizure.elencoComportamenti.map(c => c.id);
     const contestoCheck = props.epilepticSeizure.elencoContestualita.map(c => c.id);
-    console.log(comportamentoCheck);
-    console.log(contestoCheck);
+console.log(comportamentoCheck);
+console.log(contestoCheck);
 
     return (<>
         <td>{props.epilepticSeizure.dateTimeEventOccured.split(' ')[0]}</td>
@@ -169,7 +171,7 @@ function EpilepticSeizureRowData(props) {
         <td><div className='col-8'>
             {['checkbox'].map((type) => (
                 <div key={`inline-${type}`} className="mb-3">
-                    <Form.Check
+                    <Form.Check                   
                         checked={comportamentoCheck.includes(1)}
                         value="1"
                         inline
@@ -281,15 +283,13 @@ function EpilepticSeizuresModal(props) {
         elencoComportamenti: [
             {
                 id: 0,
-                comportamento: 0,
-                idEpilepticSeizureEvent: 0
+                description: 0,
             }
         ],
         elencoContestualita: [
             {
                 id: 0,
                 contesto: 0,
-                idEpilepticSeizureEvent: 0
             }
         ],
     });

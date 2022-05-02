@@ -1,4 +1,5 @@
 import '../css/style.css';
+
 import React, { Component } from 'react'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import "react-datepicker/dist/react-datepicker.css";
@@ -53,14 +54,14 @@ export default class Layout extends Component {
       <>
         {localStorage.getItem("accessToken") != null && this.state.url != "/" && this.state.url != "/Register" ?
           <>
-            <a className="nav-link" data-widget="pushmenu" href="#" role="button" style={{ backgroundColor: '#f4f6f9' }}><i className="fas fa-bars" /></a>
-            <div className="content-wrapper">
-              <div className="content-header">
-                <div className="container-fluid">
+           
+            <div class="wrapper">
+              <div class="container-lg page-wrapper">
+                <div class="row">
                   <Router>
                     <SideNav></SideNav>
-                    <div>
-                      
+                    <div role="main" class="col">
+
                       <Routes>
                         <Route path="/" element={<Login />}></Route>
                         <Route path="/Register" element={<Register />}></Route>
@@ -95,7 +96,7 @@ export default class Layout extends Component {
                 </div></div></div>
           </> :
           <Router>
-            <div>
+            <div role="main" class="col">
               <Routes>
                 <Route path="/" element={<Login />}></Route>
                 <Route path="/Register" element={<Register />}></Route>
@@ -112,7 +113,7 @@ export default class Layout extends Component {
                     <Route path="/DiagnosticTests/:idPaziente" element={<DiagnosticTestsInfo />}></Route>
                     <Route path="/BloodTest/:idPaziente/:idTest" element={<BloodTestsInfo />}></Route>
                     <Route path="/MedicalExaminations/:idPaziente" element={<MedicalExaminationsInfo />}></Route>
-                            <Route path="/MedicalExaminationDetails/:idPaziente/:idMedicalExam" element={<MedicalExaminationDetailsInfo />}></Route>
+                    <Route path="/MedicalExaminationDetails/:idPaziente/:idMedicalExam" element={<MedicalExaminationDetailsInfo />}></Route>
                     <Route path="/MoodMonitoring/:idPaziente" element={<PatientMoodInterface />}></Route>
                   </>
                   : ''}
