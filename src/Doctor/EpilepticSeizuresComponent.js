@@ -285,7 +285,7 @@ function EpilepticSeizuresModal(props) {
         elencoContestualita: [
             {
                 id: 0,
-                contesto: 0,
+                description: 0,
             }
         ],
     });
@@ -479,15 +479,13 @@ function EpilepticSeizuresModal(props) {
             elencoComportamenti: [
                 {
                     id: 0,
-                    comportamento: 0,
-                    idEpilepticSeizureEvent: 0
+                    description: 0,
                 }
             ],
             elencoContestualita: [
                 {
                     id: 0,
-                    contesto: 0,
-                    idEpilepticSeizureEvent: 0
+                    description: 0,
                 }
             ],
         })
