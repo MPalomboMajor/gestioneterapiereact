@@ -165,11 +165,11 @@ const SideNav = () => {
                                         </a>
                                     </li>
                                     <li className="nav-item">
-                                        <a href="/DoctorProfile" className="nav-link">
+                                        <Link to={`/DoctorProfile`} className="nav-link visite-mediche">
                                             <p>
                                                 Anagrafica medico
                                             </p>
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li className="nav-item">
                                         <a href="/AssociatePatient" className="nav-link">
@@ -182,6 +182,13 @@ const SideNav = () => {
                                         <a href="/NewPatient" className="nav-link">
                                             <p>
                                                 Nuovo paziente
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a href="/RichiediCodice" className="nav-link">
+                                            <p>
+                                                Richiedi nuovo codice paziente
                                             </p>
                                         </a>
                                     </li>
