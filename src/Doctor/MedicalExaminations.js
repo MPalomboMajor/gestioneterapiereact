@@ -69,7 +69,7 @@ function MedicalExaminationsInfo() {
                
             &nbsp;&nbsp;
             <Col className='mb-3'>
-                <MedicalExaminationsTable medicalExaminations={currentmedicalExaminations} patientId={patientId} />
+                <MedicalExaminationsTable medicalExaminations={currentmedicalExaminations} patientId={patientId} setMedicalExaminations={setMedicalExaminations} />
                 <Pagination
                     patientsPerPage={medicalExaminationsPerPage}
                     totalPatients={medicalExaminations?.length}
@@ -86,6 +86,9 @@ function MedicalExaminationsInfo() {
 }
 
 function MedicalExaminationsTable(props) {
+    const deleteMedicalExamination = (code) => {
+        props.setMedicalExaminations((medicalExaminations) => medicalExaminations.filter(ex => ex.id !== code));
+      };
     return (
         <>
             <div className='col-10'>
@@ -96,11 +99,12 @@ function MedicalExaminationsTable(props) {
                             <th>Data</th>
                             <th>Tipo visita</th>
                             <th>Miniatura</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            props.medicalExaminations?.map((ev) => <MedicalExaminationRow key={ev.id} medicalExamination={ev} patientId={props.patientId} />)
+                            props.medicalExaminations?.map((ev) => <MedicalExaminationRow key={ev.id} medicalExamination={ev} patientId={props.patientId} deleteMedicalExamination={deleteMedicalExamination} />)
                         }
                     </tbody>
                 </Table>
@@ -110,7 +114,7 @@ function MedicalExaminationsTable(props) {
 }
 
 function MedicalExaminationRow(props) {
-    return <tr><MedicalExaminationRowData medicalExamination={props.medicalExamination} patientId={props.patientId} /></tr>
+    return <tr><MedicalExaminationRowData medicalExamination={props.medicalExamination} patientId={props.patientId} /> <RowControl medicalExaminationId={props.medicalExamination.id} deleteMedicalExamination={props.deleteMedicalExamination}/></tr>
 }
 
 function MedicalExaminationRowData(props) {
@@ -123,6 +127,10 @@ function MedicalExaminationRowData(props) {
     </>
     );
 }
+
+function RowControl(props) {
+    return <td> <span onClick={() => props.deleteMedicalExamination(props.medicalExaminationId)}>{iconDelete}</span></td>;
+  }
 
 function MedicalExaminationsModal(props) {
     const [idPatient, setIdPatient] = useState(props.patientId);

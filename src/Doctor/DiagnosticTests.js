@@ -69,7 +69,7 @@ function DiagnosticTestsInfo() {
                
             &nbsp;&nbsp;
             <Col className='mb-3'>
-                <DiagnosticTestsTable diagnosticTests={currentDiagnosticTests} patientId={patientId} />
+                <DiagnosticTestsTable diagnosticTests={currentDiagnosticTests} patientId={patientId} setDiagnosticTests={setDiagnosticTests} />
                 <Pagination
                     patientsPerPage={diagnosticTestsPerPage}
                     totalPatients={diagnosticTests?.length}
@@ -86,6 +86,10 @@ function DiagnosticTestsInfo() {
 }
 
 function DiagnosticTestsTable(props) {
+    const deleteDiagnosticTest = (code) => {
+        props.setDiagnosticTests((diagnosticTests) => diagnosticTests.filter(ex => ex.id !== code));
+      };
+
     return (
         <>
             <div className='col-10'>
@@ -96,11 +100,12 @@ function DiagnosticTestsTable(props) {
                             <th>Data</th>
                             <th>Tipo esame</th>
                             <th>Miniatura</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            props.diagnosticTests?.map((ev) => <DiagnosticTestRow key={ev.id} diagnosticTest={ev} patientId={props.patientId} />)
+                            props.diagnosticTests?.map((ev) => <DiagnosticTestRow key={ev.id} diagnosticTest={ev} patientId={props.patientId} deleteDiagnosticTest={deleteDiagnosticTest} />)
                         }
                     </tbody>
                 </Table>
@@ -113,7 +118,7 @@ function DiagnosticTestsTable(props) {
 }
 
 function DiagnosticTestRow(props) {
-    return <tr><DiagnosticTestRowData diagnosticTest={props.diagnosticTest} patientId={props.patientId} /></tr>
+    return <tr><DiagnosticTestRowData diagnosticTest={props.diagnosticTest} patientId={props.patientId} /> <RowControl diagnosticTestId={props.diagnosticTest.id} deleteDiagnosticTest={props.deleteDiagnosticTest}/></tr>
 }
 
 function DiagnosticTestRowData(props) {
@@ -125,6 +130,10 @@ function DiagnosticTestRowData(props) {
     </>
     );
 }
+
+function RowControl(props) {
+    return <td> <span onClick={() => props.deleteDiagnosticTest(props.diagnosticTestId)}>{iconDelete}</span></td>;
+  }
 
 function DiagnosticTestsModal(props) {
     const [idAnalisi, setIdAnalisi] = useState('0');

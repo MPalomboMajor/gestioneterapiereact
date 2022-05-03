@@ -51,7 +51,7 @@ function AdverseEventsInfo() {
 
             &nbsp;&nbsp;
             <Col>
-                <AdverseEventsTable adverseEvents={currentAdverseEvents} handleShow={handleShow} loading={loading} />
+                <AdverseEventsTable adverseEvents={currentAdverseEvents} handleShow={handleShow} loading={loading} setAdverseEvents={setAdverseEvents}/>
                 <Pagination
                     patientsPerPage={adverseEventsPerPage}
                     totalPatients={adverseEvents?.length}
@@ -67,6 +67,10 @@ function AdverseEventsInfo() {
 }
 
 function AdverseEventsTable(props) {
+    const deleteAdverseEvent = (code) => {
+        props.setAdverseEvents((adverseEvents) => adverseEvents.filter(ex => ex.id !== code));
+      };
+
     if (props.loading) {
         return <h2>Loading...</h2>;
     }
@@ -81,11 +85,12 @@ function AdverseEventsTable(props) {
                             <th>Data</th>
                             <th>Intensità</th>
                             <th>Descrizione</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            props.adverseEvents?.map((ev) => <AdverseEventRow key={ev.id} adverseEvent={ev} />)
+                            props.adverseEvents?.map((ev) => <AdverseEventRow key={ev.id} adverseEvent={ev} deleteAdverseEvent={deleteAdverseEvent}/>)
                         }
                     </tbody>
                 </Table>
@@ -98,7 +103,7 @@ function AdverseEventsTable(props) {
 }
 
 function AdverseEventRow(props) {
-    return <tr><AdverseEventRowData adverseEvent={props.adverseEvent} /></tr>
+    return <tr><AdverseEventRowData adverseEvent={props.adverseEvent} /> <RowControl adverseEventId={props.adverseEvent.id} deleteAdverseEvent={props.deleteAdverseEvent}/></tr>
 }
 
 function AdverseEventRowData(props) {
@@ -144,6 +149,11 @@ function AdverseEventRowData(props) {
     );
 }
 
+function RowControl(props) {
+    return <td> <span onClick={() => props.deleteAdverseEvent(props.adverseEventId)}>{iconDelete}</span></td>;
+  }
+  
+
 function AdverseEventsModal(props) {
     const [newAdverseEvent, setNewAdverseEvent] = useState({
         idPatientProfile: window.location.pathname.split('/').pop(),
@@ -186,7 +196,7 @@ function AdverseEventsModal(props) {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
         clearState();
-        document.getElementById("adverseEventForm").reset();
+        props.handleClose();
     };
 
 

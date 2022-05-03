@@ -93,7 +93,7 @@ function EpilepticSeizuresInfo() {
             </Col>
 
             <Col className='mb-3'>
-                <EpilepticSeizuresTable epilepticSeizures={currentEpilepticSeizures} />
+                <EpilepticSeizuresTable epilepticSeizures={currentEpilepticSeizures} setEpilepticSeizures={setEpilepticSeizures}/>
                 <Pagination
                     patientsPerPage={epilepticSeizuresPerPage}
                     totalPatients={epilepticSeizures?.length}
@@ -126,6 +126,10 @@ function EpilepticSeizuresForm(props) {
 }
 
 function EpilepticSeizuresTable(props) {
+    const deleteEpilepticSeizure = (code) => {
+        props.setEpilepticSeizures((epilepticSeizures) => epilepticSeizures.filter(ex => ex.id !== code));
+      };
+
     return (
         <>
 
@@ -137,11 +141,12 @@ function EpilepticSeizuresTable(props) {
                             <th>Descrizione</th>
                             <th>Comportamenti</th>
                             <th>Contesto</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            props.epilepticSeizures?.map((ev) => <EpilepticSeizureRow key={ev.id} epilepticSeizure={ev} />)
+                            props.epilepticSeizures?.map((ev) => <EpilepticSeizureRow key={ev.id} epilepticSeizure={ev} deleteEpilepticSeizure={deleteEpilepticSeizure} />)
                         }
                     </tbody>
                 </Table>
@@ -151,7 +156,7 @@ function EpilepticSeizuresTable(props) {
 }
 
 function EpilepticSeizureRow(props) {
-    return <tr><EpilepticSeizureRowData epilepticSeizure={props.epilepticSeizure} /></tr>
+    return <tr><EpilepticSeizureRowData epilepticSeizure={props.epilepticSeizure} /> <RowControl epilepticSeizureId={props.epilepticSeizure.id} deleteEpilepticSeizure={props.deleteEpilepticSeizure}/></tr>
 }
 
 function EpilepticSeizureRowData(props) {
@@ -269,6 +274,10 @@ function EpilepticSeizureRowData(props) {
     </>
     );
 }
+
+function RowControl(props) {
+    return <td> <span onClick={() => props.deleteEpilepticSeizure(props.epilepticSeizureId)}>{iconDelete}</span></td>;
+  }
 
 function EpilepticSeizuresModal(props) {
     const [newEpilepticSeizures, setNewEpilepticSeizures] = useState({
