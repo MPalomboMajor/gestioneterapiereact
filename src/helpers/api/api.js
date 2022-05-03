@@ -3,10 +3,11 @@ import { API } from '../Constants';
 
 const http = axios.create({
   //withCredentials: false,
-  baseURL: `${'http://localhost:27629/api/'}`,  
+  baseURL: `${'http://test.pharmaprime.it/api_2/api'}`,   // http://localhost:27629/api/
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
+    changeOrigin: true
     // 'Cache-Control': 'no-cache',
     // Pragma: 'no-cache',
     //  Expires: '0'
@@ -14,10 +15,11 @@ const http = axios.create({
 });
 const httpref = axios.create({
   //withCredentials: false,
-  baseURL: `${'http://localhost:27629/api/'}`,  
+  baseURL: `${'http://test.pharmaprime.it/api_2/api'}`,   //http://localhost:27629/api/
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
+    changeOrigin: true
     // 'Cache-Control': 'no-cache',
     // Pragma: 'no-cache',
     //  Expires: '0'
