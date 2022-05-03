@@ -28,33 +28,42 @@ h1,
 h2,
 .h2,
 h3,
-.h3 {
-  color: inherit;
+.h3,
+h4,
+.h4 {
+  color: $primary;
 }
 
 .h1,
 h1 {
   font-weight: 500;
   font-size: 1.5rem;
-  line-height: 43px;
-  margin-bottom: 25px;
-  color: $primary;
+  line-height: 1.25;
+  margin-bottom: 2rem;
 }
 
 .h2,
 h2 {
   font-weight: bold;
-  font-size: 30px; /* TBD */
-  line-height: 33px;
-  margin-bottom: 30px;
+  font-size: 1.4rem; /* TBD */
+  line-height: 1;
+  margin-bottom: 1rem;
 }
 
 .h3,
 h3 {
   font-weight: bold;
-  font-size: 24px; /* TBD */
-  line-height: 26px;
-  margin-bottom: 30px;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.h4,
+h4 {
+  font-weight: bold;
+  font-size: 1rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
 }
 
 .small {
@@ -89,15 +98,18 @@ h3 {
   height: 100%;
   overflow: hidden;
 
-  .row {
+  & > .row {
     align-items: stretch;
     height: 100%;
   }
 
   div[role="main"] {
     max-width: 78%;
-    padding: 2.5rem 3rem 1rem 3rem;
+    padding: 3rem 3rem 1rem 3rem;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
@@ -144,6 +156,7 @@ h3 {
   padding: 0 2rem 0 3rem;
   margin: 0 0 1rem -3rem;
   border-radius: 0 0.5rem 0.5rem 0;
+  min-width: 85%;
 
   .nav-item {
     .nav-link {
@@ -265,11 +278,11 @@ h3 {
 }
 
 .label-primary {
-  background-color: $purple-20;
+  background-color: $purple-30;
 }
 
 .label-secondary {
-  background-color: $gold-10;
+  background-color: $gold-60;
 }
 
 /* custom scrollbar */

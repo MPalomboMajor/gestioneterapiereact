@@ -1,6 +1,7 @@
 header {
   background-color: $purple-20;
   max-width: 22% !important;
+  min-height: 680px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -11,7 +12,7 @@ header {
 .logo {
   display: inline-block;
   margin-inline: auto;
-  margin-bottom: 5rem;
+  margin-bottom: 3rem;
 }
 
 .main-menu {
@@ -27,7 +28,7 @@ header {
     background: transparent url() center left 1.25rem / 1.5rem no-repeat;
     padding: 0.75rem 1.5rem 0.75rem 3.5rem;
     border-radius: 0 0.5rem 0.5rem 0;
-    margin: 0.25rem 0;
+    margin: 0.125rem 0;
     transition: all 0.2s ease;
 
     /* menu 1 */
@@ -183,6 +184,7 @@ header {
     padding: 0 !important;
     width: 100%;
     height: 3rem;
+    min-height: initial;
     max-width: initial !important;
     z-index: 10;
   }

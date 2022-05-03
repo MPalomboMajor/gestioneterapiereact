@@ -1,0 +1,24 @@
+@media screen and (min-width: $sm) {
+  .w-sm-50 {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: $md) {
+  .overlap-md-1 {
+    margin-left: -8.33333333%;
+  }
+}
+
+.on-top {
+  position: relative;
+  z-index: 1;
+}
+
+.img-contain {
+  object-fit: contain;
+}
+
+.modal-dialog-scrollable form {
+    overflow-y: auto;
+}

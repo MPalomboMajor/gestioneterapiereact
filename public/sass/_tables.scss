@@ -75,6 +75,10 @@ table.custom {
       line-height: 1.313rem; /* 21/16 */
     }
 
+    .btn + .btn {
+      margin-left: 0.5rem;
+    }
+
   }
 }
 
