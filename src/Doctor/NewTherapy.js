@@ -14,7 +14,7 @@ export class NewTherapy extends Component {
     allergiesProps = () => ({
         id: 0,
         nomeFarmaco: "",
-        idPatientProfile:parseInt( window.location.pathname.split('/').pop())
+        idPatientProfile: parseInt(window.location.pathname.split('/').pop())
     })
     farmaciProps = () => ({
         id: 0,
@@ -24,14 +24,15 @@ export class NewTherapy extends Component {
         dataInizio: null,
         isActiveReminder: false,
         idPianoTerapeutico: 1,
-        formulazione : {
+        formulazione: {
             id: 0,
-            formula:0,
+            formula: 0,
             idFarmaco: 0,
+            isStandard: false,
             farmaco: {
-              id: 0,
-              nome:  '',
-              isOntozry: false
+                id: 0,
+                nome: '',
+                isOntozry: false
             }
         }
     })
@@ -40,9 +41,11 @@ export class NewTherapy extends Component {
         this.state = {
 
             listOntozry: [],
+            listOtherPharmacy: [],
             isOntozryFlag: false,
             items: [],
             dateNow: '',
+            isNewPatient:localStorage.getItem('newPatient') ,
             patients: [],
             pharmacyPatients: [],
             currentPage: 1,
@@ -51,19 +54,20 @@ export class NewTherapy extends Component {
             allergiesDTO: { ...this.allergiesProps() },
             isOpenAllergic: false,
             isOpenModalOntozry: false,
+            isOtherOntozry: false,
             therapyDto: {
-                
-                therapeuticPlan:{
+
+                therapeuticPlan: {
                     id: 0,
 
                     versione: 0,
                     maxReminderNotification: 0,
-                    dataPrescrizione: null,
+                    dataPrescrizione: moment(new Date()).format("DD/MM/YYYY"),
                     inizioTerapia: null,
                     dataFineTerapia: null,
                     motivoFineTerapia: "",
                     idDoctor: JSON.parse(localStorage.getItem("role")).id,
-                    idPatientProfile: parseInt( window.location.pathname.split('/').pop()),
+                    idPatientProfile: parseInt(window.location.pathname.split('/').pop()),
                     elencoFarmaciPrescritti: [],
                 },
                 ontozryMedication: [],
@@ -79,17 +83,20 @@ export class NewTherapy extends Component {
 
     componentDidMount() {
         localStorage.removeItem('newPatient');
-        medication.getAll("GetAllOntozry/")
+        medication.getAll("GetAll/")
             .then((response) => {
                 if (response.status === 200) {
+                    var listOntozryInfo = response.data.dati.filter((x) => x.isOntozry == true);
+                    var listOtherPharmacyInfo = response.data.dati.filter((x) => x.isOntozry != true);
                     this.setState({
-                        listOntozry: response.data.dati,
+                        listOntozry: listOntozryInfo[0].elencoFormulazioni,
+                        listOtherPharmacy: listOtherPharmacyInfo
                     });
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
-        patient.get("GetAllergies/",  window.location.pathname.split('/').pop())
+        patient.get("GetAllergies/", window.location.pathname.split('/').pop())
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({
@@ -99,10 +106,10 @@ export class NewTherapy extends Component {
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
-       pianoterapeutico.get("Get/", parseInt( window.location.pathname.split('/').pop()))
+        pianoterapeutico.get("Get/", parseInt(window.location.pathname.split('/').pop()))
             .then((response) => {
                 if (response.status === 200 && response.data.dati != null) {
-                    
+
                     this.setState({
                         therapyDto: response.data.dati,
                     });
@@ -110,7 +117,7 @@ export class NewTherapy extends Component {
             }).catch((error) => {
                 this.setState({ error: 1 })
             });
-            pianoterapeutico.get("Storico/", parseInt( window.location.pathname.split('/').pop()))
+        pianoterapeutico.get("Storico/", parseInt(window.location.pathname.split('/').pop()))
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({
@@ -123,23 +130,23 @@ export class NewTherapy extends Component {
     }
     //FUNZIONI POST
     updateTherapy = () => {
-this.state.therapyDto.ontozryMedication.map((el) => 
-el.id != 0 ?  el.id= 0 :  ''
-) 
- this.state.therapyDto.otherMedication.map((el) => 
-el.id != 0 ?  el.id= 0 :  ''
-) 
+        this.state.therapyDto.ontozryMedication.map((el) =>
+            el.id != 0 ? el.id = 0 : ''
+        )
+        this.state.therapyDto.otherMedication.map((el) =>
+            el.id != 0 ? el.id = 0 : ''
+        )
 
-this.state.therapyDto.therapeuticPlan.id = 0;
+        this.state.therapyDto.therapeuticPlan.id = 0;
         pianoterapeutico.post("SaveCompleteTherapy", this.state.therapyDto)
             .then((response) => {
                 if (response.status === 200) {
                     if (response.data.dati.statoesito != 1) {
-                    NotificationManager.success(message.TERAPIA + message.SuccessInsert, entitiesLabels.SUCCESS, 3000);
-                    this.setState({
-                        therapyDto: response.data.dati,
-                    });
-                    }else{
+                        NotificationManager.success(message.TERAPIA + message.SuccessInsert, entitiesLabels.SUCCESS, 3000);
+                        this.setState({
+                            therapyDto: response.data.dati,
+                        });
+                    } else {
                         NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
                     }
                 }
@@ -191,8 +198,8 @@ this.state.therapyDto.therapeuticPlan.id = 0;
             dateNow: moment(value).format("DD/MM/YYYY"),
             formattedValue: formattedValue
         });
-        var plan =  this.state.therapyDto.therapeuticPlan;
-        plan.dataFineTerapia=moment(value).format("DD/MM/YYYY");
+        var plan = this.state.therapyDto.therapeuticPlan;
+        plan.dataFineTerapia = moment(value).format("DD/MM/YYYY");
         this.updateState('therapeuticPlan', plan, 'therapyDto');
     }
     handleChangeStartDateMedication = (value, formattedValue) => {
@@ -210,8 +217,8 @@ this.state.therapyDto.therapeuticPlan.id = 0;
         this.updateState('dataFine', moment(value).format("DD/MM/YYYY"), 'medicationDTO');
     }
     handleChangeNote = (el) => {
-        var plan =  this.state.therapyDto.therapeuticPlan;
-        plan.motivoFineTerapia=el.target.value;
+        var plan = this.state.therapyDto.therapeuticPlan;
+        plan.motivoFineTerapia = el.target.value;
         this.updateState('therapeuticPlan', plan, 'therapyDto');
     };
     handleChangeFarmaco = (el) => {
@@ -234,6 +241,19 @@ this.state.therapyDto.therapeuticPlan.id = 0;
     };
     updateState = (inputName, inputValue, objName) => {
         let statusCopy = Object.assign({}, this.state);
+        statusCopy[objName][inputName] = inputValue;
+        this.setState(statusCopy);
+    };
+    updateStateOnt = (inputName, inputValue, objName) => {
+        let statusCopy = Object.assign({}, this.state);
+        if (inputValue.farmaco.id == 0) {
+
+            statusCopy.isOtherOntozry = true;
+        }
+        if (inputValue.farmaco.id == -1) {
+
+            statusCopy.isOtherOntozry = false;
+        }
         statusCopy[objName][inputName] = inputValue;
         this.setState(statusCopy);
     };
@@ -274,31 +294,84 @@ this.state.therapyDto.therapeuticPlan.id = 0;
 
     }
     handleChangeDosagio = (inputName) => {
-        var formulaziones =  this.state.medicationDTO.formulazione;
-        formulaziones.formula=inputName.target.value;
+        var formulaziones = this.state.medicationDTO.formulazione;
+        formulaziones.formula = inputName.target.value;
         this.updateState('formulazione', formulaziones, 'medicationDTO');
     }
     handleChangeNameFarmaco = (inputName) => {
-        var formulaziones =  this.state.medicationDTO.formulazione;
-        formulaziones.farmaco.nome=inputName.target.value;
+        var formulaziones = this.state.medicationDTO.formulazione;
+        formulaziones.farmaco.nome = inputName.target.value;
         this.updateState('formulazione', formulaziones, 'medicationDTO');
     }
     onChangeDrop = (inputName) => {
         const selected = inputName.target;
-        const id = selected.children[selected.selectedIndex].id;
-        var element = this.state.listOntozry.filter(x => x.id == id)
-        
-        var  formulazione = {
-                id: 0,
-                formula: element[0].formula,
-                idFarmaco: 0,
-                farmaco: {
-                  id: element[0].id,
-                  nome:  'Ontozry',
-                  isOntozry: true
+        if (inputName.target.value == "Altra formulazione") {
+            var isOtherOntozry = true;
+        }
+        if (inputName.target.value == "Seleziona") {
+            var isOtherOntozry = false;
+        }
+        if (!isOtherOntozry) {
+            if (inputName.target.value != "Seleziona") {
+                let id = selected.children[selected.selectedIndex].id;
+                var element = this.state.listOntozry.filter(x => x.id == id)
+                var formulazione = {
+                    id: 0,
+                    formula: element[0].formula,
+                    idFarmaco: 0,
+                    isStandard: true,
+                    farmaco: {
+                        id: element[0].id,
+                        nome: 'Ontozry',
+                        isOntozry: true
+                    }
+                }
+            } else {
+                var formulazione = {
+                    id: 0,
+                    formula: '',
+                    idFarmaco: 0,
+                    isStandard: false,
+                    farmaco: {
+                        id: -1,
+                        nome: 'Ontozry',
+                        isOntozry: true
+                    }
                 }
             }
-        this.updateState('formulazione', formulazione, 'medicationDTO');
+        } else {
+
+            var formulazione = {
+                id: 0,
+                formula: '',
+                idFarmaco: 0,
+                farmaco: {
+                    id: 0,
+                    nome: 'Ontozry',
+                    isOntozry: true
+                }
+            }
+
+        }
+
+        this.updateStateOnt('formulazione', formulazione, 'medicationDTO');
+    };
+    onChangeDropOther = (inputName) => {
+        const selected = inputName.target;
+
+        let id = selected.children[selected.selectedIndex].id;
+        var element = this.state.listOtherPharmacy.filter(x => x.id == id)
+        var formulazione = {
+            id: 0,
+            formula: element[0].formula,
+            idFarmaco: 0,
+            farmaco: {
+                id: element[0].id,
+                nome: element[0].nome,
+                isOntozry: true
+            }
+        }
+        this.updateStateOnt('formulazione', formulazione, 'medicationDTO');
     };
     deleteElementOnto = (el) => {
         var listFilter = this.state.therapyDto.ontozryMedication.filter(x => x.id != el)
@@ -316,63 +389,17 @@ this.state.therapyDto.therapeuticPlan.id = 0;
         const currentFarmaci = this.state.therapyDto.otherMedication.slice(indexOfFirstPatient, indexOfLastPatient);
         const pharmacyPatients = this.state.therapyDto.medicationAllergies.slice(indexOfFirstpharmacyPatient, indexOfLastpharmacyPatient);
         const currentItem = this.state.therapyDto.ontozryMedication.slice(indexOfFirstPatient, indexOfLastPatient);
-        const currentstoric =this.state.storicPlan ?  this.state.storicPlan.slice(indexOfFirstPatient, indexOfLastPatient) :[];
+        const currentstoric = this.state.storicPlan ? this.state.storicPlan.slice(indexOfFirstPatient, indexOfLastPatient) : [];
         currentFarmaci.map((pa) => { pa.delete = 'delete'; });
         currentItem.map((pa) => { pa.delete = 'delete'; });
         return (
             <Container className=''>
                 <Row className='col-12 pt-4' >
-                    <Tabs defaultActiveKey="terapia" id="uncontrolled-tab-example" className=" col-12 mb-3">
-                        <Tab eventKey="terapia" title="Terapia">
+                    <Tabs defaultActiveKey="ontozry" id="uncontrolled-tab-example" className=" col-12 mb-3">
 
-                            <Form className="">
-                                <Row>
-                                    <Form.Group className="col-6 mb-3" >
-                                        <Form.Label className="text">Data inizio terapia</Form.Label>
-                                        <InputGroup className="mb-3">
-                                            <Button disabled variant="outline-secondary" className='bi bi-calendar-date-fill' id="button-addon1" />
-                                            <div className='datepicker-wrapper-date datepicker-wrapper'>
-                                                <DatePicker disabled id='startTherapy' name={'startTherapy'} aria-label="Example text with button addon"
-                                                    aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.therapyDto.therapeuticPlan.inizioTerapia} onChange={this.handleChange} />
-                                            </div>
-                                        </InputGroup>
-                                    </Form.Group>
-                                    <Form.Group className="col-6 mb-3" >
-                                        <Form.Label className="text">Data fine terapia</Form.Label>
-                                        <InputGroup className="mb-3">
-                                            <Button variant="outline-secondary" className='bi bi-calendar-date-fill' id="button-addon1" />
-                                            <div className='datepicker-wrapper-date datepicker-wrapper'>
-                                                <DatePicker id='endTherapy' name={'endTherapy'} aria-label="Example text with button addon"
-                                                    aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.therapyDto.therapeuticPlan.dataFineTerapia} onChange={this.handleChange} />
-                                            </div>
-                                        </InputGroup>
-                                    </Form.Group>
-                                </Row>
-                                <Row>
-                                    <div className='col-lg-8'>
-                                        <InputGroup className="mb-3">
-                                            <InputGroup.Text>Motivo fine terapia </InputGroup.Text>
-                                            <FormControl as="textarea" aria-label="With textarea" id="motivoFineTerapia" onChange={this.handleChangeNote} name="motivoFineTerapia" />
-                                        </InputGroup>
-                                    </div>
-                                </Row>
-                                <Row>
-                                    <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                        <Button variant="btn btn-primary " onClick={() => this.returnToMenu()}>
-                                            Indietro
-                                        </Button>
-                                    </Form.Group>
-                                    <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                        <Button variant="btn btn-primary  " >
-                                            Avanti
-                                        </Button>
-                                    </Form.Group>
-                                </Row>
-                            </Form>
-                        </Tab>
                         <Tab eventKey="ontozry" title="Ontozry">
                             <Row>
-                                <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
+                                <Form.Group className="col-4 mb-3" >
                                     <Button variant="btn btn-primary" onClick={() => this.openModalOntozry()}>
                                         Aggiungi
                                     </Button>
@@ -395,12 +422,12 @@ this.state.therapyDto.therapeuticPlan.id = 0;
                                 </tbody>
                             </Table>
                             <Row>
-                                <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
+                                <Form.Group className="col-4 mb-3" >
                                     <Button variant="btn btn-primary" >
                                         Indietro
                                     </Button>
                                 </Form.Group>
-                                <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
+                                <Form.Group className="col-4 mb-3" >
                                     <Button variant="btn btn-primary">
                                         Avanti
                                     </Button>
@@ -418,35 +445,57 @@ this.state.therapyDto.therapeuticPlan.id = 0;
                                 <Modal.Body>
                                     <Row className="col-12 mb-3">
                                         {!this.state.isOntozryFlag ?
-                                            <Form.Group className={this.state.isOntozryFlag ? "col-6 mb-3" : "col-12 mb-3"} controlId="formBasicEmail">
-                                                <Form.Label className="text-">{this.state.isOntozryFlag ? 'Ontozry' : 'Farmaco'} </Form.Label>
-                                                <Form.Control id="nome" onChange={this.handleChangeNameFarmaco} alt="medicationDTO" name="nome" placeholder="Inserisci farmaco" />
+                                            <Form.Group className="col-6 mb-3 input-layout-wrapper" >
+                                                <Form.Label className="text">Formualzione</Form.Label>
+                                                <Form.Select onChange={(el) => this.onChangeDropOther(el)} name="mendicalCenter" alt="medicoDTO" placeholder="Enter centro medico" >
+                                                    <option id="0">Seleziona </option>
+
+                                                    {this.state.listOtherPharmacy.map((item) =>
+                                                        <option id={item.id}>{item.nome}</option>
+                                                    )}
+                                                </Form.Select>
                                             </Form.Group>
                                             :
                                             <Form.Group className="col-6 mb-3 input-layout-wrapper" >
                                                 <Form.Label className="text">Formualzione</Form.Label>
                                                 <Form.Select onChange={(el) => this.onChangeDrop(el)} name="mendicalCenter" alt="medicoDTO" placeholder="Enter centro medico" >
                                                     <option id="0">Seleziona </option>
-                                                    {this.state.listOntozry.filter(x => x.isOntozry != false).map((item) =>
+
+                                                    {!this.state.isOtherOntozry ? this.state.listOntozry.filter(x => x.isOntozry != false && x.isStandard == true).map((item) =>
                                                         <option id={item.id}>{item.formula}</option>
-                                                    )}
+                                                    ) : []}
+                                                    <option id="OTHER">Altra formulazione</option>
                                                 </Form.Select>
                                             </Form.Group>}
-                                        {!this.state.isOntozryFlag ? <>
-                                            <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                        {!this.state.isOntozryFlag ? <React.Fragment >
+                                            <Form.Group className="col-6 mb-3" >
                                                 <Form.Label className="text-">Dosagio</Form.Label>
                                                 <Form.Control id="quantitaPrescrizione" onChange={this.handleChangeDosagio} alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci farmaco" />
                                             </Form.Group>
-                                            <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                            <Form.Group className="col-6 mb-3" >
                                                 <Form.Label className="text-">Quantita</Form.Label>
                                                 <Form.Control id="quantitaPrescrizione" onChange={this.handleChangeIntTherapy} type='number' alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci farmaco" />
                                             </Form.Group>
-                                        </>
-                                            : <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                        </React.Fragment>
+                                            : <React.Fragment >
+                                                {this.state.isOtherOntozry ?
+                                                    <Form.Group className="col-6 mb-3" >
+                                                        <Form.Label className="text-">Formula</Form.Label>
+                                                        <Form.Control disabled={!this.state.isOtherOntozry ? true : false} id="formulazioneOnt" type='number' onChange={this.handleChangeDosagio} alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci farmaco" />
+                                                    </Form.Group>
+                                                    : ''}
+                                            </React.Fragment>
+                                        }
+                                    </Row>
+                                    {this.state.isOntozryFlag ? <React.Fragment >
+                                        <Row className="col-14 mb-3">
+                                            <Form.Group className="col-6 mb-3" >
                                                 <Form.Label className="text-">Quantita</Form.Label>
                                                 <Form.Control id="quantitaPrescrizione" onChange={this.handleChangeIntTherapy} type='number' alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci farmaco" />
-                                            </Form.Group>}
-                                    </Row>
+                                            </Form.Group>
+                                        </Row>
+                                    </React.Fragment> : ''}
+
                                     <Row className="col-14 mb-3">
                                         <Form.Group className="col-6 mb-3" >
                                             <Form.Label className="text">Data inizio terapia</Form.Label>
@@ -471,11 +520,11 @@ this.state.therapyDto.therapeuticPlan.id = 0;
                                     </Row>
                                     <Row className="col-12 mb-3">
 
-                                        <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                        <Form.Group className="col-6 mb-3" >
                                             <Form.Label className="text-">Orario  consigliato assunzione {this.state.isOntozryFlag ? 'Ontozry' : ''} </Form.Label>
                                             <Form.Control id="oraAssunzioneIndicata" onChange={this.handleChangeIntTherapy} alt="medicationDTO" name="oraAssunzioneIndicata" placeholder="Inserisci farmaco" />
                                         </Form.Group>
-                                        <Form.Group className="col-2 mb-3" controlId="formBasicEmail">
+                                        <Form.Group className="col-2 mb-3" >
                                             <Form.Label className="text-">Promemoria Terapie</Form.Label>
                                             <Form.Check
                                                 type="switch"
@@ -510,11 +559,11 @@ this.state.therapyDto.therapeuticPlan.id = 0;
                                 </Modal.Header>
                                 <Modal.Body>
                                     <Row>
-                                        <Form.Group className="col-8 mb-3" controlId="formBasicEmail">
+                                        <Form.Group className="col-8 mb-3" >
                                             <Form.Label className="text-">Farmaco</Form.Label>
                                             <Form.Control name="farmaco" placeholder="Inserisci farmaco" onChange={this.handleChangeTherapy} />
                                         </Form.Group>
-                                        <Form.Group className="col-2 mb-3" controlId="formBasicEmail">
+                                        <Form.Group className="col-2 mb-3" >
                                             <Form.Label className="text-">Promemoria Terapie</Form.Label>
                                             <Form.Check
                                                 type="switch"
@@ -526,11 +575,11 @@ this.state.therapyDto.therapeuticPlan.id = 0;
                                         </Form.Group>
                                     </Row>
                                     <Row>
-                                        <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                        <Form.Group className="col-6 mb-3" >
                                             <Form.Label className="text-">Doagio</Form.Label>
                                             <Form.Control name="dosagio" placeholder="Inserisci Dosagio" onChange={this.handleChangeTherapy} />
                                         </Form.Group>
-                                        <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                        <Form.Group className="col-6 mb-3" >
                                             <Form.Label className="text-">Quantita</Form.Label>
                                             <Form.Control name="quantita" placeholder="Inserisci quantita" onChange={this.handleChangeTherapy} />
                                         </Form.Group>
@@ -568,7 +617,7 @@ this.state.therapyDto.therapeuticPlan.id = 0;
                                 </Modal.Footer>
                             </Modal>
                             <Row>
-                                <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
+                                <Form.Group className="col-4 mb-3" >
                                     <Button variant="btn btn-primary" onClick={() => this.handleShowOtherPharmacy()}>
                                         Aggiungi
                                     </Button>
@@ -587,7 +636,7 @@ this.state.therapyDto.therapeuticPlan.id = 0;
                                 </thead>
                                 <tbody>
                                     {
-                                        currentFarmaci.map((pa) => <RowCustom colums={["formulazione.farmaco.nome", "formulazione.formula", "quantitaPrescrizione", "dataInizio", "dataFine", "oraAssunzioneIndicata", "delete"]} elementDelete={"delete"} reference={'id'} delete={(el) => this.deleteElementOther(el)} item={pa} />)
+                                        currentFarmaci.map((pa) => <RowCustom id={pa.id} colums={["formulazione.farmaco.nome", "formulazione.formula", "quantitaPrescrizione", "dataInizio", "dataFine", "oraAssunzioneIndicata", "delete"]} elementDelete={"delete"} reference={'id'} delete={(el) => this.deleteElementOther(el)} item={pa} />)
                                     }
                                 </tbody>
                             </Table>
@@ -597,12 +646,12 @@ this.state.therapyDto.therapeuticPlan.id = 0;
                                 paginate={(pageNumber) => this.setCurrentPage(pageNumber)}
                             />
                             <Row>
-                                <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
+                                <Form.Group className="col-4 mb-3" >
                                     <Button variant="btn btn-primary">
                                         Indietro
                                     </Button>
                                 </Form.Group>
-                                <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
+                                <Form.Group className="col-4 mb-3" >
                                     <Button variant="btn btn-primary">
                                         Avanti
                                     </Button>
@@ -621,7 +670,7 @@ this.state.therapyDto.therapeuticPlan.id = 0;
                                 </Modal.Header>
                                 <Modal.Body>
                                     <Row>
-                                        <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
+                                        <Form.Group className="col-12 mb-3" >
                                             <Form.Label className="text-">Farmaco avverso</Form.Label>
                                             <Form.Control id="nomeFarmaco" onChange={this.handleChangeFarmaco} alt="allergiesDTO" name="nomeFarmaco" placeholder="Inserisci farmaco" />
                                         </Form.Group>
@@ -635,7 +684,7 @@ this.state.therapyDto.therapeuticPlan.id = 0;
                                 </Modal.Footer>
                             </Modal>
                             <Row>
-                                <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
+                                <Form.Group className="col-4 mb-3" >
                                     <Button variant="btn btn-primary" onClick={() => this.handleShowAllergic()}>
                                         Aggiungi
                                     </Button>
@@ -659,61 +708,113 @@ this.state.therapyDto.therapeuticPlan.id = 0;
                                 paginate={(pageNumber) => this.setCurrentPage(pageNumber)}
                             />
                             <Row>
-                                <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
+                                <Form.Group className="col-4 mb-3" >
                                     <Button variant="btn btn-primary">
                                         Indietro
                                     </Button>
                                 </Form.Group>
-                                <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
+                                <Form.Group className="col-4 mb-3" >
                                     <Button variant="btn btn-primary bi-cloud-check" onClick={() => this.updateTherapy()} >
                                         Salva Terapia
                                     </Button>
                                 </Form.Group>
                             </Row>
                         </Tab>
-                        <Tab eventKey="storicoTerapie" title="Storico Terapie" >
-                       <Row>
-{
-  currentstoric.map((el)=>
-        <Row className='pb-2 mb-5'>
-                               <div className='col-4'>
-                               <div className='col-12'>
-                                <b>Dottore:</b>  {el.nameDoctor}
-                               </div>
-                               <div className='col-12 '>
-                               <b>Initzio  terapia: </b>  {el.inizioTerapia}
-                               </div>
-                               <div className='col-12'>
-                               <b>Fine Terapia:</b>  {el.dataFineTerapia}
-                               </div>
-                               </div>
-                               <div className='col-8'>
-                               <Table striped bordered hover size="sm">
-                                <thead>
-                                    <tr>
-                                        <th>Farmaco</th>
-                                        <th>Formula</th>
-                                        <th>Quantita</th>
-                                        <th>Data Inizio</th>
-                                        <th>Data DataFine</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                       el.elencoFarmaciPrescritti  != [] ?  el.elencoFarmaciPrescritti.map((pa) => <RowCustom colums={["formulazione.farmaco.nome", "formulazione.formula", "quantitaPrescrizione", "dataInizio", "dataFine"]} oBoB={["formulazione.formula ", "formulazione.formula.nome"]} item={pa} />) : ''
-                                    }
-                                </tbody>
-                            </Table>
-                               </div>
-         </Row>
-    ) 
-}
-</Row>
-                        </Tab>
+                        {this.state.isNewPatient  ? '':
+                            
+                                <Tab eventKey="terapia" title="Terapia">
+
+                                    <Form className="">
+                                        <Row>
+                                            <Form.Group className="col-6 mb-3" >
+                                                <Form.Label className="text">Data inizio terapia</Form.Label>
+                                                <InputGroup className="mb-3">
+                                                    <Button disabled variant="outline-secondary" className='bi bi-calendar-date-fill' id="button-addon1" />
+                                                    <div className='datepicker-wrapper-date datepicker-wrapper'>
+                                                        <DatePicker disabled id='startTherapy' name={'startTherapy'} aria-label="Example text with button addon"
+                                                            aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.therapyDto.therapeuticPlan.inizioTerapia} onChange={this.handleChange} />
+                                                    </div>
+                                                </InputGroup>
+                                            </Form.Group>
+                                            <Form.Group className="col-6 mb-3" >
+                                                <Form.Label className="text">Data fine terapia</Form.Label>
+                                                <InputGroup className="mb-3">
+                                                    <Button variant="outline-secondary" className='bi bi-calendar-date-fill' id="button-addon1" />
+                                                    <div className='datepicker-wrapper-date datepicker-wrapper'>
+                                                        <DatePicker id='endTherapy' name={'endTherapy'} aria-label="Example text with button addon"
+                                                            aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.therapyDto.therapeuticPlan.dataFineTerapia} onChange={this.handleChange} />
+                                                    </div>
+                                                </InputGroup>
+                                            </Form.Group>
+                                        </Row>
+                                        <Row>
+                                            <div className='col-lg-8'>
+                                                <InputGroup className="mb-3">
+                                                    <InputGroup.Text>Motivo fine terapia </InputGroup.Text>
+                                                    <FormControl as="textarea" aria-label="With textarea" id="motivoFineTerapia" onChange={this.handleChangeNote} name="motivoFineTerapia" />
+                                                </InputGroup>
+                                            </div>
+                                        </Row>
+                                        <Row>
+                                            <Form.Group className="col-4 mb-3" >
+                                                <Button variant="btn btn-primary " onClick={() => this.returnToMenu()}>
+                                                    Indietro
+                                                </Button>
+                                            </Form.Group>
+                                            <Form.Group className="col-4 mb-3" >
+                                                <Button variant="btn btn-primary  " >
+                                                    Avanti
+                                                </Button>
+                                            </Form.Group>
+                                        </Row>
+                                    </Form>
+                                </Tab>}
+                                {this.state.isNewPatient  ? '':
+                                <Tab eventKey="storicoTerapie" title="Storico Terapie" >
+                                    <Row>
+                                        {
+                                            currentstoric.map((el) =>
+                                                <Row className='pb-2 mb-5'>
+                                                    <div className='col-4'>
+                                                        <div className='col-12'>
+                                                            <b>Dottore:</b>  {el.nameDoctor}
+                                                        </div>
+                                                        <div className='col-12 '>
+                                                            <b>Initzio  terapia: </b>  {el.inizioTerapia}
+                                                        </div>
+                                                        <div className='col-12'>
+                                                            <b>Fine Terapia:</b>  {el.dataFineTerapia}
+                                                        </div>
+                                                    </div>
+                                                    <div className='col-8'>
+                                                        <Table striped bordered hover size="sm">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Farmaco</th>
+                                                                    <th>Formula</th>
+                                                                    <th>Quantita</th>
+                                                                    <th>Data Inizio</th>
+                                                                    <th>Data DataFine</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {
+                                                                    el.elencoFarmaciPrescritti != [] ? el.elencoFarmaciPrescritti.map((pa) => <RowCustom colums={["formulazione.farmaco.nome", "formulazione.formula", "quantitaPrescrizione", "dataInizio", "dataFine"]} oBoB={["formulazione.formula ", "formulazione.formula.nome"]} item={pa} />) : ''
+                                                                }
+                                                            </tbody>
+                                                        </Table>
+                                                    </div>
+                                                </Row>
+                                            )
+                                        }
+                                    </Row>
+                                </Tab>
+    }
+
                     </Tabs>
                 </Row>
                 < NotificationContainer />
-                </Container>
+            </Container>
         );
     }
 }

@@ -193,19 +193,19 @@ function RowCustom(props) {
             }
         })
     }
-    return (<tr>
+    return (<tr >
         {listValue.map((el) =>
 
             el.element.isLink ?
-                <td><Link to={`/${el.element.controller}/${el.element.id}`}>{el.element.value != null ? String(el.element.value) : ''}</Link></td>
+                <td id={el.element.id} ><Link to={`/${el.element.controller}/${el.element.id}`}>{el.element.value != null ? String(el.element.value) : ''}</Link></td>
                 :
                 el.element.isUpdate ?
-                    <td ><Button onClick={() => props.update(el.element.id)} className='btn btn-primary bi bi-pencil-square'></Button></td>
+                    <td id={el.element.id}><Button onClick={() => props.update(el.element.id)} className='btn btn-primary bi bi-pencil-square'></Button></td>
                     :
                     el.element.isDelete ?
-                        <td ><Button onClick={() => props.delete(el.element.id)} className='btn btn-danger bi bi-trash'></Button></td>
+                        <td id={el.element.id}><Button onClick={() => props.delete(el.element.id)} className='btn btn-danger bi bi-trash'></Button></td>
                         :
-                        <td>{el.element.value != null ? String(el.element.value) : ''}</td>
+                        <td id={el.element.id}>{el.element.value != null ? String(el.element.value) : ''}</td>
 
 
         )}

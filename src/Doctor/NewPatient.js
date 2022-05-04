@@ -57,8 +57,9 @@ export class NewPatient extends Component {
      }
     InsertPatient = () => {
         if (this.validator.allValid()) {
-
-            patientcode.post("check/", parseInt(this.state.patiendDto.codicePaziente))
+var CodPatient=parseInt(this.state.patiendDto.codicePaziente);
+var PhoneNumber = this.state.patiendDto.phoneNumber;
+            patientcode.post("check/", {CodPatient,PhoneNumber })
                 .then((response) => {
                     if (response.data.dati) {
 
