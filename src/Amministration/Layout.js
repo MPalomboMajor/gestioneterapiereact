@@ -56,7 +56,7 @@ export default class Layout extends Component {
         {localStorage.getItem("accessToken") != null && this.state.url != "/" && this.state.url != "/Register" && this.state.url != "/Login" ?
           <>
 
-            <div class="wrapper custom-login" >
+            <div class="wrapper" >
               <div class="container-lg page-wrapper">
                 <div class="row flex-nowrap">
                 

@@ -16,7 +16,7 @@ function PatientMoodInterface(props) {
 
     useEffect(() => {
         const fetchPatient = async () => {
-            await patient.get("DailyMoodTracking/", patientId)
+            await patient.get("Get/", patientId)
                 .then((response) => {
                     if (response.status === 200) {
                         setPatientProfile(response.data.dati);
@@ -31,7 +31,7 @@ function PatientMoodInterface(props) {
     useEffect(() => {
         const fetchPatientDailyMoods = async () => {
             setLoading(true);
-            await patient.get("MedicalExams/", patientId)
+            await patient.get("DailyMoodTracking/", patientId)
                 .then((response) => {
                     if (response.status === 200) {
                         setPatientDailyMoods(response.data.dati);

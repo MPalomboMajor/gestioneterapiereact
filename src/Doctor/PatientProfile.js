@@ -85,9 +85,7 @@ function PatientProfile() {
     };
 
     return (
-
         <>
-
             <h1>Profilo paziente</h1>
 
             &nbsp;&nbsp;

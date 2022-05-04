@@ -64,43 +64,43 @@ function DiagnosticTestsInfo() {
 
     return (
         <>
-            
-                    <h1>Esami diagnostici</h1>
-               
+
+            <h1>Esami diagnostici</h1>
+
             &nbsp;&nbsp;
-            <Col className='mb-3'>
-                <DiagnosticTestsTable diagnosticTests={currentDiagnosticTests} patientId={patientId} setDiagnosticTests={setDiagnosticTests} />
-                <Pagination
-                    patientsPerPage={diagnosticTestsPerPage}
-                    totalPatients={diagnosticTests?.length}
-                    paginate={paginate}
-                />
-            </Col>
+            <button className="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#nuovo-esame" onClick={handleShow} >Nuovo Esame</button>
+            <DiagnosticTestsTable diagnosticTests={currentDiagnosticTests} patientId={patientId} setDiagnosticTests={setDiagnosticTests} />
+            <Pagination
+                patientsPerPage={diagnosticTestsPerPage}
+                totalPatients={diagnosticTests?.length}
+                paginate={paginate}
+            />
+
             <DiagnosticTestsModal show={show} handleClose={handleClose} patientId={patientId} />
-            <Col className='mb-3'>
-                <Button variant="primary" id="btnAdd" onClick={handleShow}>Aggiungi esami diagnostici <i class="fas fa-plus"></i></Button>
-                {/* <Button onClick={() => editPatient()} >Salva le modifiche</Button> */}
-            </Col>
+
+
+
+
         </>
     );
 }
 
+
 function DiagnosticTestsTable(props) {
     const deleteDiagnosticTest = (code) => {
         props.setDiagnosticTests((diagnosticTests) => diagnosticTests.filter(ex => ex.id !== code));
-      };
+    };
 
     return (
         <>
-            <div className='col-10'>
-                <Table striped bordered hover size="sm">
+            <div className="table-wrapper custom-scrollbar">
+                <table className="table custom">
                     <thead>
                         <tr>
-                            <th>Codice esame</th>
-                            <th>Data</th>
-                            <th>Tipo esame</th>
-                            <th>Miniatura</th>
-                            <th>Actions</th>
+                            <th scope="col">Tipo esame</th>
+                            <th scope="col">Del</th>
+                            <th scope="col">Miniatura</th>
+                            <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,7 +108,7 @@ function DiagnosticTestsTable(props) {
                             props.diagnosticTests?.map((ev) => <DiagnosticTestRow key={ev.id} diagnosticTest={ev} patientId={props.patientId} deleteDiagnosticTest={deleteDiagnosticTest} />)
                         }
                     </tbody>
-                </Table>
+                </table>
             </div>
 
 
@@ -118,22 +118,23 @@ function DiagnosticTestsTable(props) {
 }
 
 function DiagnosticTestRow(props) {
-    return <tr><DiagnosticTestRowData diagnosticTest={props.diagnosticTest} patientId={props.patientId} /> <RowControl diagnosticTestId={props.diagnosticTest.id} deleteDiagnosticTest={props.deleteDiagnosticTest}/></tr>
+    return <tr><DiagnosticTestRowData diagnosticTest={props.diagnosticTest} patientId={props.patientId} /> <RowControl diagnosticTestId={props.diagnosticTest.id} deleteDiagnosticTest={props.deleteDiagnosticTest} /></tr>
 }
 
 function DiagnosticTestRowData(props) {
     return (<>
-        <td><Link to={`/BloodTest/${props.patientId}/${props.diagnosticTest.id}`} state={props.diagnosticTest} patientId={props.patientId} >{props.diagnosticTest.id}</Link></td>
-        <td>{props.diagnosticTest.uploadedDateTime.split(' ')[0]}</td>
         <td>{props.diagnosticTest.tipoReferto}</td>
-        <td><img src={props.diagnosticTest.fileName }  style={{ width: 100, height: 70 }} /></td>
+        <td>{props.diagnosticTest.uploadedDateTime.split(' ')[0]}</td>
+        <td><img src={props.diagnosticTest.fileName} style={{ width: 100, height: 70 }} /></td>
+        <td><Link to={`/BloodTest/${props.patientId}/${props.diagnosticTest.id}`} state={props.diagnosticTest} patientId={props.patientId} className="btn btn-primary btn-sm">Visualizza PDF</Link>
+            <Link to={`/BloodTest/${props.patientId}/${props.diagnosticTest.id}`} state={props.diagnosticTest} patientId={props.patientId} className="btn btn-primary btn-sm">Visualizza Immagini</Link></td>
     </>
     );
 }
 
 function RowControl(props) {
     return <td> <span onClick={() => props.deleteDiagnosticTest(props.diagnosticTestId)}>{iconDelete}</span></td>;
-  }
+}
 
 function DiagnosticTestsModal(props) {
     const [idAnalisi, setIdAnalisi] = useState('0');
@@ -145,7 +146,7 @@ function DiagnosticTestsModal(props) {
     const [filesArray, setFilesArray] = useState([]);
 
     function saveDiagnosticTest() {
-        
+
         const files = new FormData();
         // files.append("files", file);
         // files.append("fileName", fileName);
@@ -169,7 +170,7 @@ function DiagnosticTestsModal(props) {
     };
 
     const saveFileSelected = (e) => {
-        
+
         for (var i = 0; i < e.target.files.length; i++) {
             filesArray.push(e.target.files.item(i));
         }
@@ -187,7 +188,37 @@ function DiagnosticTestsModal(props) {
 
     return (
         <>
-            <Modal show={props.show} onHide={props.handleClose}>
+            <div className="modal fade" id="nuovo-esame" tabIndex={-1} aria-labelledby="Nuovo esame" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered" show={props.show} onHide={props.handleClose}>
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h3 className="h3">Nuovo esame</h3>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                        </div>
+                        <form action>
+                            <div className="modal-body align-items-end">
+                                <div className="input-group mb-3">
+                                    <span className="input-group-text" id="captiontest">Carica referto</span>
+                                    <input type="file" className="form-control form-control-sm" id="captiontest" aria-describedby="basic-addon3" multiple onChange={saveFileSelected} />
+                                </div>
+                                <div className="input-group mb-3">
+                                    <span className="input-group-text" id="captiontest">Tipo di referto</span>
+                                    <input type="text" className="form-control form-control-sm" id="captiontest" aria-describedby="basic-addon3" name="tipoReferto" onChange={e => setTipoReferto(e.target.value)} />
+                                </div>
+                                <div className="input-group mb-3 w-sm-50">
+                                    <span className="input-group-text" id="data">Data</span>
+                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" name="dateReferto" onChange={e => setDateReferto(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="modal-footer d-flex justify-content-center justify-content-md-end">
+                                <button className="btn btn-primary btn-upload" id onClick={saveDiagnosticTest}>Carica referto</button>
+                            </div>
+                        </form>
+                        < NotificationContainer />
+                    </div>
+                </div>
+            </div>
+            {/* <Modal show={props.show} onHide={props.handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Aggiungi esame diagnostico</Modal.Title>
                 </Modal.Header>
@@ -218,7 +249,7 @@ function DiagnosticTestsModal(props) {
                         Salva esame
                     </Button>
                 </Modal.Footer>
-            </Modal>
+            </Modal> */}
         </>
     );
 }

@@ -64,23 +64,16 @@ function MedicalExaminationsInfo() {
 
     return (
         <>
-            
-                    <h1>Visite mediche</h1>
-               
+            <h1>Visite mediche</h1>
             &nbsp;&nbsp;
-            <Col className='mb-3'>
-                <MedicalExaminationsTable medicalExaminations={currentmedicalExaminations} patientId={patientId} setMedicalExaminations={setMedicalExaminations} />
-                <Pagination
-                    patientsPerPage={medicalExaminationsPerPage}
-                    totalPatients={medicalExaminations?.length}
-                    paginate={paginate}
-                />
-            </Col>
+            <button class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow} >Nuova visita</button>
+            <MedicalExaminationsTable medicalExaminations={currentmedicalExaminations} patientId={patientId} setMedicalExaminations={setMedicalExaminations} />
+            <Pagination
+                patientsPerPage={medicalExaminationsPerPage}
+                totalPatients={medicalExaminations?.length}
+                paginate={paginate}
+            />
             <MedicalExaminationsModal show={show} handleClose={handleClose} patientId={patientId} />
-            <Col className='mb-3'>
-                <Button variant="primary" id="btnAdd" onClick={handleShow}>Aggiungi visita medica <i class="fas fa-plus"></i></Button>
-                {/* <Button onClick={() => editPatient()} >Salva le modifiche</Button> */}
-            </Col>
         </>
     );
 }
@@ -88,18 +81,17 @@ function MedicalExaminationsInfo() {
 function MedicalExaminationsTable(props) {
     const deleteMedicalExamination = (code) => {
         props.setMedicalExaminations((medicalExaminations) => medicalExaminations.filter(ex => ex.id !== code));
-      };
+    };
     return (
         <>
-            <div className='col-10'>
-                <Table striped bordered hover size="sm">
+            <div className="table-wrapper custom-scrollbar">
+                <table className="table custom">
                     <thead>
                         <tr>
-                            <th>Codice visita</th>
-                            <th>Data</th>
-                            <th>Tipo visita</th>
-                            <th>Miniatura</th>
-                            <th>Actions</th>
+                            <th scope="col">Tipo visita</th>
+                            <th scope="col">Del</th>
+                            <th scope="col">Miniatura</th>
+                            <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -107,30 +99,31 @@ function MedicalExaminationsTable(props) {
                             props.medicalExaminations?.map((ev) => <MedicalExaminationRow key={ev.id} medicalExamination={ev} patientId={props.patientId} deleteMedicalExamination={deleteMedicalExamination} />)
                         }
                     </tbody>
-                </Table>
+                </table>
             </div>
         </>
     );
 }
 
 function MedicalExaminationRow(props) {
-    return <tr><MedicalExaminationRowData medicalExamination={props.medicalExamination} patientId={props.patientId} /> <RowControl medicalExaminationId={props.medicalExamination.id} deleteMedicalExamination={props.deleteMedicalExamination}/></tr>
+    return <tr><MedicalExaminationRowData medicalExamination={props.medicalExamination} patientId={props.patientId} /> <RowControl medicalExaminationId={props.medicalExamination.id} deleteMedicalExamination={props.deleteMedicalExamination} /></tr>
 }
 
 function MedicalExaminationRowData(props) {
 
     return (<>
-        <td><Link to={`/MedicalExaminationDetails/${props.patientId}/${props.medicalExamination.id}`} state={props.medicalExamination} patientId={props.patientId} >{props.medicalExamination.id}</Link></td>
-        <td>{props.medicalExamination.dataVisita.split(' ')[0]}</td>
         <td>{props.medicalExamination.tipoVisita}</td>
-        <td><img src={props.medicalExamination.elencoRefertiVisita[0].immagineReferto }  style={{ width: 100, height: 70 }} /></td>
+        <td>{props.medicalExamination.dataVisita.split(' ')[0]}</td>
+        <td><img src={props.medicalExamination.elencoRefertiVisita[0].immagineReferto} style={{ width: 100, height: 70 }} /></td>
+        <td><Link to={`/MedicalExaminationDetails/${props.patientId}/${props.medicalExamination.id}`} state={props.medicalExamination} patientId={props.patientId} className="btn btn-primary btn-sm" >Visualizza PDF</Link>
+            <Link to={`/MedicalExaminationDetails/${props.patientId}/${props.medicalExamination.id}`} state={props.medicalExamination} patientId={props.patientId} className="btn btn-primary btn-sm" >Visualizza immagini</Link></td>
     </>
     );
 }
 
 function RowControl(props) {
     return <td> <span onClick={() => props.deleteMedicalExamination(props.medicalExaminationId)}>{iconDelete}</span></td>;
-  }
+}
 
 function MedicalExaminationsModal(props) {
     const [idPatient, setIdPatient] = useState(props.patientId);
@@ -138,6 +131,8 @@ function MedicalExaminationsModal(props) {
     const [type, setType] = useState();
     const [data, setData] = useState();
     const [information, setInformation] = useState();
+    const [visitaSpecialistica, setVisitaSpecialistica] = useState();
+    const [accessoRicovero, setAccessoRicovero] = useState();
     const [file, setFile] = useState([]);
     const [fileName, setFileName] = useState([]);
     const [filesArray, setFilesArray] = useState([]);
@@ -154,7 +149,7 @@ function MedicalExaminationsModal(props) {
         console.log(files);
         patient.postMedicalExamination("Visita/", files, {
             params:
-                { idPatient, idMedicalExam, type, data, information }, headers: {
+                { idPatient, idMedicalExam, type, data, information, visitaSpecialistica, accessoRicovero }, headers: {
                     'Content-Type': 'multipart/form-data'
                 }
         })
@@ -170,7 +165,7 @@ function MedicalExaminationsModal(props) {
     };
 
     const saveFileSelected = (e) => {
-        
+
         for (var i = 0; i < e.target.files.length; i++) {
             filesArray.push(e.target.files.item(i));
         }
@@ -182,11 +177,50 @@ function MedicalExaminationsModal(props) {
         setType();
         setInformation();
         setFilesArray([]);
+        setAccessoRicovero();
+        setVisitaSpecialistica();
     }
+
+
 
     return (
         <>
-            <Modal show={props.show} onHide={props.handleClose}>
+            <div className="modal fade" id="nuova-visita" tabIndex={-1} aria-labelledby="Nuova visita" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered" show={props.show} onHide={props.handleClose}>
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h3 className="h3">Carica nuova visita</h3>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                        </div>
+                        <form action>
+                            <div className="modal-body align-items-start">
+                                <div className="input-group mb-3">
+                                    <span className="input-group-text" id="label-caricareferto">Carica referto</span>
+                                    <input type="file" className="form-control form-control-sm" id="caricareferto" aria-describedby="label-caricareferto" multiple onChange={saveFileSelected} />
+                                </div>
+                                <label className="form-label ps-4" id="label-visita" htmlFor="voce1">Visita specialistica</label>
+                                <div className="input-group position-relative mb-3">
+                                    <input className="form-check-input dark" type="radio" id="voce1" defaultValue="option1" name="tipo-referto" defaultChecked />
+                                    <input type="text" className="form-control form-control-sm" id="visita" aria-describedby="label-visita" placeholder="Tipo di visita" name="visitaSpecialistica" onChange={e => setVisitaSpecialistica(e.target.value)} />
+                                </div>
+                                <label className="form-label ps-4" id="label-ricovero" htmlFor="voce2">Accesso ps / ricovero</label>
+                                <div className="input-group position-relative mb-3">
+                                    <input className="form-check-input dark" type="radio" id="voce2" defaultValue="option2" name="tipo-referto" />
+                                    <input type="text" className="form-control form-control-sm" id="ricovero" aria-describedby="label-ricovero" placeholder="Causa" name="accessoRicovero" onChange={e => setAccessoRicovero(e.target.value)}/>
+                                </div>
+                                <div className="input-group mb-3 w-sm-50">
+                                    <span className="input-group-text" id="label-data">Data</span>
+                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="label-data" name="data" onChange={e => setData(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="modal-footer d-flex justify-content-center justify-content-md-end">
+                                <button className="btn btn-primary btn-upload" id onClick={saveMedicalExamination}>Carica referto</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {/* <Modal show={props.show} onHide={props.handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Aggiungi visita medica</Modal.Title>
                 </Modal.Header>
@@ -221,7 +255,7 @@ function MedicalExaminationsModal(props) {
                         Salva crisi
                     </Button>
                 </Modal.Footer>
-            </Modal>
+            </Modal> */}
         </>
     );
 }

@@ -54,14 +54,14 @@ function PatientInfo() {
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (<>
-        <Col>
+        
             <PatientTable patients={currentPatients} loading={loading} />
             <Pagination
                 patientsPerPage={patientsPerPage}
                 totalPatients={patients?.length}
                 paginate={paginate}
             />
-        </Col>
+       
     </>
     );
 }

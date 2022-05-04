@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import moment from 'moment';
 import { path } from '../helpers/Constants';
 import { patient } from '../helpers/api/api';
+import { DiagnosticTestSlider } from './DiagnosticTestSlider';
 
 function BloodTestsInfo() {
     const location = useLocation();
@@ -38,12 +39,31 @@ function BloodTestsInfo() {
 
     return (
         <>
-
-
             <h2>Dettaglio esame diagnostico</h2>
             &nbsp;&nbsp;
+            <div className="row h-100 w-100 justify-content-center align-items-center">
+                <div className="col-12 col-md-6" >
+                    <div className="box carousel">
+                        <p className="text-center px-3">Immagini inviate</p>
 
-            <Row>
+                        <DiagnosticTestSlider imgsNames={imgsNames}/>
+
+                    </div>
+                </div>
+                <div className="col-12 col-md-7 overlap-md-1">
+                    <div className="box carousel-info">
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="data-label">Data</span>
+                            <input type="data" className="form-control form-control-sm" id="data" aria-describedby="data-label" value={moment(diagnosticTest.uploadedDateTime).format("DD/MM/YYYY")} disabled />
+                        </div>
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="tiporeferto-label">Tipo di referto</span>
+                            <input type="text" className="form-control form-control-sm" id="tiporeferto" aria-describedby="tiporeferto-label" value={diagnosticTest.tipoReferto} disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* <Row>
                 <Col>
                     <ControlledCarouselBloodTests selectedDiagnosticTest={selectedDiagnosticTest} imgsNames={imgsNames} />
                 </Col>
@@ -55,11 +75,14 @@ function BloodTestsInfo() {
             </Row>
             <div className='mb-3'>
                 <Button type='submit' onClick={() => navigate(-1)}>Torna a elenco esami </Button>
-            </div>
+            </div> */}
 
         </>
     );
 }
+
+
+
 
 function ControlledCarouselBloodTests(props) {
 
@@ -75,7 +98,7 @@ function ControlledCarouselBloodTests(props) {
                 <Carousel.Item key={index}>
                     <img
                         className="selectedDiagnosticTestImages d-block w-100"
-                        src={imgName }
+                        src={imgName}
                     />
                 </Carousel.Item>
             ))}
