@@ -722,7 +722,7 @@ export class NewTherapy extends Component {
                         </Tab>
                         {this.state.isNewPatient  ? '':
                             
-                                <Tab eventKey="terapia" title="Terapia">
+                                <Tab eventKey="terapia" title="Cessazione Terapia">
 
                                     <Form className="">
                                         <Row>
