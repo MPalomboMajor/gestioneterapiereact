@@ -1,4 +1,4 @@
-body{
+/* body{
     overflow-y: auto !important;
 }
 
@@ -162,17 +162,4 @@ body{
 .position-button {
     padding-right: 33px;
     margin-right: 12px;
-}
-
-.carousel {
-    width:500px;
-    height:700px;
-    
-  }
-
-  @media (max-width: 500px) {
-    .carousel {
-      width:auto;
-      height:auto;
-    }
-}
+} */
