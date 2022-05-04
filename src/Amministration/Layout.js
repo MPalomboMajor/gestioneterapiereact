@@ -53,15 +53,19 @@ export default class Layout extends Component {
 
     return (
       <>
-        {localStorage.getItem("accessToken") != null && this.state.url != "/" && this.state.url != "/Register" && this.state.url != "/Login"  ?
+        {localStorage.getItem("accessToken") != null && this.state.url != "/" && this.state.url != "/Register" && this.state.url != "/Login" ?
           <>
 
             <div class="wrapper custom-login" >
               <div class="container-lg page-wrapper">
-                <div class="row">
+                <div class="row flex-nowrap">
+                
                   <Router>
+                  
                     <SideNav></SideNav>
-                    <div role="main" class="col">
+                    
+                    <div role="main" className="col">
+
 
                       <Routes>
                         <Route path="/" element={<Splash />}></Route>
@@ -95,10 +99,11 @@ export default class Layout extends Component {
                       </Routes>
                     </div>
                   </Router>
+                  
                 </div></div></div>
           </> :
           <Router>
-            <div role="main" >
+            <div role="main" className="col">
               <Routes>
                 <Route path="/" element={<Splash />}></Route>
                 <Route path="/Login" element={<Login />}></Route>

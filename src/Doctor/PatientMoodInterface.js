@@ -11,17 +11,15 @@ function PatientMoodInterface(props) {
     const [key, setKey] = useState('dailyMoodMonitoring');
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
     const [patientProfile, setPatientProfile] = useState([]);
-    const [canTravel, setCanTravel] = useState();
-    const [canDrive, setCanDrive] = useState();
+    const [patientDailyMoods, setPatientDailyMoods] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchPatient = async () => {
-            await patient.get("Get/", patientId)
+            await patient.get("DailyMoodTracking/", patientId)
                 .then((response) => {
                     if (response.status === 200) {
                         setPatientProfile(response.data.dati);
-                        setCanTravel(response.data.dati.canTravel);
-                        setCanDrive(response.data.dati.canDrive);
                     }
                 }).catch((error) => {
 
@@ -30,63 +28,46 @@ function PatientMoodInterface(props) {
         fetchPatient();
     }, []);
 
-    function editPatient() {
-        patient.post("Save/", patientProfile)
-            .then((response) => {
-                if (response.status === 200) {
-                    NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
-                }
-            }).catch((error) => {
-                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
-            });
-    };
+    useEffect(() => {
+        const fetchPatientDailyMoods = async () => {
+            setLoading(true);
+            await patient.get("MedicalExams/", patientId)
+                .then((response) => {
+                    if (response.status === 200) {
+                        setPatientDailyMoods(response.data.dati);
+                        setLoading(false);
+                    }
+                }).catch((error) => {
 
-    const updateStatesCanTravel = () => {
-        setPatientProfile({
-            ...patientProfile, canTravel:
-                !canTravel
-        });
-        setCanTravel(!canTravel);
+                });
+        };
+        fetchPatientDailyMoods();
+    }, []);
+
+    if (loading) {
+        return <h2>Loading...</h2>;
     }
-
-    const updateStatesCanDrive = () => {
-        setPatientProfile({
-            ...patientProfile, canDrive:
-                !canDrive
-        });
-        setCanDrive(!canDrive);
-    }
-
-    const handleChange = (e) => {
-        const inputValue = e.target.value;
-        const inputName = e.target.getAttribute('name');
-        setPatientProfile({
-            ...patientProfile, [inputName]:
-                inputValue
-        });
-    };
-
 
     return (
+
         <>
-            
-                    <h1>Umore</h1>
+                <h1 className="h1">Umore</h1>
+                &nbsp;&nbsp;
                 
-            &nbsp;&nbsp;
-            <Tabs
-                id="mood-tabs"
-                activeKey={key}
-                onSelect={(k) => setKey(k)}
-                className="mb-3"
-            >
-                <Tab eventKey="dailyMoodMonitoring" title="Umore quotidiano">
-                    <PatientDailyMood />
-                </Tab>
-                <Tab eventKey="weeklyMoodMonitoring" title="Umore settimanale" >
-                    <PatientWeeklyMood />
-                </Tab>
-            </Tabs>
-            < NotificationContainer />
+                <Tabs
+                    id="mood-tabs"
+                    activeKey={key}
+                    onSelect={(k) => setKey(k)}
+                    className="nav secondary-menu mb-4"
+                >
+                    <Tab eventKey="dailyMoodMonitoring" title="Umore quotidiano">
+                        <PatientDailyMood patientDailyMoods={patientDailyMoods} />
+                    </Tab>
+                    <Tab eventKey="weeklyMoodMonitoring" title="Umore settimanale" >
+                        <PatientWeeklyMood />
+                    </Tab>
+                </Tabs>
+                < NotificationContainer />
         </>
 
     );

@@ -9,6 +9,8 @@ import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { PatientMoodDailyInfo } from './PatientMoodComponent';
+import PatientMoodSlider from './PatientMoodSlider';
+
 
 function PatientDailyMood(props) {
     var date = new Date();
@@ -25,50 +27,57 @@ function PatientDailyMood(props) {
         setStartDate(sdate);
         //setEndDate(edate);
     };
-    
 
     return (
         <>
-            <Row>
-                <div className="col-md-4">
-                    <Form.Group controlId="startDate">
-                        <Form.Label>Inizio</Form.Label>
-                        <Form.Control type="date" name="startD" placeholder="Inizio" onChange={handleChange} />
-                    </Form.Group>
+
+            <div className="row w-100 align-items-center g-0 g-md-3">
+                <div className="col-12 col-md-3">
+                    <button className="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#edit">Modifica</button>
                 </div>
-                <Form.Group className="mb-3" controlId="dateRange">
-                            <Form.Label>Contesto</Form.Label>
-                            <Form.Select aria-label="dateRange" name="dateRange" onChange={(event) => {
-                                // setNewEpilepticSeizures(prevEpilepticSeizure => ({
-                                //     ...prevEpilepticSeizure,
-                                //     elencoContestualita: [{ ...prevEpilepticSeizure.elencoContestualita[0], contesto: parseInt(event.target.value) }]
-                                // }));
-                            }} >
-                                <option></option>
-                                <option value="1">1 settimana</option>
-                                <option value="2">2 settimane</option>
-                                <option value="3">3 settimane</option>
-                                <option value="4">4 settimane</option>
-                            </Form.Select>
-                            {/* <Form.Control type="text" name="contesto" placeholder="Contesto" onChange={(event) => {
-                                setNewEpilepticSeizures(prevEpilepticSeizure => ({
-                                    ...prevEpilepticSeizure,
-                                    elencoContestualita: [{ ...prevEpilepticSeizure.elencoContestualita[0], contesto: parseInt(event.target.value) }]
-                                }));
-                            }} /> */}
-                        </Form.Group>
-                {/* <div className="col-md-4">
-                    <Form.Group controlId="endDate">
-                        <Form.Label>Fine</Form.Label>
-                        <Form.Control type="text" name="endD" placeholder="Fine" value={moment(endDate).format("DD/MM/YYYY")} disabled/>
-                    </Form.Group>
-                </div> */}
-            </Row>
-            <Row className='col-12 pt-4' >
-                    <Col>
-                        <PatientMoodDailyInfo startDate={startDate}  />
-                    </Col>
-                </Row>
+                <div className="col-12 col-md-5">
+                    <div className="input-group mb-3">
+                        <span className="input-group-text" id="label-inizio">Inizio</span>
+                        <input type="date" name="startD" placeholder="Inizio" onChange={handleChange} className="form-control form-control-sm" id="captiontest" aria-describedby="label-inizio" />
+                    </div>
+                </div>
+                <div className="col-12 col-md-4">
+                    <div className="input-group mb-3">
+                        <span className="input-group-text" id="label-settimane">settimane</span>
+                        <select className="form-select form-select-sm" id="captiontest" aria-describedby="label-settimane" aria-label="dateRange" name="dateRange" onChange={(event) => {
+                            // setNewEpilepticSeizures(prevEpilepticSeizure => ({
+                            //     ...prevEpilepticSeizure,
+                            //     elencoContestualita: [{ ...prevEpilepticSeizure.elencoContestualita[0], contesto: parseInt(event.target.value) }]
+                            // }));
+                        }} >
+                            <option value={1}>1</option>
+                            <option value={2} selected>2</option>
+                            <option value={3}>3</option>
+                            <option value={4}>4</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div className="row w-100 mt-5 justify-content-center align-items-center g-0 g-md-3">
+                <div className="col-2 d-none d-md-block">
+                    <div className="label label-primary w-100 mt-2 mb-4">Umore</div>
+                    <div className="label label-primary w-100 mt-2 mb-4">Emozione</div>
+                </div>
+
+                <div className="col-12 col-md-10">
+                    <PatientMoodSlider patientDailyMoods={props.patientDailyMoods}/>
+                </div>
+            </div>
+
+            <div>
+                <div className="row w-100 mt-5 justify-content-center align-items-start g-0 g-md-3">
+                    <div className="col-12">
+                        <div className="small info">Kumar A, Wang M, Riehm A, Yu E, Smith T, Kaplin A | An Automated Mobile Mood Tracking Technology (Mood 24/7): Validation Study | JMIR Ment Health 2020;7(5):e16237 | https://mental.jmir.org/2020/5/e16237 | doi: 10.2196/16237 | PMID: 32432558</div>
+                    </div>
+                </div>
+            </div>
+
+            
         </>
 
     );
