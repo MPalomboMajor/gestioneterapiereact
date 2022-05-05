@@ -142,6 +142,8 @@ function PatientRegistry() {
                                                                                         <option value="1">Causa 1</option>
                                                                                         <option value="2">Causa 2</option>
                                                                                         <option value="3">Causa 3</option>
+                                                                                        <option value="4">Causa 4</option>
+                                                                                        <option value="5">Causa 4</option>
                                                                                 </select>
                                                                                 {/* <textarea id="codice-fiscale" className="form-control form-control-sm" rows={5} aria-describedby name="disabledCause" placeholder={"Eventuale causa della disabilitazione"} aria-label="disabledCause" onChange={handleChange} defaultValue={patientProfile.disabledCause} /> */}
                                                                         </div>
