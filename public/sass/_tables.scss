@@ -12,13 +12,16 @@ table.custom {
   margin-bottom: 0;
 
   tbody,
-  thead,
-  th {
+  th,
+  thead {
     border: none !important;
-    font-size: 0.75rem; /* 12/16 */
+    font-size: 0.75rem;
+    /* 12/16 */
     padding: 0 0.5rem;
     vertical-align: top;
+  }
 
+  th {
     .label {
       display: block;
       padding: 1rem;
@@ -38,30 +41,31 @@ table.custom {
   }
 
   tr {
-    border-bottom: 0.75rem solid $purple-10 !important;
-
+    border-bottom: 0.50rem solid $purple-10 !important;
   }
 
   td {
     background-color: white;
     padding: 1rem 0.5rem;
     border-width: 0;
-    font-size: 0.75rem; /* 12/16 */
+    font-size: 0.75rem;
+    /* 12/16 */
     text-align: center;
 
     &:first-of-type {
-      background-image: url(../img/OA_table-nw-corner.svg), url(../img/OA_table-sw-corner.svg);
+      background-image: url(../img/OA_table-nw-corner.svg), url("../img/OA_table-sw-corner.svg");
       background-position: top left, bottom left;
       background-repeat: no-repeat, no-repeat;
     }
+
     &:last-of-type {
-      background-image: url(../img/OA_table-ne-corner.svg), url(../img/OA_table-se-corner.svg);
+      background-image: url(../img/OA_table-ne-corner.svg), url("../img/OA_table-se-corner.svg");
       background-position: top right, bottom right;
       background-repeat: no-repeat, no-repeat;
     }
 
     &.split-column {
-      background-image: url(../img/OA_table-divider-upper.svg), url(../img/OA_table-divider-lower.svg), url(../img/OA_table-divider-upper.svg), url(../img/OA_table-divider-lower.svg);
+      background-image: url(../img/OA_table-divider-upper.svg), url(../img/OA_table-divider-lower.svg), url(../img/OA_table-divider-upper.svg), url("../img/OA_table-divider-lower.svg");
       background-position: top left, bottom left, top right, bottom right;
       background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
       padding-left: 2rem;
@@ -71,17 +75,35 @@ table.custom {
     .btn-sm {
       margin-top: -0.5rem;
       margin-bottom: -0.5rem;
-      font-size: 0.625rem; /* 10/16 */
-      line-height: 1.313rem; /* 21/16 */
+      font-size: 0.625rem;
+      /* 10/16 */
+      line-height: 1.313rem;
+      /* 21/16 */
     }
 
     .btn + .btn {
       margin-left: 0.5rem;
     }
-
   }
 }
 
-@media screen and (min-width: $xs-max) {
+.crisis-table {
+  .box {
+    position: relative;
+    background-color: $white;
+    border-radius: 1rem;
+    padding: 1.5rem 1rem 0;
+    margin: 1rem 0 0.5rem;
+    font-size: 0.875rem;
 
+    & > .label {
+      position: absolute;
+      top: -1rem;
+      left: 1.5rem;
+    }
+
+    &.small {
+      font-size: 0.75rem;
+    }
+  }
 }

@@ -15,9 +15,9 @@
   border: solid 1px $purple;
   transition: all 0.2s ease;
 
-  &:hover,
+  &:active,
   &:focus,
-  &:active {
+  &:hover {
     background: darken($purple, 10%);
     border-color: darken($purple, 10%);
   }
@@ -30,9 +30,9 @@
   color: inherit;
   transition: all 0.2s ease;
 
-  &:hover,
+  &:active,
   &:focus,
-  &:active {
+  &:hover {
     background-color: $purple-20;
     border: solid 1px $gold;
     color: inherit;
@@ -52,12 +52,12 @@
     width: 1rem;
     height: 1rem;
     margin-top: -0.5rem;
-    background: transparent url(../img/arrows/OA_arrow-right-white.svg) center / 1rem no-repeat;
+    background: transparent url("../img/arrows/OA_arrow-right-white.svg") center / 1rem no-repeat;
   }
 
   &.btn-secondary {
     &::after {
-      background: transparent url(../img/arrows/OA_arrow-right-purple.svg) center / 1rem no-repeat;
+      background: transparent url("../img/arrows/OA_arrow-right-purple.svg") center / 1rem no-repeat;
     }
   }
 }
@@ -75,13 +75,10 @@
     width: 1.5rem;
     height: 1.5rem;
     margin-top: -0.85rem;
-    background: transparent url(../img/icons/OA_icon-upload-white.svg) center / 1.75rem no-repeat;
+    background: transparent url("../img/icons/OA_icon-upload-white.svg") center / 1.75rem no-repeat;
   }
 }
-
-
 /* buttons properties for dark backgrounds */
-
 .bg-primary {
   .btn-primary {
     font-weight: 500;
@@ -89,9 +86,9 @@
     border: solid 1px $gold;
     color: $primary;
 
-    &:hover,
+    &:active,
     &:focus,
-    &:active {
+    &:hover {
       background: linear-gradient(to right, $gold 99%, $gold-60);
       border: solid 1px $gold;
     }
@@ -101,9 +98,9 @@
     font-weight: normal;
     color: $white;
 
-    &:hover,
+    &:active,
     &:focus,
-    &:active {
+    &:hover {
       background-color: darken($purple, 10%);
       border: solid 1px $gold;
     }
@@ -111,19 +108,17 @@
 
   .btn-arrow {
     &::after {
-      background: transparent url(../img/arrows/OA_arrow-right-purple.svg) center / 1rem no-repeat;
+      background: transparent url("../img/arrows/OA_arrow-right-purple.svg") center / 1rem no-repeat;
     }
 
     &.btn-secondary {
       &::after {
-        background: transparent url(../img/arrows/OA_arrow-right-white.svg) center / 1rem no-repeat;
+        background: transparent url("../img/arrows/OA_arrow-right-white.svg") center / 1rem no-repeat;
       }
     }
   }
 }
-
 /* named buttons */
-
 .menu-toggle {
   position: fixed;
   top: 0.25rem;
@@ -173,14 +168,12 @@
   }
 
   &.open {
-
     &::after {
       left: -25%;
       opacity: 1;
     }
 
     span {
-
       &:nth-of-type(1) {
         top: 0.275rem;
         right: 0.45rem;

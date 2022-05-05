@@ -8,9 +8,9 @@ const SideNav = () => {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
     const [patientProfile, setPatientProfile] = useState([]);
     const user = JSON.parse(localStorage.getItem("role"));
-    const isCarManger = user.idRole === role.CAREMANAGER ? true : false
+    const isCarManger = user.idRole === role.CARMANAGER ? true : false
     return (
-        <header className="col-3">
+        <header className="col">
             <a href className="logo"><img src={logo} alt="OntozApp" /></a>
             <button className="menu-toggle d-block d-lg-none">
                 <span />
@@ -21,7 +21,6 @@ const SideNav = () => {
                 {
                     //MENU LATERALE CARMANGER
                     isCarManger ?
-
                         <>
                             {window.location.pathname === "/Dashboard" || window.location.pathname === "/PatientRegistry" || window.location.pathname === "/ListDoctor" || window.location.pathname === "/MedicalCenter" || window.location.pathname === "/ContactInfo" || window.location.pathname === "/ContactInfoPatient" ?
                                 <>

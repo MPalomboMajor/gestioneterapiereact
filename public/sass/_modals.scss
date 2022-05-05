@@ -21,25 +21,24 @@
 
   * {
     margin: 0 0.25rem;
+
     &:first-child {
       margin-left: 0;
     }
+
     &:last-child {
       margin-right: 0;
     }
   }
 }
-
 @media screen and (min-width: $xs-max) {
   .modal-sm {
-      max-width: 350px;
+    max-width: 350px;
   }
 }
-
 /* mood edit */
-
 .selection-wrapper {
-  display:flex;
+  display: flex;
   flex-wrap: wrap;
   background-color: $purple-10;
   padding: 1rem;
@@ -58,20 +57,17 @@
     margin-bottom: 0.25rem;
   }
 }
-
 @media screen and (max-width: $xs-max) {
   .selection-item {
     padding: 0.5rem 0.3rem;
   }
 }
-
 /* mood image carousel */
-
 .mood-images-carousel {
   padding: 0 2rem 2rem;
 
-  &::before,
-  &::after {
+  &::after,
+  &::before {
     content: '';
     position: absolute;
     top: 0;
@@ -108,7 +104,6 @@
       left: 50%;
       margin-left: -0.5em;
     }
-
   }
 
   .swiper-button-next,
@@ -120,7 +115,7 @@
     z-index: 10;
     cursor: pointer;
     display: block;
-    background: transparent url(../img/arrows/OA_arrow-prev-purple.svg) center / 1.5rem no-repeat;
+    background: transparent url("../img/arrows/OA_arrow-prev-purple.svg") center / 1.5rem no-repeat;
 
     &::after {
       content: none;
@@ -130,7 +125,7 @@
   .swiper-button-next {
     left: auto;
     right: 0;
-    background: transparent url(../img/arrows/OA_arrow-next-purple.svg) center / 1.5rem no-repeat;
+    background: transparent url("../img/arrows/OA_arrow-next-purple.svg") center / 1.5rem no-repeat;
   }
 
   .swiper-pagination {
