@@ -93,7 +93,7 @@ function EpilepticSeizuresInfo() {
             </Col>
 
             <Col className='mb-3'>
-                <EpilepticSeizuresTable epilepticSeizures={currentEpilepticSeizures} setEpilepticSeizures={setEpilepticSeizures}/>
+                <EpilepticSeizuresTable epilepticSeizures={currentEpilepticSeizures} setEpilepticSeizures={setEpilepticSeizures} />
                 <Pagination
                     patientsPerPage={epilepticSeizuresPerPage}
                     totalPatients={epilepticSeizures?.length}
@@ -128,7 +128,7 @@ function EpilepticSeizuresForm(props) {
 function EpilepticSeizuresTable(props) {
     const deleteEpilepticSeizure = (code) => {
         props.setEpilepticSeizures((epilepticSeizures) => epilepticSeizures.filter(ex => ex.id !== code));
-      };
+    };
 
     return (
         <>
@@ -156,7 +156,7 @@ function EpilepticSeizuresTable(props) {
 }
 
 function EpilepticSeizureRow(props) {
-    return <tr><EpilepticSeizureRowData epilepticSeizure={props.epilepticSeizure} /> <RowControl epilepticSeizureId={props.epilepticSeizure.id} deleteEpilepticSeizure={props.deleteEpilepticSeizure}/></tr>
+    return <tr><EpilepticSeizureRowData epilepticSeizure={props.epilepticSeizure} /> <RowControl epilepticSeizureId={props.epilepticSeizure.id} deleteEpilepticSeizure={props.deleteEpilepticSeizure} /></tr>
 }
 
 function EpilepticSeizureRowData(props) {
@@ -277,7 +277,7 @@ function EpilepticSeizureRowData(props) {
 
 function RowControl(props) {
     return <td> <span onClick={() => props.deleteEpilepticSeizure(props.epilepticSeizureId)}>{iconDelete}</span></td>;
-  }
+}
 
 function EpilepticSeizuresModal(props) {
     const [newEpilepticSeizures, setNewEpilepticSeizures] = useState({
@@ -312,10 +312,13 @@ function EpilepticSeizuresModal(props) {
             });
         } else {
             var Id = e.target.value;
-            var index = newEpilepticSeizures.elencoComportamenti.map(x => {
-                return x.id;
-            }).indexOf(Id);
-            newEpilepticSeizures.elencoComportamenti.splice(index, 1)
+            newEpilepticSeizures.elencoComportamenti = newEpilepticSeizures.elencoComportamenti.filter(x => {
+                return x.id != Id;
+            })
+            // var index = newEpilepticSeizures.elencoComportamenti?.map(x => {
+            //     return x.id;
+            // }).indexOf(Id);
+            // newEpilepticSeizures.elencoComportamenti.splice(index, 1)
         }
         setCrisiConvulsivaGeneralizzata(!crisiConvulsivaGeneralizzata);
     }
@@ -328,10 +331,9 @@ function EpilepticSeizuresModal(props) {
             });
         } else {
             var Id = e.target.value;
-            var index = newEpilepticSeizures.elencoComportamenti.map(x => {
-                return x.id;
-            }).indexOf(Id);
-            newEpilepticSeizures.elencoComportamenti.splice(index, 1)
+            newEpilepticSeizures.elencoComportamenti = newEpilepticSeizures.elencoComportamenti.filter(x => {
+                return x.id != Id;
+            })
         }
         setAssenzaCrisiFocale(!assenzaCrisiFocale);
     }
@@ -344,10 +346,9 @@ function EpilepticSeizuresModal(props) {
             });
         } else {
             var Id = e.target.value;
-            var index = newEpilepticSeizures.elencoComportamenti.map(x => {
-                return x.id;
-            }).indexOf(Id);
-            newEpilepticSeizures.elencoComportamenti.splice(index, 1)
+            newEpilepticSeizures.elencoComportamenti = newEpilepticSeizures.elencoComportamenti.filter(x => {
+                return x.id != Id;
+            })
         }
         setPerditaDiCoscienza(!perditaDiCoscienza);
     }
@@ -360,10 +361,9 @@ function EpilepticSeizuresModal(props) {
             });
         } else {
             var Id = e.target.value;
-            var index = newEpilepticSeizures.elencoComportamenti.map(x => {
-                return x.id;
-            }).indexOf(Id);
-            newEpilepticSeizures.elencoComportamenti.splice(index, 1)
+            newEpilepticSeizures.elencoComportamenti = newEpilepticSeizures.elencoComportamenti.filter(x => {
+                return x.id != Id;
+            })
         }
         setCadutaATerra(!cadutaATerra);
     }
@@ -382,10 +382,9 @@ function EpilepticSeizuresModal(props) {
             });
         } else {
             var Id = e.target.value;
-            var index = newEpilepticSeizures.elencoContestualita.map(x => {
-                return x.id;
-            }).indexOf(Id);
-            newEpilepticSeizures.elencoContestualita.splice(index, 1)
+            newEpilepticSeizures.elencoContestualita = newEpilepticSeizures.elencoContestualita.filter(x => {
+                return x.id != Id;
+            })
         }
         setCasa(!casa);
     }
@@ -398,10 +397,9 @@ function EpilepticSeizuresModal(props) {
             });
         } else {
             var Id = e.target.value;
-            var index = newEpilepticSeizures.elencoContestualita.map(x => {
-                return x.id;
-            }).indexOf(Id);
-            newEpilepticSeizures.elencoContestualita.splice(index, 1)
+            newEpilepticSeizures.elencoContestualita = newEpilepticSeizures.elencoContestualita.filter(x => {
+                return x.id != Id;
+            })
         }
         setLavoro(!lavoro);
     }
@@ -414,10 +412,9 @@ function EpilepticSeizuresModal(props) {
             });
         } else {
             var Id = e.target.value;
-            var index = newEpilepticSeizures.elencoContestualita.map(x => {
-                return x.id;
-            }).indexOf(Id);
-            newEpilepticSeizures.elencoContestualita.splice(index, 1)
+            newEpilepticSeizures.elencoContestualita = newEpilepticSeizures.elencoContestualita.filter(x => {
+                return x.id != Id;
+            })
         }
         setTempoLibero(!tempoLibero);
     }
@@ -430,10 +427,9 @@ function EpilepticSeizuresModal(props) {
             });
         } else {
             var Id = e.target.value;
-            var index = newEpilepticSeizures.elencoContestualita.map(x => {
-                return x.id;
-            }).indexOf(Id);
-            newEpilepticSeizures.elencoContestualita.splice(index, 1)
+            newEpilepticSeizures.elencoContestualita = newEpilepticSeizures.elencoContestualita.filter(x => {
+                return x.id != Id;
+            })
         }
         setVeglia(!veglia);
     }
@@ -446,10 +442,9 @@ function EpilepticSeizuresModal(props) {
             });
         } else {
             var Id = e.target.value;
-            var index = newEpilepticSeizures.elencoContestualita.map(x => {
-                return x.id;
-            }).indexOf(Id);
-            newEpilepticSeizures.elencoContestualita.splice(index, 1)
+            newEpilepticSeizures.elencoContestualita = newEpilepticSeizures.elencoContestualita.filter(x => {
+                return x.id != Id;
+            })
         }
         setSonno(!sonno);
     }
@@ -498,6 +493,15 @@ function EpilepticSeizuresModal(props) {
                 }
             ],
         })
+        setCrisiConvulsivaGeneralizzata(false);
+        setAssenzaCrisiFocale(false);
+        setPerditaDiCoscienza(false);
+        setCadutaATerra(false);
+        setCasa(false);
+        setLavoro(false);
+        setTempoLibero(false);
+        setVeglia(false);
+        setSonno(false);
     }
 
     return (
