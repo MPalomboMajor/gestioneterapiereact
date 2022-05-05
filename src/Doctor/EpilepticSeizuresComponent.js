@@ -100,7 +100,7 @@ function EpilepticSeizuresInfo() {
                     paginate={paginate}
                 />
             </Col>
-            <EpilepticSeizuresModal show={show} handleClose={handleClose} patientId={patientId} />
+            <EpilepticSeizuresModal show={show} handleClose={handleClose} patientId={patientId} setEpilepticSeizures={setEpilepticSeizures}/>
             <Col className='mb-3'>
                 <Button variant="primary" id="btnAdd" onClick={handleShow}>Aggiungi crisi epilettiche <i class="fas fa-plus"></i></Button>&nbsp;&nbsp;
             </Col>
@@ -286,16 +286,10 @@ function EpilepticSeizuresModal(props) {
         description: "",
         dateTimeEventOccured: "",
         elencoComportamenti: [
-            {
-                id: 0,
-                description: 0,
-            }
+            
         ],
         elencoContestualita: [
-            {
-                id: 0,
-                description: 0,
-            }
+            
         ],
     });
 
@@ -460,18 +454,31 @@ function EpilepticSeizuresModal(props) {
 
     function saveEpilepticSeizure() {
         newEpilepticSeizures.idPatientProfile = parseInt(props.patientId);
-        newEpilepticSeizures.elencoContestualita.splice(0, 1);
-        newEpilepticSeizures.elencoComportamenti.splice(0, 1);
+        
         patient.post("Seizures/", newEpilepticSeizures)
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                    
+                       
+                        patient.get("Seizures/", props.patientId)
+                            .then((response) => {
+                                if (response.status === 200) {
+                                    props.setEpilepticSeizures(response.data.dati);
+                                    
+                                }
+                            }).catch((error) => {
+            
+                            });
+                    
+                    // props.setEpilepticSeizures(response.data.dati);
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
-        clearState();
-        document.getElementById("epilepticSeizureForm").reset();
+            clearState();
+            props.handleClose();
+            
     };
 
     const clearState = () => {
@@ -481,16 +488,10 @@ function EpilepticSeizuresModal(props) {
             description: "",
             dateTimeEventOccured: "",
             elencoComportamenti: [
-                {
-                    id: 0,
-                    description: 0,
-                }
+       
             ],
             elencoContestualita: [
-                {
-                    id: 0,
-                    description: 0,
-                }
+                
             ],
         })
         setCrisiConvulsivaGeneralizzata(false);
