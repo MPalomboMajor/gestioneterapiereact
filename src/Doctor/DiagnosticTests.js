@@ -68,7 +68,6 @@ function DiagnosticTestsInfo() {
             <h1>Esami diagnostici</h1>
 
             &nbsp;&nbsp;
-            <button className="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#nuovo-esame" onClick={handleShow} >Nuovo Esame</button>
             <DiagnosticTestsTable diagnosticTests={currentDiagnosticTests} patientId={patientId} setDiagnosticTests={setDiagnosticTests} />
             <Pagination
                 patientsPerPage={diagnosticTestsPerPage}
@@ -77,7 +76,20 @@ function DiagnosticTestsInfo() {
             />
 
             <DiagnosticTestsModal show={show} handleClose={handleClose} patientId={patientId} />
-
+            <nav aria-label="Page navigation">
+                <ul className="pagination justify-content-end align-items-center">
+                    <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuovo-esame" onClick={handleShow}>Nuovo Esame</button>
+                    <li className="caption">Scorri pagine</li>
+                    <li className="page-item disabled">
+                        <a className="page-link prev">Previous</a>
+                    </li>
+                    <li className="page-item"><span className="current-page">1/5</span></li>
+                    <li className="page-item">
+                        <a className="page-link next" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+            <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuovo-esame" onClick={handleShow}>Nuovo Esame</button>
 
 
 
@@ -146,7 +158,6 @@ function DiagnosticTestsModal(props) {
     const [filesArray, setFilesArray] = useState([]);
 
     function saveDiagnosticTest() {
-
         const files = new FormData();
         // files.append("files", file);
         // files.append("fileName", fileName);
@@ -218,6 +229,9 @@ function DiagnosticTestsModal(props) {
                     </div>
                 </div>
             </div>
+            <div>
+            </div>
+
             {/* <Modal show={props.show} onHide={props.handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Aggiungi esame diagnostico</Modal.Title>

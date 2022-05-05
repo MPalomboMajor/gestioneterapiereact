@@ -66,7 +66,7 @@ function MedicalExaminationsInfo() {
         <>
             <h1>Visite mediche</h1>
             &nbsp;&nbsp;
-            <button class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow} >Nuova visita</button>
+
             <MedicalExaminationsTable medicalExaminations={currentmedicalExaminations} patientId={patientId} setMedicalExaminations={setMedicalExaminations} />
             <Pagination
                 patientsPerPage={medicalExaminationsPerPage}
@@ -74,14 +74,41 @@ function MedicalExaminationsInfo() {
                 paginate={paginate}
             />
             <MedicalExaminationsModal show={show} handleClose={handleClose} patientId={patientId} />
+            <div>
+                <nav aria-label="Page navigation">
+                    <ul className="pagination justify-content-end align-items-center">
+                        <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuova visita</button>
+                        <li className="caption">Scorri pagine</li>
+                        <li className="page-item disabled">
+                            <a className="page-link prev">Previous</a>
+                        </li>
+                        <li className="page-item"><span className="current-page">1/5</span></li>
+                        <li className="page-item">
+                            <a className="page-link next" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+                <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuova visita</button>
+            </div>
+
         </>
     );
 }
 
 function MedicalExaminationsTable(props) {
     const deleteMedicalExamination = (code) => {
-        props.setMedicalExaminations((medicalExaminations) => medicalExaminations.filter(ex => ex.id !== code));
+        patient.delete("DiagnosticExam/", code)
+            .then((response) => {
+                if (response.status === 200) {
+                    NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                }
+            }).catch((error) => {
+                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+            });
+        // props.setMedicalExaminations((medicalExaminations) => medicalExaminations.filter(ex => ex.id !== code));
     };
+
+
     return (
         <>
             <div className="table-wrapper custom-scrollbar">
@@ -206,7 +233,7 @@ function MedicalExaminationsModal(props) {
                                 <label className="form-label ps-4" id="label-ricovero" htmlFor="voce2">Accesso ps / ricovero</label>
                                 <div className="input-group position-relative mb-3">
                                     <input className="form-check-input dark" type="radio" id="voce2" defaultValue="option2" name="tipo-referto" />
-                                    <input type="text" className="form-control form-control-sm" id="ricovero" aria-describedby="label-ricovero" placeholder="Causa" name="accessoRicovero" onChange={e => setAccessoRicovero(e.target.value)}/>
+                                    <input type="text" className="form-control form-control-sm" id="ricovero" aria-describedby="label-ricovero" placeholder="Causa" name="accessoRicovero" onChange={e => setAccessoRicovero(e.target.value)} />
                                 </div>
                                 <div className="input-group mb-3 w-sm-50">
                                     <span className="input-group-text" id="label-data">Data</span>

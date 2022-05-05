@@ -27,10 +27,11 @@ const SideNav = () => {
                                     <li className="nav-item">
                                         <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
                                             <p>
-                                                Elenco assistiti
+                                                <i class="fas fa-arrow-circle-left"></i> Home
                                             </p>
                                         </a>
                                     </li>
+                                    <hr />
                                     <li className="nav-item">
                                         <a href="/ListDoctor" className="nav-link">
                                             <p>
@@ -57,25 +58,26 @@ const SideNav = () => {
                                 <>
 
                                     <li className="nav-item">
-                                        <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
+                                        <a href="/Dashboard" className="nav-link " aria-current="page" >
                                             <p>
-                                                Elenco assistiti
+                                                <i class="fas fa-arrow-circle-left"></i> Home
                                             </p>
                                         </a>
                                     </li>
+                                    <hr />
                                     {localStorage.getItem("newPatient") != null ? '' :
                                         <>
                                             <li className="nav-item">
                                                 <Link to={`/PatientRegistry/${patientId}`} className="nav-link anagrafica-paziente">
                                                     <p >
-                                                        Anagrafica paziente
+                                                        Anagrafica assistito
                                                     </p>
                                                 </Link>
                                             </li>
                                             <li className="nav-item">
                                                 <Link to={`/PatientProfile/${patientId}`} className="nav-link profilo-paziente">
                                                     <p>
-                                                        Profilo paziente
+                                                        Profilo assistito
                                                     </p>
                                                 </Link>
                                             </li>
@@ -94,7 +96,6 @@ const SideNav = () => {
                                         <>
                                             <li className="nav-item">
                                                 <Link to={`/AdverseEvents/${patientId}`} className="nav-link eventi-avversi">
-                                                    <i className="nav-icon far fa-frown" />
                                                     <p>
                                                         Eventi avversi
                                                     </p>
@@ -102,7 +103,6 @@ const SideNav = () => {
                                             </li>
                                             <li className="nav-item">
                                                 <Link to={`/EpilepticSeizures/${patientId}`} className="nav-link eventi-avversi">
-                                                    <i className="nav-icon fas fa-brain" />
                                                     <p>
                                                         Crisi epilettiche
                                                     </p>
@@ -152,14 +152,15 @@ const SideNav = () => {
                                 window.location.pathname === "/ContactInfo"
                                 ? <>
                                     <li className="nav-item">
-                                        <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
+                                        <a href="/Dashboard" className="nav-link" aria-current="page" >
                                             <p>
-                                                Elenco assistiti
+                                                <i class="fas fa-arrow-circle-left"></i> Home
                                             </p>
                                         </a>
                                     </li>
+                                    <hr />
                                     <li className="nav-item">
-                                        <Link to={`/DoctorProfile`} className="nav-link visite-mediche">
+                                        <Link to={`/DoctorProfile`} className="nav-link">
                                             <p>
                                                 Anagrafica medico
                                             </p>
@@ -182,7 +183,7 @@ const SideNav = () => {
                                     <li className="nav-item">
                                         <a href="/RichiediCodice" className="nav-link">
                                             <p>
-                                                Richiedi nuovo codice paziente
+                                                Richiedi nuovo codice assistito
                                             </p>
                                         </a>
                                     </li>
@@ -190,28 +191,26 @@ const SideNav = () => {
                                 : <>
                                     <li className="nav-item">
                                         <a href="/Dashboard" className="nav-link">
-                                            <i className="nav-icon fas fa-hospital-user" />
                                             <p>
-                                                Elenco assistiti
+                                                <i class="fas fa-arrow-circle-left"></i> Home
                                             </p>
                                         </a>
                                     </li>
+                                    <hr />
                                     {localStorage.getItem("newPatient") != null ? '' :
                                         <>
 
                                             <li className="nav-item">
                                                 <Link to={`/PatientRegistry/${patientId}`} className="nav-link">
-                                                    <i className="nav-icon fas fa-laptop-medical " />
                                                     <p >
-                                                        Anagrafica paziente
+                                                        Anagrafica assistito
                                                     </p>
                                                 </Link>
                                             </li>
                                             <li className="nav-item">
                                                 <Link to={`/PatientProfile/${patientId}`} className="nav-link">
-                                                    <i className="nav-icon fas fa-head-side-virus" />
                                                     <p>
-                                                        Profilo paziente
+                                                        Profilo assistito
                                                     </p>
                                                 </Link>
                                             </li>
@@ -222,7 +221,6 @@ const SideNav = () => {
 
                                     <li className="nav-item">
                                         <Link to={`/NewTherapy/${patientId}`} className="nav-link">
-                                            <i className="nav-icon fas fa-capsules" />
                                             <p>
                                                 Terapia
                                             </p>
@@ -232,7 +230,6 @@ const SideNav = () => {
                                         <>
                                             <li className="nav-item">
                                                 <Link to={`/AdverseEvents/${patientId}`} className="nav-link">
-                                                    <i className="nav-icon far fa-frown" />
                                                     <p>
                                                         Eventi avversi
                                                     </p>
@@ -240,7 +237,6 @@ const SideNav = () => {
                                             </li>
                                             <li className="nav-item">
                                                 <Link to={`/EpilepticSeizures/${patientId}`} className="nav-link">
-                                                    <i className="nav-icon fas fa-brain" />
                                                     <p>
                                                         Crisi epilettiche
                                                     </p>
@@ -248,7 +244,6 @@ const SideNav = () => {
                                             </li>
                                             <li className="nav-item">
                                                 <Link to={`/DiagnosticTests/${patientId}`} className="nav-link">
-                                                    <i className="nav-icon fas fa-syringe" />
                                                     <p>
                                                         Esami diagnostici
                                                     </p>
@@ -256,7 +251,6 @@ const SideNav = () => {
                                             </li>
                                             <li className="nav-item">
                                                 <Link to={`/MedicalExaminations/${patientId}`} className="nav-link">
-                                                    <i className="nav-icon fas fa-diagnoses" />
                                                     <p>
                                                         Visite mediche
                                                     </p>
@@ -265,7 +259,6 @@ const SideNav = () => {
                                             </li>
                                             <li className="nav-item">
                                                 <Link to={`/MoodMonitoring/${patientId}`} className="nav-link">
-                                                    <i className="nav-icon fas fa-cloud-moon-rain" />
                                                     <p>
                                                         Umore
                                                     </p>
