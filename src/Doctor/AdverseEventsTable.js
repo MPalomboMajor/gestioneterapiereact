@@ -186,7 +186,6 @@ function AdverseEventsModal(props) {
         newAdverseEvent.idPatientProfile = parseInt(newAdverseEvent.idPatientProfile);
         newAdverseEvent.idIntensity = parseInt(newAdverseEvent.idIntensity);
         moment(newAdverseEvent.dateEvent).format("DD/MM/YYYY")
-        // newAdverseEvent.dateEvent = moment(newAdverseEvent.dateEvent).format("DD/MM/YYYY")
         patient.post("Events/", newAdverseEvent)
             .then((response) => {
                 if (response.status === 200) {
