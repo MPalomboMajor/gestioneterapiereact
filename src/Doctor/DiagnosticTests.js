@@ -62,6 +62,13 @@ function DiagnosticTestsInfo() {
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
+    const nextPage = (pageNumber) => {
+        setCurrentPage(pageNumber + 1)
+    }
+    const prevPage = (pageNumber) => {
+        setCurrentPage(pageNumber - 1)
+    }
+
     return (
         <>
 
@@ -69,30 +76,23 @@ function DiagnosticTestsInfo() {
 
             &nbsp;&nbsp;
             <DiagnosticTestsTable diagnosticTests={currentDiagnosticTests} patientId={patientId} setDiagnosticTests={setDiagnosticTests} />
-            <Pagination
-                patientsPerPage={diagnosticTestsPerPage}
-                totalPatients={diagnosticTests?.length}
-                paginate={paginate}
-            />
-
+            <div>
+                <nav aria-label="Page navigation">
+                    <ul className="pagination justify-content-end align-items-center">
+                        <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuovo esame</button>
+                        <Pagination
+                            patientsPerPage={diagnosticTestsPerPage}
+                            totalPatients={diagnosticTests?.length}
+                            paginate={paginate}
+                            currentPage={currentPage}
+                            prevPage={prevPage}
+                            nextPage={nextPage}
+                        />
+                    </ul>
+                </nav>
+                <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuovo esame</button>
+            </div>
             <DiagnosticTestsModal show={show} handleClose={handleClose} patientId={patientId} />
-            <nav aria-label="Page navigation">
-                <ul className="pagination justify-content-end align-items-center">
-                    <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuovo-esame" onClick={handleShow}>Nuovo Esame</button>
-                    <li className="caption">Scorri pagine</li>
-                    <li className="page-item disabled">
-                        <a className="page-link prev">Previous</a>
-                    </li>
-                    <li className="page-item"><span className="current-page">1/5</span></li>
-                    <li className="page-item">
-                        <a className="page-link next" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
-            <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuovo-esame" onClick={handleShow}>Nuovo Esame</button>
-
-
-
         </>
     );
 }

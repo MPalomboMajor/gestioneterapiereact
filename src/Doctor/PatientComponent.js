@@ -53,15 +53,24 @@ function PatientInfo() {
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
+    const nextPage = (pageNumber) => {
+        setCurrentPage(pageNumber + 1)
+    }
+    const prevPage = (pageNumber) => {
+        setCurrentPage(pageNumber - 1)
+    }
+
     return (<>
-        
-            <PatientTable patients={currentPatients} loading={loading} />
-            <Pagination
-                patientsPerPage={patientsPerPage}
-                totalPatients={patients?.length}
-                paginate={paginate}
-            />
-       
+
+        <PatientTable patients={currentPatients} loading={loading} />
+        <Pagination
+            patientsPerPage={patientsPerPage}
+            totalPatients={patients?.length}
+            paginate={paginate}
+            currentPage={currentPage}
+            prevPage={prevPage}
+            nextPage={nextPage}
+        />
     </>
     );
 }

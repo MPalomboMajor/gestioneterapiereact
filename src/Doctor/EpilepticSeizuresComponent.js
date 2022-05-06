@@ -61,6 +61,13 @@ function EpilepticSeizuresInfo() {
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
+    const nextPage = (pageNumber) => {
+        setCurrentPage(pageNumber + 1)
+    }
+    const prevPage = (pageNumber) => {
+        setCurrentPage(pageNumber - 1)
+    }
+
     const handleChange = (e) => {
         const inputValue = parseInt(e.target.value);
         const inputName = e.target.getAttribute('name');
@@ -94,16 +101,26 @@ function EpilepticSeizuresInfo() {
 
             <Col className='mb-3'>
                 <EpilepticSeizuresTable epilepticSeizures={currentEpilepticSeizures} setEpilepticSeizures={setEpilepticSeizures} />
-                <Pagination
-                    patientsPerPage={epilepticSeizuresPerPage}
-                    totalPatients={epilepticSeizures?.length}
-                    paginate={paginate}
-                />
+                <div>
+                <nav aria-label="Page navigation">
+                    <ul className="pagination justify-content-end align-items-center">
+                        <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuova crisi</button>
+                        <Pagination
+                            patientsPerPage={epilepticSeizuresPerPage}
+                            totalPatients={epilepticSeizures?.length}
+                            paginate={paginate}
+                            currentPage={currentPage}
+                            prevPage={prevPage}
+                            nextPage={nextPage}
+                        />
+                    </ul>
+                </nav>
+                <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuova crisi</button>
+            </div>
+                
             </Col>
             <EpilepticSeizuresModal show={show} handleClose={handleClose} patientId={patientId} setEpilepticSeizures={setEpilepticSeizures}/>
-            <Col className='mb-3'>
-                <Button variant="primary" id="btnAdd" onClick={handleShow}>Aggiungi crisi epilettiche <i class="fas fa-plus"></i></Button>&nbsp;&nbsp;
-            </Col>
+            
             < NotificationContainer />
         </>
     );

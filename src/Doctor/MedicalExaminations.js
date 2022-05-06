@@ -62,30 +62,33 @@ function MedicalExaminationsInfo() {
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
+    const nextPage = (pageNumber) => {
+        setCurrentPage(pageNumber + 1)
+    }
+    const prevPage = (pageNumber) => {
+        setCurrentPage(pageNumber - 1)
+    }
+
     return (
         <>
             <h1>Visite mediche</h1>
             &nbsp;&nbsp;
 
             <MedicalExaminationsTable medicalExaminations={currentmedicalExaminations} patientId={patientId} setMedicalExaminations={setMedicalExaminations} />
-            <Pagination
-                patientsPerPage={medicalExaminationsPerPage}
-                totalPatients={medicalExaminations?.length}
-                paginate={paginate}
-            />
+
             <MedicalExaminationsModal show={show} handleClose={handleClose} patientId={patientId} />
             <div>
                 <nav aria-label="Page navigation">
                     <ul className="pagination justify-content-end align-items-center">
                         <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuova visita</button>
-                        <li className="caption">Scorri pagine</li>
-                        <li className="page-item disabled">
-                            <a className="page-link prev">Previous</a>
-                        </li>
-                        <li className="page-item"><span className="current-page">1/5</span></li>
-                        <li className="page-item">
-                            <a className="page-link next" href="#">Next</a>
-                        </li>
+                        <Pagination
+                            patientsPerPage={medicalExaminationsPerPage}
+                            totalPatients={medicalExaminations?.length}
+                            paginate={paginate}
+                            currentPage={currentPage}
+                            prevPage={prevPage}
+                            nextPage={nextPage}
+                        />
                     </ul>
                 </nav>
                 <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuova visita</button>
