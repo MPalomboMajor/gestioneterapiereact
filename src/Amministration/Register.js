@@ -44,7 +44,7 @@ export class Register extends Component {
             medicoDTO: {
                 ...this.medicoModelProp()
             }
-            
+
         }
         this.getListMedicalCenter = this.getListMedicalCenter.bind(this);
     }
@@ -67,28 +67,16 @@ export class Register extends Component {
     InsertUser = () => {
         if (this.validator.allValid()) {
             let userDto = this.state.userDto;
-            user.post("Save", this.state.userDto)
+            user.post("SaveDoctor", { username : userDto.username , password: userDto.password , doctorDTO: this.state.medicoDTO})
                 .then((response) => {
                     if (response.status === 200) {
-                        let medicoDto = this.state.medicoDTO;
-                        medicoDto.email = response.data.dati.username;
-                        medicoDto.idUser = response.data.dati.id;
-                        medico.post("Register", this.state.medicoDTO)
-                            .then((response) => {
-                                if (response.status === 200) {
-                                    NotificationManager.success(message.MEDICO + message.SuccessInsert, entitiesLabels.SUCCESS, 3000);
-                                }
-                            }).catch((error) => {
-                                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
-                            });
+                        NotificationManager.success(message.MEDICO + message.SuccessInsert, entitiesLabels.SUCCESS, 3000);
                     }
                 }).catch((error) => {
                     NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
                 });
-
-
-
-        } else {
+        }
+        else {
             this.validator.showMessages();
             NotificationManager.warning(message.ErrorRequire, entitiesLabels.WARNING, 3000);
             this.forceUpdate();
@@ -98,9 +86,9 @@ export class Register extends Component {
         const selected = inputName.target;
         const id = selected.children[selected.selectedIndex].id;
         const statusCopy = { ...this.state };
-        statusCopy['medicoDTO']['idCentroMedico'] =parseInt(id) ;
+        statusCopy['medicoDTO']['idCentroMedico'] = parseInt(id);
         this.setState(statusCopy);
-      };
+    };
     handleChangeconfirm = (el) => {
         const inputName = el.target.name;
         const inputValue = el.target.value;
@@ -197,11 +185,11 @@ export class Register extends Component {
                             </Form.Group>
                             <Form.Group className="col-4 mb-3 input-layout-wrapper" >
                                 <Form.Label className="text-light">Centro Medico</Form.Label>
-                                <Form.Select onChange={this.onChange} name="mendicalCenter"  alt="medicoDTO" placeholder="Enter centro medico" >
-                                <option id="0">Seleziona Centro </option>
-                               {this.state.listCentriMedici.map((item)=> 
-                                <option id={item.id}>{item.nomeCentro}</option>
-                               )}
+                                <Form.Select onChange={this.onChange} name="mendicalCenter" alt="medicoDTO" placeholder="Enter centro medico" >
+                                    <option id="0">Seleziona Centro </option>
+                                    {this.state.listCentriMedici.map((item) =>
+                                        <option id={item.id}>{item.nomeCentro}</option>
+                                    )}
                                 </Form.Select>
                             </Form.Group>
                         </Row>
@@ -222,16 +210,16 @@ export class Register extends Component {
                             </Form.Group>
                             <Form.Group className="col-4 mb-3 input-layout-wrapper" controlId="formBasicPassword">
                                 <Form.Label className="text-light">Confirm Password</Form.Label><Eye size='22' onClick={() => this.showConfirmPassword()} className='icon-white' />
-                                <Form.Control type='password' id='confirmpassword' alt="confirmpassword" onChange={this.handleChangeconfirm} name="confirmpassword" isInvalid={validations.confirmpassword != null ||validations.equalPass != null } placeholder="Password" />
+                                <Form.Control type='password' id='confirmpassword' alt="confirmpassword" onChange={this.handleChangeconfirm} name="confirmpassword" isInvalid={validations.confirmpassword != null || validations.equalPass != null} placeholder="Password" />
                             </Form.Group>
                             {validations.equalPass ? (
-                                <div   className=" input-layout-wrapper text-danger">
+                                <div className=" input-layout-wrapper text-danger">
                                     {' '}
                                     Le password devono coincidere{' '}
                                 </div>
-                            ) : <div   className=" input-layout-wrapper text-danger is-12">
-                            {' '}{' '}
-                        </div>}
+                            ) : <div className=" input-layout-wrapper text-danger is-12">
+                                {' '}{' '}
+                            </div>}
                         </Row>
                         <Row >
                             <Form.Group className="col-4 mb-3 input-layout-wrapper" controlId="formBasicPassword">
