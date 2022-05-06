@@ -138,9 +138,6 @@ export class Login extends Component {
                                  Login
                              </Button>
                                 </div>
-                                <div className="col-12 col-md-6 mb-3 d-flex justify-content justify-content-md">
-                                <Link className='btn btn-primary btn-arrow'  to="/Register">Signin</Link>
-                                </div>
                             </div>
                         </form>
                     </div>

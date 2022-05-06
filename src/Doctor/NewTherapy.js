@@ -38,11 +38,11 @@ export class NewTherapy extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            linkTab:'ontozry',
+            linkTab: 'ontozry',
             listOntozry: [],
             listOtherPharmacy: [],
             isOntozryFlag: false,
-            items: [],
+            aderenze: [],
             dateNow: '',
             isNewPatient: localStorage.getItem('newPatient'),
             patients: [],
@@ -121,6 +121,16 @@ export class NewTherapy extends Component {
                 if (response.status === 200) {
                     this.setState({
                         storicPlan: response.data.dati,
+                    });
+                }
+            }).catch((error) => {
+                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+            });
+        pianoterapeutico.get("Adherence/", parseInt(window.location.pathname.split('/').pop()))
+            .then((response) => {
+                if (response.status === 200) {
+                    this.setState({
+                        aderenze: response.data.dati,
                     });
                 }
             }).catch((error) => {
@@ -389,8 +399,8 @@ export class NewTherapy extends Component {
         var listFilter = this.state.therapyDto.otherMedication.filter(x => x.id != el)
         this.updateState('otherMedication', listFilter, 'therapyDto');
     }
-    selectTab =(e) => {
-        this.setState({linkTab: e});
+    selectTab = (e) => {
+        this.setState({ linkTab: e });
     }
     render() {
         const indexOfLastPatient = this.state.currentPage * this.state.patientsPerPage;
@@ -405,7 +415,7 @@ export class NewTherapy extends Component {
         currentItem.map((pa) => { pa.delete = 'delete'; });
         return (<>
             <h1 class="h1">Crea / Modifica terapia</h1>
-            <Tabs defaultActiveKey="ontozry" activeKey={this.state.linkTab} onSelect={(k)=> this.selectTab(k)} id="uncontrolled-tab-example" className=" nav secondary-menu mb-4" >
+            <Tabs defaultActiveKey="ontozry" activeKey={this.state.linkTab} onSelect={(k) => this.selectTab(k)} id="uncontrolled-tab-example" className=" nav secondary-menu mb-4" >
 
                 <Tab eventKey="ontozry" title="Ontozry">
                     <Row>
@@ -435,12 +445,12 @@ export class NewTherapy extends Component {
                     </div>
                     <Row>
                         <Form.Group className="col-4 mb-3" >
-                            <Button variant="btn  btn-secondary"  onClick={() => this.returnToMenu()}>
+                            <Button variant="btn  btn-secondary" onClick={() => this.returnToMenu()}>
                                 Indietro
                             </Button>
                         </Form.Group>
                         <Form.Group className="col-4 mb-3" >
-                            <Button variant="btn btn-primary" onClick={(k)=> this.selectTab('altriFarmaci')} >
+                            <Button variant="btn btn-primary" onClick={(k) => this.selectTab('altriFarmaci')} >
                                 Avanti
                             </Button >
                         </Form.Group>
@@ -550,7 +560,7 @@ export class NewTherapy extends Component {
                         </Modal.Footer>
                     </Modal>
                 </Tab>
-                <Tab eventKey="altriFarmaci" title="Altri Farmaci" >
+                <Tab eventKey="altriFarmaci" title="Altri antiepilettici" >
                     <Modal
                         show={this.state.isOpenOtherPharmacy}
                         onHide={() => this.handleCloseOtherPharmacy()}
@@ -652,18 +662,18 @@ export class NewTherapy extends Component {
                     />
                     <Row>
                         <Form.Group className="col-4 mb-3" >
-                            <Button variant="btn btn-secondary" onClick={(k)=> this.selectTab('ontozry')}>
+                            <Button variant="btn btn-secondary" onClick={(k) => this.selectTab('ontozry')}>
                                 Indietro
                             </Button>
                         </Form.Group>
                         <Form.Group className="col-4 mb-3" >
-                            <Button variant="btn btn-primary"  onClick={(k)=> this.selectTab('allergieFarmaci')}>
+                            <Button variant="btn btn-primary" onClick={(k) => this.selectTab('allergieFarmaci')}>
                                 Avanti
                             </Button>
                         </Form.Group>
                     </Row>
                 </Tab>
-                <Tab eventKey="allergieFarmaci" title="Allergie a farmaci" >
+                <Tab eventKey="allergieFarmaci" title="Allergie e farmaci" >
                     <Modal
                         show={this.state.isOpenAllergic}
                         onHide={() => this.handleCloseAllergic()}
@@ -716,7 +726,7 @@ export class NewTherapy extends Component {
                     />
                     <Row>
                         <Form.Group className="col-4 mb-3" >
-                            <Button variant="btn btn-secondary" onClick={(k)=> this.selectTab('altriFarmaci')}>
+                            <Button variant="btn btn-secondary" onClick={(k) => this.selectTab('altriFarmaci')}>
                                 Indietro
                             </Button>
                         </Form.Group>
@@ -756,29 +766,29 @@ export class NewTherapy extends Component {
                         </Form>
                     </Tab>}
                 {this.state.isNewPatient ? '' :
-                    <Tab eventKey="storicoTerapie" title="Storico Terapie" >
+                    <Tab eventKey="storicoTerapie" title="Storico terapie" >
                         <Row>
-                        <div className="table-wrapper col-8 custom-th">
-                        <Table className="table custom">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Farmaco</th>
-                                                        <th>Formula</th>
-                                                        <th>Quantità</th>
-                                                        <th>Data Inizio</th>
-                                                        <th>Data Fine</th>
-                                                    </tr>
-                                                </thead>
-                                                </Table>
-                                        </div>
+                            <div className="table-wrapper col-8 custom-th">
+                                <Table className="table custom">
+                                    <thead>
+                                        <tr>
+                                            <th>Farmaco</th>
+                                            <th>Formula</th>
+                                            <th>Quantità</th>
+                                            <th>Data Inizio</th>
+                                            <th>Data Fine</th>
+                                        </tr>
+                                    </thead>
+                                </Table>
+                            </div>
                             {
                                 currentstoric.map((el) =>
                                     <Row className='pb-2 mb-5'>
                                         <div className='col-2 custom-td'>
-                                                 <span className="label label-primary">{el.nameDoctor}</span>
+                                            <span className="label label-primary">{el.nameDoctor}</span>
                                         </div>
                                         <div className="table-wrapper col-8">
-                        <Table className="table custom">
+                                            <Table className="table custom">
                                                 <tbody>
                                                     {
                                                         el.elencoFarmaciPrescritti != [] ? el.elencoFarmaciPrescritti.map((pa) => <RowCustom colums={["formulazione.farmaco.nome", "formulazione.formula", "quantitaPrescrizione", "dataInizio", "dataFine"]} oBoB={["formulazione.formula ", "formulazione.formula.nome"]} item={pa} />) : ''
@@ -792,7 +802,29 @@ export class NewTherapy extends Component {
                         </Row>
                     </Tab>
                 }
+                {this.state.isNewPatient ? '' :
+                    <Tab eventKey="aderenza" title="Aderenza alla terapia" >
 
+                    <div className="table-wrapper">
+                        <Table className="table custom">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Ora</th>
+                                    <th>Farmaco antiepilettico</th>
+                                    <th>Assunzione</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    currentItem.map((pa) => <RowCustom colums={["dataOraInvioNotifica", "oraAssunzioneIndicata", "farmaco", "esitoDosagePushNotification"]}  item={pa} />)
+                                }
+                            </tbody>
+                        </Table>
+                    </div>
+
+                    </Tab>
+                }
             </Tabs>
             < NotificationContainer />
         </>

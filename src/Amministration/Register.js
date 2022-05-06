@@ -67,7 +67,7 @@ export class Register extends Component {
     InsertUser = () => {
         if (this.validator.allValid()) {
             let userDto = this.state.userDto;
-            user.post("SaveDoctor", { username : userDto.username , password: userDto.password , doctorDTO: this.state.medicoDTO})
+            user.post("SaveDoctor", { username: userDto.username, password: userDto.password, doctorDTO: this.state.medicoDTO })
                 .then((response) => {
                     if (response.status === 200) {
                         NotificationManager.success(message.MEDICO + message.SuccessInsert, entitiesLabels.SUCCESS, 3000);
@@ -121,9 +121,6 @@ export class Register extends Component {
         } else {
             x.type = "password";
         }
-    }
-
-    showConfirmPassword = () => {
         var x = document.getElementById("confirmpassword");
         if (x.type === "password") {
             x.type = "text";
@@ -131,6 +128,7 @@ export class Register extends Component {
             x.type = "password";
         }
     }
+
     render() {
 
         if (this.state.userDto.password === this.state.confirmpassword) {
@@ -163,28 +161,22 @@ export class Register extends Component {
             equalPass: this.validator.message('equalPass', equalPass, 'accepted'),
         };
         return (
-            <Container className=" text-center">
-                <h1 className="text-color-title mt-2 p-2"> Register</h1>
-                <Container className=" form box-color text-center ms-container">
-
+            <div class="splash">
+                <div class="wrapper">
                     <Form className="centering-form">
                         <Row>
-                            <Form.Group className="col-4 mb-3 input-layout-wrapper" >
-                                <Form.Label className="text-light">Cognome</Form.Label>
+                            <Form.Group className="col-6 mb-2" >
                                 <Form.Control onChange={this.handleChange} name="name" alt="medicoDTO" placeholder="Enter cognome" />
                             </Form.Group>
-                            <Form.Group className="col-4 mb-3 input-layout-wrapper" >
-                                <Form.Label className="text-light">Nome</Form.Label>
+                            <Form.Group className="col-6 mb-2" >
                                 <Form.Control onChange={this.handleChange} name="surName" alt="medicoDTO" placeholder="Enter Nome" />
                             </Form.Group>
                         </Row>
                         <Row>
-                            <Form.Group className="col-4 mb-3 input-layout-wrapper" >
-                                <Form.Label className="text-light">Codice Fiscale</Form.Label>
+                            <Form.Group className="col-6 mb-2" >
                                 <Form.Control onChange={this.handleChange} name="fiscalCode" alt="medicoDTO" placeholder="Enter Codice fiscale" />
                             </Form.Group>
-                            <Form.Group className="col-4 mb-3 input-layout-wrapper" >
-                                <Form.Label className="text-light">Centro Medico</Form.Label>
+                            <Form.Group className="col-6 mb-2" >
                                 <Form.Select onChange={this.onChange} name="mendicalCenter" alt="medicoDTO" placeholder="Enter centro medico" >
                                     <option id="0">Seleziona Centro </option>
                                     {this.state.listCentriMedici.map((item) =>
@@ -194,22 +186,18 @@ export class Register extends Component {
                             </Form.Group>
                         </Row>
                         <Row>
-                            <Form.Group className="col-4 mb-3 input-layout-wrapper" >
-                                <Form.Label className="text-light">Email</Form.Label>
+                            <Form.Group className="col-6 mb-2">
                                 <Form.Control onChange={this.handleChange} id='eMail' alt="userDto" name="username" isInvalid={validations.username != null} placeholder="Enter email" />
                             </Form.Group>
-                            <Form.Group className="col-4 mb-3 input-layout-wrapper" >
-                                <Form.Label className="text-light">Telefono</Form.Label>
+                            <Form.Group className="col-6 mb-2">
                                 <Form.Control onChange={this.handleChange} id='phoneNumber' alt="medicoDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Enter email" />
                             </Form.Group>
                         </Row>
                         <Row className='pb-5'>
-                            <Form.Group className="col-4 mb-3 input-layout-wrapper" controlId="formBasicPassword">
-                                <Form.Label className="text-light">Password</Form.Label><Eye size='22' onClick={() => this.showPassword()} className='icon-white' />
+                            <Form.Group className="col-6 mb-2" controlId="formBasicPassword">
                                 <Form.Control type='password' id='password' alt="userDto" onChange={this.handleChange} name="password" isInvalid={validations.password != null} placeholder="Password" />
                             </Form.Group>
-                            <Form.Group className="col-4 mb-3 input-layout-wrapper" controlId="formBasicPassword">
-                                <Form.Label className="text-light">Confirm Password</Form.Label><Eye size='22' onClick={() => this.showConfirmPassword()} className='icon-white' />
+                            <Form.Group className="col-6 mb-2" controlId="formBasicPassword">
                                 <Form.Control type='password' id='confirmpassword' alt="confirmpassword" onChange={this.handleChangeconfirm} name="confirmpassword" isInvalid={validations.confirmpassword != null || validations.equalPass != null} placeholder="Password" />
                             </Form.Group>
                             {validations.equalPass ? (
@@ -221,20 +209,43 @@ export class Register extends Component {
                                 {' '}{' '}
                             </div>}
                         </Row>
-                        <Row >
-                            <Form.Group className="col-4 mb-3 input-layout-wrapper" controlId="formBasicPassword">
-                                <Link className='btn  btn-light position-button' variant="light btn-block" to="/">Indietro</Link>
-                            </Form.Group>
-                            <Form.Group className="col-4 mb-3 input-layout-wrapper" controlId="formBasicPassword">
-                                <Button variant="light" onClick={() => this.InsertUser()}>
-                                    Registrati
-                                </Button>
-                            </Form.Group>
+                        <Row>
+                        <div class="col-6 col-md-8 mb-0">
+                            <div class="form-check mb-0">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={() => this.showPassword()}></input>
+                                    <label class="form-check-label small" for="flexCheckDefault">
+                                        Mostra password
+                                    </label>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 mb-3 d-flex justify-content-center justify-content-md-end align-items-start">
+                            <Button className="btn btn-primary btn-arrow" onClick={() => this.InsertUser()}>
+                                Registrati
+                            </Button>
+                        </div>
                         </Row>
+                       <div class="col-12">
+                       <div class="col-6 col-md-8 mb-0">
+                            <div class="form-check mb-0">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></input>
+                                    <label class="form-check-label small" for="flexCheckDefault">
+                                        Consenso al trattamento dei dati personali
+                                    </label>
+                            </div>
+                            <p>
+                                <a href="" class="link-privacy small ps-4">Visualizza informativa privacy</a>
+                            </p>
+                        </div>
+                            <p class="small ps-md-4 mb-0 text-center text-md-start"><strong>Non riesci a registrarti?</strong></p>
+                            <p class="mb-0 text-center text-md-start">
+                                <a href="tel:" class="link-phone small ps-4">XXX XXXXXXXX</a>
+                                <a href="mailto:" class="link-email small ps-4">xxxxxxx@yyyyyyy.it</a>
+                            </p>
+                        </div>
                     </Form>
-                </Container>
+                </div>
                 < NotificationContainer />
-            </Container>
+            </div>
         )
     }
 }

@@ -28,18 +28,14 @@ export class Splash extends Component {
 
 
         return (
-            <html lang="en" >
 
-                <body class="splash">
-                    <div class="wrapper bg-primary-custom">
-                        <h1 class="h1 mb-5">Making the future, <span class="text-secondary-custom">caring for life</span></h1>
-                        <div><a href="/Register" class="btn cutom-splash-btn-primary  btn-arrow mx-2">Registrati</a><a href="/Login" class="btn cutom-splash-btn-secondary btn-arrow mx-2">Accedi</a></div>
+            <div class="splash">
+                <div class="wrapper bg-primary">
+                    <h1 class="h1 mb-5">Making the future, <span class="text-secondary">caring for life</span></h1>
+                    <div><a href="/Register" class="btn btn-primary btn-arrow mx-2">Registrati</a><a href="/Login"  class="btn btn-secondary btn-arrow mx-2">Accedi</a></div>
+                </div>
 
-                    </div>
-
-
-                </body>
-            </html>
+            </div>
         )
     }
 }
