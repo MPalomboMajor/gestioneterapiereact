@@ -79,7 +79,7 @@ function DiagnosticTestsInfo() {
             <div>
                 <nav aria-label="Page navigation">
                     <ul className="pagination justify-content-end align-items-center">
-                        <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuovo esame</button>
+                        <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuovo-esame" onClick={handleShow}>Nuovo esame</button>
                         <Pagination
                             patientsPerPage={diagnosticTestsPerPage}
                             totalPatients={diagnosticTests?.length}
@@ -90,7 +90,7 @@ function DiagnosticTestsInfo() {
                         />
                     </ul>
                 </nav>
-                <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuovo esame</button>
+                <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuovo-esame" onClick={handleShow}>Nuovo esame</button>
             </div>
             <DiagnosticTestsModal show={show} handleClose={handleClose} patientId={patientId} />
         </>
@@ -100,7 +100,16 @@ function DiagnosticTestsInfo() {
 
 function DiagnosticTestsTable(props) {
     const deleteDiagnosticTest = (code) => {
-        props.setDiagnosticTests((diagnosticTests) => diagnosticTests.filter(ex => ex.id !== code));
+        patient.delete("Analisi/", code)
+            .then((response) => {
+                if (response.status === 200) {
+                    NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                    props.setDiagnosticTests(response.data.dati);
+                }
+            }).catch((error) => {
+                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+            });
+        // props.setMedicalExaminations((medicalExaminations) => medicalExaminations.filter(ex => ex.id !== code));
     };
 
     return (
@@ -111,8 +120,8 @@ function DiagnosticTestsTable(props) {
                         <tr>
                             <th scope="col">Tipo esame</th>
                             <th scope="col">Del</th>
-                            <th scope="col">Miniatura</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -138,14 +147,13 @@ function DiagnosticTestRowData(props) {
         <td>{props.diagnosticTest.tipoReferto}</td>
         <td>{props.diagnosticTest.uploadedDateTime.split(' ')[0]}</td>
         <td><img src={props.diagnosticTest.fileName} style={{ width: 100, height: 70 }} /></td>
-        <td><Link to={`/BloodTest/${props.patientId}/${props.diagnosticTest.id}`} state={props.diagnosticTest} patientId={props.patientId} className="btn btn-primary btn-sm">Visualizza PDF</Link>
-            <Link to={`/BloodTest/${props.patientId}/${props.diagnosticTest.id}`} state={props.diagnosticTest} patientId={props.patientId} className="btn btn-primary btn-sm">Visualizza Immagini</Link></td>
+        <td><Link to={`/BloodTest/${props.patientId}/${props.diagnosticTest.id}`} state={props.diagnosticTest} patientId={props.patientId} className="btn btn-primary btn-sm">Visualizza Immagini</Link></td>
     </>
     );
 }
 
 function RowControl(props) {
-    return <td> <span onClick={() => props.deleteDiagnosticTest(props.diagnosticTestId)}>{iconDelete}</span></td>;
+    return <td> <span onClick={() => props.deleteDiagnosticTest(props.diagnosticTestId)}><button className="btn btn-secondary me-3" id>Elimina</button></span></td>;
 }
 
 function DiagnosticTestsModal(props) {

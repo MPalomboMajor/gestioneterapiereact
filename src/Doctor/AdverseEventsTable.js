@@ -53,13 +53,11 @@ function AdverseEventsInfo() {
 
     return (
         <>
-
-            <h1>Eventi avversi</h1>
-
+            <h1 class="h1">Eventi avversi</h1>
             &nbsp;&nbsp;
-            <Col>
-                <AdverseEventsTable adverseEvents={currentAdverseEvents} handleShow={handleShow} loading={loading} setAdverseEvents={setAdverseEvents}/>
-                <div>
+
+            <AdverseEventsTable adverseEvents={currentAdverseEvents} handleShow={handleShow} loading={loading} setAdverseEvents={setAdverseEvents} />
+            <div>
                 <nav aria-label="Page navigation">
                     <ul className="pagination justify-content-end align-items-center">
                         <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuovo evento</button>
@@ -75,18 +73,26 @@ function AdverseEventsInfo() {
                 </nav>
                 <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuovo evento</button>
             </div>
-               
-            </Col>
-            
-            <AdverseEventsModal show={show} handleClose={handleClose} setAdverseEvents={setAdverseEvents}/>
+
+
+
+            <AdverseEventsModal show={show} handleClose={handleClose} setAdverseEvents={setAdverseEvents} />
         </>
     );
 }
 
 function AdverseEventsTable(props) {
     const deleteAdverseEvent = (code) => {
-        props.setAdverseEvents((adverseEvents) => adverseEvents.filter(ex => ex.id !== code));
-      };
+        patient.delete("Events/", code)
+            .then((response) => {
+                if (response.status === 200) {
+                    NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                    props.setAdverseEvents(response.data.dati);
+                }
+            }).catch((error) => {
+                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+            });
+    };
 
     if (props.loading) {
         return <h2>Loading...</h2>;
@@ -95,22 +101,22 @@ function AdverseEventsTable(props) {
     return (
         <>
 
-            <div className='col-10'>
-                <Table striped bordered hover size="sm">
+            <div className="table-wrapper">
+                <table className="table custom">
                     <thead>
                         <tr>
-                            <th>Data</th>
-                            <th>Intensità</th>
-                            <th>Descrizione</th>
-                            <th>Actions</th>
+                            <th scope="col">Data</th>
+                            <th scope="col">Descrizione</th>
+                            <th scope="col">Intensità</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            props.adverseEvents?.map((ev) => <AdverseEventRow key={ev.id} adverseEvent={ev} deleteAdverseEvent={deleteAdverseEvent}/>)
+                            props.adverseEvents?.map((ev) => <AdverseEventRow key={ev.id} adverseEvent={ev} deleteAdverseEvent={deleteAdverseEvent} />)
                         }
                     </tbody>
-                </Table>
+                </table>
             </div>
 
 
@@ -120,17 +126,37 @@ function AdverseEventsTable(props) {
 }
 
 function AdverseEventRow(props) {
-    return <tr><AdverseEventRowData adverseEvent={props.adverseEvent} /> <RowControl adverseEventId={props.adverseEvent.id} deleteAdverseEvent={props.deleteAdverseEvent}/></tr>
+    return <tr><AdverseEventRowData adverseEvent={props.adverseEvent} /> <RowControl adverseEventId={props.adverseEvent.id} deleteAdverseEvent={props.deleteAdverseEvent} /></tr>
 }
+
+
+
+
 
 function AdverseEventRowData(props) {
     return (<>
         <td>{props.adverseEvent.dateEvent.split(' ')[0]}</td>
-        <td>{props.adverseEvent.idIntensity}</td>
         <td>{props.adverseEvent.description}</td>
-        {/* {[''].map((type) => (
-            <div key={`inline-${type}`} className="mb-3">
+        <td className="split-column">
+            <div className="options-wrapper">
+                <div className="form-check">
+                    <input className="form-check-input" type="radio" id value="1" name="idIntensity" defaultChecked={props.adverseEvent.idIntensity} disabled />
+                    <label className="form-check-label" htmlFor>Lieve</label>
+                </div>
+                <div className="form-check">
+                    <input className="form-check-input" type="radio" id value="2" name="idIntensity" defaultChecked={props.adverseEvent.idIntensity} disabled />
+                    <label className="form-check-label" htmlFor>Moderata</label>
+                </div>
+                <div className="form-check">
+                    <input className="form-check-input" type="radio" id value="3" name="idIntensity" defaultChecked={props.adverseEvent.idIntensity} disabled />
+                    <label className="form-check-label" htmlFor>Grave</label>
+                </div>
+            </div>
+        </td>
+        {/* <td className="split-column"><div className="options-wrapper">{['radio'].map((type) => (
+            <div key={`inline-${type}`} className="form-check">
                 <Form.Check
+                    className="form-check-input"
                     defaultChecked={props.adverseEvent.idIntensity}
                     inline
                     label="Lieve"
@@ -141,6 +167,7 @@ function AdverseEventRowData(props) {
                     disabled
                 />
                 <Form.Check
+                    className="form-check-input"
                     defaultChecked={props.adverseEvent.idIntensity}
                     inline
                     label="Moderata"
@@ -151,6 +178,7 @@ function AdverseEventRowData(props) {
                     disabled
                 />
                 <Form.Check
+                    className="form-check-input"
                     defaultChecked={props.adverseEvent.idIntensity}
                     inline
                     label="Severa"
@@ -161,15 +189,16 @@ function AdverseEventRowData(props) {
                     disabled
                 />
             </div>
-        ))} */}
+
+        ))} </div></td> */}
     </>
     );
 }
 
 function RowControl(props) {
-    return <td> <span onClick={() => props.deleteAdverseEvent(props.adverseEventId)}>{iconDelete}</span></td>;
-  }
-  
+    return <td> <span onClick={() => props.deleteAdverseEvent(props.adverseEventId)}><button className="btn btn-secondary me-3" id>Elimina</button></span></td>;
+}
+
 
 function AdverseEventsModal(props) {
     const [newAdverseEvent, setNewAdverseEvent] = useState({

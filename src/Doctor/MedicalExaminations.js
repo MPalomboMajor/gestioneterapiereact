@@ -100,10 +100,11 @@ function MedicalExaminationsInfo() {
 
 function MedicalExaminationsTable(props) {
     const deleteMedicalExamination = (code) => {
-        patient.delete("DiagnosticExam/", code)
+        patient.delete("Visita/", code)
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                    props.setMedicalExaminations(response.data.dati);
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
@@ -120,8 +121,8 @@ function MedicalExaminationsTable(props) {
                         <tr>
                             <th scope="col">Tipo visita</th>
                             <th scope="col">Del</th>
-                            <th scope="col">Miniatura</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -145,14 +146,13 @@ function MedicalExaminationRowData(props) {
         <td>{props.medicalExamination.tipoVisita}</td>
         <td>{props.medicalExamination.dataVisita.split(' ')[0]}</td>
         <td><img src={props.medicalExamination.elencoRefertiVisita[0].immagineReferto} style={{ width: 100, height: 70 }} /></td>
-        <td><Link to={`/MedicalExaminationDetails/${props.patientId}/${props.medicalExamination.id}`} state={props.medicalExamination} patientId={props.patientId} className="btn btn-primary btn-sm" >Visualizza PDF</Link>
-            <Link to={`/MedicalExaminationDetails/${props.patientId}/${props.medicalExamination.id}`} state={props.medicalExamination} patientId={props.patientId} className="btn btn-primary btn-sm" >Visualizza immagini</Link></td>
+        <td><Link to={`/MedicalExaminationDetails/${props.patientId}/${props.medicalExamination.id}`} state={props.medicalExamination} patientId={props.patientId} className="btn btn-primary btn-sm" >Visualizza immagini</Link></td>
     </>
     );
 }
 
 function RowControl(props) {
-    return <td> <span onClick={() => props.deleteMedicalExamination(props.medicalExaminationId)}>{iconDelete}</span></td>;
+    return <td> <span onClick={() => props.deleteMedicalExamination(props.medicalExaminationId)}><button className="btn btn-secondary me-3" id>Elimina</button></span></td>;
 }
 
 function MedicalExaminationsModal(props) {

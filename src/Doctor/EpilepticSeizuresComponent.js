@@ -17,7 +17,7 @@ function EpilepticSeizuresInfo() {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [epilepticSeizuresPerPage] = useState(5);
+    const [epilepticSeizuresPerPage] = useState(3);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -90,7 +90,8 @@ function EpilepticSeizuresInfo() {
 
     return (
         <>
-            <h2>Crisi epilettiche</h2>
+            <h1 className="h1">Crisi</h1>
+
             &nbsp;&nbsp;
             <Col className='mb-3'>
                 <EpilepticSeizuresForm numberStartingSeizures={patientProfile.numeroCrisiPartenza} onChange={handleChange} />
@@ -99,9 +100,10 @@ function EpilepticSeizuresInfo() {
                 <Button onClick={() => editPatient()} >Salva modifica</Button>
             </Col>
 
-            <Col className='mb-3'>
-                <EpilepticSeizuresTable epilepticSeizures={currentEpilepticSeizures} setEpilepticSeizures={setEpilepticSeizures} />
-                <div>
+            <div className="crisis-table mb-2">
+            <EpilepticSeizuresTable epilepticSeizures={currentEpilepticSeizures} setEpilepticSeizures={setEpilepticSeizures} />
+            </div>
+            <div>
                 <nav aria-label="Page navigation">
                     <ul className="pagination justify-content-end align-items-center">
                         <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuova crisi</button>
@@ -117,10 +119,9 @@ function EpilepticSeizuresInfo() {
                 </nav>
                 <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuova crisi</button>
             </div>
-                
-            </Col>
-            <EpilepticSeizuresModal show={show} handleClose={handleClose} patientId={patientId} setEpilepticSeizures={setEpilepticSeizures}/>
-            
+
+            <EpilepticSeizuresModal show={show} handleClose={handleClose} patientId={patientId} setEpilepticSeizures={setEpilepticSeizures} />
+
             < NotificationContainer />
         </>
     );
@@ -144,36 +145,112 @@ function EpilepticSeizuresForm(props) {
 
 function EpilepticSeizuresTable(props) {
     const deleteEpilepticSeizure = (code) => {
-        props.setEpilepticSeizures((epilepticSeizures) => epilepticSeizures.filter(ex => ex.id !== code));
+        patient.delete("Crisi/", code)
+            .then((response) => {
+                if (response.status === 200) {
+                    NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                    props.setEpilepticSeizures(response.data.dati);
+                }
+            }).catch((error) => {
+                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+            });
     };
+
+
+
 
     return (
         <>
-
-            <div className='col-10'>
-                <Table striped bordered hover size="sm">
-                    <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Descrizione</th>
-                            <th>Comportamenti</th>
-                            <th>Contesto</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            props.epilepticSeizures?.map((ev) => <EpilepticSeizureRow key={ev.id} epilepticSeizure={ev} deleteEpilepticSeizure={deleteEpilepticSeizure} />)
-                        }
-                    </tbody>
-                </Table>
-            </div>
+            
+                {
+                    props.epilepticSeizures?.map((ev) => <EpilepticSeizureRow key={ev.id} epilepticSeizure={ev} deleteEpilepticSeizure={deleteEpilepticSeizure} />)
+                }
+            
         </>
     );
 }
 
 function EpilepticSeizureRow(props) {
-    return <tr><EpilepticSeizureRowData epilepticSeizure={props.epilepticSeizure} /> <RowControl epilepticSeizureId={props.epilepticSeizure.id} deleteEpilepticSeizure={props.deleteEpilepticSeizure} /></tr>
+    const comportamentoCheck = props.epilepticSeizure.elencoComportamenti.map(c => c.id);
+    const contestoCheck = props.epilepticSeizure.elencoContestualita.map(c => c.id);
+
+    return <tr>
+        <div className="row g-2">
+            <div className="col-12 col-md-4 d-flex">
+                <div className="box small w-100">
+                    <div className="label label-primary">Data {props.epilepticSeizure.dateTimeEventOccured.split(' ')[0]}</div>
+                    {props.epilepticSeizure.description}
+                </div>
+            </div>
+            <div className="col-12 col-md-4 d-flex">
+                <div className="box small w-100">
+                    <div className="label label-secondary">Manifestazioni</div>
+                    <div action className="row">
+                        <div className="col">
+                            <div className="form-check">
+                                <input className="form-check-input" type="checkbox" id="Manifestazioni1" value="1" name="crisiConvulsivaGeneralizzata" checked={comportamentoCheck.includes(1)} />
+                                <label className="form-check-label" htmlFor="Manifestazioni1">Crisi convulsiva generalizzata</label>
+                            </div>
+                            <div className="form-check">
+                                <input className="form-check-input" type="checkbox" id="Manifestazioni2" value="2" name="assenzaCrisiFocale" checked={comportamentoCheck.includes(2)} />
+                                <label className="form-check-label" htmlFor="Manifestazioni2">Assenza / Crisi focale</label>
+                            </div>
+                        </div>
+                        <div className="col">
+                            <div className="form-check">
+                                <input className="form-check-input" type="checkbox" id="Manifestazioni3" value="3" name="perditaDiCoscienza" checked={comportamentoCheck.includes(3)} />
+                                <label className="form-check-label" htmlFor="Manifestazioni3">Perdita di coscienza</label>
+                            </div>
+                            <div className="form-check">
+                                <input className="form-check-input" type="checkbox" id="Manifestazioni4" value="4" name="cadutaATerra" checked={comportamentoCheck.includes(4)} />
+                                <label className="form-check-label" htmlFor="Manifestazioni4">Caduta a terra</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="col-12 col-md-4 d-flex">
+                <div className="box small w-100">
+                    <div className="label label-secondary">Contesto</div>
+                    <div className="row">
+                        <div className="col">
+                            <div className="form-check">
+                                <input className="form-check-input" type="radio" id="Contesto1" checked={contestoCheck.includes(1)} value="1" name="casa" />
+                                <label className="form-check-label" htmlFor="Contesto1">Casa</label>
+                            </div>
+                            <div className="form-check">
+                                <input className="form-check-input" type="radio" id="Contesto2" checked={contestoCheck.includes(2)} value="2" name="lavoro" />
+                                <label className="form-check-label" htmlFor="Contesto2">Lavoro</label>
+                            </div>
+                            <div className="form-check">
+                                <input className="form-check-input" type="radio" id="Contesto3" checked={contestoCheck.includes(3)} value="3" name="tempoLibero" />
+                                <label className="form-check-label" htmlFor="Contesto3">Tempo libero</label>
+                            </div>
+                        </div>
+                        <div className="col">
+                            <div className="form-check">
+                                <input className="form-check-input" type="radio" id="Contesto4" checked={contestoCheck.includes(4)} value="4" name="vaglia" />
+                                <label className="form-check-label" htmlFor="Contesto4">Veglia</label>
+                            </div>
+                            <div className="form-check">
+                                <input className="form-check-input" type="radio" id="Contesto5" checked={contestoCheck.includes(5)} value="5" name="sonno" />
+                                <label className="form-check-label" htmlFor="Contesto5">Sonno</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* <div className="col-12 col-md-1 d-flex">
+                <div className="box small w-100">
+                    <div className="label label-primary">Actions</div>
+                    <RowControl epilepticSeizureId={props.epilepticSeizure.id} deleteEpilepticSeizure={props.deleteEpilepticSeizure} />
+                   
+                </div>
+            </div> */}
+        </div>
+
+        {/* <EpilepticSeizureRowData epilepticSeizure={props.epilepticSeizure} /> <RowControl epilepticSeizureId={props.epilepticSeizure.id} deleteEpilepticSeizure={props.deleteEpilepticSeizure} /> */}
+        </tr>
 }
 
 function EpilepticSeizureRowData(props) {
@@ -293,7 +370,7 @@ function EpilepticSeizureRowData(props) {
 }
 
 function RowControl(props) {
-    return <td> <span onClick={() => props.deleteEpilepticSeizure(props.epilepticSeizureId)}>{iconDelete}</span></td>;
+    return <td> <span onClick={() => props.deleteEpilepticSeizure(props.epilepticSeizureId)}><button className="btn btn-secondary me-3" id>Elimina</button></span></td>;
 }
 
 function EpilepticSeizuresModal(props) {
@@ -303,10 +380,10 @@ function EpilepticSeizuresModal(props) {
         description: "",
         dateTimeEventOccured: "",
         elencoComportamenti: [
-            
+
         ],
         elencoContestualita: [
-            
+
         ],
     });
 
@@ -471,31 +548,31 @@ function EpilepticSeizuresModal(props) {
 
     function saveEpilepticSeizure() {
         newEpilepticSeizures.idPatientProfile = parseInt(props.patientId);
-        
+
         patient.post("Seizures/", newEpilepticSeizures)
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
-                    
-                       
-                        patient.get("Seizures/", props.patientId)
-                            .then((response) => {
-                                if (response.status === 200) {
-                                    props.setEpilepticSeizures(response.data.dati);
-                                    
-                                }
-                            }).catch((error) => {
-            
-                            });
-                    
+
+
+                    patient.get("Seizures/", props.patientId)
+                        .then((response) => {
+                            if (response.status === 200) {
+                                props.setEpilepticSeizures(response.data.dati);
+
+                            }
+                        }).catch((error) => {
+
+                        });
+
                     // props.setEpilepticSeizures(response.data.dati);
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
-            clearState();
-            props.handleClose();
-            
+        clearState();
+        props.handleClose();
+
     };
 
     const clearState = () => {
@@ -505,10 +582,10 @@ function EpilepticSeizuresModal(props) {
             description: "",
             dateTimeEventOccured: "",
             elencoComportamenti: [
-       
+
             ],
             elencoContestualita: [
-                
+
             ],
         })
         setCrisiConvulsivaGeneralizzata(false);
