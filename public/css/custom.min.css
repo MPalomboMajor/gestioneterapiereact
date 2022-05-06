@@ -64,7 +64,7 @@ h1,
 h2,
 h3,
 h4 {
-    color: #573d6b
+    color: #573d6b !important
 }
 
 .h1,
@@ -77,26 +77,26 @@ h1 {
 
 .h2,
 h2 {
-    font-weight: bold;
-    font-size: 1.4rem;
-    line-height: 1;
-    margin-bottom: 1rem
+    font-weight: bold !important;
+    font-size: 1.4rem !important;
+    line-height: 1 !important;
+    margin-bottom: 1rem !important
 }
 
 .h3,
 h3 {
-    font-weight: bold;
-    font-size: 1.3rem;
-    line-height: 1.2;
-    margin-bottom: 1rem
+    font-weight: bold !important;
+    font-size: 1.3rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 1rem !important
 }
 
 .h4,
 h4 {
-    font-weight: bold;
-    font-size: 1rem;
-    line-height: 1.2;
-    margin-bottom: 1rem
+    font-weight: bold !important;
+    font-size: 1rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 1rem !important
 }
 
 .small {
@@ -130,15 +130,15 @@ h4 {
 
 dl dd,
 dl dt {
-    margin-bottom: 1.5rem
+    margin-bottom: 1.5rem !important
 }
 
 .page-wrapper {
-    background-color: #f6f0f8 !important;
-    border-radius: 1.5rem !important;
-    min-height: 680px !important;
-    height: 100% !important;
-    overflow: hidden !important
+    background-color: #f6f0f8;
+    border-radius: 1.5rem;
+    min-height: 680px;
+    height: 100%;
+    overflow: hidden
 }
 
 .page-wrapper>.row {
@@ -477,7 +477,7 @@ dl dt {
 }
 
 .form-check-input[type=radio] {
-    border-radius: 50% !important ;
+    border-radius: 50% !important
 }
 
 .form-control,
@@ -785,6 +785,17 @@ div.info {
 }
 
 .menu-toggle {
+    position: fixed !important;
+    top: 0.25rem !important;
+    right: 1rem !important;
+    padding: 0 !important;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    background-color: transparent !important;
+    overflow: hidden !important
+}
+
+.menu-toggle {
     position: fixed;
     top: 0.25rem;
     right: 1rem;
@@ -946,34 +957,34 @@ div.info {
 }
 
 header {
-    background-color: #e7dcee !important;
+    background-color: #e7dcee;
     max-width: 22% !important;
-    min-height: 680px !important;
-    display: -webkit-box !important;
-    display: -ms-flexbox !important;
-    display: flex !important;
-    -webkit-box-orient: vertical !important;
-    -webkit-box-direction: normal !important;
-    -ms-flex-direction: column !important;
-    flex-direction: column !important;
-    -webkit-box-align: stretch !important;
-    -ms-flex-align: stretch !important;
-    align-items: stretch !important;
-    -webkit-box-pack: justify !important;
-    -ms-flex-pack: justify !important;
-    justify-content: space-between !important;
+    min-height: 680px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
     padding: 2.5rem 1rem 2.5rem 0 !important
 }
 
 .logo {
-    display: inline-block !important;
-    margin-inline: auto !important;
-    margin-bottom: 3rem !important
+    display: inline-block;
+    margin-inline: auto;
+    margin-bottom: 3rem
 }
 
 .main-menu {
-    margin: 0 0 auto !important;
-    padding: 0 !important
+    margin: 0 0 auto;
+    padding: 0
 }
 
 .main-menu .nav-link {
