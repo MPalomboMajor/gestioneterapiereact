@@ -38,7 +38,7 @@ export class NewTherapy extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            linkTab:'ontozry',
             listOntozry: [],
             listOtherPharmacy: [],
             isOntozryFlag: false,
@@ -389,6 +389,9 @@ export class NewTherapy extends Component {
         var listFilter = this.state.therapyDto.otherMedication.filter(x => x.id != el)
         this.updateState('otherMedication', listFilter, 'therapyDto');
     }
+    selectTab =(e) => {
+        this.setState({linkTab: e});
+    }
     render() {
         const indexOfLastPatient = this.state.currentPage * this.state.patientsPerPage;
         const indexOfFirstPatient = indexOfLastPatient - this.state.patientsPerPage;
@@ -402,7 +405,7 @@ export class NewTherapy extends Component {
         currentItem.map((pa) => { pa.delete = 'delete'; });
         return (<>
             <h1 class="h1">Crea / Modifica terapia</h1>
-            <Tabs defaultActiveKey="ontozry" id="uncontrolled-tab-example" className=" nav secondary-menu mb-4">
+            <Tabs defaultActiveKey="ontozry" activeKey={this.state.linkTab} onSelect={(k)=> this.selectTab(k)} id="uncontrolled-tab-example" className=" nav secondary-menu mb-4" >
 
                 <Tab eventKey="ontozry" title="Ontozry">
                     <Row>
@@ -437,9 +440,9 @@ export class NewTherapy extends Component {
                             </Button>
                         </Form.Group>
                         <Form.Group className="col-4 mb-3" >
-                            <Button variant="btn btn-primary" >
+                            <Button variant="btn btn-primary" onClick={(k)=> this.selectTab('altriFarmaci')} >
                                 Avanti
-                            </Button>
+                            </Button >
                         </Form.Group>
                     </Row>
                     <Modal
@@ -649,12 +652,12 @@ export class NewTherapy extends Component {
                     />
                     <Row>
                         <Form.Group className="col-4 mb-3" >
-                            <Button variant="btn btn-secondary">
+                            <Button variant="btn btn-secondary" onClick={(k)=> this.selectTab('ontozry')}>
                                 Indietro
                             </Button>
                         </Form.Group>
                         <Form.Group className="col-4 mb-3" >
-                            <Button variant="btn btn-primary">
+                            <Button variant="btn btn-primary"  onClick={(k)=> this.selectTab('allergieFarmaci')}>
                                 Avanti
                             </Button>
                         </Form.Group>
@@ -713,7 +716,7 @@ export class NewTherapy extends Component {
                     />
                     <Row>
                         <Form.Group className="col-4 mb-3" >
-                            <Button variant="btn btn-secondary">
+                            <Button variant="btn btn-secondary" onClick={(k)=> this.selectTab('altriFarmaci')}>
                                 Indietro
                             </Button>
                         </Form.Group>
