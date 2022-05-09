@@ -18,7 +18,7 @@ export class ListDoctor extends Component {
         this.GetListDoctor();
     }
     GetListDoctor = () => {
-        medico.getAll("Medici")
+        medico.getAll("GetAll")
             .then((response) => {
                 if (response.status === 200) {
                     this.setState({

@@ -273,6 +273,12 @@ export class NewTherapy extends Component {
         const inputValue = el.target.value;
         this.updateState(inputName, parseInt(inputValue), objName);
     };
+    handleChangeIntTimeTherapy = (el) => {
+        let objName = el.target.alt;
+        const inputName = el.target.name;
+        const inputValue = el.target.value;
+        this.updateState('oraAssunzioneIndicata', parseInt(inputValue), 'medicationDTO');
+    };
     updateState = (inputName, inputValue, objName) => {
         let statusCopy = Object.assign({}, this.state);
         statusCopy[objName][inputName] = inputValue;
@@ -637,7 +643,7 @@ export class NewTherapy extends Component {
                             <Row className="col-12 mb-3">
                                 <Form.Group className="col-6 mb-3" >
                                     <Form.Label className="text-">Orario consigliato assunzione {this.state.isOntozryFlag ? 'Ontozry' : ''} </Form.Label>
-                                    <Form.Select id="oraAssunzioneIndicata" onChange={this.handleChangeIntTherapy} alt="medicationDTO" name="oraAssunzioneIndicata" placeholder="Inserisci orario" >
+                                    <Form.Select id="oraAssunzioneIndicata" onChange={this.handleChangeIntTimeTherapy} alt="medicationDTO" name="oraAssunzioneIndicata" placeholder="Inserisci orario" >
                                         <option></option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>

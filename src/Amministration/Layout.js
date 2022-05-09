@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react
 import Login from './Login';
 import Splash from './Splash';
 import Register from './Register';
+import ChangePassword from './ChangePassword';
 import MedicalCenter from '../CarManager/MedicalCenter';
 import ListDoctor from '../CarManager/ListDoctor';
 import ContactInfo from '../CarManager/ContactInfo';
@@ -110,6 +111,7 @@ export default class Layout extends Component {
                 <Route path="/Login" element={<Login />}></Route>
                 <Route path="/Register" element={<Register />}></Route>
                 <Route path="/RegisterCareManager" element={<RegisterCareManager />}></Route>
+                <Route path="/ChangePassword" element={<ChangePassword />}></Route>
                 {localStorage.getItem("accessToken") != null ?
                   <>
                     < Route path="/Dashboard" element={<DashboardDoctors />}></Route>
