@@ -39,6 +39,7 @@ export const message = {
   SuccessUpdate: 'Aggiornato correttamente',
   SuccessSend: 'Inviato Correttamente ',
   ErroSend: 'Non Inviato Correttamente ',
+  ErroSendRevocery: 'Email di recupero inviata con successo',
   ///OBJECT
   USER: 'user',
   MEDICO: 'Medico ',

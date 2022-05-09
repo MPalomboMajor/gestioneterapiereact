@@ -128,7 +128,7 @@ export class Login extends Component {
                             <div className="row justify-content-center">
                                 <div className="col-12 col-md-6 mb-2">
                                     <p className="text-center">
-                                        <a href="" className="link-recovery small">Hai dimenticato la password?</a>
+                                        <a href="/Recovery" className="link-recovery small">Hai dimenticato la password?</a>
                                     </p>
                                 </div>
                             </div>
