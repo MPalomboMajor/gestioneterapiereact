@@ -20,53 +20,61 @@ function PatientDailyMood(props) {
     const [calendarDates, setCalendarDates] = useState([]);
     const [list, setList] = useState([]);
 
+    useEffect(() => {
+        const fetchMoodList = async () => {
+            let new_date = moment(new Date(startDate)).format();
+            let endDate = moment(new_date).add(dateRange, 'd').format();
+            getDates(startDate, endDate);
+        };
+        fetchMoodList();
+    }, [dateRange]);
 
 
     const handleChangeDate = (e) => {
         const inputValue = e.target.value;
         var sdate = moment(new Date(inputValue)).format();
         setStartDate(sdate);
-        
+
         let new_date = moment(new Date(sdate)).format();
         let endDate = moment(new_date).add(dateRange, 'd').format();
         console.log(endDate);
         console.log(sdate);
-        
-        
+
+
         getDates(sdate, endDate);
         //addEmptySlides();
-
-        function getDates(sdate, endDate) {
-            setList([]);
-            var dateArray = [];
-            var currentDate = moment(sdate);
-            var stopDate = moment(endDate);
-            while (currentDate <= stopDate-1) {
-                dateArray.push( moment(currentDate).format('DD/MM/YYYY') )
-                currentDate = moment(currentDate).add(1, 'days');
-            }
-            //setCalendarDates(state => [dateArray, ...state]);
-            const listApp = [];
-            dateArray.map(x => {
-                const value = selectedPatientDailyMoods.filter(y => y.dataOraRisposta === x);
-                if (value.length === 0){
-                    listApp.push({ 
-                        id: 0,
-                        idUmore: 0,
-                        umore: "http://localhost:3000/img/mood/OA_icon-umore-1.svg", 
-                        idEmozione: 0,
-                        emozione: "http://localhost:3000/img/mood/OA_icon-emozione-8.svg", 
-                        commento: "",
-                        dataOraRisposta: x,
-                        idPatientProfile: window.location.pathname.split('/').pop()
-                    })
-                } else { 
-                    listApp.push( value[0] )
-                }
-            }) 
-            setList(state => [listApp, ...state]);
-        }
     };
+
+    function getDates(sdate, endDate) {
+        setList([]);
+        var dateArray = [];
+        var currentDate = moment(sdate);
+        var stopDate = moment(endDate);
+        while (currentDate <= stopDate - 1) {
+            dateArray.push(moment(currentDate).format('DD/MM/YYYY'))
+            currentDate = moment(currentDate).add(1, 'days');
+        }
+        //setCalendarDates(state => [dateArray, ...state]);
+        const listApp = [];
+        dateArray.map(x => {
+            const value = selectedPatientDailyMoods.filter(y => y.dataOraRisposta === x);
+            if (value.length === 0) {
+                listApp.push({
+                    id: 0,
+                    idUmore: 0,
+                    umore: "#",
+                    idEmozione: 0,
+                    emozione: "#",
+                    commento: "",
+                    dataOraRisposta: x,
+                    idPatientProfile: window.location.pathname.split('/').pop()
+                })
+            } else {
+                listApp.push(value[0])
+            }
+        })
+        setList(state => [listApp, ...state]);
+    }
 
     // function addEmptySlides() {
     //     for (var i = 0; i < calendarDates.length; i++) {
@@ -85,7 +93,10 @@ function PatientDailyMood(props) {
     const handleChangeRange = (e) => {
         const inputValue = e.target.value;
         setDateRange(inputValue);
-        handleChangeDate();
+        
+        // let new_date = moment(new Date(startDate)).format();
+        // let endDate = moment(new_date).add(dateRange, 'd').format();
+        // getDates(startDate, endDate);
     };
 
     return (
@@ -93,7 +104,7 @@ function PatientDailyMood(props) {
 
             <div className="row w-100 align-items-center g-0 g-md-3">
                 <div className="col-12 col-md-3">
-                    <button className="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#edit">Modifica</button>
+                    {/* <button className="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#edit">Modifica</button> */}
                 </div>
                 <div className="col-12 col-md-5">
                     <div className="input-group mb-3">
