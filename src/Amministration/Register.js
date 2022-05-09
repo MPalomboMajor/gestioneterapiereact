@@ -8,6 +8,7 @@ import 'react-notifications/lib/notifications.css';
 import { Eye } from 'react-bootstrap-icons';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { findAllByTestId } from '@testing-library/react';
+
 export class Register extends Component {
     userModelProp = () => ({
         id: 0,
@@ -71,6 +72,7 @@ export class Register extends Component {
                 .then((response) => {
                     if (response.status === 200) {
                         NotificationManager.success(message.MEDICO + message.SuccessInsert, entitiesLabels.SUCCESS, 3000);
+                        window.location.href = "/Login";
                     }
                 }).catch((error) => {
                     NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
