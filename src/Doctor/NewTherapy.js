@@ -429,7 +429,7 @@ export class NewTherapy extends Component {
                             <thead>
                                 <tr>
                                     <th>Ontozry</th>
-                                    <th>Quantita</th>
+                                    <th>Quantità</th>
                                     <th>Data Inizio</th>
                                     <th>Data Fine</th>
                                     <th>Orario Assunzione</th>
@@ -468,7 +468,7 @@ export class NewTherapy extends Component {
                             <Row className="col-12 mb-3">
                                 {!this.state.isOntozryFlag ?
                                     <Form.Group className="col-6 mb-3 input-layout-wrapper" >
-                                        <Form.Label className="text">Formualzione</Form.Label>
+                                        <Form.Label className="text">Formulazione</Form.Label>
                                         <Form.Select onChange={(el) => this.onChangeDropOther(el)} name="mendicalCenter" alt="medicoDTO" placeholder="Enter centro medico" >
                                             <option id="0">Seleziona </option>
 
@@ -479,7 +479,7 @@ export class NewTherapy extends Component {
                                     </Form.Group>
                                     :
                                     <Form.Group className="col-6 mb-3 input-layout-wrapper" >
-                                        <Form.Label className="text">Formualzione</Form.Label>
+                                        <Form.Label className="text">Formulazione</Form.Label>
                                         <Form.Select onChange={(el) => this.onChangeDrop(el)} name="mendicalCenter" alt="medicoDTO" placeholder="Enter centro medico" >
                                             <option id="0">Seleziona </option>
 
@@ -502,8 +502,8 @@ export class NewTherapy extends Component {
                                     : <React.Fragment >
                                         {this.state.isOtherOntozry ?
                                             <Form.Group className="col-6 mb-3" >
-                                                <Form.Label className="text-">Formula</Form.Label>
-                                                <Form.Control id="formulazioneOnt" type='number' onChange={this.handleChangeDosaggio} alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci fomula" />
+                                                <Form.Label className="text-">Formulazione personalizzata</Form.Label>
+                                                <Form.Control id="formulazioneOnt" type='number' onChange={this.handleChangeDosaggio} alt="medicationDTO" name="quantitaPrescrizione" placeholder="Formulazione personalizzata" />
                                             </Form.Group>
                                             : ''}
                                     </React.Fragment>
@@ -532,11 +532,40 @@ export class NewTherapy extends Component {
                                 </Form.Group>
                             </Row>
                             <Row className="col-12 mb-3">
-
                                 <Form.Group className="col-6 mb-3" >
-                                    <Form.Label className="text-">Orario  consigliato assunzione {this.state.isOntozryFlag ? 'Ontozry' : ''} </Form.Label>
-                                    <Form.Control id="oraAssunzioneIndicata" onChange={this.handleChangeIntTherapy} alt="medicationDTO" name="oraAssunzioneIndicata" placeholder="Inserisci orario" />
+                                    <Form.Label className="text-">Orario consigliato assunzione {this.state.isOntozryFlag ? 'Ontozry' : ''} </Form.Label>
+                                    <Form.Select id="oraAssunzioneIndicata" onChange={this.handleChangeIntTherapy} alt="medicationDTO" name="oraAssunzioneIndicata" placeholder="Inserisci orario" >
+                                        <option></option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                        <option value="13">13</option>
+                                        <option value="14">14</option>
+                                        <option value="15">15</option>
+                                        <option value="16">16</option>
+                                        <option value="17">17</option>
+                                        <option value="18">18</option>
+                                        <option value="19">19</option>
+                                        <option value="20">20</option>
+                                        <option value="21">21</option>
+                                        <option value="22">22</option>
+                                        <option value="23">23</option>
+                                        <option value="24">24</option>
+                                    </Form.Select>
                                 </Form.Group>
+                                {/* <Form.Group className="col-6 mb-3" >
+                                    <Form.Label className="text-">Orario consigliato assunzione {this.state.isOntozryFlag ? 'Ontozry' : ''} </Form.Label>
+                                    <Form.Control id="oraAssunzioneIndicata" onChange={this.handleChangeIntTherapy} alt="medicationDTO" name="oraAssunzioneIndicata" placeholder="Inserisci orario" />
+                                </Form.Group> */}
                                 <Form.Group className="col-2 mb-3" >
                                     <Form.Label className="text-">Promemoria Terapie</Form.Label>
                                     <Form.Check
@@ -641,7 +670,7 @@ export class NewTherapy extends Component {
                                 <tr>
                                     <th>Farmaco</th>
                                     <th>Dosaggio</th>
-                                    <th>Quantita</th>
+                                    <th>Quantità</th>
                                     <th>Data Inizio</th>
                                     <th>Data Fine</th>
                                     <th>Orario Assunzione</th>
@@ -681,7 +710,7 @@ export class NewTherapy extends Component {
                         keyboard={false}
                     >
                         <Modal.Header closeButton>
-                            <Modal.Title>Aggiungi farmaco  a cui è allergico il paziente</Modal.Title>
+                            <Modal.Title>Aggiungi farmaco  a cui è allergico l'assistito</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <Row>
@@ -708,7 +737,7 @@ export class NewTherapy extends Component {
                         <Table className="table custom">
                             <thead>
                                 <tr>
-                                    <th>Farmaco a cui è allergico il paziente</th>
+                                    <th>Farmaco a cui è allergico l'assistito</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -732,7 +761,7 @@ export class NewTherapy extends Component {
                         </Form.Group>
                         <Form.Group className="col-4 mb-3" >
                             <Button variant="btn btn-primary " onClick={() => this.updateTherapy()} >
-                                Salva Terapia
+                                Salva
                             </Button>
                         </Form.Group>
                     </Row>
@@ -759,7 +788,7 @@ export class NewTherapy extends Component {
                             <Row>
                                 <Form.Group className="col-4 mb-3" >
                                     <Button variant="btn btn-primary" onClick={() => this.updateTherapy()} >
-                                        Salva Terapia
+                                        Salva
                                     </Button>
                                 </Form.Group>
                             </Row>
@@ -805,23 +834,23 @@ export class NewTherapy extends Component {
                 {this.state.isNewPatient ? '' :
                     <Tab eventKey="aderenza" title="Aderenza alla terapia" >
 
-                    <div className="table-wrapper">
-                        <Table className="table custom">
-                            <thead>
-                                <tr>
-                                    <th>Data</th>
-                                    <th>Ora</th>
-                                    <th>Farmaco antiepilettico</th>
-                                    <th>Assunzione</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    currentItem.map((pa) => <RowCustom colums={["dataOraInvioNotifica", "oraAssunzioneIndicata", "farmaco", "esitoDosagePushNotification"]}  item={pa} />)
-                                }
-                            </tbody>
-                        </Table>
-                    </div>
+                        <div className="table-wrapper">
+                            <Table className="table custom">
+                                <thead>
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Ora</th>
+                                        <th>Farmaco antiepilettico</th>
+                                        <th>Assunzione</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        currentItem.map((pa) => <RowCustom colums={["dataOraInvioNotifica", "oraAssunzioneIndicata", "farmaco", "esitoDosagePushNotification"]} item={pa} />)
+                                    }
+                                </tbody>
+                            </Table>
+                        </div>
 
                     </Tab>
                 }

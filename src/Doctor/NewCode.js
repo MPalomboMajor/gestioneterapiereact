@@ -39,35 +39,35 @@ export class NewCode extends Component {
             <Container className="">
                 <Row className='col-12 pt-4' >
                     <div className='col-12'>
-                        <h2>Richiedi Nuovo Codice Paziente</h2>
+                        <h2>Richiedi nuovo codice assistito</h2>
                     </div>
                 </Row>
                 <Row className='col-4 pt-4' >
-                    <Button onClick={() => this.getCode()}>Invia una una richiesta per un nuovo codice paziente</Button>
+                    <Button onClick={() => this.getCode()}>Invia una richiesta per un nuovo codice assistito</Button>
                 </Row>
                 <Modal
                     show={this.state.isOpenModal}
-                    onHide={() => this.handleCloseChangePassword()}
+                    onHide={() => this.handleClose()}
                     backdrop="static"
                     keyboard={false}
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>Complimenti ha creato un nuovo</Modal.Title>
+                        <Modal.Title>Complimenti hai creato un nuovo codice assistito</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
                             <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
-                                <Form.Label className="text-">Codice Paziente</Form.Label>
+                                <Form.Label className="text-">Codice assistito</Form.Label>
 
                                 <Form.Control disabled id="patientCode" alt="patientCode" value={this.state.code ? this.state.code : ''} name="patientCode" placeholder="Codice Paziente" />
                             </Form.Group>
                         </Row>
                     </Modal.Body>
-                    <Modal.Footer>
+                    {/* <Modal.Footer>
                         <Button variant="secondary" onClick={() => this.handleClose()}>
                             Chiudi
                         </Button>
-                    </Modal.Footer>
+                    </Modal.Footer> */}
                 </Modal>
             </Container>
         )

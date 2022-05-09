@@ -133,7 +133,7 @@ export class Login extends Component {
                                 </div>
                             </div>
                             <div class="row justify-content-center">
-                                <div className="col-12 col-md-6 mb-3 d-flex justify-content-center justify-content-md-end">
+                                <div className="col-12 col-md-6 mb-3 d-flex justify-content-center justify-content">
                                 <Button className='btn btn-primary btn-arrow'  onClick={() => this.postLogin()} >
                                  Login
                              </Button>

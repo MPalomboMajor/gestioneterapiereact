@@ -65,7 +65,7 @@ function ControlledPatientTabs(props) {
                 onSelect={(k) => setKey(k)}
                 className="mb-3"
             >
-                <Tab eventKey="anagraficaPaziente" title="Anagrafica paziente">
+                <Tab eventKey="anagraficaPaziente" title="Anagrafica assistito">
                     <PatientRegistry patient={props.patient} />
                 </Tab>
                 <Tab eventKey="profilo" title="Profilo" >

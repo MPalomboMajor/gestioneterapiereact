@@ -126,7 +126,7 @@ export class ContactInfoPatient extends Component {
                     <Row className='col-6 pt-4' >
                         <Row className='col-12 pt-4' >
                             <Form.Group className="col-4 mb-3" controlId="formBasicEmail">
-                                <Form.Label className="">CF Paziente</Form.Label>
+                                <Form.Label className="">Codice fiscale assistito</Form.Label>
                                 <Form.Control disabled id='surName' value={this.state.patient.fiscalCode ? this.state.patient.fiscalCode : ''} alt='userDto' name="surName" placeholder="Enter cognome" />
                             </Form.Group>
                             <Form.Group className="col-4 mb-3" controlId="formBasicEmail">

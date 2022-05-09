@@ -1,8 +1,15 @@
+import { useState, useEffect } from 'react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 export default (props) => {
-  const slides = props.patientDailyMoods;
+  const [slides, setSlides] = useState(props.patientDailyMoods);
+  
+
+  console.log(slides);
+
+
+
   return (
     <Swiper
       // install Swiper modules
@@ -32,70 +39,21 @@ export default (props) => {
       }}
     >
       <div className="swiper-wrapper">
-        <SwiperSlide className="swiper-slide"><p className="date">01/02/22</p>
-          <div className="upper-wrapper">
-            <img src="http://localhost:3000/img/mood/OA_icon-umore-1.svg" />
-          </div>
-          <div className="row-label" data-label="Umore" />
-          <div className="lower-wrapper">
-            <img src="http://localhost:3000/img/mood/OA_icon-emozione-1.svg" />
-          </div>
-          <div className="row-label" data-label="Emozione" /></SwiperSlide>
-        <SwiperSlide className="swiper-slide"><p className="date">01/02/22</p>
-          <div className="upper-wrapper">
-            <img src="http://localhost:3000/img/mood/OA_icon-umore-2.svg" />
-          </div>
-          <div className="row-label" data-label="Umore" />
-          <div className="lower-wrapper">
-            <img src="http://localhost:3000/img/mood/OA_icon-emozione-2.svg" />
-          </div>
-          <div className="row-label" data-label="Emozione" /></SwiperSlide>
-        <SwiperSlide className="swiper-slide"> <p className="date">01/02/22</p>
-          <div className="upper-wrapper">
-            <img src="http://localhost:3000/img/mood/OA_icon-umore-3.svg" />
-          </div>
-          <div className="row-label" data-label="Umore" />
-          <div className="lower-wrapper">
-            <img src="http://localhost:3000/img/mood/OA_icon-emozione-3.svg" />
-          </div>
-          <div className="row-label" data-label="Emozione" /></SwiperSlide>
-        <SwiperSlide className="swiper-slide"> <p className="date">01/02/22</p>
-          <div className="upper-wrapper">
-            <img src="http://localhost:3000/img/mood/OA_icon-umore-4.svg" />
-          </div>
-          <div className="row-label" data-label="Umore" />
-          <div className="lower-wrapper">
-            <img src="http://localhost:3000/img/mood/OA_icon-emozione-4.svg" />
-          </div>
-          <div className="row-label" data-label="Emozione" /></SwiperSlide>
-        <SwiperSlide className="swiper-slide"> <p className="date">01/02/22</p>
-          <div className="upper-wrapper">
-            <img src="http://localhost:3000/img/mood/OA_icon-umore-5.svg" />
-          </div>
-          <div className="row-label" data-label="Umore" />
-          <div className="lower-wrapper">
-            <img src="http://localhost:3000/img/mood/OA_icon-emozione-5.svg" />
-          </div>
-          <div className="row-label" data-label="Emozione" /></SwiperSlide>
-        <SwiperSlide className="swiper-slide"> <p className="date">01/02/22</p>
-          <div className="upper-wrapper">
-            <img src="http://localhost:3000/img/mood/OA_icon-umore-5.svg" />
-          </div>
-          <div className="row-label" data-label="Umore" />
-          <div className="lower-wrapper">
-            <img src="http://localhost:3000/img/mood/OA_icon-emozione-6.svg" />
-          </div>
-          <div className="row-label" data-label="Emozione" /></SwiperSlide>
-        <SwiperSlide className="swiper-slide"> <p className="date">01/02/22</p>
-          <div className="upper-wrapper">
-            <img src="http://localhost:3000/img/mood/OA_icon-umore-2.svg" />
-          </div>
-          <div className="row-label" data-label="Umore" />
-          <div className="lower-wrapper">
-            <img src="http://localhost:3000/img/mood/OA_icon-emozione-7.svg" />
-          </div>
-          <div className="row-label" data-label="Emozione" /></SwiperSlide>
-        <SwiperSlide className="swiper-slide"> <p className="date">01/02/22</p>
+        {slides.map((slideContent) => (
+          <SwiperSlide key={slideContent} className="swiper-slide"><p className="date">{slideContent.dataOraRisposta}</p>
+            <div className="upper-wrapper">
+              <img src={slideContent.umore} />
+            </div>
+            <div className="row-label" data-label="Umore" />
+            <div className="lower-wrapper">
+              <img src={slideContent.emozione} />
+            </div>
+            <div className="row-label" data-label="Emozione" />
+          </SwiperSlide>
+        ))}
+      </div>
+
+      {/* <SwiperSlide className="swiper-slide"> <p className="date">01/02/22</p>
           <div className="upper-wrapper">
             <img src="http://localhost:3000/img/mood/OA_icon-umore-1.svg" />
           </div>
@@ -103,9 +61,9 @@ export default (props) => {
           <div className="lower-wrapper">
             <img src="http://localhost:3000/img/mood/OA_icon-emozione-8.svg" />
           </div>
-          <div className="row-label" data-label="Emozione" /></SwiperSlide>
+          <div className="row-label" data-label="Emozione" /></SwiperSlide> */}
 
-      </div>
+
       {/* If we need pagination */}
       <div className="swiper-pagination" />
       {/* If we need navigation buttons */}

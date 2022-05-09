@@ -48,17 +48,17 @@ export class AssociatePatient extends Component {
             <Container className="">
                 <Row className='col-12 pt-4' >
                     <div className='col-12'>
-                        <h2>Associa Paziente gia esistente</h2>
+                        <h2>Associa assistito già esistente</h2>
                     </div>
                 </Row>
                 <Row className='col-6 pt-4' >
                     <Form.Group className="mb-3">
-                        <Form.Label>Codice Paziente</Form.Label>
-                        <Form.Control id="patientCode" onChange={this.handleChange} alt="patient" type="number" name="patientCode" placeholder="Inserisci fornito dal Paziente" />
+                        <Form.Label>Codice assistito</Form.Label>
+                        <Form.Control id="patientCode" onChange={this.handleChange} alt="patient" type="number" name="patientCode" placeholder="Inserisci fornito dall'assistito" />
                     </Form.Group>
                 </Row>
                 <Row className='col-4 pt-4' >
-                    <Button onClick={() => this.associate()}>Associa Paziente </Button>
+                    <Button onClick={() => this.associate()}>Associa assistito </Button>
                 </Row>
             </Container>
         )

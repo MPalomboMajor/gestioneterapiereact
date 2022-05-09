@@ -101,8 +101,8 @@ export class ContactInfo extends Component {
                     <Table striped bordered hover size="sm">
                         <thead>
                             <tr>
-                                <th>Codice Paziente </th>
-                                <th>Codice Fiscale</th>
+                                <th>Codice assistito </th>
+                                <th>Codice fiscale</th>
                                 <th>Cognome</th>
                                 <th>Nome</th>
                                 <th>Medico</th>
