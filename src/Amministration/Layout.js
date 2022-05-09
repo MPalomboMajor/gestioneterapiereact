@@ -9,6 +9,7 @@ import Register from './Register';
 import MedicalCenter from '../CarManager/MedicalCenter';
 import ListDoctor from '../CarManager/ListDoctor';
 import ContactInfo from '../CarManager/ContactInfo';
+import RegisterCareManager from '../CarManager/RegisterCareManager';
 import ContactInfoPatient from '../CarManager/ContactInfoPatient';
 import DashboardDoctors from '../Doctor/DashboardDoctors';
 import NewPatient from '../Doctor/NewPatient';
@@ -66,6 +67,7 @@ export default class Layout extends Component {
                         <Route path="/" element={<Splash />}></Route>
                         <Route path="/Login" element={<Login />}></Route>
                         <Route path="/Register" element={<Register />}></Route>
+                        <Route path="/RegisterCareManager" element={<RegisterCareManager />}></Route>
                         {localStorage.getItem("accessToken") != null ?
                           <>
                             <Route path="/Dashboard" element={<DashboardDoctors />}></Route>
@@ -103,6 +105,7 @@ export default class Layout extends Component {
                 <Route path="/" element={<Splash />}></Route>
                 <Route path="/Login" element={<Login />}></Route>
                 <Route path="/Register" element={<Register />}></Route>
+                <Route path="/RegisterCareManager" element={<RegisterCareManager />}></Route>
                 {localStorage.getItem("accessToken") != null ?
                   <>
                     < Route path="/Dashboard" element={<DashboardDoctors />}></Route>

@@ -93,6 +93,12 @@ export class ContactInfoPatient extends Component {
     setCurrentPage = (n) => {
         this.setState({ currentPage: n });
     }
+    setPrevPage = (n) => {
+        this.setState({ currentPage: n-1 });
+    }
+    setNexPage = (n) => {
+        this.setState({ currentPage: n +1 });
+    }
     render() {
         const indexOfLastPatient = this.state.currentPage * this.state.itemPerPage;
         const indexOfFirstPatient = indexOfLastPatient - this.state.itemPerPage;
@@ -104,7 +110,8 @@ export class ContactInfoPatient extends Component {
             <Container className="">
                 <Row className='col-12 pt-4' >
                     <Row className='col-6 pt-4' >
-                        <Table striped bordered hover size="sm">
+                    <div className="table-wrapper">
+                        <Table className="table custom">
                             <thead>
                                 <tr>
                                     <th>Data </th>
@@ -117,10 +124,14 @@ export class ContactInfoPatient extends Component {
                                 }
                             </tbody>
                         </Table>
+                        </div>
                         <Pagination
-                            patientsPerPage={3}
+                            patientsPerPage={5}
                             totalPatients={this.state.listPatientInfo.length}
                             paginate={(pageNumber) => this.setCurrentPage(pageNumber)}
+                            currentPage={this.state.currentPage}
+                            prevPage={(pageNumber) => this.setPrevPage(pageNumber)}
+                            nextPage={(pageNumber) => this.setNexPage(pageNumber)}
                         />
                     </Row>
                     <Row className='col-6 pt-4' >
@@ -139,7 +150,8 @@ export class ContactInfoPatient extends Component {
                             </Form.Group>
                         </Row>
                         <Row className='col-12 pt-4 pl-4' >
-                            <Table striped bordered hover size="sm">
+                        <div className="table-wrapper">
+                        <Table className="table custom">
                                 <thead>
                                     <tr>
                                         <th>Nome Medico </th>
@@ -151,6 +163,7 @@ export class ContactInfoPatient extends Component {
                                     }
                                 </tbody>
                             </Table>
+                            </div>
                         </Row>
                         <Row className='col-12 pt-4' >
                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">

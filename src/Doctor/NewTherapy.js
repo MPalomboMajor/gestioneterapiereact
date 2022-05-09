@@ -48,8 +48,25 @@ export class NewTherapy extends Component {
             patients: [],
             pharmacyPatients: [],
             currentPage: 1,
-            storicPlan: [],
+
             patientsPerPage: 5,
+            //STATE PAGINATION Ontozry
+            currentOntozryPage: 1,
+            ontozryPerPage: 5,
+            //STATE PAGINATION OTHER MEDICATION
+            currentOtherPage: 1,
+            otherMedicationPerPage: 5,
+            //STATE PAGINATION Allergies
+            currentAllergiesPage: 1,
+            allergiesPerPage: 5,
+            //STATE PAGINATION storico
+            currentStoricoPage: 1,
+            storicoPerPage: 2,
+            //STATE PAGINATION afderenze
+            currentAderenzePage: 1,
+            aderenzePerPage: 2,
+
+            storicPlan: [],
             allergiesDTO: { ...this.allergiesProps() },
             isOpenAllergic: false,
             isOpenModalOntozry: false,
@@ -190,9 +207,7 @@ export class NewTherapy extends Component {
         var listFilter = this.state.therapyDto.medicationAllergies.filter(x => x.id != el)
         this.updateState('medicationAllergies', listFilter, 'therapyDto');
     }
-    setCurrentPage = (n) => {
-        this.setState({ currentPage: n });
-    }
+
 
     handleCloseOtherPharmacy = () => {
         this.setState({ isOpenOtherPharmacy: false });
@@ -402,15 +417,95 @@ export class NewTherapy extends Component {
     selectTab = (e) => {
         this.setState({ linkTab: e });
     }
+    setCurrentPage = (n) => {
+        this.setState({ currentPage: n });
+    }
+    setPrevPage = (n) => {
+        this.setState({ currentPage: n - 1 });
+    }
+    setNexPage = (n) => {
+        this.setState({ currentPage: n + 1 });
+    }
+    //Ontozry Pagination
+    setCurrentOntozryPage = (n) => {
+        this.setState({ currentOntozryPage: n });
+    }
+    setPrevOntozryPage = (n) => {
+        this.setState({ currentOntozryPage: n - 1 });
+    }
+    setNexOntozryPage = (n) => {
+        this.setState({ currentOntozryPage: n + 1 });
+    }
+    //OTHERPAGINATION
+    setCurrentOtherPage = (n) => {
+        this.setState({ currentOtherPage: n });
+    }
+    setPrevOtherPage = (n) => {
+        this.setState({ currentOtherPage: n - 1 });
+    }
+    setNexOtherPage = (n) => {
+        this.setState({ currentOtherPage: n + 1 });
+    }
+    //Allergies PAGINATION
+    setCurrentAllergiesPage = (n) => {
+        this.setState({ currentAllergiesPage: n });
+    }
+    setPrevAllergiesPage = (n) => {
+        this.setState({ currentAllergiesPage: n - 1 });
+    }
+    setNexAllergiesPage = (n) => {
+        this.setState({ currentAllergiesPage: n + 1 });
+    }
+    //Storico PAGINATION
+    setCurrentStoricoPage = (n) => {
+        this.setState({ currentStoricoPage: n });
+    }
+    setPrevStoricoPage = (n) => {
+        this.setState({ currentStoricoPage: n - 1 });
+    }
+    setNexStoricoPage = (n) => {
+        this.setState({ currentStoricoPage: n + 1 });
+    }
+    //Aderenze PAGINATION
+    setCurrentAderenzePage = (n) => {
+        this.setState({ currentAderenzePage: n });
+    }
+    setPrevAderenzePage = (n) => {
+        this.setState({ currentAderenzePage: n - 1 });
+    }
+    setNexAderenzePage = (n) => {
+        this.setState({ currentAderenzePage: n + 1 });
+    }
     render() {
+        //PAGINATION OTHER MERDICATION
+        const indexOfLastOther = this.state.currentOtherPage * this.state.otherMedicationPerPage;
+        const indexOfFirstOther = indexOfLastOther - this.state.otherMedicationPerPage;
+        const currentFarmaci = this.state.therapyDto.otherMedication.slice(indexOfFirstOther, indexOfLastOther);
+        //PAGINATION Ontozry
+        const indexOfLastOntozry = this.state.currentOntozryPage * this.state.ontozryPerPage;
+        const indexOfFirstOntozry = indexOfLastOntozry - this.state.ontozryPerPage;
+        const currentItem = this.state.therapyDto.ontozryMedication.slice(indexOfFirstOntozry, indexOfLastOntozry);
+        //PAGINATION Allergie
+        const indexOfLastAllergies = this.state.currentAllergiesPage * this.state.allergiesPerPage;
+        const indexOfFirstAllergies = indexOfLastAllergies - this.state.allergiesPerPage;
+        const pharmacyPatients = this.state.therapyDto.medicationAllergies.slice(indexOfFirstAllergies, indexOfLastAllergies);
+        //PAGINATION Storico
+        const indexOfLastStorico = this.state.currentStoricoPage * this.state.storicoPerPage;
+        const indexOfFirstStorico = indexOfLastStorico - this.state.storicoPerPage;
+        const currentstoric = this.state.storicPlan ? this.state.storicPlan.slice(indexOfFirstStorico, indexOfLastStorico) : [];
+        //PAGINATION Storico
+        const indexOfLastAderenze= this.state.currentAderenzeoPage * this.state.aderenzePerPage;
+        const indexOfFirstAderenze = indexOfLastAderenze - this.state.aderenzePerPage;
+        const adherences = this.state.aderenze.slice(indexOfFirstAderenze, indexOfLastAderenze);
+
+
         const indexOfLastPatient = this.state.currentPage * this.state.patientsPerPage;
         const indexOfFirstPatient = indexOfLastPatient - this.state.patientsPerPage;
         const indexOfLastpharmacyPatient = this.state.currentPage * this.state.patientsPerPage;
         const indexOfFirstpharmacyPatient = indexOfLastPatient - this.state.patientsPerPage;
-        const currentFarmaci = this.state.therapyDto.otherMedication.slice(indexOfFirstPatient, indexOfLastPatient);
-        const pharmacyPatients = this.state.therapyDto.medicationAllergies.slice(indexOfFirstpharmacyPatient, indexOfLastpharmacyPatient);
-        const currentItem = this.state.therapyDto.ontozryMedication.slice(indexOfFirstPatient, indexOfLastPatient);
-        const currentstoric = this.state.storicPlan ? this.state.storicPlan.slice(indexOfFirstPatient, indexOfLastPatient) : [];
+
+
+
         currentFarmaci.map((pa) => { pa.delete = 'delete'; });
         currentItem.map((pa) => { pa.delete = 'delete'; });
         return (<>
@@ -443,6 +538,14 @@ export class NewTherapy extends Component {
                             </tbody>
                         </Table>
                     </div>
+                    <Pagination
+                        patientsPerPage={this.state.ontozryPerPage}
+                        totalPatients={this.state.therapyDto.ontozryMedication?.length}
+                        paginate={(pageNumber) => this.setCurrentOntozryPage(pageNumber)}
+                        currentPage={this.state.currentOntozryPage}
+                        prevPage={(pageNumber) => this.setPrevOntozryPage(pageNumber)}
+                        nextPage={(pageNumber) => this.setNexOntozryPage(pageNumber)}
+                    />
                     <Row>
                         <Form.Group className="col-4 mb-3" >
                             <Button variant="btn  btn-secondary" onClick={() => this.returnToMenu()}>
@@ -656,9 +759,12 @@ export class NewTherapy extends Component {
                         </Table>
                     </div>
                     <Pagination
-                        patientsPerPage={3}
-                        totalPatients={this.state.patients.length}
-                        paginate={(pageNumber) => this.setCurrentPage(pageNumber)}
+                        patientsPerPage={this.state.otherMedicationPerPage}
+                        totalPatients={this.state.therapyDto?.otherMedication?.length}
+                        paginate={(pageNumber) => this.setCurrentOtherPage(pageNumber)}
+                        currentPage={this.state.currentOtherPage}
+                        prevPage={(pageNumber) => this.setPrevOtherPage(pageNumber)}
+                        nextPage={(pageNumber) => this.setNexOtherPage(pageNumber)}
                     />
                     <Row>
                         <Form.Group className="col-4 mb-3" >
@@ -720,9 +826,12 @@ export class NewTherapy extends Component {
                         </Table>
                     </div>
                     <Pagination
-                        patientsPerPage={this.state.patientsPerPage}
-                        totalPatients={this.state.pharmacyPatients?.length}
-                        paginate={(pageNumber) => this.setCurrentPage(pageNumber)}
+                        patientsPerPage={this.state.allergiesPerPage}
+                        totalPatients={this.state.therapyDto.medicationAllergies?.length}
+                        paginate={(pageNumber) => this.setCurrentAllergiesPage(pageNumber)}
+                        currentPage={this.state.currentAllergiesPage}
+                        prevPage={(pageNumber) => this.setPrevAllergiesPage(pageNumber)}
+                        nextPage={(pageNumber) => this.setNexAllergiesPage(pageNumber)}
                     />
                     <Row>
                         <Form.Group className="col-4 mb-3" >
@@ -797,32 +906,48 @@ export class NewTherapy extends Component {
                                             </Table>
                                         </div>
                                     </Row>
+
                                 )
                             }
+                            <Pagination
+                                patientsPerPage={this.state.storicoPerPage}
+                                totalPatients={this.state.storicPlan?.length}
+                                paginate={(pageNumber) => this.setCurrentStoricoPage(pageNumber)}
+                                currentPage={this.state.currentStoricoPage}
+                                prevPage={(pageNumber) => this.setPrevStoricoPage(pageNumber)}
+                                nextPage={(pageNumber) => this.setNexStoricoPage(pageNumber)}
+                            />
                         </Row>
                     </Tab>
                 }
                 {this.state.isNewPatient ? '' :
                     <Tab eventKey="aderenza" title="Aderenza alla terapia" >
 
-                    <div className="table-wrapper">
-                        <Table className="table custom">
-                            <thead>
-                                <tr>
-                                    <th>Data</th>
-                                    <th>Ora</th>
-                                    <th>Farmaco antiepilettico</th>
-                                    <th>Assunzione</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    currentItem.map((pa) => <RowCustom colums={["dataOraInvioNotifica", "oraAssunzioneIndicata", "farmaco", "esitoDosagePushNotification"]}  item={pa} />)
-                                }
-                            </tbody>
-                        </Table>
-                    </div>
-
+                        <div className="table-wrapper">
+                            <Table className="table custom">
+                                <thead>
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Ora</th>
+                                        <th>Farmaco antiepilettico</th>
+                                        <th>Assunzione</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        adherences.map((pa) => <RowCustom colums={["dataOraInvioNotifica", "oraAssunzioneIndicata", "farmaco", "esitoDosagePushNotification"]} item={pa} />)
+                                    }
+                                </tbody>
+                            </Table>
+                        </div>
+                        <Pagination
+                                patientsPerPage={this.state.aderenzePerPagePerPage}
+                                totalPatients={this.state.aderenze?.length}
+                                paginate={(pageNumber) => this.setCurrentAderenzePage(pageNumber)}
+                                currentPage={this.state.currentAderenzePage}
+                                prevPage={(pageNumber) => this.setPrevAderenzePage(pageNumber)}
+                                nextPage={(pageNumber) => this.setNexAderenzePage(pageNumber)}
+                            />
                     </Tab>
                 }
             </Tabs>

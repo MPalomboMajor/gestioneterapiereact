@@ -8,7 +8,7 @@ const SideNav = () => {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
     const [patientProfile, setPatientProfile] = useState([]);
     const user = JSON.parse(localStorage.getItem("role"));
-    const isCarManger = user.idRole === role.CARMANAGER ? true : false
+    const isCarManger = user.idRole === role.CAREMANAGER ? true : false
     return (
         <header className="col">
             <a href className="logo"><img src={logo} alt="OntozApp" /></a>

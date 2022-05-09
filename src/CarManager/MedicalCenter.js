@@ -85,6 +85,12 @@ export class MedicalCenter extends Component {
     setCurrentPage = (n) => {
         this.setState({ currentPage: n });
     }
+    setPrevPage = (n) => {
+        this.setState({ currentPage: n-1 });
+    }
+    setNexPage = (n) => {
+        this.setState({ currentPage: n +1 });
+    }
     render() {
         const indexOfLastPatient = this.state.currentPage * this.state.itemPerPage;
         const indexOfFirstPatient = indexOfLastPatient - this.state.itemPerPage;
@@ -106,7 +112,8 @@ export class MedicalCenter extends Component {
                     </Row>
                     <Row className='col-12 pt-4' >
                     </Row>
-                    <Table striped bordered hover size="sm">
+                    <div className="table-wrapper">
+                        <Table className="table custom">
                         <thead>
                             <tr>
                                 <th>Centro Medico</th>
@@ -119,11 +126,16 @@ export class MedicalCenter extends Component {
                             }
                         </tbody>
                     </Table>
+                    </div>
                     <Pagination
-                                patientsPerPage={3}
+                                patientsPerPage={5}
                                 totalPatients={this.state.listMedicalCenter.length}
                                 paginate={(pageNumber) => this.setCurrentPage(pageNumber)}
+                                currentPage={this.state.currentPage}
+                                prevPage={(pageNumber) => this.setPrevPage(pageNumber)}
+                            nextPage={(pageNumber) => this.setNexPage(pageNumber)}
                             />
+                           
                 </Row>
                 <Modal
                     show={this.state.isOpenModal}
