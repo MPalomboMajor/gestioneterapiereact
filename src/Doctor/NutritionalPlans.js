@@ -76,7 +76,7 @@ function NutritionalPlansInfo() {
 
             <NutritionalPlansTable nutritionalPlans={currentNutritionalPlans} patientId={patientId} setNutritionalPlans={setNutritionalPlans} />
 
-            <NutritionalPlansModal show={show} handleClose={handleClose} patientId={patientId} />
+            <NutritionalPlansModal show={show} handleClose={handleClose} patientId={patientId} fetchNutritionalPlans={useEffect}/>
             <div>
                 <nav aria-label="Page navigation">
                     <ul className="pagination justify-content-end align-items-center">
@@ -180,7 +180,7 @@ function NutritionalPlansModal(props) {
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
-                    props.setNutritionalPlans(response.data.dati);
+                    props.fetchNutritionalPlans();
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
