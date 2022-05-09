@@ -4,11 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 export default (props) => {
   const [slides, setSlides] = useState(props.patientDailyMoods);
-  
-
   console.log(slides);
-
-
 
   return (
     <Swiper
@@ -39,7 +35,7 @@ export default (props) => {
       }}
     >
       <div className="swiper-wrapper">
-        {slides.map((slideContent) => (
+        {props.patientDailyMoods?.map((slideContent) => (
           <SwiperSlide key={slideContent} className="swiper-slide"><p className="date">{slideContent.dataOraRisposta}</p>
             <div className="upper-wrapper">
               <img src={slideContent.umore} />
