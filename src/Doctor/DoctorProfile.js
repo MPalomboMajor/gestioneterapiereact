@@ -532,7 +532,7 @@ export class DoctorProfile extends Component {
                                     size="sm"
                                     role="status"
                                     aria-hidden="true"
-                                /> : ''}</Button>
+                                /> : ''}Richiedi codice</Button>
                                 <Button variant="primary" onClick={() => this.sendChangePassword()}>{this.state.isSending == true ? <Spinner
                                     as="span"
                                     animation="border"
