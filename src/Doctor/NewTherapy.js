@@ -63,7 +63,7 @@ export class NewTherapy extends Component {
             currentStoricoPage: 1,
             storicoPerPage: 2,
             //STATE PAGINATION afderenze
-            currentAderenzePage: 1,
+            currentAderenzeoPage: 1,
             aderenzePerPage: 2,
 
             storicPlan: [],
@@ -502,7 +502,7 @@ export class NewTherapy extends Component {
         //PAGINATION Storico
         const indexOfLastAderenze= this.state.currentAderenzeoPage * this.state.aderenzePerPage;
         const indexOfFirstAderenze = indexOfLastAderenze - this.state.aderenzePerPage;
-        const adherences = this.state.aderenze.slice(indexOfFirstAderenze, indexOfLastAderenze);
+        const adherences =  this.state.aderenze ?this.state.aderenze.slice(indexOfFirstAderenze, indexOfLastAderenze) : [];
 
 
         const indexOfLastPatient = this.state.currentPage * this.state.patientsPerPage;

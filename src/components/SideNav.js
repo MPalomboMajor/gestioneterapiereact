@@ -2,13 +2,18 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { role } from '../helpers/Constants';
 import logo from '../logo/OA_logo.svg';
-
+import logOut from'../icons';
 
 const SideNav = () => {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
     const [patientProfile, setPatientProfile] = useState([]);
     const user = JSON.parse(localStorage.getItem("role"));
     const isCarManger = user.idRole === role.CAREMANAGER ? true : false
+    function logOut  () {
+        window.localStorage.removeItem('accessToken');
+        window.localStorage.removeItem('refreshTokens');
+        window.location.href = "/Login";
+    }
     return (
         <header className="col">
             <a href className="logo"><img src={logo} alt="OntozApp" /></a>
@@ -190,6 +195,13 @@ const SideNav = () => {
                                         <a href="/RichiediCodice" className="nav-link no-kit">
                                             <p>
                                                 Richiedi nuovo codice assistito
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a href="" className="nav-link  bi-box-arrow-right" onClick={logOut}>
+                                            <p>
+                                                Logout
                                             </p>
                                         </a>
                                     </li>
