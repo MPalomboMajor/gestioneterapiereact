@@ -87,13 +87,13 @@ const PatientTable = ({ patients, loading }) => {
                 <table class="table custom">
                     <thead>
                         <tr>
-                            <th scope="col">Codice Paziente</th>
-                            <th scope="col">Codice Fiscale</th>
+                            <th scope="col">Codice assistito</th>
+                            <th scope="col">Codice fiscale</th>
                             <th scope="col">Cognome</th>
                             <th scope="col">Nome</th>
                             <th scope="col">Telefono</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Stato Paziente</th>
+                            <th scope="col">Stato assistito</th>
 
                         </tr>
                     </thead>

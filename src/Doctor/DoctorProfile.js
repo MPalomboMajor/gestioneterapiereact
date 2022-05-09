@@ -373,18 +373,18 @@ export class DoctorProfile extends Component {
                                     <ContainerModal />
                                 </Modal>
                             </Tab>
-                            <Tab eventKey="listPatient" title="Elenco Pazienti">
+                            <Tab eventKey="listPatient" title="Elenco assistiti">
                                 <Table striped bordered hover size="sm">
                                     <thead>
                                         <tr>
-                                        <th>Codice Paziente</th>
-                                            <th>Codice Paziente</th>
+                                        <th>Codice assistito</th>
+                                            <th>Codice assistito</th>
                                             <th>Codice Fiscale</th>
                                             <th>Cognome</th>
                                             <th>Nome</th>
                                             <th>Email</th>
                                             <th>Telefono</th>
-                                            <th>Stato Paziente</th>
+                                            <th>Stato assistito</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -394,10 +394,10 @@ export class DoctorProfile extends Component {
                                     </tbody>
                                 </Table>
                             </Tab>
-                            <Tab eventKey="listcode" title="Codici Paziente">
+                            <Tab eventKey="listcode" title="Codici assistiti">
                                 <Row className='col-12 pt-4' >
                                     <div className='col-12'>
-                                        <h2>Elenco codici pazienti assegnati</h2>
+                                        <h2>Elenco codici assistiti assegnati</h2>
                                     </div>
                                 </Row>
                                 <Table striped bordered hover size="sm">

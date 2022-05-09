@@ -115,6 +115,7 @@ http.interceptors.response.use((response) => {
     post: (url, o) => http.post(`${API.PATIENT + url}` , o),
     postDiagnosticTest: (url, idPaziente, idAnalisi, dateReferto, tipoReferto) => http.post(`${API.PATIENT + url}`, idPaziente, idAnalisi, dateReferto, tipoReferto ),
     postMedicalExamination: (url, idPaziente, idVisita, tipoVisita, dataVisita, informazioniVisita) => http.post(`${API.PATIENT + url}`, idPaziente, idVisita,  tipoVisita, dataVisita, informazioniVisita ),
+    postNutritionalDiaries: (url, idPaziente, idNutritionalDiary, data) => http.post(`${API.PATIENT + url}`, idPaziente, idNutritionalDiary, data),
     put: (url, o, id) => http.put(API.PATIENT + url + id, o),
     delete: (url, id) => http.delete(API.PATIENT + url + id),
     getWithParam: (url, o) => http.get(API.PATIENT + url, o),

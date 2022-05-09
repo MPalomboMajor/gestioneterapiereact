@@ -120,20 +120,20 @@ var PhoneNumber = this.state.patiendDto.phoneNumber;
             <Container className=''>
                 <Row className='col-12 pt-4' >
                     <div className='col-12'>
-                        <h2>Inserimento nuovo Paziente</h2>
+                        <h2>Inserimento nuovo assistito</h2>
                     </div>
                 </Row>
                 <Row className='col-12 pt-4' >
                     <Row className='col-12 pt-4' >
                         <Form.Group className="mb-3">
-                            <Form.Label>Codice Paziente</Form.Label>
-                            <Form.Control id="codicePaziente" onChange={this.handleChange} alt="patiendDto" type="number" name="codicePaziente"  placeholder="Inserisci Codice Paziente" />
+                            <Form.Label>Codice assistito</Form.Label>
+                            <Form.Control id="codicePaziente" onChange={this.handleChange} alt="patiendDto" type="number" name="codicePaziente"  placeholder="Codice assistito" />
                         </Form.Group>
                     </Row>
                     <Row className='col-12 pt-4' >
                         <Form.Group className="mb-3">
                             <Form.Label>Telefono</Form.Label>
-                            <Form.Control id="phoneNumber" onChange={this.handleChange} alt="patiendDto" type="" name="phoneNumber"  placeholder="Inserisci Codice Paziente" />
+                            <Form.Control id="phoneNumber" onChange={this.handleChange} alt="patiendDto" type="" name="phoneNumber"  placeholder="Telefono" />
                         </Form.Group>
                     </Row>
                 </Row>

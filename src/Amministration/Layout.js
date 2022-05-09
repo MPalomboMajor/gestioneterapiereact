@@ -27,6 +27,8 @@ import { PatientMoodInterface } from '../Doctor/PatientMoodInterface';
 import { DiagnosticTestsInfo } from '../Doctor/DiagnosticTests';
 import { MedicalExaminationsInfo } from '../Doctor/MedicalExaminations';
 import { MedicalExaminationDetailsInfo } from '../Doctor/MedicalExaminationDetail';
+import { NutritionalPlansInfo } from '../Doctor/NutritionalPlans';
+import { NutritionalPlanDetailsInfo } from '../Doctor/NutritionalPlanDetail';
 
 export default class Layout extends Component {
 
@@ -55,11 +57,11 @@ export default class Layout extends Component {
             <div class="wrapper" >
               <div class="container-lg page-wrapper">
                 <div class="row flex-nowrap">
-                
+
                   <Router>
-                  
+
                     <SideNav></SideNav>
-                    
+
                     <div role="main" className="col">
 
 
@@ -83,6 +85,8 @@ export default class Layout extends Component {
                             <Route path="/BloodTest/:idPaziente/:idTest" element={<BloodTestsInfo />}></Route>
                             <Route path="/MedicalExaminations/:idPaziente" element={<MedicalExaminationsInfo />}></Route>
                             <Route path="/MedicalExaminationDetails/:idPaziente/:idMedicalExam" element={<MedicalExaminationDetailsInfo />}></Route>
+                            <Route path="/NutritionalPlans/:idPaziente" element={<NutritionalPlansInfo />}></Route>
+                            <Route path="/NutritionalPlanDetails/:idPaziente/:idNutritionalPlans" element={<NutritionalPlanDetailsInfo />}></Route>
                             <Route path="/MoodMonitoring/:idPaziente" element={<PatientMoodInterface />}></Route>
                             <Route path="/DoctorProfile/:idDocotr" element={<DoctorProfile />}></Route>
                             <Route path="/MedicalCenter" element={<MedicalCenter />}></Route>
@@ -96,7 +100,7 @@ export default class Layout extends Component {
                       </Routes>
                     </div>
                   </Router>
-                  
+
                 </div></div></div>
           </> :
           <Router>
@@ -120,6 +124,8 @@ export default class Layout extends Component {
                     <Route path="/BloodTest/:idPaziente/:idTest" element={<BloodTestsInfo />}></Route>
                     <Route path="/MedicalExaminations/:idPaziente" element={<MedicalExaminationsInfo />}></Route>
                     <Route path="/MedicalExaminationDetails/:idPaziente/:idMedicalExam" element={<MedicalExaminationDetailsInfo />}></Route>
+                    <Route path="/NutritionalPlans/:idPaziente" element={<NutritionalPlansInfo />}></Route>
+                    <Route path="/NutritionalPlanDetails/:idPaziente/:idNutritionalPlans" element={<NutritionalPlanDetailsInfo />}></Route>
                     <Route path="/MoodMonitoring/:idPaziente" element={<PatientMoodInterface />}></Route>
                   </>
                   : ''}

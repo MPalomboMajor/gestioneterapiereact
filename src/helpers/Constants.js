@@ -44,7 +44,7 @@ export const message = {
   MEDICO: 'Medico ',
   TERAPIA: 'Terapia ',
   CODICE: 'Codice ',
-  PATIENT: 'Paziente ',
+  PATIENT: 'Assistito ',
   CAREMANAGER: 'CareManager ',
   PIANOTERAPEUTICO:'Piano Terapeutico '
 }

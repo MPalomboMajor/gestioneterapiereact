@@ -93,20 +93,19 @@ function EpilepticSeizuresInfo() {
             <h1 className="h1">Crisi</h1>
 
             &nbsp;&nbsp;
-            <Col className='mb-3'>
-                <EpilepticSeizuresForm numberStartingSeizures={patientProfile.numeroCrisiPartenza} onChange={handleChange} />
-            </Col>
-            <Col className='mb-3'>
-                <Button onClick={() => editPatient()} >Salva modifica</Button>
-            </Col>
+            <div>
+
+                <EpilepticSeizuresForm numberStartingSeizures={patientProfile.numeroCrisiPartenza} onChange={handleChange} editPatient={editPatient} />
+
+            </div>
 
             <div className="crisis-table mb-2">
-            <EpilepticSeizuresTable epilepticSeizures={currentEpilepticSeizures} setEpilepticSeizures={setEpilepticSeizures} />
+                <EpilepticSeizuresTable epilepticSeizures={currentEpilepticSeizures} setEpilepticSeizures={setEpilepticSeizures} />
             </div>
             <div>
                 <nav aria-label="Page navigation">
                     <ul className="pagination justify-content-end align-items-center">
-                        <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuova crisi</button>
+                        <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Aggiungi</button>
                         <Pagination
                             patientsPerPage={epilepticSeizuresPerPage}
                             totalPatients={epilepticSeizures?.length}
@@ -117,7 +116,7 @@ function EpilepticSeizuresInfo() {
                         />
                     </ul>
                 </nav>
-                <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuova crisi</button>
+                <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Aggiungi</button>
             </div>
 
             <EpilepticSeizuresModal show={show} handleClose={handleClose} patientId={patientId} setEpilepticSeizures={setEpilepticSeizures} />
@@ -130,15 +129,22 @@ function EpilepticSeizuresInfo() {
 function EpilepticSeizuresForm(props) {
 
     return (
-        <Form>
-            <div className='col-6'>
-                <Form.Group controlId='numberStartingSeizures'>
-                    <Form.Label>Numero crisi di partenza</Form.Label>
-                    <Form.Control type='text' name="numeroCrisiPartenza" defaultValue={props.numberStartingSeizures} onChange={props.onChange} />
-                </Form.Group>
-            </div>
-        </Form>
 
+
+        <>
+            <div className="row mb-4">
+                <div className="col-12 col-md-4">
+                    <label htmlFor="numberStartingSeizures" className="col-form-label w-100 text-md-end">Numero crisi di partenza</label>
+                </div>
+                <div className="col-12 col-md-4">
+                    <input type="text" id="numeroCrisiPartenza" className="form-control form-control-sm" aria-describedby name="numeroCrisiPartenza" defaultValue={props.numberStartingSeizures} onChange={props.onChange} />
+                </div>
+                <div className="col-12 col-md-4">
+                    <Button className="btn btn-primary me-auto" onClick={() => props.editPatient()}>Salva modifica</Button>
+                </div>
+            </div>
+            &nbsp;&nbsp;&nbsp;
+        </>
 
     );
 }
@@ -161,11 +167,11 @@ function EpilepticSeizuresTable(props) {
 
     return (
         <>
-            
-                {
-                    props.epilepticSeizures?.map((ev) => <EpilepticSeizureRow key={ev.id} epilepticSeizure={ev} deleteEpilepticSeizure={deleteEpilepticSeizure} />)
-                }
-            
+
+            {
+                props.epilepticSeizures?.map((ev) => <EpilepticSeizureRow key={ev.id} epilepticSeizure={ev} deleteEpilepticSeizure={deleteEpilepticSeizure} />)
+            }
+
         </>
     );
 }
@@ -174,7 +180,7 @@ function EpilepticSeizureRow(props) {
     const comportamentoCheck = props.epilepticSeizure.elencoComportamenti.map(c => c.id);
     const contestoCheck = props.epilepticSeizure.elencoContestualita.map(c => c.id);
 
-    return <tr>
+    return <>
         <div className="row g-2">
             <div className="col-12 col-md-4 d-flex">
                 <div className="box small w-100">
@@ -182,7 +188,7 @@ function EpilepticSeizureRow(props) {
                     {props.epilepticSeizure.description}
                 </div>
             </div>
-            <div className="col-12 col-md-4 d-flex">
+            <div className="col-12 col-md-3 d-flex">
                 <div className="box small w-100">
                     <div className="label label-secondary">Manifestazioni</div>
                     <div action className="row">
@@ -209,7 +215,7 @@ function EpilepticSeizureRow(props) {
                     </div>
                 </div>
             </div>
-            <div className="col-12 col-md-4 d-flex">
+            <div className="col-12 col-md-3 d-flex">
                 <div className="box small w-100">
                     <div className="label label-secondary">Contesto</div>
                     <div className="row">
@@ -240,134 +246,134 @@ function EpilepticSeizureRow(props) {
                     </div>
                 </div>
             </div>
-            {/* <div className="col-12 col-md-1 d-flex">
+            <div className="col-12 col-md-2 d-flex">
                 <div className="box small w-100">
                     <div className="label label-primary">Actions</div>
                     <RowControl epilepticSeizureId={props.epilepticSeizure.id} deleteEpilepticSeizure={props.deleteEpilepticSeizure} />
-                   
+
                 </div>
-            </div> */}
+            </div>
         </div>
-
-        {/* <EpilepticSeizureRowData epilepticSeizure={props.epilepticSeizure} /> <RowControl epilepticSeizureId={props.epilepticSeizure.id} deleteEpilepticSeizure={props.deleteEpilepticSeizure} /> */}
-        </tr>
-}
-
-function EpilepticSeizureRowData(props) {
-
-    const comportamentoCheck = props.epilepticSeizure.elencoComportamenti.map(c => c.id);
-    const contestoCheck = props.epilepticSeizure.elencoContestualita.map(c => c.id);
-    console.log(comportamentoCheck);
-    console.log(contestoCheck);
-
-    return (<>
-        <td>{props.epilepticSeizure.dateTimeEventOccured.split(' ')[0]}</td>
-        <td>{props.epilepticSeizure.description}</td>
-        <td><div className='col-8'>
-            {['checkbox'].map((type) => (
-                <div key={`inline-${type}`} className="mb-3">
-                    <Form.Check
-                        checked={comportamentoCheck.includes(1)}
-                        value="1"
-                        inline
-                        label="Crisi convulsiva generalizzata"
-                        name="crisiConvulsivaGeneralizzata"
-                        type={type}
-                        id={`inline-${type}-1`}
-                        disabled
-                    />
-                    <Form.Check
-                        checked={comportamentoCheck.includes(2)}
-                        value="2"
-                        inline
-                        label="Assenza/crisi focale"
-                        name="assenzaCrisiFocale"
-                        type={type}
-                        id={`inline-${type}-2`}
-                        disabled
-                    />
-                    <Form.Check
-                        checked={comportamentoCheck.includes(3)}
-                        value="3"
-                        inline
-                        label="Perdita di coscienza"
-                        name="perditaDiCoscienza"
-                        type={type}
-                        id={`inline-${type}-3`}
-                        disabled
-                    />
-                    <Form.Check
-                        checked={comportamentoCheck.includes(4)}
-                        value="4"
-                        inline
-                        label="Caduta a terra"
-                        name="cadutaATerra"
-                        type={type}
-                        id={`inline-${type}-4`}
-                        disabled
-                    />
-                </div>
-            ))}
-        </div></td>
-        <td><div className='col-8'>
-            {['checkbox'].map((type) => (
-                <div key={`inline-${type}`} className="mb-3">
-                    <Form.Check
-                        checked={contestoCheck.includes(1)}
-                        value="1"
-                        inline
-                        label="Casa"
-                        name="casa"
-                        type={type}
-                        id={`inline-${type}-1`}
-                        disabled
-                    />
-                    <Form.Check
-                        checked={contestoCheck.includes(2)}
-                        value="2"
-                        inline
-                        label="Lavoro"
-                        name="lavoro"
-                        type={type}
-                        id={`inline-${type}-2`}
-                        disabled
-                    />
-                    <Form.Check
-                        checked={contestoCheck.includes(3)}
-                        value="3"
-                        inline
-                        label="Tempo libero"
-                        name="tempoLibero"
-                        type={type}
-                        id={`inline-${type}-3`}
-                        disabled
-                    />
-                    <Form.Check
-                        checked={contestoCheck.includes(4)}
-                        value="4"
-                        inline
-                        label="Veglia"
-                        name="veglia"
-                        type={type}
-                        id={`inline-${type}-4`}
-                        disabled
-                    />
-                    <Form.Check
-                        checked={contestoCheck.includes(5)}
-                        value="5"
-                        inline
-                        label="Sonno"
-                        name="sonno"
-                        type={type}
-                        id={`inline-${type}-5`}
-                        disabled
-                    />
-                </div>
-            ))}
-        </div></td>
     </>
-    );
+    {/* <EpilepticSeizureRowData epilepticSeizure={props.epilepticSeizure} /> <RowControl epilepticSeizureId={props.epilepticSeizure.id} deleteEpilepticSeizure={props.deleteEpilepticSeizure} /> */ }
+
 }
+
+// function EpilepticSeizureRowData(props) {
+
+//     const comportamentoCheck = props.epilepticSeizure.elencoComportamenti.map(c => c.id);
+//     const contestoCheck = props.epilepticSeizure.elencoContestualita.map(c => c.id);
+//     console.log(comportamentoCheck);
+//     console.log(contestoCheck);
+
+//     return (<>
+//         <td>{props.epilepticSeizure.dateTimeEventOccured.split(' ')[0]}</td>
+//         <td>{props.epilepticSeizure.description}</td>
+//         <td><div className='col-8'>
+//             {['checkbox'].map((type) => (
+//                 <div key={`inline-${type}`} className="mb-3">
+//                     <Form.Check
+//                         checked={comportamentoCheck.includes(1)}
+//                         value="1"
+//                         inline
+//                         label="Crisi convulsiva generalizzata"
+//                         name="crisiConvulsivaGeneralizzata"
+//                         type={type}
+//                         id={`inline-${type}-1`}
+//                         disabled
+//                     />
+//                     <Form.Check
+//                         checked={comportamentoCheck.includes(2)}
+//                         value="2"
+//                         inline
+//                         label="Assenza/crisi focale"
+//                         name="assenzaCrisiFocale"
+//                         type={type}
+//                         id={`inline-${type}-2`}
+//                         disabled
+//                     />
+//                     <Form.Check
+//                         checked={comportamentoCheck.includes(3)}
+//                         value="3"
+//                         inline
+//                         label="Perdita di coscienza"
+//                         name="perditaDiCoscienza"
+//                         type={type}
+//                         id={`inline-${type}-3`}
+//                         disabled
+//                     />
+//                     <Form.Check
+//                         checked={comportamentoCheck.includes(4)}
+//                         value="4"
+//                         inline
+//                         label="Caduta a terra"
+//                         name="cadutaATerra"
+//                         type={type}
+//                         id={`inline-${type}-4`}
+//                         disabled
+//                     />
+//                 </div>
+//             ))}
+//         </div></td>
+//         <td><div className='col-8'>
+//             {['checkbox'].map((type) => (
+//                 <div key={`inline-${type}`} className="mb-3">
+//                     <Form.Check
+//                         checked={contestoCheck.includes(1)}
+//                         value="1"
+//                         inline
+//                         label="Casa"
+//                         name="casa"
+//                         type={type}
+//                         id={`inline-${type}-1`}
+//                         disabled
+//                     />
+//                     <Form.Check
+//                         checked={contestoCheck.includes(2)}
+//                         value="2"
+//                         inline
+//                         label="Lavoro"
+//                         name="lavoro"
+//                         type={type}
+//                         id={`inline-${type}-2`}
+//                         disabled
+//                     />
+//                     <Form.Check
+//                         checked={contestoCheck.includes(3)}
+//                         value="3"
+//                         inline
+//                         label="Tempo libero"
+//                         name="tempoLibero"
+//                         type={type}
+//                         id={`inline-${type}-3`}
+//                         disabled
+//                     />
+//                     <Form.Check
+//                         checked={contestoCheck.includes(4)}
+//                         value="4"
+//                         inline
+//                         label="Veglia"
+//                         name="veglia"
+//                         type={type}
+//                         id={`inline-${type}-4`}
+//                         disabled
+//                     />
+//                     <Form.Check
+//                         checked={contestoCheck.includes(5)}
+//                         value="5"
+//                         inline
+//                         label="Sonno"
+//                         name="sonno"
+//                         type={type}
+//                         id={`inline-${type}-5`}
+//                         disabled
+//                     />
+//                 </div>
+//             ))}
+//         </div></td>
+//     </>
+//     );
+// }
 
 function RowControl(props) {
     return <td> <span onClick={() => props.deleteEpilepticSeizure(props.epilepticSeizureId)}><button className="btn btn-secondary me-3" id>Elimina</button></span></td>;
@@ -603,7 +609,7 @@ function EpilepticSeizuresModal(props) {
         <>
             <Modal show={props.show} onHide={props.handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Aggiungi crisi epilettica</Modal.Title>
+                    <Modal.Title>Aggiungi crisi</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form id="epilepticSeizureForm">
@@ -667,7 +673,7 @@ function EpilepticSeizuresModal(props) {
                         <Form.Group className="mb-3" controlId="epilepticSeizureContext">
                             <Form.Label>Contesto</Form.Label>
                             <div className='col-8'>
-                                {['checkbox'].map((type) => (
+                                {['radio'].map((type) => (
                                     <div key={`inline-${type}`} className="mb-3">
                                         <Form.Check
                                             value="1"
@@ -746,7 +752,7 @@ function EpilepticSeizuresModal(props) {
                         Chiudi
                     </Button>
                     <Button variant="primary" id="btnSave" onClick={saveEpilepticSeizure}>
-                        Salva crisi
+                        Salva
                     </Button>
                 </Modal.Footer>
             </Modal>

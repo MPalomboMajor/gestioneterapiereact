@@ -129,7 +129,7 @@ export class PatientTabbedInterface extends Component {
             <>
                 <Row className='col-12 pt-12' >
                     <div className='col-12'>
-                        <h1>Medico - Anagrafica paziente {this.state.patientDto.patientCode} </h1>
+                        <h1>Medico - Anagrafica assistito {this.state.patientDto.patientCode} </h1>
                     </div>
                 </Row>
                 <ControlledPatientTabs patient={this.state.patientDto}

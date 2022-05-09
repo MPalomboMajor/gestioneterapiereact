@@ -6,6 +6,7 @@ import moment from 'moment';
 import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { Link } from 'react-router-dom';
 
 
 function PatientRegistry() {
@@ -81,10 +82,10 @@ function PatientRegistry() {
                                                                         <div className="container-fluid g-0">
                                                                                 <div className="row gx-3 mb-2">
                                                                                         <div className="col-12 col-md-4">
-                                                                                                <label htmlFor="codice-paziente" className="col-form-label w-100 text-md-end">Codice paziente</label>
+                                                                                                <label htmlFor="codice-paziente" className="col-form-label w-100 text-md-end">Codice assistito</label>
                                                                                         </div>
                                                                                         <div className="col-12 col-md-8">
-                                                                                                <input type="text" id="codice-paziente" className="form-control form-control-sm" aria-describedby name="codicePaziente" defaultValue={patientProfile.codicePaziente} onChange={handleChange} disabled />
+                                                                                                <input type="text" id="codice-paziente" className="form-control form-control-sm" aria-describedby name="codicePaziente" defaultValue={patientProfile.codicePaziente} onChange={handleChange} />
                                                                                         </div>
                                                                                 </div>
                                                                                 <div className="row gx-3 mb-2">
@@ -92,7 +93,7 @@ function PatientRegistry() {
                                                                                                 <label htmlFor="codice-fiscale" className="col-form-label w-100 text-md-end">Codice fiscale</label>
                                                                                         </div>
                                                                                         <div className="col-12 col-md-8">
-                                                                                                <input type="text" id="codice-fiscale" className="form-control form-control-sm" aria-describedby name="fiscalCode" defaultValue={patientProfile.fiscalCode} onChange={handleChange} disabled />
+                                                                                                <input type="text" id="codice-fiscale" className="form-control form-control-sm" aria-describedby name="fiscalCode" defaultValue={patientProfile.fiscalCode} onChange={handleChange} />
                                                                                         </div>
                                                                                 </div>
                                                                                 <div className="row gx-3 mb-2">
@@ -100,7 +101,7 @@ function PatientRegistry() {
                                                                                                 <label htmlFor="nome" className="col-form-label w-100 text-md-end">Nome</label>
                                                                                         </div>
                                                                                         <div className="col-12 col-md-8">
-                                                                                                <input type="text" id="nome" className="form-control form-control-sm" aria-describedby name="name" defaultValue={patientProfile.name} onChange={handleChange} disabled />
+                                                                                                <input type="text" id="nome" className="form-control form-control-sm" aria-describedby name="name" defaultValue={patientProfile.name} onChange={handleChange} />
                                                                                         </div>
                                                                                 </div>
                                                                                 <div className="row gx-3 mb-2">
@@ -108,7 +109,7 @@ function PatientRegistry() {
                                                                                                 <label htmlFor="cognome" className="col-form-label w-100 text-md-end">Cognome</label>
                                                                                         </div>
                                                                                         <div className="col-12 col-md-8">
-                                                                                                <input type="text" id="cognome" className="form-control form-control-sm" aria-describedby name="surName" defaultValue={patientProfile.surName} onChange={handleChange} disabled />
+                                                                                                <input type="text" id="cognome" className="form-control form-control-sm" aria-describedby name="surName" defaultValue={patientProfile.surName} onChange={handleChange} />
                                                                                         </div>
                                                                                 </div>
                                                                                 <div className="row gx-3 mb-2">
@@ -116,7 +117,7 @@ function PatientRegistry() {
                                                                                                 <label htmlFor="telefono" className="col-form-label w-100 text-md-end">Telefono</label>
                                                                                         </div>
                                                                                         <div className="col-12 col-md-8">
-                                                                                                <input type="text" id="telefono" className="form-control form-control-sm" aria-describedby name="phoneNumber" defaultValue={patientProfile.phoneNumber} onChange={handleChange} disabled />
+                                                                                                <input type="text" id="telefono" className="form-control form-control-sm" aria-describedby name="phoneNumber" defaultValue={patientProfile.phoneNumber} onChange={handleChange} />
                                                                                         </div>
                                                                                 </div>
                                                                                 <div className="row gx-3 mb-2">
@@ -124,7 +125,7 @@ function PatientRegistry() {
                                                                                                 <label htmlFor="e-mail" className="col-form-label w-100 text-md-end">E-mail</label>
                                                                                         </div>
                                                                                         <div className="col-12 col-md-8">
-                                                                                                <input type="email" id="e-mail" className="form-control form-control-sm" aria-describedby name="email" defaultValue={patientProfile.email} onChange={handleChange} disabled />
+                                                                                                <input type="email" id="e-mail" className="form-control form-control-sm" aria-describedby name="email" defaultValue={patientProfile.email} onChange={handleChange} />
                                                                                         </div>
                                                                                 </div>
                                                                         </div>
@@ -154,7 +155,9 @@ function PatientRegistry() {
                                         <div className="container-fluid">
                                                 <div className="row">
                                                         <div className="col-12 mb-3 d-flex justify-content-center justify-content-md-end">
-                                                                <button className="btn btn-secondary me-3" id>Indietro</button><button className="btn btn-primary me-3" id>Avanti</button><button className="btn btn-primary" id onClick={() => editPatient()}>Salva le modifiche</button>
+                                                                <Link to={`/Dashboard`} style={{ "color": "black" }}><button className="btn btn-secondary me-3" id>Indietro</button></Link>
+                                                                <Link to={`/PatientProfile/${patientId}`}><button className="btn btn-primary me-3" id>Avanti</button></Link>
+                                                                <button className="btn btn-primary" id onClick={() => editPatient()}>Salva le modifiche</button>
                                                         </div>
                                                 </div>
                                         </div>

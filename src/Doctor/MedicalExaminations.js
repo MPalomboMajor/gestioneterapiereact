@@ -121,7 +121,7 @@ function MedicalExaminationsTable(props) {
                         <tr>
                             <th scope="col">Tipo visita</th>
                             <th scope="col">Del</th>
-                            <th scope="col"></th>
+                            <th scope="col">Anteprima</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>

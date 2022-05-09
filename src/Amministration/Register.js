@@ -166,18 +166,18 @@ export class Register extends Component {
                     <Form className="centering-form">
                         <Row>
                             <Form.Group className="col-6 mb-2" >
-                                <Form.Control onChange={this.handleChange} name="name" alt="medicoDTO" placeholder="Enter cognome" />
+                                <Form.Control onChange={this.handleChange} name="name" alt="medicoDTO" placeholder="Nome" />
                             </Form.Group>
                             <Form.Group className="col-6 mb-2" >
-                                <Form.Control onChange={this.handleChange} name="surName" alt="medicoDTO" placeholder="Enter Nome" />
+                                <Form.Control onChange={this.handleChange} name="surName" alt="medicoDTO" placeholder="Cognome" />
                             </Form.Group>
                         </Row>
                         <Row>
                             <Form.Group className="col-6 mb-2" >
-                                <Form.Control onChange={this.handleChange} name="fiscalCode" alt="medicoDTO" placeholder="Enter Codice fiscale" />
+                                <Form.Control onChange={this.handleChange} name="fiscalCode" alt="medicoDTO" placeholder="Codice fiscale" />
                             </Form.Group>
                             <Form.Group className="col-6 mb-2" >
-                                <Form.Select onChange={this.onChange} name="mendicalCenter" alt="medicoDTO" placeholder="Enter centro medico" >
+                                <Form.Select onChange={this.onChange} name="mendicalCenter" alt="medicoDTO" placeholder="Centro medico" >
                                     <option id="0">Seleziona Centro </option>
                                     {this.state.listCentriMedici.map((item) =>
                                         <option id={item.id}>{item.nomeCentro}</option>
@@ -187,10 +187,10 @@ export class Register extends Component {
                         </Row>
                         <Row>
                             <Form.Group className="col-6 mb-2">
-                                <Form.Control onChange={this.handleChange} id='eMail' alt="userDto" name="username" isInvalid={validations.username != null} placeholder="Enter email" />
+                                <Form.Control onChange={this.handleChange} id='eMail' alt="userDto" name="username" isInvalid={validations.username != null} placeholder="E-mail" />
                             </Form.Group>
                             <Form.Group className="col-6 mb-2">
-                                <Form.Control onChange={this.handleChange} id='phoneNumber' alt="medicoDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Enter email" />
+                                <Form.Control onChange={this.handleChange} id='phoneNumber' alt="medicoDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Mobile" />
                             </Form.Group>
                         </Row>
                         <Row className='pb-5'>
@@ -198,7 +198,7 @@ export class Register extends Component {
                                 <Form.Control type='password' id='password' alt="userDto" onChange={this.handleChange} name="password" isInvalid={validations.password != null} placeholder="Password" />
                             </Form.Group>
                             <Form.Group className="col-6 mb-2" controlId="formBasicPassword">
-                                <Form.Control type='password' id='confirmpassword' alt="confirmpassword" onChange={this.handleChangeconfirm} name="confirmpassword" isInvalid={validations.confirmpassword != null || validations.equalPass != null} placeholder="Password" />
+                                <Form.Control type='password' id='confirmpassword' alt="confirmpassword" onChange={this.handleChangeconfirm} name="confirmpassword" isInvalid={validations.confirmpassword != null || validations.equalPass != null} placeholder="Ripeti password" />
                             </Form.Group>
                             {validations.equalPass ? (
                                 <div className=" input-layout-wrapper text-danger">

@@ -67,14 +67,14 @@ const SideNav = () => {
                                     <hr />
                                     {localStorage.getItem("newPatient") != null ? '' :
                                         <>
-                                            <li className="nav-link anagrafica-paziente">
+                                            <li className="nav-item">
                                                 <Link to={`/PatientRegistry/${patientId}`} className="nav-link anagrafica-paziente">
                                                     <p >
                                                         Anagrafica assistito
                                                     </p>
                                                 </Link>
                                             </li>
-                                            <li className="nav-link profilo-paziente">
+                                            <li className="nav-item">
                                                 <Link to={`/PatientProfile/${patientId}`} className="nav-link profilo-paziente">
                                                     <p>
                                                         Profilo assistito
@@ -85,7 +85,7 @@ const SideNav = () => {
                                     }
 
 
-                                    <li className="nav-link terapia">
+                                    <li className="nav-item">
                                         <Link to={`/NewTherapy/${patientId}`} className="nav-link terapia">
                                             <p>
                                                 Terapia
@@ -94,43 +94,49 @@ const SideNav = () => {
                                     </li>
                                     {localStorage.getItem("newPatient") != null ? '' :
                                         <>
-                                            <li className="nav-link eventi-avversi">
+                                            <li className="nav-item">
                                                 <Link to={`/AdverseEvents/${patientId}`} className="nav-link eventi-avversi">
                                                     <p>
                                                         Eventi avversi
                                                     </p>
                                                 </Link>
                                             </li>
-                                            <li className="nav-link crisi-epilettiche">
+                                            <li className="nav-item">
                                                 <Link to={`/EpilepticSeizures/${patientId}`} className="nav-link eventi-avversi">
                                                     <p>
-                                                        Crisi epilettiche
+                                                        Crisi
                                                     </p>
                                                 </Link>
                                             </li>
-                                            <li className="nav-link esami-diagnostici">
+                                            <li className="nav-item">
                                                 <Link to={`/DiagnosticTests/${patientId}`} className="nav-link anagrafica-medico">
                                                     <p>
                                                         Esami diagnostici
                                                     </p>
                                                 </Link>
                                             </li>
-                                            <li className="nav-link visite-mediche">
+                                            <li className="nav-item">
                                                 <Link to={`/MedicalExaminations/${patientId}`} className="nav-link visite-mediche">
                                                     <p>
                                                         Visite mediche
                                                     </p>
                                                 </Link>
                                             </li>
+
                                             <li className="nav-item">
-                                                <a className="nav-link piano-nutrizionale" href="#">Piano nutrizionale</a>
+                                                <Link to={`/NutritionalPlans/${patientId}`} className="nav-link piano-nutrizionale">
+                                                    <p>
+                                                        Piano nutrizionale
+                                                    </p>
+                                                </Link>
                                             </li>
+
                                             <li className="nav-item">
-                                                <a href="#" className="nav-link umore">
+                                                <Link to={`/MoodMonitoring/${patientId}`} className="nav-link umore">
                                                     <p>
                                                         Umore
                                                     </p>
-                                                </a>
+                                                </Link>
                                             </li>
                                         </>
 
@@ -169,14 +175,14 @@ const SideNav = () => {
                                     <li className="nav-item">
                                         <a href="/AssociatePatient" className="nav-link collega-paziente">
                                             <p>
-                                                Collega paziente già assistito
+                                                Collega assistito già assegnato
                                             </p>
                                         </a>
                                     </li>
                                     <li className="nav-item">
                                         <a href="/NewPatient" className="nav-link nuovo-paziente">
                                             <p>
-                                                Nuovo paziente
+                                                Nuovo assistito
                                             </p>
                                         </a>
                                     </li>
@@ -234,7 +240,7 @@ const SideNav = () => {
                                             <li className="nav-item">
                                                 <Link to={`/EpilepticSeizures/${patientId}`} className="nav-link crisi-epilettiche">
                                                     <p>
-                                                        Crisi epilettiche
+                                                        Crisi
                                                     </p>
                                                 </Link>
                                             </li>
@@ -252,8 +258,12 @@ const SideNav = () => {
                                                     </p>
                                                 </Link>
                                             </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link piano-nutrizionale" href="#">Piano nutrizionale</a>
+                                            <li className="nav-item">
+                                                <Link to={`/NutritionalPlans/${patientId}`} className="nav-link piano-nutrizionale">
+                                                    <p>
+                                                        Piano nutrizionale
+                                                    </p>
+                                                </Link>
                                             </li>
                                             <li className="nav-item">
                                                 <Link to={`/MoodMonitoring/${patientId}`} className="nav-link umore">

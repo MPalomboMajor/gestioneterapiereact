@@ -12,14 +12,14 @@ import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import Pagination from '../helpers/pagination';
 
-function DiagnosticTestsInfo() {
+function NutritionalPlansInfo() {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
-    const [diagnosticTests, setDiagnosticTests] = useState([]);
+    const [nutritionalPlans, setNutritionalPlans] = useState([]);
     const [patientProfile, setPatientProfile] = useState([]);
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [diagnosticTestsPerPage] = useState(5);
+    const [nutritionalPlansPerPage] = useState(5);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -39,25 +39,25 @@ function DiagnosticTestsInfo() {
     }, []);
 
     useEffect(() => {
-        const fetchDiagnosticTests = async () => {
+        const fetchNutritionalPlans = async () => {
             setLoading(true);
-            await patient.get("Analysis/", patientId)
+            await patient.get("NutritionalDiaries/", patientId)
                 .then((response) => {
                     if (response.status === 200) {
-                        setDiagnosticTests(response.data.dati);
+                        setNutritionalPlans(response.data.dati);
                         setLoading(false);
                     }
                 }).catch((error) => {
 
                 });
         };
-        fetchDiagnosticTests();
+        fetchNutritionalPlans();
     }, [show]);
 
     // Get current
-    const indexOfLastDiagnosticTest = currentPage * diagnosticTestsPerPage;
-    const indexOfFirstDiagnosticTest = indexOfLastDiagnosticTest - diagnosticTestsPerPage;
-    const currentDiagnosticTests = diagnosticTests?.slice(indexOfFirstDiagnosticTest, indexOfLastDiagnosticTest);
+    const indexOfLastNutritionalPlans = currentPage * nutritionalPlansPerPage;
+    const indexOfFirstNutritionalPlans = indexOfLastNutritionalPlans - nutritionalPlansPerPage;
+    const currentNutritionalPlans = nutritionalPlans?.slice(indexOfFirstNutritionalPlans, indexOfLastNutritionalPlans);
 
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
@@ -71,18 +71,19 @@ function DiagnosticTestsInfo() {
 
     return (
         <>
-
-            <h1>Esami diagnostici</h1>
-
+            <h1>Piano nutrizionale</h1>
             &nbsp;&nbsp;
-            <DiagnosticTestsTable diagnosticTests={currentDiagnosticTests} patientId={patientId} setDiagnosticTests={setDiagnosticTests} />
+
+            <NutritionalPlansTable nutritionalPlans={currentNutritionalPlans} patientId={patientId} setNutritionalPlans={setNutritionalPlans} />
+
+            <NutritionalPlansModal show={show} handleClose={handleClose} patientId={patientId} />
             <div>
                 <nav aria-label="Page navigation">
                     <ul className="pagination justify-content-end align-items-center">
-                        <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuovo-esame" onClick={handleShow}>Nuovo esame</button>
+                        <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuovo-piano" onClick={handleShow}>Aggiungi</button>
                         <Pagination
-                            patientsPerPage={diagnosticTestsPerPage}
-                            totalPatients={diagnosticTests?.length}
+                            patientsPerPage={nutritionalPlansPerPage}
+                            totalPatients={nutritionalPlans?.length}
                             paginate={paginate}
                             currentPage={currentPage}
                             prevPage={prevPage}
@@ -90,27 +91,27 @@ function DiagnosticTestsInfo() {
                         />
                     </ul>
                 </nav>
-                <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuovo-esame" onClick={handleShow}>Nuovo esame</button>
+                <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuovo-piano" onClick={handleShow}>Aggiungi</button>
             </div>
-            <DiagnosticTestsModal show={show} handleClose={handleClose} patientId={patientId} />
+
         </>
     );
 }
 
-
-function DiagnosticTestsTable(props) {
-    const deleteDiagnosticTest = (code) => {
-        patient.delete("Analisi/", code)
+function NutritionalPlansTable(props) {
+    const deleteNutritionalPlan = (code) => {
+        patient.delete("NutritionalDiaries/", code)
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
-                    props.setDiagnosticTests(response.data.dati);
+                    props.setNutritionalPlans(response.data.dati);
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
-        // props.setMedicalExaminations((medicalExaminations) => medicalExaminations.filter(ex => ex.id !== code));
+        
     };
+
 
     return (
         <>
@@ -118,141 +119,132 @@ function DiagnosticTestsTable(props) {
                 <table className="table custom">
                     <thead>
                         <tr>
-                            <th scope="col">Tipo esame</th>
-                            <th scope="col">Del</th>
+                            <th scope="col">Data</th>
                             <th scope="col">Anteprima</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            props.diagnosticTests?.map((ev) => <DiagnosticTestRow key={ev.id} diagnosticTest={ev} patientId={props.patientId} deleteDiagnosticTest={deleteDiagnosticTest} />)
+                            props.nutritionalPlans?.map((ev) => <NutritionalPlanRow key={ev.id} nutritionalPlan={ev} patientId={props.patientId} deleteNutritionalPlan={deleteNutritionalPlan} />)
                         }
                     </tbody>
                 </table>
             </div>
-
-
-
         </>
     );
 }
 
-function DiagnosticTestRow(props) {
-    return <tr><DiagnosticTestRowData diagnosticTest={props.diagnosticTest} patientId={props.patientId} /> <RowControl diagnosticTestId={props.diagnosticTest.id} deleteDiagnosticTest={props.deleteDiagnosticTest} /></tr>
+function NutritionalPlanRow(props) {
+    return <tr><NutritionalPlanRowData nutritionalPlan={props.nutritionalPlan} patientId={props.patientId} /> <RowControl nutritionalPlanId={props.nutritionalPlan.id} deleteNutritionalPlan={props.deleteNutritionalPlan} /></tr>
 }
 
-function DiagnosticTestRowData(props) {
+function NutritionalPlanRowData(props) {
+
     return (<>
-        <td>{props.diagnosticTest.tipoReferto}</td>
-        <td>{props.diagnosticTest.uploadedDateTime.split(' ')[0]}</td>
-        <td><img src={props.diagnosticTest.fileName} style={{ width: 100, height: 70 }} /></td>
-        <td><Link to={`/BloodTest/${props.patientId}/${props.diagnosticTest.id}`} state={props.diagnosticTest} patientId={props.patientId} className="btn btn-primary btn-sm">Visualizza Immagini</Link></td>
+        <td>{props.nutritionalPlan.date.split(' ')[0]}</td>
+        <td><img src={props.nutritionalPlan.elencoNutritionalDiaryPhoto[0].fileName} style={{ width: 100, height: 70 }} /></td>
+        <td><Link to={`/NutritionalPlanDetails/${props.patientId}/${props.nutritionalPlan.id}`} state={props.nutritionalPlan} patientId={props.patientId} className="btn btn-primary btn-sm" >Visualizza immagini</Link></td>
     </>
     );
 }
 
 function RowControl(props) {
-    return <td> <span onClick={() => props.deleteDiagnosticTest(props.diagnosticTestId)}><button className="btn btn-secondary me-3" id>Elimina</button></span></td>;
+    return <td> <span onClick={() => props.deleteNutritionalPlan(props.nutritionalPlanId)}><button className="btn btn-secondary me-3" id>Elimina</button></span></td>;
 }
 
-function DiagnosticTestsModal(props) {
-    const [idAnalisi, setIdAnalisi] = useState('0');
-    const [dateReferto, setDateReferto] = useState();
-    const [idPaziente, setIdPaziente] = useState(props.patientId);
-    const [tipoReferto, setTipoReferto] = useState();
+function NutritionalPlansModal(props) {
+    const [idPatient, setIdPatient] = useState(props.patientId);
+    const [idNutritionalDiary, setIdNutritionalDiary] = useState('0');
+    const [date, setDate] = useState();
     const [file, setFile] = useState([]);
     const [fileName, setFileName] = useState([]);
     const [filesArray, setFilesArray] = useState([]);
 
-    function saveDiagnosticTest() {
-        const files = new FormData();
+    function saveNutritionalPlan() {
+        // setIdPaziente(parseInt(idPaziente));
+        // setIdidMedicalExam(parseInt(idMedicalExam));
+        const images = new FormData();
         // files.append("files", file);
         // files.append("fileName", fileName);
         filesArray.forEach(file => {
-            files.append("files", file);
+            images.append("images", file);
         });
-        patient.postDiagnosticTest("Analisi/", files, {
+        console.log(images);
+        patient.postNutritionalDiaries("NutritionalDiaries/", images, {
             params:
-                { idPaziente, idAnalisi, dateReferto, tipoReferto }, headers: {
+                { idPatient, idNutritionalDiary, date }, headers: {
                     'Content-Type': 'multipart/form-data'
                 }
         })
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                    props.setNutritionalPlans(response.data.dati);
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
-        document.getElementById("diagnosticTestForm").reset();
+        clearState();
     };
 
     const saveFileSelected = (e) => {
-
         for (var i = 0; i < e.target.files.length; i++) {
             filesArray.push(e.target.files.item(i));
         }
         console.log(filesArray);
-        // const formData = new FormData();
-        // filesArray.forEach(file => {
-        //     formData.append("arrayOfFilesName", file);
-        // });
-        // console.log(formData);
-        //in case you wan to print the file selected
-        // console.log(formData);
-        // setFile(e.target.files[0]);
-        // setFileName(e.target.files[0].name)
     };
+
+    const clearState = () => {
+        setDate();
+        setIdNutritionalDiary();
+        setFilesArray([]);
+    }
 
     return (
         <>
-            <div className="modal fade" id="nuovo-esame" tabIndex={-1} aria-labelledby="Nuovo esame" aria-hidden="true">
+            <div className="modal fade" id="nuovo-piano" tabIndex={-1} aria-labelledby="Nuovo piano nutrizionale" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered" show={props.show} onHide={props.handleClose}>
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h3 className="h3">Nuovo esame</h3>
+                            <h3 className="h3">Carica nuovo piano nutrizionale</h3>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                         </div>
                         <form action>
-                            <div className="modal-body align-items-end">
+                            <div className="modal-body align-items-start">
                                 <div className="input-group mb-3">
-                                    <span className="input-group-text" id="captiontest">Carica referto</span>
-                                    <input type="file" className="form-control form-control-sm" id="captiontest" aria-describedby="basic-addon3" multiple onChange={saveFileSelected} />
-                                </div>
-                                <div className="input-group mb-3">
-                                    <span className="input-group-text" id="captiontest">Tipo di referto</span>
-                                    <input type="text" className="form-control form-control-sm" id="captiontest" aria-describedby="basic-addon3" name="tipoReferto" onChange={e => setTipoReferto(e.target.value)} />
+                                    <span className="input-group-text" id="label-caricapiano">Carica piano nutrizionale</span>
+                                    <input type="file" className="form-control form-control-sm" id="caricapiano" aria-describedby="label-caricareferto" multiple onChange={saveFileSelected} />
                                 </div>
                                 <div className="input-group mb-3 w-sm-50">
-                                    <span className="input-group-text" id="data">Data</span>
-                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" name="dateReferto" onChange={e => setDateReferto(e.target.value)} />
+                                    <span className="input-group-text" id="label-data">Data</span>
+                                    <input type="date" className="form-control form-control-sm" id="date" aria-describedby="label-data" name="date" onChange={e => setDate(e.target.value)} />
                                 </div>
                             </div>
                             <div className="modal-footer d-flex justify-content-center justify-content-md-end">
-                                <button className="btn btn-primary btn-upload" id onClick={saveDiagnosticTest}>Carica referto</button>
+                                <button className="btn btn-primary btn-upload" id onClick={saveNutritionalPlan}>Carica piano nutrizionale</button>
                             </div>
                         </form>
-                        < NotificationContainer />
                     </div>
                 </div>
             </div>
-            <div>
-            </div>
-
             {/* <Modal show={props.show} onHide={props.handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Aggiungi esame diagnostico</Modal.Title>
+                    <Modal.Title>Aggiungi visita medica</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form id="diagnosticTestForm">
-                        <Form.Group controlId="diagnosticTestDate">
+                    <Form id="medicalExaminationForm">
+                        <Form.Group controlId="medicalExaminationDate">
                             <Form.Label>Data referto</Form.Label>
-                            <Form.Control type="date" name="dateReferto" placeholder="Data referto" onChange={e => setDateReferto(e.target.value)} />
+                            <Form.Control type="date" name="data" placeholder="Data visita" onChange={e => setData(e.target.value)} />
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="diagnosticTestType">
-                            <Form.Label>Tipo referto</Form.Label>
-                            <Form.Control type="text" name="tipoReferto" placeholder="Tipo referto" onChange={e => setTipoReferto(e.target.value)} />
+                        <Form.Group className="mb-3" controlId="medicalExaminationType">
+                            <Form.Label>Tipo visita</Form.Label>
+                            <Form.Control type="text" name="type" placeholder="Tipo visita" onChange={e => setType(e.target.value)} />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="medicalExaminationInfo">
+                            <Form.Label>Esito visita</Form.Label>
+                            <Form.Control as="textarea" name="information" placeholder="Esito visita" onChange={e => setInformation(e.target.value)} rows={5} />
                         </Form.Group>
                         <Form.Group controlId="formFile" className="mb-3">
                             <Form.Label>Carica file</Form.Label>
@@ -267,8 +259,8 @@ function DiagnosticTestsModal(props) {
                     <Button variant="secondary" onClick={props.handleClose}>
                         Chiudi
                     </Button>
-                    <Button variant="primary" id="btnSave" onClick={saveDiagnosticTest}>
-                        Salva esame
+                    <Button variant="primary" id="btnSave" onClick={saveMedicalExamination}>
+                        Salva crisi
                     </Button>
                 </Modal.Footer>
             </Modal> */}
@@ -277,4 +269,4 @@ function DiagnosticTestsModal(props) {
 }
 
 
-export { DiagnosticTestsInfo };
+export { NutritionalPlansInfo };
