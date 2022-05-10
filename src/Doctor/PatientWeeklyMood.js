@@ -127,7 +127,6 @@ function PatientWeeklyMood(props) {
             let dateA = moment(y);
             let dateB = moment(y).add(7, 'days');
             let obj = props.patientWeeklyMoods?.filter(x => moment(x.dataOraRisposta, 'DD-MM-YYYY').toDate() >= dateA.toDate()  && moment(x.dataOraRisposta, 'DD-MM-YYYY').toDate()  <= dateB.toDate() )
-
                 if (obj.length != 0) {
                     listApp.push(obj)
                 } else {

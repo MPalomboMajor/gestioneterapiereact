@@ -120,6 +120,15 @@ http.interceptors.response.use((response) => {
     delete: (url, id) => http.delete(API.PATIENT + url + id),
     getWithParam: (url, o) => http.get(API.PATIENT + url, o),
   };
+  export const dashboard = {
+    get: (url, id) => http.get(`${API.DASHBOARD + url}` + id),
+    getAll: (url) => http.get(API.DASHBOARD + url),
+    getMe: () => http.get(API.DASHBOARD),
+    post: (url, o) => http.post(`${API.DASHBOARD + url}` , o),
+    put: (url, o, id) => http.put(API.DASHBOARD + url + id, o),
+    delete: (url, id) => http.delete(API.DASHBOARD + url + id),
+    getWithParam: (url, o) => http.get(API.DASHBOARD + url, o),
+  };
   export const pianoterapeutico = {
     get: (url, id) => http.get(`${API.PIANOTERAPEUTICO + url}` + id),
     getAll: (url) => http.get(API.PIANOTERAPEUTICO + url),
