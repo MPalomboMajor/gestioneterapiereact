@@ -31,6 +31,7 @@ import { MedicalExaminationsInfo } from '../Doctor/MedicalExaminations';
 import { MedicalExaminationDetailsInfo } from '../Doctor/MedicalExaminationDetail';
 import { NutritionalPlansInfo } from '../Doctor/NutritionalPlans';
 import { NutritionalPlanDetailsInfo } from '../Doctor/NutritionalPlanDetail';
+import { DoctorChartsInterface } from '../Doctor/DoctorChartsInterface';
 
 export default class Layout extends Component {
 
@@ -97,6 +98,7 @@ export default class Layout extends Component {
                             <Route path="/ContactInfoPatient/:idPatient" element={<ContactInfoPatient />}></Route>
                             <Route path="/RichiediCodice" element={<NewCode />}></Route>
                             <Route path="/AssociatePatient" element={<AssociatePatient />}></Route>
+                            <Route path="/DoctorChartsInterface" element={<DoctorChartsInterface />}></Route>
                           </>
                           : ''}
                       </Routes>
@@ -131,6 +133,7 @@ export default class Layout extends Component {
                     <Route path="/NutritionalPlans/:idPaziente" element={<NutritionalPlansInfo />}></Route>
                     <Route path="/NutritionalPlanDetails/:idPaziente/:idNutritionalPlans" element={<NutritionalPlanDetailsInfo />}></Route>
                     <Route path="/MoodMonitoring/:idPaziente" element={<PatientMoodInterface />}></Route>
+                    <Route path="/DoctorChartsInterface" element={<DoctorChartsInterface />}></Route>
                   </>
                   : ''}
               </Routes>

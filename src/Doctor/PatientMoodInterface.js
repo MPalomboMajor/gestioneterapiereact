@@ -12,6 +12,7 @@ function PatientMoodInterface(props) {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
     const [patientProfile, setPatientProfile] = useState([]);
     const [patientDailyMoods, setPatientDailyMoods] = useState([]);
+    const [patientWeeklyMoods, setPatientWeeklyMoods] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -42,7 +43,23 @@ function PatientMoodInterface(props) {
                 });
         };
         fetchPatientDailyMoods();
-    }, []);
+    }, [patientId]);
+
+    useEffect(() => {
+        const fetchPatientWeeklyMoods = async () => {
+            setLoading(true);
+            await patient.get("TrackingMoodSettimanale/", patientId)
+                .then((response) => {
+                    if (response.status === 200) {
+                        setPatientWeeklyMoods(response.data.dati);
+                        setLoading(false);
+                    }
+                }).catch((error) => {
+
+                });
+        };
+        fetchPatientWeeklyMoods();
+    }, [patientId]);
 
     if (loading) {
         return <h2>Loading...</h2>;
@@ -61,10 +78,10 @@ function PatientMoodInterface(props) {
                     className="nav secondary-menu mb-4"
                 >
                     <Tab eventKey="dailyMoodMonitoring" title="Umore quotidiano">
-                        <PatientDailyMood patientDailyMoods={patientDailyMoods} />
+                        <PatientDailyMood patientDailyMoods={ patientDailyMoods } />
                     </Tab>
                     <Tab eventKey="weeklyMoodMonitoring" title="Umore settimanale" >
-                        <PatientWeeklyMood />
+                        <PatientWeeklyMood patientWeeklyMoods={ patientWeeklyMoods }/>
                     </Tab>
                 </Tabs>
                 < NotificationContainer />

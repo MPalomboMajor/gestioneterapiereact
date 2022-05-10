@@ -199,6 +199,13 @@ const SideNav = () => {
                                         </a>
                                     </li>
                                     <li className="nav-item">
+                                        <a href="/DoctorChartsInterface" className="nav-link no-kit">
+                                            <p>
+                                                Chart
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li className="nav-item">
                                         <a href="" className="nav-link  bi-box-arrow-right" onClick={logOut}>
                                             <p>
                                                 Logout
