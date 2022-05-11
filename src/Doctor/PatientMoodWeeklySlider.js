@@ -3,17 +3,17 @@ import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 export default (props) => {
-  const [slides, setSlides] = useState(props.patientDailyMoods);
-  console.log(slides);
+  const [slides, setSlides] = useState(props.patientWeeklyMoods);
+  console.log(props.patientWeeklyMoods);
 
   return (
     <Swiper
       // install Swiper modules
-      className="swiper mood-carousel"
+      className="swiper weekly-mood-carousel"
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       spaceBetween={0}
-      slidesPerView={3}
-      slidesPerGroup={3}
+      slidesPerView={2}
+      slidesPerGroup={2}
       navigation={{
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
@@ -24,19 +24,32 @@ export default (props) => {
         clickable: true,
       }}
       breakpoints={{
-        768: {
-          slidesPerView: 5,
-          slidesPerGroup: 5,
+        576: {
+          slidesPerView: 3,
+          slidesPerGroup: 3,
         },
         1200: {
-          slidesPerView: 7,
-          slidesPerGroup: 7,
+          slidesPerView: 5,
+          slidesPerGroup: 5,
         },
       }}
     >
       <div className="swiper-wrapper">
-        {props.patientDailyMoods?.map((slideContent) => (
-          <SwiperSlide key={slideContent} className="swiper-slide"><p className="date">{slideContent.dataOraRisposta}</p>
+        {props.patientWeeklyMoods?.map((slideContent) => (
+          <SwiperSlide key={slideContent} className="swiper-slide"><p className="date">{slideContent.startDate}</p>
+            <div className="upper-wrapper">
+              <img src="https://picsum.photos/800/600/" />
+            </div>
+            <div className="row-label" data-label="Immagine" />
+            <div className="lower-wrapper">
+              <img src="./img/mood/OA_icon-colore-1.svg" />
+            </div>
+            <div className="row-label" data-label="Colore" />
+          </SwiperSlide>
+        ))}
+      </div>
+      
+                    {/* <SwiperSlide key={slideContent} className="swiper-slide"><p className="date">{slideContent.dataOraRisposta}</p>
             <div className="upper-wrapper">
               <img src={slideContent.umore} />
             </div>
@@ -45,9 +58,7 @@ export default (props) => {
               <img src={slideContent.emozione} />
             </div>
             <div className="row-label" data-label="Emozione" />
-          </SwiperSlide>
-        ))}
-      </div>
+          </SwiperSlide> */}
 
       {/* <SwiperSlide className="swiper-slide"> <p className="date">01/02/22</p>
           <div className="upper-wrapper">

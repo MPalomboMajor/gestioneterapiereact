@@ -76,7 +76,7 @@ function NutritionalPlansInfo() {
 
             <NutritionalPlansTable nutritionalPlans={currentNutritionalPlans} patientId={patientId} setNutritionalPlans={setNutritionalPlans} />
 
-            <NutritionalPlansModal show={show} handleClose={handleClose} patientId={patientId} fetchNutritionalPlans={useEffect}/>
+            <NutritionalPlansModal show={show} handleClose={handleClose} patientId={patientId} setNutritionalPlans={setNutritionalPlans} />
             <div>
                 <nav aria-label="Page navigation">
                     <ul className="pagination justify-content-end align-items-center">
@@ -109,7 +109,7 @@ function NutritionalPlansTable(props) {
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
-        
+
     };
 
 
@@ -161,7 +161,9 @@ function NutritionalPlansModal(props) {
     const [fileName, setFileName] = useState([]);
     const [filesArray, setFilesArray] = useState([]);
 
-    function saveNutritionalPlan() {
+    function saveNutritionalPlan(evt) {
+
+        evt.preventDefault();
         // setIdPaziente(parseInt(idPaziente));
         // setIdidMedicalExam(parseInt(idMedicalExam));
         const images = new FormData();
@@ -173,19 +175,31 @@ function NutritionalPlansModal(props) {
         console.log(images);
         patient.postNutritionalDiaries("NutritionalDiaries/", images, {
             params:
-                { idPatient, idNutritionalDiary, date }, headers: {
+                { idPatient, idNutritionalDiary }, headers: {
                     'Content-Type': 'multipart/form-data'
                 }
         })
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
-                    props.fetchNutritionalPlans();
+
+                    patient.get("NutritionalDiaries/", idPatient)
+                        .then((response) => {
+                            if (response.status === 200) {
+
+                                props.setNutritionalPlans(response.data.dati);
+
+                            }
+                        }).catch((error) => {
+
+                        });
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
+        document.getElementById("caricapiano").value = "";
         clearState();
+
     };
 
     const saveFileSelected = (e) => {
@@ -195,6 +209,7 @@ function NutritionalPlansModal(props) {
         console.log(filesArray);
     };
 
+
     const clearState = () => {
         setDate();
         setIdNutritionalDiary();
@@ -203,26 +218,26 @@ function NutritionalPlansModal(props) {
 
     return (
         <>
-            <div className="modal fade" id="nuovo-piano" tabIndex={-1} aria-labelledby="Nuovo piano nutrizionale" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered" show={props.show} onHide={props.handleClose}>
+            <div className="modal fade" id="nuovo-piano" tabIndex={-1} aria-labelledby="Nuovo piano nutrizionale" aria-hidden="true" show={props.show} onHide={props.handleClose}>
+                <div className="modal-dialog modal-dialog-centered" >
                     <div className="modal-content">
                         <div className="modal-header">
                             <h3 className="h3">Carica nuovo piano nutrizionale</h3>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                         </div>
-                        <form action>
+                        <form onSubmit={saveNutritionalPlan}>
                             <div className="modal-body align-items-start">
                                 <div className="input-group mb-3">
                                     <span className="input-group-text" id="label-caricapiano">Carica piano nutrizionale</span>
-                                    <input type="file" className="form-control form-control-sm" id="caricapiano" aria-describedby="label-caricareferto" multiple onChange={saveFileSelected} required/>
+                                    <input type="file" className="form-control form-control-sm" id="caricapiano" aria-describedby="label-caricareferto" multiple onChange={saveFileSelected} />
                                 </div>
-                                <div className="input-group mb-3 w-sm-50">
+                                {/* <div className="input-group mb-3 w-sm-50">
                                     <span className="input-group-text" id="label-data">Data</span>
-                                    <input type="date" className="form-control form-control-sm" id="date" aria-describedby="label-data" name="date" onChange={e => setDate(e.target.value)} required/>
-                                </div>
+                                    <input type="date" className="form-control form-control-sm" id="date" aria-describedby="label-data" name="date" onChange={e => setDate(e.target.value)} />
+                                </div> */}
                             </div>
                             <div className="modal-footer d-flex justify-content-center justify-content-md-end">
-                                <button className="btn btn-primary btn-upload" id onClick={saveNutritionalPlan}>Carica piano nutrizionale</button>
+                                <button className="btn btn-primary btn-upload" id type="submit" data-bs-dismiss="modal">Carica piano nutrizionale</button>
                             </div>
                         </form>
                     </div>

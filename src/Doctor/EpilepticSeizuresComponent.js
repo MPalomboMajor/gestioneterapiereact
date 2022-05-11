@@ -105,7 +105,7 @@ function EpilepticSeizuresInfo() {
             <div>
                 <nav aria-label="Page navigation">
                     <ul className="pagination justify-content-end align-items-center">
-                        <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Aggiungi</button>
+                        <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuova-crisi" onClick={handleShow}>Aggiungi</button>
                         <Pagination
                             patientsPerPage={epilepticSeizuresPerPage}
                             totalPatients={epilepticSeizures?.length}
@@ -116,7 +116,7 @@ function EpilepticSeizuresInfo() {
                         />
                     </ul>
                 </nav>
-                <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Aggiungi</button>
+                <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuova-crisi" onClick={handleShow}>Aggiungi</button>
             </div>
 
             <EpilepticSeizuresModal show={show} handleClose={handleClose} patientId={patientId} setEpilepticSeizures={setEpilepticSeizures} />
@@ -194,21 +194,21 @@ function EpilepticSeizureRow(props) {
                     <div action className="row">
                         <div className="col">
                             <div className="form-check">
-                                <input className="form-check-input" type="checkbox" id="Manifestazioni1" value="1" name="crisiConvulsivaGeneralizzata" checked={comportamentoCheck.includes(1)} disabled/>
+                                <input className="form-check-input" type="checkbox" id="Manifestazioni1" value="1" name="crisiConvulsivaGeneralizzata" checked={comportamentoCheck.includes(1)} disabled />
                                 <label className="form-check-label" htmlFor="Manifestazioni1">Crisi convulsiva generalizzata</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="checkbox" id="Manifestazioni2" value="2" name="assenzaCrisiFocale" checked={comportamentoCheck.includes(2)} disabled/>
+                                <input className="form-check-input" type="checkbox" id="Manifestazioni2" value="2" name="assenzaCrisiFocale" checked={comportamentoCheck.includes(2)} disabled />
                                 <label className="form-check-label" htmlFor="Manifestazioni2">Assenza / Crisi focale</label>
                             </div>
                         </div>
                         <div className="col">
                             <div className="form-check">
-                                <input className="form-check-input" type="checkbox" id="Manifestazioni3" value="3" name="perditaDiCoscienza" checked={comportamentoCheck.includes(3)} disabled/>
+                                <input className="form-check-input" type="checkbox" id="Manifestazioni3" value="3" name="perditaDiCoscienza" checked={comportamentoCheck.includes(3)} disabled />
                                 <label className="form-check-label" htmlFor="Manifestazioni3">Perdita di coscienza</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="checkbox" id="Manifestazioni4" value="4" name="cadutaATerra" checked={comportamentoCheck.includes(4)} disabled/>
+                                <input className="form-check-input" type="checkbox" id="Manifestazioni4" value="4" name="cadutaATerra" checked={comportamentoCheck.includes(4)} disabled />
                                 <label className="form-check-label" htmlFor="Manifestazioni4">Caduta a terra</label>
                             </div>
                         </div>
@@ -221,25 +221,25 @@ function EpilepticSeizureRow(props) {
                     <div className="row">
                         <div className="col">
                             <div className="form-check">
-                                <input className="form-check-input" type="checkbox" id="Contesto1" checked={contestoCheck.includes(1)} value="1" name="casa" disabled/>
+                                <input className="form-check-input" type="checkbox" id="Contesto1" checked={contestoCheck.includes(1)} value="1" name="casa" disabled />
                                 <label className="form-check-label" htmlFor="Contesto1">Casa</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="checkbox" id="Contesto2" checked={contestoCheck.includes(2)} value="2" name="lavoro" disabled/>
+                                <input className="form-check-input" type="checkbox" id="Contesto2" checked={contestoCheck.includes(2)} value="2" name="lavoro" disabled />
                                 <label className="form-check-label" htmlFor="Contesto2">Lavoro</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="checkbox" id="Contesto3" checked={contestoCheck.includes(3)} value="3" name="tempoLibero" disabled/>
+                                <input className="form-check-input" type="checkbox" id="Contesto3" checked={contestoCheck.includes(3)} value="3" name="tempoLibero" disabled />
                                 <label className="form-check-label" htmlFor="Contesto3">Tempo libero</label>
                             </div>
                         </div>
                         <div className="col">
                             <div className="form-check">
-                                <input className="form-check-input" type="checkbox" id="Contesto4" checked={contestoCheck.includes(4)} value="4" name="veglia" disabled/>
+                                <input className="form-check-input" type="checkbox" id="Contesto4" checked={contestoCheck.includes(4)} value="4" name="veglia" disabled />
                                 <label className="form-check-label" htmlFor="Contesto4">Veglia</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="checkbox" id="Contesto5" checked={contestoCheck.includes(5)} value="5" name="sonno" disabled/>
+                                <input className="form-check-input" type="checkbox" id="Contesto5" checked={contestoCheck.includes(5)} value="5" name="sonno" disabled />
                                 <label className="form-check-label" htmlFor="Contesto5">Sonno</label>
                             </div>
                         </div>
@@ -545,7 +545,7 @@ function EpilepticSeizuresModal(props) {
 
     const handleChange = (e) => {
         const inputValue = e.target.value;
-        const inputName = e.target.getAttribute('name');
+        const inputName = e.target.getAttribute('alt');
         setNewEpilepticSeizures({
             ...newEpilepticSeizures, [inputName]:
                 inputValue,
@@ -554,14 +554,12 @@ function EpilepticSeizuresModal(props) {
 
     function saveEpilepticSeizure() {
         newEpilepticSeizures.idPatientProfile = parseInt(props.patientId);
-
+        moment(newEpilepticSeizures.dateTimeEventOccured).format("DD/MM/YYYY")
         patient.post("Seizures/", newEpilepticSeizures)
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
-
-
-                    patient.get("Seizures/", props.patientId)
+                    patient.get("Seizures/", newEpilepticSeizures.idPatientProfile)
                         .then((response) => {
                             if (response.status === 200) {
                                 props.setEpilepticSeizures(response.data.dati);
@@ -570,15 +568,12 @@ function EpilepticSeizuresModal(props) {
                         }).catch((error) => {
 
                         });
-
-                    // props.setEpilepticSeizures(response.data.dati);
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
         clearState();
         props.handleClose();
-
     };
 
     const clearState = () => {
@@ -607,155 +602,88 @@ function EpilepticSeizuresModal(props) {
 
     return (
         <>
-            <Modal show={props.show} onHide={props.handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Aggiungi crisi</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form id="epilepticSeizureForm">
-                        <Form.Group controlId="epilepticSeizureDate">
-                            <Form.Label>Data evento</Form.Label>
-                            <Form.Control type="date" name="dateTimeEventOccured" placeholder="Data crisi" onChange={handleChange} />
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="epilepticSeizureDescription">
-                            <Form.Label>Descrizione</Form.Label>
-                            <Form.Control as="textarea" name="description" placeholder="Descrizione" onChange={handleChange} rows={5} />
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="epilepticSeizureBehavior">
-                            <Form.Label>Comportamenti</Form.Label>
-                            <div className='col-8'>
-                                {['checkbox'].map((type) => (
-                                    <div key={`inline-${type}`} className="mb-3">
-                                        <Form.Check
-                                            value="1"
-                                            inline
-                                            label="Crisi convulsiva generalizzata"
-                                            name="crisiConvulsivaGeneralizzata"
-                                            type={type}
-                                            id={`inline-${type}-1`}
-                                            onChange={updateStatesCrisiConvulsivaGeneralizzata
-                                            }
-                                        />
-                                        <Form.Check
-                                            value="2"
-                                            inline
-                                            label="Assenza/crisi focale"
-                                            name="assenzaCrisiFocale"
-                                            type={type}
-                                            id={`inline-${type}-2`}
-                                            onChange={updateStatesAssenzaCrisiFocale
-                                            }
-                                        />
-                                        <Form.Check
-                                            value="3"
-                                            inline
-                                            label="Perdita di coscienza"
-                                            name="perditaDiCoscienza"
-                                            type={type}
-                                            id={`inline-${type}-3`}
-                                            onChange={updateStatesPerditaDiCoscienza
-                                            }
-                                        />
-                                        <Form.Check
-                                            value="4"
-                                            inline
-                                            label="Caduta a terra"
-                                            name="cadutaATerra"
-                                            type={type}
-                                            id={`inline-${type}-4`}
-                                            onChange={updateStatesCadutaATerra
-                                            }
-                                        />
+            <div className="modal fade" id="nuova-crisi" tabIndex={-1} aria-labelledby="Nuova crisi" aria-hidden="true" show={props.show} onHide={props.handleClose}>
+                <div className="modal-dialog modal-dialog-centered" >
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h3 className="h3">Nuova crisi</h3>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                        </div>
+                        <form action>
+                            <div className="modal-body align-items-end">
+                                <div className="input-group mb-3">
+                                    <span className="input-group-text" id="data">Data</span>
+                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" alt="dateTimeEventOccured" onChange={handleChange} required />
+                                </div>
+                                <div className="input-group">
+                                    <span className="input-group-text" id="descrizione">Descrizione</span>
+                                    <input type="textarea" className="form-control form-control-sm" id="descrizione" aria-describedby="descrizione-label" alt="description" placeholder="Descrizione" onChange={handleChange} rows={5} required />
+                                </div>
+                                <div className="box w-100 bg-secondary mt-4">
+                                    <div className="label label-secondary">Manifestazioni</div>
+                                    <div action className="row">
+                                        <div className="col">
+                                            <div className="form-check mb-2">
+                                                <input className="form-check-input dark" type="checkbox" id="Manifestazioni1" value="1" alt="crisiConvulsivaGeneralizzata" name="manifestazione" onChange={updateStatesCrisiConvulsivaGeneralizzata} />
+                                                <label className="form-check-label" htmlFor="Manifestazioni1">Crisi convulsiva generalizzata</label>
+                                            </div>
+                                            <div className="form-check">
+                                                <input className="form-check-input dark" type="checkbox" id="Manifestazioni2" value="2" alt="assenzaCrisiFocale" name="manifestazione" onChange={updateStatesAssenzaCrisiFocale} />
+                                                <label className="form-check-label" htmlFor="Manifestazioni2">Assenza / Crisi focale</label>
+                                            </div>
+                                        </div>
+                                        <div className="col">
+                                            <div className="form-check mb-2">
+                                                <input className="form-check-input dark" type="checkbox" id="Manifestazioni3" value="3" alt="perditaDiCoscienza" name="manifestazione" onChange={updateStatesPerditaDiCoscienza} />
+                                                <label className="form-check-label" htmlFor="Manifestazioni3">Perdita di coscienza</label>
+                                            </div>
+                                            <div className="form-check">
+                                                <input className="form-check-input dark" type="checkbox" id="Manifestazioni4" value="4" alt="cadutaATerra" name="manifestazione" onChange={updateStatesCadutaATerra} />
+                                                <label className="form-check-label" htmlFor="Manifestazioni4">Caduta a terra</label>
+                                            </div>
+                                        </div>
                                     </div>
-                                ))}
-                            </div>
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="epilepticSeizureContext">
-                            <Form.Label>Contesto</Form.Label>
-                            <div className='col-8'>
-                                {['checkbox'].map((type) => (
-                                    <div key={`inline-${type}`} className="mb-3">
-                                        <Form.Check
-                                            value="1"
-                                            inline
-                                            label="Casa"
-                                            name="casa"
-                                            type={type}
-                                            id={`inline-${type}-1`}
-                                            onChange={updateStatesCasa
-                                            }
-                                        />
-                                        <Form.Check
-                                            value="2"
-                                            inline
-                                            label="Lavoro"
-                                            name="lavoro"
-                                            type={type}
-                                            id={`inline-${type}-2`}
-                                            onChange={updateStatesLavoro
-                                            }
-                                        />
-                                        <Form.Check
-                                            value="3"
-                                            inline
-                                            label="Tempo libero"
-                                            name="tempoLibero"
-                                            type={type}
-                                            id={`inline-${type}-3`}
-                                            onChange={updateStatesTempoLibero
-                                            }
-                                        />
-                                        <Form.Check
-                                            value="4"
-                                            inline
-                                            label="Veglia"
-                                            name="veglia"
-                                            type={type}
-                                            id={`inline-${type}-4`}
-                                            onChange={updateStatesVeglia
-                                            }
-                                        />
-                                        <Form.Check
-                                            value="5"
-                                            inline
-                                            label="Sonno"
-                                            name="sonno"
-                                            type={type}
-                                            id={`inline-${type}-5`}
-                                            onChange={updateStatesSonno
-                                            }
-                                        />
+                                </div>
+                                <div className="box w-100 bg-secondary mt-4">
+                                    <div className="label label-secondary">Contesto</div>
+                                    <div className="row">
+                                        <div className="col">
+                                            <div className="form-check">
+                                                <input className="form-check-input dark" type="checkbox" id="Contesto1" value="1" alt="casa" name="contesto" onChange={updateStatesCasa} />
+                                                <label className="form-check-label" htmlFor="Contesto1">Casa</label>
+                                            </div>
+                                            <div className="form-check">
+                                                <input className="form-check-input dark" type="checkbox" id="Contesto2" value="2" alt="lavoro" name="contesto" onChange={updateStatesLavoro} />
+                                                <label className="form-check-label" htmlFor="Contesto2">Lavoro</label>
+                                            </div>
+                                            <div className="form-check">
+                                                <input className="form-check-input dark" type="checkbox" id="Contesto3" value="3" alt="tempoLibero" name="contesto" onChange={updateStatesTempoLibero} />
+                                                <label className="form-check-label" htmlFor="Contesto3">Tempo libero</label>
+                                            </div>
+                                        </div>
+                                        <div className="col">
+                                            <div className="form-check">
+                                                <input className="form-check-input dark" type="checkbox" id="Contesto4" value="4" alt="veglia" name="contesto" onChange={updateStatesVeglia} />
+                                                <label className="form-check-label" htmlFor="Contesto4">Veglia</label>
+                                            </div>
+                                            <div className="form-check">
+                                                <input className="form-check-input dark" type="checkbox" id="Contesto5" value="5" alt="sonno" name="contesto" onChange={updateStatesSonno} />
+                                                <label className="form-check-label" htmlFor="Contesto5">Sonno</label>
+                                            </div>
+                                        </div>
                                     </div>
-                                ))}
+                                </div>
                             </div>
-                            {/* <Form.Select aria-label="epilepticSeizureContext" name="contesto" onChange={(event) => {
-                                setNewEpilepticSeizures(prevEpilepticSeizure => ({
-                                    ...prevEpilepticSeizure,
-                                    elencoContestualita: [{ ...prevEpilepticSeizure.elencoContestualita[0], contesto: parseInt(event.target.value) }]
-                                }));
-                            }} >
-                                <option></option>
-                                <option value="0">Casa</option>
-                                <option value="1">Lavoro</option>
-                                <option value="2">Tempo libero</option>
-                                <option value="3">Veglia</option>
-                                <option value="4">Sonno</option>
-                            </Form.Select> */}
-                        </Form.Group>
+                            <div className="modal-footer d-flex justify-content-center justify-content-md-end">
+                                <button className="btn btn-primary" id onClick={saveEpilepticSeizure}>Salva crisi</button>
+                            </div>
+                        </form>
+                        < NotificationContainer />
+                    </div>
+                </div>
+            </div>
 
-                    </Form>
-                    < NotificationContainer />
-
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={props.handleClose}>
-                        Chiudi
-                    </Button>
-                    <Button variant="primary" id="btnSave" onClick={saveEpilepticSeizure}>
-                        Salva
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+           
         </>
     );
 }
