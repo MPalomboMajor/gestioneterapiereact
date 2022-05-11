@@ -63,8 +63,8 @@ export class NewTherapy extends Component {
             currentStoricoPage: 1,
             storicoPerPage: 2,
             //STATE PAGINATION afderenze
-            currentAderenzeoPage: 1,
-            aderenzePerPage: 2,
+            currentAderenzePage: 1,
+            aderenzePerPage: 5,
 
             storicPlan: [],
             allergiesDTO: { ...this.allergiesProps() },
@@ -499,8 +499,8 @@ export class NewTherapy extends Component {
         const indexOfLastStorico = this.state.currentStoricoPage * this.state.storicoPerPage;
         const indexOfFirstStorico = indexOfLastStorico - this.state.storicoPerPage;
         const currentstoric = this.state.storicPlan ? this.state.storicPlan.slice(indexOfFirstStorico, indexOfLastStorico) : [];
-        //PAGINATION Storico
-        const indexOfLastAderenze= this.state.currentAderenzeoPage * this.state.aderenzePerPage;
+        //PAGINATION Aderenze
+        const indexOfLastAderenze= this.state.currentAderenzePage * this.state.aderenzePerPage;
         const indexOfFirstAderenze = indexOfLastAderenze - this.state.aderenzePerPage;
         const adherences =  this.state.aderenze ?this.state.aderenze.slice(indexOfFirstAderenze, indexOfLastAderenze) : [];
 
@@ -976,7 +976,7 @@ export class NewTherapy extends Component {
                             </Table>
                         </div>
                         <Pagination
-                                patientsPerPage={this.state.aderenzePerPagePerPage}
+                                patientsPerPage={this.state.aderenzePerPage}
                                 totalPatients={this.state.aderenze?.length}
                                 paginate={(pageNumber) => this.setCurrentAderenzePage(pageNumber)}
                                 currentPage={this.state.currentAderenzePage}
