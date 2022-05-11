@@ -48,7 +48,7 @@ export class NewTherapy extends Component {
             patients: [],
             pharmacyPatients: [],
             currentPage: 1,
-
+            isChange:false,
             patientsPerPage: 5,
             //STATE PAGINATION Ontozry
             currentOntozryPage: 1,
@@ -228,14 +228,18 @@ export class NewTherapy extends Component {
 
     }
     handleChange = (value, formattedValue) => {
-        this.setState({
-            dateNow: moment(value.target.value).format("DD/MM/YYYY"),
-            formattedValue: formattedValue
-        });
+        
+        
         var plan = this.state.therapyDto.therapeuticPlan;
         plan.dataFineTerapia = moment(value.target.value).format("DD/MM/YYYY");
-        this.updateState('therapeuticPlan', plan, 'therapyDto');
+        this.updateStateDate('therapeuticPlan', plan, 'therapyDto');
     }
+    updateStateDate = (inputName, inputValue, objName) => {
+        let statusCopy = Object.assign({}, this.state);
+        statusCopy.isChange=true;
+        statusCopy[objName][inputName] = inputValue;
+        this.setState(statusCopy);
+    };
     handleChangeStartDateMedication = (value, formattedValue) => {
         this.setState({
             dateNow: value.target.value,
@@ -890,14 +894,14 @@ export class NewTherapy extends Component {
                                 <Form.Group className="col-6 mb-3" >
                                     <div class="input-group mb-3 w-sm-50">
                                         <span class="input-group-text" id="label-data">Data fine terapia</span>
-                                        <input type="date" class="form-control form-control-sm" id="endTherapy" aria-describedby="label-data" onChange={this.handleChange}></input>
+                                        <input type="text"  onMouseOverCapture={(e) => e.target.type = 'date'} onMouseOutCapture={ !this.state.isChange ?  (e) => e.target.type = 'text' : ''}   class="form-control form-control-sm" id="endTherapy" defaultValue={  this.state.therapyDto?.therapeuticPlan?.dataFineTerapia  }  placeholder={  this.state.therapyDto?.therapeuticPlan?.dataFineTerapia  } onChange={this.handleChange}></input>
                                     </div>
                                 </Form.Group>
                             </Row>
                             <Row>
                                 <div class="box">
                                     <div class="label label-secondary">Motivo fine terapia</div>
-                                    <FormControl as="textarea" aria-label="With textarea" id="motivoFineTerapia" className="text-area-custom" onChange={this.handleChangeNote} name="motivoFineTerapia" />
+                                    <FormControl as="textarea" aria-label="With textarea" id="motivoFineTerapia" className="text-area-custom" onChange={this.handleChangeNote} value={this.state.therapyDto?.therapeuticPlan?.motivoFineTerapia ?this.state.therapyDto?.therapeuticPlan?.motivoFineTerapia : null } name="motivoFineTerapia" />
                                 </div>
                             </Row>
                             <Row>
