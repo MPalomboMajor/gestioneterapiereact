@@ -214,11 +214,11 @@ function NutritionalPlansModal(props) {
                             <div className="modal-body align-items-start">
                                 <div className="input-group mb-3">
                                     <span className="input-group-text" id="label-caricapiano">Carica piano nutrizionale</span>
-                                    <input type="file" className="form-control form-control-sm" id="caricapiano" aria-describedby="label-caricareferto" multiple onChange={saveFileSelected} />
+                                    <input type="file" className="form-control form-control-sm" id="caricapiano" aria-describedby="label-caricareferto" multiple onChange={saveFileSelected} required/>
                                 </div>
                                 <div className="input-group mb-3 w-sm-50">
                                     <span className="input-group-text" id="label-data">Data</span>
-                                    <input type="date" className="form-control form-control-sm" id="date" aria-describedby="label-data" name="date" onChange={e => setDate(e.target.value)} />
+                                    <input type="date" className="form-control form-control-sm" id="date" aria-describedby="label-data" name="date" onChange={e => setDate(e.target.value)} required/>
                                 </div>
                             </div>
                             <div className="modal-footer d-flex justify-content-center justify-content-md-end">

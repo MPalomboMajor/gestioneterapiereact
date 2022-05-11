@@ -211,8 +211,6 @@ function MedicalExaminationsModal(props) {
         setVisitaSpecialistica();
     }
 
-
-
     return (
         <>
             <div className="modal fade" id="nuova-visita" tabIndex={-1} aria-labelledby="Nuova visita" aria-hidden="true">
@@ -226,21 +224,21 @@ function MedicalExaminationsModal(props) {
                             <div className="modal-body align-items-start">
                                 <div className="input-group mb-3">
                                     <span className="input-group-text" id="label-caricareferto">Carica referto</span>
-                                    <input type="file" className="form-control form-control-sm" id="caricareferto" aria-describedby="label-caricareferto" multiple onChange={saveFileSelected} />
+                                    <input type="file" className="form-control form-control-sm" id="caricareferto" aria-describedby="label-caricareferto" multiple onChange={saveFileSelected} required/>
                                 </div>
                                 <label className="form-label ps-4" id="label-visita" htmlFor="voce1">Visita specialistica</label>
                                 <div className="input-group position-relative mb-3">
-                                    <input className="form-check-input dark" type="radio" id="voce1" defaultValue="option1" name="tipo-referto" defaultChecked />
+                                    <input className="form-check-input dark" type="radio" id="voce1" defaultValue="option1" name="tipo-referto" required/>
                                     <input type="text" className="form-control form-control-sm" id="visita" aria-describedby="label-visita" placeholder="Tipo di visita" name="visitaSpecialistica" onChange={e => setVisitaSpecialistica(e.target.value)} />
                                 </div>
                                 <label className="form-label ps-4" id="label-ricovero" htmlFor="voce2">Accesso ps / ricovero</label>
                                 <div className="input-group position-relative mb-3">
-                                    <input className="form-check-input dark" type="radio" id="voce2" defaultValue="option2" name="tipo-referto" />
+                                    <input className="form-check-input dark" type="radio" id="voce2" defaultValue="option2" name="tipo-referto"/>
                                     <input type="text" className="form-control form-control-sm" id="ricovero" aria-describedby="label-ricovero" placeholder="Causa" name="accessoRicovero" onChange={e => setAccessoRicovero(e.target.value)} />
                                 </div>
                                 <div className="input-group mb-3 w-sm-50">
                                     <span className="input-group-text" id="label-data">Data</span>
-                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="label-data" name="data" onChange={e => setData(e.target.value)} />
+                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="label-data" name="data" onChange={e => setData(e.target.value)} required/>
                                 </div>
                             </div>
                             <div className="modal-footer d-flex justify-content-center justify-content-md-end">

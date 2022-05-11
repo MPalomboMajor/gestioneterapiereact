@@ -1,11 +1,6 @@
-import { Col, Table, Form, Button, Modal, Row } from 'react-bootstrap';
-import { iconDelete, iconEdit } from './icons';
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import { useNavigate } from 'react-router-dom';
-import moment from 'moment';
 import { patient } from '../helpers/api/api';
-import { path } from '../helpers/Constants';
 import { Link } from 'react-router-dom';
 import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
@@ -131,9 +126,6 @@ function DiagnosticTestsTable(props) {
                     </tbody>
                 </table>
             </div>
-
-
-
         </>
     );
 }
@@ -189,20 +181,10 @@ function DiagnosticTestsModal(props) {
     };
 
     const saveFileSelected = (e) => {
-
         for (var i = 0; i < e.target.files.length; i++) {
             filesArray.push(e.target.files.item(i));
         }
         console.log(filesArray);
-        // const formData = new FormData();
-        // filesArray.forEach(file => {
-        //     formData.append("arrayOfFilesName", file);
-        // });
-        // console.log(formData);
-        //in case you wan to print the file selected
-        // console.log(formData);
-        // setFile(e.target.files[0]);
-        // setFileName(e.target.files[0].name)
     };
 
     return (
@@ -218,15 +200,15 @@ function DiagnosticTestsModal(props) {
                             <div className="modal-body align-items-end">
                                 <div className="input-group mb-3">
                                     <span className="input-group-text" id="captiontest">Carica referto</span>
-                                    <input type="file" className="form-control form-control-sm" id="captiontest" aria-describedby="basic-addon3" multiple onChange={saveFileSelected} />
+                                    <input type="file" className="form-control form-control-sm" id="captiontest" aria-describedby="basic-addon3" multiple onChange={saveFileSelected} required/>
                                 </div>
                                 <div className="input-group mb-3">
                                     <span className="input-group-text" id="captiontest">Tipo di referto</span>
-                                    <input type="text" className="form-control form-control-sm" id="captiontest" aria-describedby="basic-addon3" name="tipoReferto" onChange={e => setTipoReferto(e.target.value)} />
+                                    <input type="text" className="form-control form-control-sm" id="captiontest" aria-describedby="basic-addon3" name="tipoReferto" onChange={e => setTipoReferto(e.target.value)} required/>
                                 </div>
                                 <div className="input-group mb-3 w-sm-50">
                                     <span className="input-group-text" id="data">Data</span>
-                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" name="dateReferto" onChange={e => setDateReferto(e.target.value)} />
+                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" name="dateReferto" onChange={e => setDateReferto(e.target.value)} required/>
                                 </div>
                             </div>
                             <div className="modal-footer d-flex justify-content-center justify-content-md-end">
