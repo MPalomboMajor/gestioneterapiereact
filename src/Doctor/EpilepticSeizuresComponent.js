@@ -221,25 +221,25 @@ function EpilepticSeizureRow(props) {
                     <div className="row">
                         <div className="col">
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="Contesto1" checked={contestoCheck.includes(1)} value="1" name="casa" disabled/>
+                                <input className="form-check-input" type="checkbox" id="Contesto1" checked={contestoCheck.includes(1)} value="1" name="casa" disabled/>
                                 <label className="form-check-label" htmlFor="Contesto1">Casa</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="Contesto2" checked={contestoCheck.includes(2)} value="2" name="lavoro" disabled/>
+                                <input className="form-check-input" type="checkbox" id="Contesto2" checked={contestoCheck.includes(2)} value="2" name="lavoro" disabled/>
                                 <label className="form-check-label" htmlFor="Contesto2">Lavoro</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="Contesto3" checked={contestoCheck.includes(3)} value="3" name="tempoLibero" disabled/>
+                                <input className="form-check-input" type="checkbox" id="Contesto3" checked={contestoCheck.includes(3)} value="3" name="tempoLibero" disabled/>
                                 <label className="form-check-label" htmlFor="Contesto3">Tempo libero</label>
                             </div>
                         </div>
                         <div className="col">
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="Contesto4" checked={contestoCheck.includes(4)} value="4" name="veglia" disabled/>
+                                <input className="form-check-input" type="checkbox" id="Contesto4" checked={contestoCheck.includes(4)} value="4" name="veglia" disabled/>
                                 <label className="form-check-label" htmlFor="Contesto4">Veglia</label>
                             </div>
                             <div className="form-check">
-                                <input className="form-check-input" type="radio" id="Contesto5" checked={contestoCheck.includes(5)} value="5" name="sonno" disabled/>
+                                <input className="form-check-input" type="checkbox" id="Contesto5" checked={contestoCheck.includes(5)} value="5" name="sonno" disabled/>
                                 <label className="form-check-label" htmlFor="Contesto5">Sonno</label>
                             </div>
                         </div>
@@ -673,13 +673,13 @@ function EpilepticSeizuresModal(props) {
                         <Form.Group className="mb-3" controlId="epilepticSeizureContext">
                             <Form.Label>Contesto</Form.Label>
                             <div className='col-8'>
-                                {['radio'].map((type) => (
+                                {['checkbox'].map((type) => (
                                     <div key={`inline-${type}`} className="mb-3">
                                         <Form.Check
                                             value="1"
                                             inline
                                             label="Casa"
-                                            name="contesto1"
+                                            name="casa"
                                             type={type}
                                             id={`inline-${type}-1`}
                                             onChange={updateStatesCasa
@@ -689,7 +689,7 @@ function EpilepticSeizuresModal(props) {
                                             value="2"
                                             inline
                                             label="Lavoro"
-                                            name="contesto1"
+                                            name="lavoro"
                                             type={type}
                                             id={`inline-${type}-2`}
                                             onChange={updateStatesLavoro
@@ -699,7 +699,7 @@ function EpilepticSeizuresModal(props) {
                                             value="3"
                                             inline
                                             label="Tempo libero"
-                                            name="contesto1"
+                                            name="tempoLibero"
                                             type={type}
                                             id={`inline-${type}-3`}
                                             onChange={updateStatesTempoLibero
@@ -709,7 +709,7 @@ function EpilepticSeizuresModal(props) {
                                             value="4"
                                             inline
                                             label="Veglia"
-                                            name="contesto2"
+                                            name="veglia"
                                             type={type}
                                             id={`inline-${type}-4`}
                                             onChange={updateStatesVeglia
@@ -719,7 +719,7 @@ function EpilepticSeizuresModal(props) {
                                             value="5"
                                             inline
                                             label="Sonno"
-                                            name="contesto2"
+                                            name="sonno"
                                             type={type}
                                             id={`inline-${type}-5`}
                                             onChange={updateStatesSonno
