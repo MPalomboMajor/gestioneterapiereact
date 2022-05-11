@@ -305,7 +305,7 @@ export class NewTherapy extends Component {
     }
     returnToMenu = () => {
         localStorage.removeItem('newPatient');
-        window.location.href = "/Dashboard";
+        window.location.href = "/PatientProfile/"+window.location.pathname.split('/').pop();
     }
     activeReminder = () => {
         const inputValue = this.state.medicationDTO.isActiveReminder ? false : true;
