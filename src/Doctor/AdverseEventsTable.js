@@ -60,7 +60,7 @@ function AdverseEventsInfo() {
             <div>
                 <nav aria-label="Page navigation">
                     <ul className="pagination justify-content-end align-items-center">
-                        <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuovo evento</button>
+                        <button className="btn btn-primary btn-sm me-auto d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#nuovo-evento" onClick={handleShow}>Nuovo evento</button>
                         <Pagination
                             patientsPerPage={adverseEventsPerPage}
                             totalPatients={adverseEvents?.length}
@@ -71,7 +71,7 @@ function AdverseEventsInfo() {
                         />
                     </ul>
                 </nav>
-                <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuova-visita" onClick={handleShow}>Nuovo evento</button>
+                <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuovo-evento" onClick={handleShow}>Nuovo evento</button>
             </div>
 
 
@@ -248,65 +248,51 @@ function AdverseEventsModal(props) {
 
     return (
         <>
-            <Modal show={props.show} onHide={props.handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Aggiungi evento avverso</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form id="adverseEventForm">
-                        <Form.Group controlId="adverseEventDate">
-                            <Form.Label>Data evento</Form.Label>
-                            <Form.Control type="date" name="dateEvent" placeholder="Inizio" onChange={handleChange} />
-                        </Form.Group>
-                        <Form.Label>Intensità</Form.Label>
-                        {['radio'].map((type) => (
-                            <div key={`inline-${type}`} className="mb-3">
-                                <Form.Check
-                                    inline
-                                    label="Lieve"
-                                    name="idIntensity"
-                                    type={type}
-                                    id={`inline-${type}-1`}
-                                    value="1"
-                                    onChange={handleChange}
-                                />
-                                <Form.Check
-                                    inline
-                                    label="Moderata"
-                                    name="idIntensity"
-                                    type={type}
-                                    id={`inline-${type}-2`}
-                                    value="2"
-                                    onChange={handleChange}
-                                />
-                                <Form.Check
-                                    inline
-                                    label="Severa"
-                                    name="idIntensity"
-                                    type={type}
-                                    id={`inline-${type}-3`}
-                                    value="3"
-                                    onChange={handleChange}
-                                />
+            <div className="modal fade" id="nuovo-evento" tabIndex={-1} aria-labelledby="Nuovo evento" aria-hidden="true" >
+                <div className="modal-dialog modal-dialog-centered" show={props.show} onHide={props.handleClose}>
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h3 className="h3">Nuovo evento avverso</h3>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                        </div>
+                        <form action>
+                            <div className="modal-body align-items-end">
+                                <div className="input-group mb-3 w-sm-50">
+                                    <span className="input-group-text" id="data">Data</span>
+                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" name="dateEvent" onChange={handleChange} required />
+                                </div>
+                                <div className="input-group mb-3">
+                                    <span className="input-group-text" id="tipo-evento-label">Tipo di evento</span>
+                                    <input type="text" className="form-control form-control-sm" id="tipo-evento" aria-describedby="tipo-evemto-label" />
+                                </div>
+                                <div className="input-group mb-3">
+                                    <span className="input-group-text" id="descrizione">Descrizione</span>
+                                    <input type="text" className="form-control form-control-sm" id="descrizione" aria-describedby="descrizione-label" name="description" onChange={handleChange} rows={5} required />
+                                </div>
+                                <div className="options-wrapper justify-content-start mb-3 font-14">
+                                    <p className="form-label pe-3 m-0">Intensità:</p>
+                                    <div className="form-check">
+                                        <input className="form-check-input" type="radio" id="Check1" value="1" name="idIntensity" onChange={handleChange} required />
+                                        <label className="form-check-label" htmlFor="Check1">Lieve</label>
+                                    </div>
+                                    <div className="form-check">
+                                        <input className="form-check-input" type="radio" id="Check2" value="2" name="idIntensity" onChange={handleChange} />
+                                        <label className="form-check-label" htmlFor="Check2">Moderata</label>
+                                    </div>
+                                    <div className="form-check">
+                                        <input className="form-check-input" type="radio" id="Check3" value="2" name="idIntensity" onChange={handleChange} />
+                                        <label className="form-check-label" htmlFor="Check3">Grave</label>
+                                    </div>
+                                </div>
                             </div>
-                        ))}
-                        <Form.Group className="mb-3" controlId="adverseEventDescription">
-                            <Form.Label>Descrizione</Form.Label>
-                            <Form.Control as="textarea" name="description" onChange={handleChange} rows={5} />
-                        </Form.Group>
-                    </Form>
-                    < NotificationContainer />
-
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={props.handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" id="btnSave" onClick={saveAdverseEvent}>
-                        Save Changes
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+                            <div className="modal-footer d-flex justify-content-center justify-content-md-end">
+                                <button className="btn btn-primary" id onClick={saveAdverseEvent}>Salva evento</button>
+                            </div>
+                        </form>
+                        < NotificationContainer />
+                    </div>
+                </div>
+            </div>
         </>
     );
 }
