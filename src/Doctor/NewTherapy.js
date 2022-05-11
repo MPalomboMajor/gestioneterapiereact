@@ -822,13 +822,13 @@ export class NewTherapy extends Component {
                         keyboard={false}
                     >
                         <Modal.Header closeButton>
-                            <Modal.Title>Aggiungi farmaco  a cui è allergico l'assistito</Modal.Title>
+                            <Modal.Title>Aggiungi nome farmaco o molecola a cui è allergico l'assistito</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <Row>
                                 <Form.Group className="col-12 mb-3" >
-                                    <Form.Label className="text-">Farmaco avverso</Form.Label>
-                                    <Form.Control id="nomeFarmaco" onChange={this.handleChangeFarmaco} alt="allergiesDTO" name="nomeFarmaco" placeholder="Inserisci farmaco avverso" />
+                                    <Form.Label className="text-">Nome farmaco o molecola</Form.Label>
+                                    <Form.Control id="nomeFarmaco" onChange={this.handleChangeFarmaco} alt="allergiesDTO" name="nomeFarmaco" placeholder="Inserisci nome farmaco o molecola" />
                                 </Form.Group>
                             </Row>
                         </Modal.Body>
