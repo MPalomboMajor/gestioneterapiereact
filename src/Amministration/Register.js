@@ -235,7 +235,7 @@ export class Register extends Component {
                                     </label>
                             </div>
                             <p>
-                                <a href="" class="link-privacy small ps-4">Visualizza informativa privacy</a>
+                                <a  class="link-privacy small ps-4">Visualizza informativa privacy</a>
                             </p>
                         </div>
                             <p class="small ps-md-4 mb-0 text-center text-md-start"><strong>Non riesci a registrarti?</strong></p>
