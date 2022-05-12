@@ -332,8 +332,8 @@ const data = [
   ]
 
   const commonProperties = {
-    width: 800,
-    height: 500,
+    width: 300,
+    height: 200,
     animate: true,
     activeOuterRadiusOffset: 8,
 }

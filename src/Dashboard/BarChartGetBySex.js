@@ -1,55 +1,15 @@
 import { ResponsiveBar } from '@nivo/bar'
-import { dashboard } from '../helpers/api/api'
-import { useState, useEffect } from 'react';
-import moment from 'moment';
 
-function BarChart() {
-    const [dataInizio, setDataInizio] = useState();
-    const [dataFine, setDataFine] = useState();
-    const [data, setData] = useState([
-        {
-            "sesso": "Maschi",
-            "registrazioni": 56,
-            "registrazioniColor": "hsl(233, 100%, 50%)",
-            "attivazioni": 52,
-            "attivazioniColor": "hsl(37, 100 %, 50 %)"
-        },
-        {
-            "sesso": "Femmine",
-            "registrazioni": 36,
-            "registrazioniColor": "hsl(233, 100%, 50%)",
-            "attivazioni": 42,
-            "attivazioniColor": "hsl(37, 100 %, 50 %)"
-        }
-    ]);
-
-    function fetchData(evt) {
-        evt.preventDefault();
-        dashboard.getWithParam("GetBySex/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-            .then((response) => {
-                if (response.status === 200) {
-                    setData(response.data.dati);
-                }
-            }).catch((error) => {
-
-            });
-    };
-
-    const commonProperties = {
-        width: 800,
-        height: 400,
-        animate: true,
-        activeOuterRadiusOffset: 8,
-    }
+function BarChartGetBySex(props) {
 
     const MyResponsiveBar = ({ data /* see data tab */ }) => (
         <ResponsiveBar
-            {...commonProperties}
+            {...props.commonProperties}
             data={data}
             keys={[
                 'registrazioni',
                 'attivazioni'
-                
+
             ]}
             indexBy="sesso"
             margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
@@ -161,32 +121,15 @@ function BarChart() {
 
     return (
         <>
-            <div className="row mb-4">
-                <form onSubmit={fetchData}>
-                    <div className="row mb-4">
-                        <div className="col-12 col-md-4">
-                            <span className="input-group-text" id="label-data">Data inizio</span>
-                            <input type="date" className="form-control form-control-sm" id="data" aria-describedby="label-data" name="dataInizio" onChange={e => setDataInizio(moment(e.target.value).format("DD/MM/YYYY"))} />
-                        </div>
-                        <div className="col-12 col-md-4">
-                            <span className="input-group-text" id="label-data">Data fine</span>
-                            <input type="date" className="form-control form-control-sm" id="data" aria-describedby="label-data" name="dataFine" onChange={e => setDataFine(moment(e.target.value).format("DD/MM/YYYY"))} />
-                        </div>
-                        <div className="col-12 col-md-4">
-                            <button className="btn btn-primary btn-upload" id type="submit" >Filtra</button>
-                        </div>
-                    </div>
-                    &nbsp;&nbsp;&nbsp;
-                </form>
-            </div>
+
             <div style={{ height: 300, width: 300 }}>
-                <MyResponsiveBar data={data} />
+                <MyResponsiveBar data={props.data} commonProperties={props.commonProperties} />
             </div>
         </>
     );
 };
 
-export { BarChart };
+export { BarChartGetBySex };
 
 
 

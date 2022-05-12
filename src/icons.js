@@ -12,7 +12,7 @@ const iconDelete = <svg className="bi bi-trash" width="1em" height="1em" viewBox
         d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" clipRule="evenodd" />
 </svg>;
 
-const iconNotFound = <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '15' }} class="icon icon-tabler icon-tabler-file-alert" heigth="100" width="100" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="orange" stroke-linecap="round" stroke-linejoin="round">
+const iconNotFound = <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '15' }} class="icon icon-tabler icon-tabler-file-alert" heigth="100" width="100" viewBox="0 0 24 24" stroke-width="2" stroke="#573d6b" fill="#f0b300" stroke-linecap="round" stroke-linejoin="round">
     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
     <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
     <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
@@ -20,7 +20,7 @@ const iconNotFound = <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft
     <line x1="12" y1="11" x2="12" y2="14"></line>
 </svg>
 
-const iconNotFoundSmall = <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '40' }} class="icon icon-tabler icon-tabler-file-alert" width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="orange" stroke-linecap="round" stroke-linejoin="round">
+const iconNotFoundSmall = <svg xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '40' }} class="icon icon-tabler icon-tabler-file-alert" width="30" height="30" viewBox="0 0 24 24" stroke-width="2" stroke="#573d6b" fill="#f0b300" stroke-linecap="round" stroke-linejoin="round">
     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
     <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
     <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
