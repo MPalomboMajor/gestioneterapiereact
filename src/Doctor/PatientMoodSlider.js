@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { iconNotFoundSmall } from '../icons';
 
 export default (props) => {
   const [slides, setSlides] = useState(props.patientDailyMoods);
@@ -38,11 +39,11 @@ export default (props) => {
         {props.patientDailyMoods?.map((slideContent) => (
           <SwiperSlide key={slideContent} className="swiper-slide"><p className="date">{slideContent.dataOraRisposta}</p>
             <div className="upper-wrapper">
-              <img src={slideContent.umore} />
+              {slideContent.umore === "#" ? iconNotFoundSmall : <img src={slideContent.umore} />}
             </div>
             <div className="row-label" data-label="Umore" />
             <div className="lower-wrapper">
-              <img src={slideContent.emozione} />
+              {slideContent.emozione === "#" ? iconNotFoundSmall : <img src={slideContent.emozione} />}
             </div>
             <div className="row-label" data-label="Emozione" />
           </SwiperSlide>

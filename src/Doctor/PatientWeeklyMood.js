@@ -14,118 +14,55 @@ import PatientMoodWeeklySlider from './PatientMoodWeeklySlider';
 function PatientWeeklyMood(props) {
     const date = new Date();
     const [startDate, setStartDate] = useState(date);
-    const [dateRange, setDateRange] = useState("7");
+    const [dateRange, setDateRange] = useState("5");
     const [selectedPatientWeeklyMoods, setSelectedPatientWeeklyMoods] = useState(props.patientWeeklyMoods);
     const [calendarDates, setCalendarDates] = useState([]);
     const [list, setList] = useState([]);
 
-    // useEffect(() => {
-    //     const fetchWeeklyMoodList = async () => {
-    //         var initDate = moment().startOf('isoWeek');
-    //         var endDate = moment().endOf('isoWeek');
-    //         var range = moment(startDate).isBetween(initDate, endDate, null, '()');
+    useEffect(() => {
+        const fetchWeeklyMoodList = async () => {
+            //var dateObj = new Date(startDate);
+            let momentObj = moment(startDate);
+            var initDate = momentObj.startOf('isoWeek').subtract(7, 'days');
+            
+            const listInitDates = [initDate];
+            for (var i = 0; i < parseInt(dateRange); i++) {
+                listInitDates.push(moment(initDate).add(7, 'days'));
+                initDate = listInitDates[i + 1];
+            }
+            listInitDates.shift();
+            getListWeeks(listInitDates);
+        };
+        fetchWeeklyMoodList();
+    }, [dateRange]);
 
-    //         const listInitDates = [initDate];
-    //         const listEndDates = [endDate];
-    //         for (var i = 0; i < 4; i++) {
-    //             listInitDates.push(moment(initDate).subtract(7, 'days'));
-    //             listEndDates.push(moment(endDate).subtract(7, 'days'))
-    //             initDate = listInitDates[i + 1];
-    //             endDate = listEndDates[i + 1];
-    //         }
-    //         console.log(listInitDates);
-    //         console.log(listEndDates);
-
-    //         const listApp = [];
-
-    //         for (var i = 0; i < listInitDates.length; i++){
-    //             selectedPatientWeeklyMoods.map(x => {
-    //                 if (moment(x.dataOraRisposta).isBetween(listInitDates[i], moment(listInitDates[i]).add(7, 'days'), null, '()')) {
-    //                     listApp.push(x)
-    //                 } else {
-    //                     listApp.push({
-    //                         id: 0,
-    //                         paesaggio: "#",
-    //                         immaginePersonale: "#",
-    //                         colore: "#4FAEEE",                          
-    //                         commento: "",
-    //                         startDate: listInitDates[i],
-    //                         endDate: moment(listInitDates[i]).add(7, 'days'),
-    //                         idPatientProfile: window.location.pathname.split('/').pop()
-    //                     })
-
-    //                 }
-    //                 // const value = selectedPatientWeeklyMoods.filter(y => y.dataOraRisposta === x);
-    //                 // if (value.length === 0) {
-    //                 //     listApp.push({
-    //                 //         id: 0,
-    //                 //         idUmore: 0,
-    //                 //         umore: "#",
-    //                 //         idEmozione: 0,
-    //                 //         emozione: "#",
-    //                 //         commento: "",
-    //                 //         dataOraRisposta: x,
-    //                 //         idPatientProfile: window.location.pathname.split('/').pop()
-    //                 //     })
-    //                 // } else {
-    //                 //     listApp.push(value[0])
-    //                 // }
-    //             })
-    //         }
-    //         console.log(listApp);
-    //         setList(state => [listApp, ...state]);
-
-
-
-
-    //         // console.log('Start Date:' + initDate.format('MM/DD/YYYY'));
-    //         // console.log('End Date:' + endDate.format('MM/DD/YYYY'));
-
-
-
-    //         // let new_date = moment(new Date(startDate)).format();
-    //         // let endDate = moment(new_date).add(dateRange, 'd').format();
-    //         // getDates(startDate, endDate);
-    //     };
-    //     fetchWeeklyMoodList();
-    // }, [dateRange]);
-
-
-
-
+    
     const handleChangeDate = (e) => {
         const inputValue = e.target.value;
         var dateObj = new Date(inputValue);
         var momentObj = moment(dateObj);
+        setStartDate(dateObj);
         //var momentString = momentObj.format('YYYY-MM-DD'); 
-        var initDate = momentObj.startOf('isoWeek');
-        var endDate = momentObj.endOf('isoWeek');
-
+        var initDate = momentObj.startOf('isoWeek').subtract(7, 'days');
+        var endDate = momentObj.endOf('isoWeek').subtract(7, 'days');
 
         const listInitDates = [initDate];
         const listEndDates = [endDate];
 
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < dateRange; i++) {
             listInitDates.push(moment(initDate).add(7, 'days'));
-            listEndDates.push(moment(endDate).add(7, 'days'))
+            listEndDates.push(moment(endDate).add(7, 'days'));
             initDate = listInitDates[i + 1];
             endDate = listEndDates[i + 1];
         }
+        listInitDates.shift();
         console.log(listInitDates);
         console.log(listEndDates);
         getListWeeks(listInitDates);
-
     };
-
-
-    //const compareDate = moment("15/02/2013", "DD/MM/YYYY");  
-    // const startDate = moment("12/01/2013", "DD/MM/YYYY");  
-    // const endDate = moment("15/01/2013", "DD/MM/YYYY");  
-    // const isBetween = compareDate.isBetween(startDate, endDate)  
 
     function getListWeeks(listInitDates) {
         setList([]);
-        
         const listApp = [];
         listInitDates?.map(y => {
             let dateA = moment(y);
@@ -140,43 +77,23 @@ function PatientWeeklyMood(props) {
                     id: 0,
                     paesaggio: "#",
                     immaginePersonale: "#",
-                    colore: "#4FAEEE",
+                    colore: "#",
                     commento: "",
                     startDate: y,
-                    endDate: moment(y).add(7, 'days'),
+                    endDate: moment(y).add(6, 'days'),
                     idPatientProfile: window.location.pathname.split('/').pop()
                 })
             }
-
         })
         console.log(listApp);
         setList(state => [listApp, ...state]);
     }
 
-    // function addEmptySlides() {
-    //     for (var i = 0; i < calendarDates.length; i++) {
-    //       for (var i = 0; i < selectedPatientDailyMoods.length; i++) {
-    //         if (days[i] === selectedPatientDailyMoods.dataOraRisposta[i]) {
-    //             setSelectedPatientDailyMoods(oldSelectedPatientDailyMoods => [...oldSelectedPatientDailyMoods, {
-    //             umore: "http://localhost:3000/img/mood/OA_icon-umore-1.svg",
-    //             emozione: "http://localhost:3000/img/mood/OA_icon-emozione-8.svg",
-    //             dataOraRisposta: days[i].value
-    //           }])
-    //         }
-    //       }
-    //     }
-    //   };
-
-    // const handleChangeRange = (e) => {
-    //     const inputValue = e.target.value;
-    //     setDateRange(inputValue);
-
-    //     // let new_date = moment(new Date(startDate)).format();
-    //     // let endDate = moment(new_date).add(dateRange, 'd').format();
-    //     // getDates(startDate, endDate);
-    // };
-
-
+    const handleChangeRange = (e) => {
+        const inputValue = e.target.value;
+        setDateRange(inputValue);
+    };
+   
     return (
         <>
             <div>
@@ -193,9 +110,9 @@ function PatientWeeklyMood(props) {
                     <div className="col-12 col-md-4">
                         <div className="input-group mb-3">
                             <span className="input-group-text" id="label-settimane">settimane</span>
-                            <select className="form-select form-select-sm" id="captiontest" aria-describedby="label-settimane">
-                                <option value={5}>5</option>
-                                <option value={10} selected>10</option>
+                            <select className="form-select form-select-sm" id="captiontest" aria-describedby="label-settimane" name="dateRange" onChange={handleChangeRange}>
+                                <option value={5} selected>5</option>
+                                <option value={10}>10</option>
                                 <option value={15}>15</option>
                             </select>
                         </div>

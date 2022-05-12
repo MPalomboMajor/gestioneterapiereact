@@ -162,7 +162,6 @@ function NutritionalPlansModal(props) {
     const [filesArray, setFilesArray] = useState([]);
 
     function saveNutritionalPlan(evt) {
-
         evt.preventDefault();
         // setIdPaziente(parseInt(idPaziente));
         // setIdidMedicalExam(parseInt(idMedicalExam));
@@ -199,7 +198,6 @@ function NutritionalPlansModal(props) {
             });
         document.getElementById("caricapiano").value = "";
         clearState();
-
     };
 
     const saveFileSelected = (e) => {

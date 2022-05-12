@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import moment from 'moment';
+import { iconNotFound } from '../icons';
 
 export default (props) => {
   const [slides, setSlides] = useState(props.patientWeeklyMoods);
@@ -36,20 +38,23 @@ export default (props) => {
     >
       <div className="swiper-wrapper">
         {props.patientWeeklyMoods?.map((slideContent) => (
-          <SwiperSlide key={slideContent} className="swiper-slide"><p className="date">{slideContent.startDate}</p>
+          <SwiperSlide key={slideContent} className="swiper-slide"><p className="date">{moment(slideContent.startDate).format("DD/MM/YYYY")} - {moment(slideContent.endDate).format("DD/MM/YYYY")}</p>
             <div className="upper-wrapper">
-              <img src="https://picsum.photos/800/600/" />
+              {slideContent.paesaggio === "#" ? iconNotFound : <img src={slideContent.paesaggio}/>} 
             </div>
             <div className="row-label" data-label="Immagine" />
             <div className="lower-wrapper">
-              <img src="./img/mood/OA_icon-colore-1.svg" />
+              <svg width={20} height={20} style={{ marginLeft: '60' }} >
+                <rect width={20} height={20} rx={5} ry={5} style={{ fill: slideContent.colore, strokeWidth: 0, stroke: 'rgb(0,0,0)' }} />
+              </svg>
+
             </div>
             <div className="row-label" data-label="Colore" />
           </SwiperSlide>
         ))}
       </div>
-      
-                    {/* <SwiperSlide key={slideContent} className="swiper-slide"><p className="date">{slideContent.dataOraRisposta}</p>
+
+      {/* <SwiperSlide key={slideContent} className="swiper-slide"><p className="date">{slideContent.dataOraRisposta}</p>
             <div className="upper-wrapper">
               <img src={slideContent.umore} />
             </div>
