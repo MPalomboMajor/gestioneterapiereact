@@ -40,14 +40,17 @@ export default (props) => {
         {props.patientWeeklyMoods?.map((slideContent) => (
           <SwiperSlide key={slideContent} className="swiper-slide"><p className="date">{moment(slideContent.startDate).format("DD/MM/YYYY")} - {moment(slideContent.endDate).format("DD/MM/YYYY")}</p>
             <div className="upper-wrapper">
-              {slideContent.paesaggio === "#" ? iconNotFound : <img src={slideContent.paesaggio}/>} 
+              {slideContent.paesaggio === "#" ? iconNotFound : <img src={slideContent.paesaggio} />}
             </div>
             <div className="row-label" data-label="Immagine" />
             <div className="lower-wrapper">
-              <svg width={20} height={20} style={{ marginLeft: '60' }} >
-                <rect width={20} height={20} rx={5} ry={5} style={{ fill: slideContent.colore, strokeWidth: 0, stroke: 'rgb(0,0,0)' }} />
-              </svg>
-
+              {slideContent.colore === "#" ?
+                <svg width={20} height={20} style={{ marginLeft: '60' }} >
+                  <rect width={20} height={20} rx={5} ry={5} style={{ fill: '#000000', strokeWidth: 0, stroke: 'rgb(0,0,0)' }} />
+                </svg> :
+                <svg width={20} height={20} style={{ marginLeft: '60' }} >
+                  <rect width={20} height={20} rx={5} ry={5} style={{ fill: slideContent.colore, strokeWidth: 0, stroke: 'rgb(0,0,0)' }} />
+                </svg>}
             </div>
             <div className="row-label" data-label="Colore" />
           </SwiperSlide>
