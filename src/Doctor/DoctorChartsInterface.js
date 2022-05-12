@@ -1,13 +1,16 @@
-import { PieChartGetAllDropOff } from "../Dashboard/PieChartGetAllDropOff";
-import HealtMapChart from "../Dashboard/HealtMapChartComponents";
-import { BarChartGetBySex } from "../Dashboard/BarChartGetBySex";
-import { LineChartGetMonthlyTrend } from "../Dashboard/LineChartGetMonthlyTrend";
 import { dashboard } from '../helpers/api/api'
 import { useState, useEffect } from 'react';
 import moment from 'moment';
+import { Link } from "react-router-dom";
+import { Tabs, Tab } from 'react-bootstrap';
+import { Patients } from '../Dashboard/Tabs/Patients';
+import { Therapies } from '../Dashboard/Tabs/Therapies';
+import { Monitoring } from '../Dashboard/Tabs/Monitoring';
+import { ContactInfo } from '../Dashboard/Tabs/ContactInfo';
 
 
 function DoctorChartsInterface() {
+    const [key, setKey] = useState('patients');
     const date = new Date();
     const [dataInizio, setDataInizio] = useState(moment(date));
     const [dataFine, setDataFine] = useState(moment(date).subtract(13, 'days'));
@@ -52,8 +55,17 @@ function DoctorChartsInterface() {
 
     return (
         <>
-            <h1 className="h1">Chart</h1>
-            &nbsp;&nbsp;
+
+            
+
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-12 mb-3 d-flex justify-content-center justify-content-md-start">
+                        <Link to={`/Dashboard`}><button className="btn btn-primary me-3" id>Elenco assistiti</button></Link>
+                    </div>
+                </div>
+            </div>
+            &nbsp;&nbsp;&nbsp;
             <div className="row mb-4">
                 <form onSubmit={fetchData}>
                     <div className="row mb-4">
@@ -72,48 +84,37 @@ function DoctorChartsInterface() {
                     &nbsp;&nbsp;&nbsp;
                 </form>
             </div>
-            <div className="row h-100 justify-content-center align-items-center" style={{ "width": "100%" }}>
-                <div className="col-12">
-                    <div className="box">
-                        <div className="row">
-                            <div className="col-12 col-md-6 mb-2">
-                                <div className="container-fluid g-0">
-                                    <div className="row gx-3 mb-2">
-                                        <div style={{ "height": "300px" }}>
-                                            <h2>GetAllDropOff</h2>
-                                            <PieChartGetAllDropOff data={dataGetAllDropOff} commonProperties={commonProperties} />
-                                        </div>
-                                        &nbsp;&nbsp;
-                                        <div style={{ "height": "300px" }}>
-                                            <h2>GetMonthlyTrend</h2>
-                                            <LineChartGetMonthlyTrend data={dataGetMonthlyTrend} commonProperties={commonProperties}/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-12 col-md-6">
-                                <div className="container-fluid g-0">
-                                    <div className="row gx-3 mb-2">
-                                        <div style={{ "height": "300px" }}>
-                                            <h2>GetBySex</h2>
-                                            <BarChartGetBySex data={dataGetBySex} commonProperties={commonProperties} />
-                                        </div>
-                                        &nbsp;&nbsp;
-                                        <div style={{ "height": "300px" }}>
-                                            <h2>Andamento mood giornaliero</h2>
-                                            <HealtMapChart />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-
-
+            <Tabs
+                id="charts-tabs"
+                activeKey={key}
+                onSelect={(k) => setKey(k)}
+                className="nav secondary-menu mb-4"
+            >
+                <Tab eventKey="patients" title="Assistiti">
+                    <Patients dataGetAllDropOff={dataGetAllDropOff}
+                        dataGetMonthlyTrend={dataGetMonthlyTrend}
+                        dataGetBySex={dataGetBySex}
+                        commonProperties={commonProperties} />
+                </Tab>
+                <Tab eventKey="therapies" title="Terapie" >
+                    <Therapies dataGetAllDropOff={dataGetAllDropOff}
+                        dataGetMonthlyTrend={dataGetMonthlyTrend}
+                        dataGetBySex={dataGetBySex}
+                        commonProperties={commonProperties} />
+                </Tab>
+                <Tab eventKey="monitoring" title="Monitoraggio" >
+                    <Monitoring dataGetAllDropOff={dataGetAllDropOff}
+                        dataGetMonthlyTrend={dataGetMonthlyTrend}
+                        dataGetBySex={dataGetBySex}
+                        commonProperties={commonProperties} />
+                </Tab>
+                <Tab eventKey="contactInfo" title="Contact info" >
+                    <ContactInfo dataGetAllDropOff={dataGetAllDropOff}
+                        dataGetMonthlyTrend={dataGetMonthlyTrend}
+                        dataGetBySex={dataGetBySex}
+                        commonProperties={commonProperties} />
+                </Tab>
+            </Tabs>
 
         </>
 

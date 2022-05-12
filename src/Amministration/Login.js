@@ -51,7 +51,7 @@ export class Login extends Component {
                             localStorage.setItem('accessToken', response.data.dati.accessToken);
                             localStorage.setItem('refreshToken', response.data.dati.refreshToken);
                             localStorage.setItem('role', JSON.stringify(response.data.dati.userDTO));
-                            window.location.href = "/Dashboard";
+                            window.location.href = "/DoctorChartsInterface";
                         } else {
                             NotificationManager.error(message.ErrorUnauthorized, entitiesLabels.ERROR, 3000);
                         }
