@@ -9,11 +9,7 @@ const SideNav = () => {
     const [patientProfile, setPatientProfile] = useState([]);
     const user = JSON.parse(localStorage.getItem("role"));
     const isCarManger = user.idRole === role.CAREMANAGER ? true : false
-    function logOut  () {
-        window.localStorage.removeItem('accessToken');
-        window.localStorage.removeItem('refreshTokens');
-        window.location.href = "/Login";
-    }
+    
     return (
         <header className="col">
             <a href className="logo"><img src={logo} alt="OntozApp" /></a>
@@ -206,7 +202,7 @@ const SideNav = () => {
                                         </a>
                                     </li>
                                     <li className="nav-item">
-                                        <a href="" className="nav-link  bi-box-arrow-right" onClick={logOut}>
+                                        <a href="/"  className="nav-link  bi-box-arrow-right" >
                                             <p>
                                                 Logout
                                             </p>

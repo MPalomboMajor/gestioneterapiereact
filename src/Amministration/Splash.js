@@ -17,10 +17,15 @@ export class Splash extends Component {
         this.state = {
 
         }
+        this.reset = this.reset.bind(this);
     }
-
+    componentDidMount() {
+        this.reset();
+    }
     //FUNZIONI 
-
+   reset = () => {
+        window.localStorage.clear();
+    };
 
 
     //VIEW 

@@ -38,6 +38,7 @@ export class DoctorProfile extends Component {
             listPatientCode: [],
             currentPage: 1,
             itemPerPage: 5,
+            sendCode:false,
             userDto: {
                 ...this.userModelProp(),
             },
@@ -138,10 +139,11 @@ export class DoctorProfile extends Component {
             .then((response) => {
                 if (response.status === 200) {
                     ManagerModal.success(message.CODICE + message.SuccessSend, entitiesLabels.SUCCESS, 3000);
-                    this.setState({ isSending: false });
+                    this.setState({ isSending: false , sendCode:true});
                 } else {
                     ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
-                    this.setState({ isSending: false });
+                    this.setState({ isSending: false , sendCode:false});
+                    
                 }
             }).catch((error) => {
                 ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
@@ -149,6 +151,7 @@ export class DoctorProfile extends Component {
             });
     }
     sendChangeProfile = () => {
+        if (this.validator.allValid()) {
         this.setState((prevState) => ({ isSending: true }))
         medico.post("Edit", this.state.userDto)
             .then((response) => {
@@ -163,8 +166,14 @@ export class DoctorProfile extends Component {
                 ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
                 this.setState({ isSending: false });
             });
+        } else {
+            this.validator.showMessages();
+            this.setState({ warning: true });
+            this.forceUpdate();
+        }
     }
     sendChangePassword = () => {
+        if (this.validator.allValid()) {
         this.setState((prevState) => ({ isSending: true }))
         const statusCopy = { ...this.state };
         statusCopy['passwordModel']['username'] = this.state.userDto.email;
@@ -183,6 +192,11 @@ export class DoctorProfile extends Component {
                 ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
                 this.setState({ isSending: false });
             });
+        } else {
+            this.validator.showMessages();
+            this.setState({ warning: true });
+            this.forceUpdate();
+        }
     }
     handleChange = (el) => {
         let objName = el.target.alt;
@@ -222,19 +236,19 @@ export class DoctorProfile extends Component {
                 this.state.userDto.email,
                 'required'
             ),
-            telephone: this.validator.message(
-                'Telefone',
-                this.state.userDto.telephone,
+            code: this.validator.message(
+                'Reset Code',
+                this.state.passwordModel.resetPasswordCode,
                 'required'
             ),
-            password: this.validator.message(
-                'Password',
-                this.state.userDto.password,
+            newPassword: this.validator.message(
+                'New Password',
+                this.state.passwordModel.newPassword,
                 'required'
             ),
-            confirmpassword: this.validator.message(
+            confirmPassword: this.validator.message(
                 'Confirm Password',
-                this.state.userDto.confirmpassword,
+                this.state.passwordModel.confirmPassword,
                 'required'
             ),
         };
@@ -322,17 +336,17 @@ export class DoctorProfile extends Component {
                                         <Row>
                                             <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
                                                 <Form.Label className="text">Username</Form.Label>
-                                                <Form.Control value={this.state.userDto.email} disabled name="farmaco" placeholder="Inserisci farmaco" />
+                                                <Form.Control value={this.state.userDto.email} disabled name="farmaco" placeholder="Inserisci email" />
                                             </Form.Group>
                                         </Row>
                                         <Row>
                                             <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                                 <Form.Label className="text">Nuova Password</Form.Label><Eye size='22' onClick={() => this.showPassword()} className='icon-black' />
-                                                <Form.Control id="newPassword" alt="passwordModel" onChange={this.handleChange} name="newPassword" type='password' placeholder="Inserisci Dosagio" />
+                                                <Form.Control id="newPassword" alt="passwordModel" onChange={this.handleChange} name="newPassword" type='password' placeholder="Inserisci password" />
                                             </Form.Group>
                                             <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                                 <Form.Label className="text" >Conferma Password</Form.Label><Eye size='22' onClick={() => this.showConfirmPassword()} className='icon-black' />
-                                                <Form.Control id="confirmPassword" alt="passwordModel" onChange={this.handleChange} name="confirmPassword" type='password' placeholder="Inserisci quantita" />
+                                                <Form.Control id="confirmPassword" alt="passwordModel" onChange={this.handleChange} name="confirmPassword" type='password' placeholder="Inserisci  conferma password" />
                                             </Form.Group>
 
                                             {validations.equalPass ? (
@@ -347,7 +361,7 @@ export class DoctorProfile extends Component {
                                         <Row>
                                             <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
                                                 <Form.Label className="text">Codice Reset</Form.Label>
-                                                <Form.Control id="resetPasswordCode" name="resetPasswordCode" alt="passwordModel" onChange={this.handleChange} placeholder="Inserisci farmaco" />
+                                                <Form.Control id="resetPasswordCode" name="resetPasswordCode" alt="passwordModel" onChange={this.handleChange} placeholder="Inserisci codice" />
                                             </Form.Group>
                                         </Row>
                                     </Modal.Body>
@@ -455,7 +469,7 @@ export class DoctorProfile extends Component {
                                 </Form.Group>
                                 <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                     <Form.Label className="">Telefono</Form.Label>
-                                    <Form.Control id='phoneNumber' alt='userDto' name="phoneNumber" onChange={this.handleChange} isInvalid={validations.telephone != null} value={this.state.userDto.phoneNumber} placeholder="Enter telefono" />
+                                    <Form.Control disabled id='phoneNumber' alt='userDto' name="phoneNumber" onChange={this.handleChange} isInvalid={validations.telephone != null} value={this.state.userDto.phoneNumber} placeholder="Enter telefono" />
                                 </Form.Group>
                            
                                 <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
@@ -493,17 +507,17 @@ export class DoctorProfile extends Component {
                                 <Row>
                                     <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
                                         <Form.Label className="text">Username</Form.Label>
-                                        <Form.Control value={this.state.userDto.email} disabled name="farmaco" placeholder="Inserisci farmaco" />
+                                        <Form.Control value={this.state.userDto.email} disabled name="farmaco" placeholder="Inserisci email" />
                                     </Form.Group>
                                 </Row>
                                 <Row>
                                     <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
-                                        <Form.Label className="text">Nuova Password</Form.Label><Eye size='22' onClick={() => this.showPassword()} className='icon-black' />
-                                        <Form.Control id="newPassword" alt="passwordModel" onChange={this.handleChange} name="newPassword" type='password' placeholder="Inserisci Dosagio" />
+                                        <Form.Label className="text">Nuova Password</Form.Label><Eye size='22' onClick={() => this.showPassword()} className='icon-black'  />
+                                        <Form.Control id="newPassword" alt="passwordModel" isInvalid={validations.newPassword != null}  onChange={this.handleChange} name="newPassword" type='password' placeholder="Inserisci password" />
                                     </Form.Group>
                                     <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                         <Form.Label className="text" >Conferma Password</Form.Label><Eye size='22' onClick={() => this.showConfirmPassword()} className='icon-black' />
-                                        <Form.Control id="confirmPassword" alt="passwordModel" onChange={this.handleChange} name="confirmPassword" type='password' placeholder="Inserisci quantita" />
+                                        <Form.Control id="confirmPassword" alt="passwordModel" isInvalid={validations.confirmPassword != null || validations.equalPass != null}  onChange={this.handleChange} name="confirmPassword" type='password' placeholder="Inserisci password" />
                                     </Form.Group>
 
                                     {validations.equalPass ? (
@@ -518,7 +532,12 @@ export class DoctorProfile extends Component {
                                 <Row>
                                     <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
                                         <Form.Label className="text">Codice Reset</Form.Label>
-                                        <Form.Control id="resetPasswordCode" name="resetPasswordCode" alt="passwordModel" onChange={this.handleChange} placeholder="Inserisci farmaco" />
+                                        <Form.Control id="resetPasswordCode" name="resetPasswordCode" isInvalid={validations.code != null}  alt="passwordModel" onChange={this.handleChange} placeholder="Inserisci codice" />
+                                    </Form.Group>
+                                </Row>
+                                <Row>
+                                    <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
+                                       {this.state.sendCode ? <Form.Label className="text">Il codice di verifica è stato inviato all'indirizzo e-mail fornito.</Form.Label>: ''} 
                                     </Form.Group>
                                 </Row>
                             </Modal.Body>
@@ -532,7 +551,7 @@ export class DoctorProfile extends Component {
                                     size="sm"
                                     role="status"
                                     aria-hidden="true"
-                                /> : ''}Richiedi codice</Button>
+                                /> : ''} {!this.state.sendCode ?  "Richiedi codice" : "Richiedi nuovamente "}</Button>
                                 <Button variant="primary" onClick={() => this.sendChangePassword()}>{this.state.isSending == true ? <Spinner
                                     as="span"
                                     animation="border"

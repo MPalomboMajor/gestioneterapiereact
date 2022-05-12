@@ -21,10 +21,15 @@ export class Login extends Component {
             dataOraRichiesta: moment(new Date()).format("DD/MM/YYYY HH:mm"),
         }
         this.validator = new SimpleReactValidator();
+        this.reset = this.reset.bind(this);
     }
-
+    componentDidMount() {
+        this.reset();
+    }
     //FUNZIONI 
-
+    reset = () => {
+        window.localStorage.clear();
+    };
     handleChange = (el) => {
         const inputName = el.target.name;
         const inputValue = el.target.value;
@@ -60,7 +65,10 @@ export class Login extends Component {
             this.forceUpdate();
         }
     };
-
+    returnSplash = () => {
+       
+        window.location.href = "/";
+    };
     //VIEW 
     render() {
 
@@ -133,6 +141,11 @@ export class Login extends Component {
                                 </div>
                             </div>
                             <div class="row justify-content-center">
+                                <div className="col-12 col-md-6 mb-3 d-flex justify-content-center justify-content">
+                                <Button className='btn btn-secondary btn-arrow'  onClick={() => this.returnSplash()} >
+                                 Indietro
+                             </Button>
+                                </div>
                                 <div className="col-12 col-md-6 mb-3 d-flex justify-content-center justify-content">
                                 <Button className='btn btn-primary btn-arrow'  onClick={() => this.postLogin()} >
                                  Login

@@ -51,7 +51,11 @@ export class Register extends Component {
     }
     componentDidMount() {
         this.getListMedicalCenter();
+        this.reset();
     }
+    reset = () => {
+        window.localStorage.clear();
+    };
     getListMedicalCenter = () => {
         medico.getAll("GetCentriMedici")
             .then(async (response) => {
@@ -115,7 +119,10 @@ export class Register extends Component {
 
         this.setState(statusCopy);
     };
-
+    returnSplash = () => {
+       
+        window.location.href = "/";
+    };
     showPassword = () => {
         var x = document.getElementById("password");
         if (x.type === "password") {
@@ -212,7 +219,7 @@ export class Register extends Component {
                             </div>}
                         </Row>
                         <Row>
-                        <div class="col-6 col-md-8 mb-0">
+                        <div class="col-2 col-md-4 mb-0">
                             <div class="form-check mb-0">
                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={() => this.showPassword()}></input>
                                     <label class="form-check-label small" for="flexCheckDefault">
@@ -220,7 +227,12 @@ export class Register extends Component {
                                     </label>
                             </div>
                         </div>
-                        <div class="col-6 col-md-4 mb-3 d-flex justify-content-center justify-content-md-end align-items-start">
+                        <div class="col-3 col-md-4 mb-3 d-flex justify-content-center justify-content-md-end align-items-start">
+                            <Button className="btn btn-secondary btn-arrow" onClick={() => this.returnSplash()}>
+                               Indietro
+                            </Button>
+                        </div>
+                        <div class="col-3 col-md-4 mb-3 d-flex justify-content-center justify-content-md-end align-items-start">
                             <Button className="btn btn-primary btn-arrow" onClick={() => this.InsertUser()}>
                                 Registrati
                             </Button>
@@ -235,13 +247,13 @@ export class Register extends Component {
                                     </label>
                             </div>
                             <p>
-                                <a  class="link-privacy small ps-4">Visualizza informativa privacy</a>
+                                <a href='http://testontozapp.pharmaprime.it:3000/informativa_privacy.pdf' target={'blank'} class="link-privacy small ps-4">Visualizza informativa privacy</a>
                             </p>
                         </div>
                             <p class="small ps-md-4 mb-0 text-center text-md-start"><strong>Non riesci a registrarti?</strong></p>
                             <p class="mb-0 text-center text-md-start">
-                                <a href="tel:" class="link-phone small ps-4">XXX XXXXXXXX</a>
-                                <a href="mailto:" class="link-email small ps-4">xxxxxxx@yyyyyyy.it</a>
+                                <a  class="link-phone small ps-4">0696741200</a>
+                                {/*<a href="mailto:" class="link-email small ps-4">xxxxxxx@yyyyyyy.it</a>*/}
                             </p>
                         </div>
                     </Form>

@@ -75,9 +75,7 @@ var PhoneNumber = this.state.patiendDto.phoneNumber;
                                 if (response.data.dati) {
                                     localStorage.setItem('newPatient', response.data.dati.id);
                                     window.location.href = "/NewTherapy/"+response.data.dati.id;
-                                } else {
-
-                                }
+                                } 
                             }).catch((error) => {
                                 this.setState({ warning: true });
                             });

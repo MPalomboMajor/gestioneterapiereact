@@ -54,7 +54,13 @@ export default class Layout extends Component {
 
     return (
       <>
-        {localStorage.getItem("accessToken") != null && this.state.url != "/" && this.state.url != "/Register" && this.state.url != "/Login" ?
+        {localStorage.getItem("accessToken") != null 
+        && this.state.url != "/" 
+        && this.state.url != "/Register" 
+        && this.state.url != "/Login"  
+        && this.state.url != "/RegisterCareManager"  
+        && this.state.url != "/ChangePassword" 
+        && this.state.url != "/Recovery"   ?
           <>
 
             <div class="wrapper" >
@@ -73,6 +79,8 @@ export default class Layout extends Component {
                         <Route path="/Login" element={<Login />}></Route>
                         <Route path="/Register" element={<Register />}></Route>
                         <Route path="/RegisterCareManager" element={<RegisterCareManager />}></Route>
+                        <Route path="/ChangePassword" element={<ChangePassword />}></Route>
+                        <Route path="/Recovery" element={<Recovery />}></Route>
                         {localStorage.getItem("accessToken") != null ?
                           <>
                             <Route path="/Dashboard" element={<DashboardDoctors />}></Route>
