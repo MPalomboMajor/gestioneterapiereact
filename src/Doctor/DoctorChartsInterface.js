@@ -55,17 +55,6 @@ function DoctorChartsInterface() {
 
     return (
         <>
-
-            
-
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="col-12 mb-3 d-flex justify-content-center justify-content-md-start">
-                        <Link to={`/Dashboard`}><button className="btn btn-primary me-3" id>Elenco assistiti</button></Link>
-                    </div>
-                </div>
-            </div>
-            &nbsp;&nbsp;&nbsp;
             <div className="row mb-4">
                 <form onSubmit={fetchData}>
                     <div className="row mb-4">
@@ -115,7 +104,14 @@ function DoctorChartsInterface() {
                         commonProperties={commonProperties} />
                 </Tab>
             </Tabs>
-
+            &nbsp;&nbsp;&nbsp;
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-12 mb-3 d-flex justify-content-center justify-content-md-start">
+                        <Link to={`/Dashboard`}><button className="btn btn-primary me-3" id>Elenco assistiti</button></Link>
+                    </div>
+                </div>
+            </div>
         </>
 
     );

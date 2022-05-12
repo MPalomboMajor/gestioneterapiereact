@@ -1057,6 +1057,10 @@ header {
     background-image: url("../img/icons/OA_icon-umore-off.svg")
 }
 
+.main-menu .nav-link.logout {
+    background-image: url("../img/icons/box-arrow-right-off.svg")
+}
+
 .main-menu .nav-link.active,
 .main-menu .nav-link:active,
 .main-menu .nav-link:focus,
@@ -1161,6 +1165,13 @@ header {
 .main-menu .nav-link:focus.umore,
 .main-menu .nav-link:hover.umore {
     background-image: url("../img/icons/OA_icon-umore-on.svg")
+}
+
+.main-menu .nav-link.active.logout,
+.main-menu .nav-link:active.logout,
+.main-menu .nav-link:focus.logout,
+.main-menu .nav-link:hover.logout {
+    background-image: url("../img/icons/box-arrow-right-on.svg")
 }
 
 .angelini {

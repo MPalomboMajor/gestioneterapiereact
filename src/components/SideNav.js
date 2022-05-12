@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { role } from '../helpers/Constants';
 import logo from '../logo/OA_logo.svg';
 import logOut from'../icons';
+import { iconLogout } from '../icons';
 
 const SideNav = () => {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
@@ -204,7 +205,7 @@ const SideNav = () => {
                                     </li>
                                     
                                     <li className="nav-item">
-                                        <a href="/"  className="nav-link bi-box-arrow-right" >
+                                        <a href="/"  className="nav-link logout" >
                                             <p>
                                                 Logout
                                             </p>
