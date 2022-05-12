@@ -9,6 +9,7 @@ export class AssociatePatient extends Component {
         super(props);
         this.state = {
             code: 0,
+            isSuccess: false,
             patient: {
                 patientCode: 0,
                 idDoctor: JSON.parse(localStorage.getItem("role")).id
@@ -27,14 +28,19 @@ export class AssociatePatient extends Component {
     };
     updateState = (inputName, inputValue, objName) => {
         let statusCopy = Object.assign({}, this.state);
-        statusCopy[objName][inputName] =parseInt(inputValue) ;
+        statusCopy[objName][inputName] = parseInt(inputValue);
         this.setState(statusCopy);
     };
+    handleClose = (el) => {
+        window.location.href = "/Dashboard";
+    };
     associate = () => {
-        patient.post("CollegaPaziente",this.state.patient)
+        patient.post("CollegaPaziente", this.state.patient)
             .then((response) => {
                 if (response.data.dati) {
-                    window.location.href = "/Dashboard";
+                    // window.location.href = "/Dashboard";
+                    this.setState({ isSuccess: true });
+
                 } else {
 
                 }
@@ -44,7 +50,7 @@ export class AssociatePatient extends Component {
 
     }
     render() {
-        return (
+        return (<>
             <Container className="">
                 <Row className='col-12 pt-4' >
                     <div className='col-12'>
@@ -61,6 +67,26 @@ export class AssociatePatient extends Component {
                     <Button onClick={() => this.associate()}>Associa assistito </Button>
                 </Row>
             </Container>
+
+            <Modal
+                show={this.state.isSuccess}
+                onHide={() => this.handleClose()}
+                backdrop="static"
+                keyboard={false}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>{'Associazione avvenuta'}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                {'Complimenti il paziente è stato correttamente associato'}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => this.handleClose()}>
+                        Chiudi
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
         )
     }
 }
