@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button ,Modal, Spinner } from 'react-bootstrap';
 import { api, user } from '../helpers/api/api';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
@@ -9,63 +9,120 @@ import { NotificationContainer, NotificationManager } from 'react-notifications'
 import moment from 'moment';
 export class ChangePassword extends Component {
     //STATO
-    userModelProp = () => ({
+    passwordModelProp = () => ({
+        resetPasswordCode: '',
+        confirmPassword: '',
+        newPassword: '',
+        username: '',
 
     });
     constructor(props) {
         super(props);
         this.state = {
-            sendpassword: '',
-            newpassword: '',
-            repetpassword: '',
-            
+            isSending:false,
+            sendCode:false,
+            passwordModel: {
+                ...this.passwordModelProp(),
+            }
         }
         this.validator = new SimpleReactValidator();
+        this.validatorSend = new SimpleReactValidator();
     }
 
     //FUNZIONI 
 
     handleChange = (el) => {
+        let objName = el.target.alt;
         const inputName = el.target.name;
         const inputValue = el.target.value;
-        this.updateState(inputName, inputValue);
+        this.updateState(inputName, inputValue, objName);
     };
 
-    updateState = (inputName, inputValue) => {
+    updateState = (inputName, inputValue, objName) => {
         const statusCopy = { ...this.state };
-        statusCopy[inputName] = inputValue;
+        statusCopy[objName][inputName] = inputValue;
+
         this.setState(statusCopy);
     };
 
-    postLogin = () => {
+    
+    sendChangePassword = () => {
         if (this.validator.allValid()) {
-           
+        user.post("ChangePassword", this.state.passwordModel)
+            .then((response) => {
+                if (response.status === 200) {
+                    NotificationManager.success(message.CODICE + message.SuccessSend, entitiesLabels.SUCCESS, 3000);
+                    this.setState({ isSending: false });
+                    window.location.href = "/Login";
+                } else {
+                    NotificationManager.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
+                    this.setState({ isSending: false });
+                }
+            }).catch((error) => {
+                NotificationManager.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
+                this.setState({ isSending: false });
+            });
         } else {
             this.validator.showMessages();
-            NotificationManager.warning(message.ErrorRequire, entitiesLabels.WARNING, 3000);
+            this.setState({ warning: true });
             this.forceUpdate();
         }
-    };
-
+    }
+    sedRestCode = () => {
+        if (this.validatorSend.allValid()) {
+        this.setState((prevState) => ({ isSending: true }))
+        user.post("RequestNewPassword", this.state.passwordModel.username)
+            .then((response) => {
+                if (response.status === 200) {
+                    NotificationManager.success(message.CODICE + message.SuccessSend, entitiesLabels.SUCCESS, 3000);
+                    this.setState({ isSending: false , sendCode:true});
+                } else {
+                    NotificationManager.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
+                    this.setState({ isSending: false , sendCode:false});
+                    
+                }
+            }).catch((error) => {
+                NotificationManager.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
+                this.setState({ isSending: false });
+            });
+        } else {
+            this.validator.showMessages();
+            this.setState({ warning: true });
+            this.forceUpdate();
+        }
+    }
     //VIEW 
     render() {
-
+        
         const validations = {
-            sendpassword: this.validator.message(
+            username: this.validator.message(
                 'Email',
-                this.state.username,
+                this.state.passwordModel.username,
                 'required|email'
             ),
-            newpassword: this.validator.message(
+            resetPasswordCode: this.validator.message(
                 'Password',
-                this.state.password,
+                this.state.passwordModel.resetPasswordCode,
                 'required'
             ),
-            repetpassword: this.validator.message(
+            newPassword: this.validator.message(
                 'Password',
-                this.state.password,
+                this.state.passwordModel.newPassword,
                 'required'
             ),
+            confirmPassword: this.validator.message(
+                'Password',
+                this.state.passwordModel.confirmPassword,
+                'required'
+            ),
+        };
+        const validationsSend = {
+            username: this.validatorSend.message(
+                'Email',
+                this.state.passwordModel.username,
+                'required|email'
+            ),
+            
         };
         return (
            
@@ -74,24 +131,38 @@ export class ChangePassword extends Component {
                 <body className="splash custom-login">
                     <div className="wrapper">
                         <form action="" class="container">
+                        <div className="row justify-content-center">
+                                <div className="col-12 col-md-6 mb-3">
+                                    <Form.Control isInvalid={validations.username != null || validationsSend.username != null} onChange={this.handleChange} name="username"  alt="passwordModel"  placeholder="E-Mail" />
+                                </div>
+                            </div>
                             <div className="row justify-content-center">
                                 <div className="col-12 col-md-6 mb-3">
-                                    <Form.Control isInvalid={validations.sendpassword != null} onChange={this.handleChange} type="sendPassword" name="sendPassword" placeholder="Password ricevuta" />
+                                    <Form.Control isInvalid={validations.resetPasswordCode != null} onChange={this.handleChange} name="resetPasswordCode"  alt="passwordModel"  placeholder="Password ricevuta" />
                                 </div>
                             </div>
                             <div className="row justify-content-center">
                                 <div className="col-12 col-md-6 mb-3 mb-md-3">
-                                    <Form.Control isInvalid={validations.password != null} onChange={this.handleChange} name="newpassword" type="password" placeholder="Nuova password" />
+                                    <Form.Control isInvalid={validations.newPassword != null} onChange={this.handleChange} name="newPassword"  alt="passwordModel"type="password" placeholder="Nuova password" />
                                 </div>
                             </div>
                             <div className="row justify-content-center">
                                 <div className="col-12 col-md-6 mb-3 mb-md-3">
-                                    <Form.Control isInvalid={validations.password != null} onChange={this.handleChange} name="repetpassword" type="password" placeholder="Ripeti password" />
+                                    <Form.Control isInvalid={validations.confirmPassword != null} onChange={this.handleChange} name="confirmPassword" alt="passwordModel" type="password" placeholder="Ripeti password" />
                                 </div>
                             </div>
                             <div class="row justify-content-center">
-                                <div className="col-12 col-md-6 mb-3 d-flex justify-content-center justify-content">
-                                <Button className='btn btn-primary btn-arrow'  onClick={() => this.postLogin()} >
+                                <div className="col-6 col-md-6 mb-3 d-flex justify-content-center justify-content">
+                                <Button variant="secondary" onClick={() => this.sedRestCode()} > {this.state.isSending == true ? <Spinner
+                                    as="span"
+                                    animation="border"
+                                    size="sm"
+                                    role="status"
+                                    aria-hidden="true"
+                                /> : ''} {!this.state.sendCode ?  "Richiedi codice" : "Richiedi nuovamente "}</Button>
+                                </div>
+                                <div className="col-6 col-md-6 mb-3 d-flex justify-content-center justify-content">
+                                <Button className='btn btn-primary btn-arrow'  onClick={() => this.sendChangePassword()} >
                                 Conferma
                              </Button>
                                 </div>

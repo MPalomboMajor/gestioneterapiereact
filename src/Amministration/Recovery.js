@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Form, Button , Spinner} from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap';
 import { api, user } from '../helpers/api/api';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
@@ -15,9 +15,9 @@ export class Recovery extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email:'', 
+            email: '',
             isSending: false,
-            
+
         }
         this.validator = new SimpleReactValidator();
     }
@@ -40,16 +40,16 @@ export class Recovery extends Component {
         if (this.validator.allValid()) {
             this.setState((prevState) => ({ isSending: true }))
             user.post("RequestNewPassword", this.state.email)
-            .then((response) => {
-                if (response.status === 200) {
-                    NotificationManager.success(message.MEDICO + message.ErroSendRevocery, entitiesLabels.SUCCESS, 5000);
+                .then((response) => {
+                    if (response.status === 200) {
+                        NotificationManager.success(message.MEDICO + message.ErroSendRevocery, entitiesLabels.SUCCESS, 5000);
+                        this.setState((prevState) => ({ isSending: false }))
+                        // window.location.href = "/Login";
+                    }
+                }).catch((error) => {
                     this.setState((prevState) => ({ isSending: false }))
-                   // window.location.href = "/Login";
-                }
-            }).catch((error) => {
-                this.setState((prevState) => ({ isSending: false }))
-                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
-            });
+                    NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+                });
         } else {
             this.validator.showMessages();
             this.setState((prevState) => ({ isSending: false }))
@@ -57,7 +57,10 @@ export class Recovery extends Component {
             this.forceUpdate();
         }
     };
+    returnLogin = () => {
 
+        window.location.href = "/Login";
+    };
     //VIEW 
     render() {
 
@@ -69,7 +72,7 @@ export class Recovery extends Component {
             ),
         };
         return (
-           
+
             <html lang="en" >
 
                 <body className="splash custom-login">
@@ -81,16 +84,21 @@ export class Recovery extends Component {
                                 </div>
                             </div>
                             <div class="row justify-content-center">
-                                <div className="col-12 col-md-6 mb-3 d-flex justify-content-center justify-content">
-                                <Button className='btn btn-primary'  onClick={() => this.postLogin()} >{this.state.isSending == true ? <Spinner
-                                            as="span"
-                                            animation="border"
-                                            size="sm"
-                                            role="status"
-                                            aria-hidden="true"
-                                        /> : ''}
-                                Invia
-                             </Button>
+                                <div className="col-6 col-md-6 mb-3 d-flex justify-content-center justify-content">
+                                        <Button className="btn btn-secondary btn-arrow" onClick={() => this.returnLogin()}>
+                                            Indietro
+                                        </Button>
+                                </div>
+                                <div className="col-6 col-md-6 mb-3 d-flex justify-content-center justify-content ">
+                                    <Button className='btn btn-primary btn-arrow' onClick={() => this.postLogin()} >{this.state.isSending == true ? <Spinner
+                                        as="span"
+                                        animation="border"
+                                        size="sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                    /> : ''}
+                                        Invia
+                                    </Button>
                                 </div>
                             </div>
                         </form>
