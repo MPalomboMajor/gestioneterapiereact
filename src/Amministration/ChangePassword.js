@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Form, Button ,Modal, Spinner } from 'react-bootstrap';
 import { api, user } from '../helpers/api/api';
-import { Link } from "react-router-dom";
+import { Link , useParams} from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
 import { entitiesLabels, message, role } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
@@ -10,7 +10,7 @@ import moment from 'moment';
 export class ChangePassword extends Component {
     //STATO
     passwordModelProp = () => ({
-        resetPasswordCode: '',
+        resetPasswordCode:'' ,
         confirmPassword: '',
         newPassword: '',
         username: '',
@@ -47,8 +47,14 @@ export class ChangePassword extends Component {
 
     
     sendChangePassword = () => {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const page_type = urlParams.get('codiceInviato');
+        const dto =  this.state.passwordModel;
+        dto.resetPasswordCode = page_type
         if (this.validator.allValid()) {
-        user.post("ChangePassword", this.state.passwordModel)
+            
+        user.post("ChangePassword",dto)
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.CODICE + message.SuccessSend, entitiesLabels.SUCCESS, 3000);
@@ -69,6 +75,8 @@ export class ChangePassword extends Component {
         }
     }
     sedRestCode = () => {
+
+       
         if (this.validatorSend.allValid()) {
         this.setState((prevState) => ({ isSending: true }))
         user.post("RequestNewPassword", this.state.passwordModel.username)
@@ -100,11 +108,6 @@ export class ChangePassword extends Component {
                 this.state.passwordModel.username,
                 'required|email'
             ),
-            resetPasswordCode: this.validator.message(
-                'Password',
-                this.state.passwordModel.resetPasswordCode,
-                'required'
-            ),
             newPassword: this.validator.message(
                 'Password',
                 this.state.passwordModel.newPassword,
@@ -134,11 +137,6 @@ export class ChangePassword extends Component {
                         <div className="row justify-content-center">
                                 <div className="col-12 col-md-6 mb-3">
                                     <Form.Control isInvalid={validations.username != null || validationsSend.username != null} onChange={this.handleChange} name="username"  alt="passwordModel"  placeholder="E-Mail" />
-                                </div>
-                            </div>
-                            <div className="row justify-content-center">
-                                <div className="col-12 col-md-6 mb-3">
-                                    <Form.Control isInvalid={validations.resetPasswordCode != null} onChange={this.handleChange} name="resetPasswordCode"  alt="passwordModel"  placeholder="Password ricevuta" />
                                 </div>
                             </div>
                             <div className="row justify-content-center">

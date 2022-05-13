@@ -442,20 +442,20 @@ export class DoctorProfile extends Component {
                             
                                 <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                     <Form.Label className="">Cognome</Form.Label>
-                                    <Form.Control id='surName' alt='userDto' name="surName" onChange={this.handleChange} value={this.state.userDto.surName} placeholder="Enter cognome" />
+                                    <Form.Control id='surName' alt='userDto' name="surName" onChange={this.handleChange} value={this.state.userDto.surName} placeholder="Inserisci cognome" />
                                 </Form.Group>
                                 <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                     <Form.Label className="">Nome</Form.Label>
-                                    <Form.Control id='name' alt='userDto' name="name" onChange={this.handleChange} value={this.state.userDto.name} placeholder="Enter Nome" />
+                                    <Form.Control id='name' alt='userDto' name="name" onChange={this.handleChange} value={this.state.userDto.name} placeholder="Inserisci Nome" />
                                 </Form.Group>
                            
                                 <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                     <Form.Label className="">Codice Fiscale</Form.Label>
-                                    <Form.Control id='fiscalCode' alt='userDto' name="fiscalCode" onChange={this.handleChange} value={this.state.userDto.fiscalCode} placeholder="Enter Codice fiscale" />
+                                    <Form.Control id='fiscalCode' alt='userDto' name="fiscalCode" onChange={this.handleChange} value={this.state.userDto.fiscalCode} placeholder="Inserisci Codice fiscale" />
                                 </Form.Group>
                                 <Form.Group className="col-4 mb-3 input-layout-wrapper" >
                                     <Form.Label className="">Centro Medico</Form.Label>
-                                    <Form.Select id='mendicalCenter' onChange={this.onChange} name="mendicalCenter" alt="medicoDTO" placeholder="Enter centro medico" >
+                                    <Form.Select id='mendicalCenter' onChange={this.onChange} name="mendicalCenter" alt="medicoDTO" placeholder="Inserisci centro medico" >
                                         {this.state.listCentriMedici.map((item) =>
 
                                             <option id={item.id} selected={this.state.userDto.idCentroMedico == item.id ? "selected" : ''}>{item.nomeCentro}</option>
@@ -465,11 +465,11 @@ export class DoctorProfile extends Component {
                            
                                 <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                     <Form.Label className="">Email</Form.Label>
-                                    <Form.Control disabled id='email' name="email" onChange={this.handleChange} value={this.state.userDto.email} isInvalid={validations.email != null} placeholder="Enter email" />
+                                    <Form.Control disabled id='email' name="email" onChange={this.handleChange} value={this.state.userDto.email} isInvalid={validations.email != null} placeholder="Inserisci email" />
                                 </Form.Group>
                                 <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                     <Form.Label className="">Telefono</Form.Label>
-                                    <Form.Control disabled id='phoneNumber' alt='userDto' name="phoneNumber" onChange={this.handleChange} isInvalid={validations.telephone != null} value={this.state.userDto.phoneNumber} placeholder="Enter telefono" />
+                                    <Form.Control disabled id='phoneNumber' alt='userDto' name="phoneNumber" onChange={this.handleChange} isInvalid={validations.telephone != null} value={this.state.userDto.phoneNumber} placeholder="Inserisci telefono" />
                                 </Form.Group>
                            
                                 <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
