@@ -150,6 +150,26 @@ function DoctorChartsInterface() {
         <>
             <div className="row mb-4">
                 <form onSubmit={fetchData}>
+                <div className="row align-items-center g-0 g-md-3">
+                    
+                    <div className="col-12 col-md-4">
+                        <div className="input-group mb-3">
+                            <span className="input-group-text" id="label-inizio">Data inizio</span>
+                            <input type="date" className="form-control form-control-sm" id="data" aria-describedby="label-data" name="dataInizio" onChange={e => setDataInizio(moment(e.target.value).format("DD/MM/YYYY"))} />
+                        </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                    <div className="input-group mb-3">
+                            <span className="input-group-text" id="label-inizio">Data fine</span>
+                            <input type="date" className="form-control form-control-sm" id="data" aria-describedby="label-data" name="dataFine" onChange={e => setDataFine(moment(e.target.value).format("DD/MM/YYYY"))} />
+                        </div>
+                    </div>
+                    <div className="col-12 col-md-3">
+                            <button className="btn btn-primary btn-upload form-control form-control-sm" id type="submit" >Filtra</button>
+                        </div>
+                </div>
+{/* 
+
                     <div className="row mb-4">
                         <div className="col-12 col-md-4">
                             <span className="input-group-text" id="label-data">Data inizio</span>
@@ -162,7 +182,7 @@ function DoctorChartsInterface() {
                         <div className="col-12 col-md-4">
                             <button className="btn btn-primary btn-upload" id type="submit" >Filtra</button>
                         </div>
-                    </div>
+                    </div> */}
                     &nbsp;&nbsp;&nbsp;
                 </form>
             </div>
