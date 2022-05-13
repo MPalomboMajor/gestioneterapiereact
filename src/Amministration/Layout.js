@@ -17,7 +17,6 @@ import DashboardDoctors from '../Doctor/DashboardDoctors';
 import NewPatient from '../Doctor/NewPatient';
 import NewTherapy from '../Doctor/NewTherapy';
 import DoctorProfile from '../Doctor/DoctorProfile';
-import PatientTabbedInterface from '../Doctor/PatientTabbedInterface';
 import NewCode from '../Doctor/NewCode';
 import AssociatePatient from '../Doctor/AssociatePatient';
 import { PatientRegistry } from '../Doctor/PatientRegistry';
@@ -87,7 +86,7 @@ export default class Layout extends Component {
                             <Route path="/NewPatient" element={<NewPatient />}></Route>
                             <Route path="/NewTherapy/:codicePaziente" element={<NewTherapy />}></Route>
                             <Route path="/DoctorProfile" element={<DoctorProfile />}></Route>
-                            <Route path="/PatientTabbedInterface/:codicePaziente" element={<PatientTabbedInterface />}></Route>
+                            
                             <Route path="/PatientRegistry/:idPaziente" element={<PatientRegistry />}></Route>
                             <Route path="/PatientProfile/:idPaziente" element={<PatientProfile />}></Route>
                             <Route path="/AdverseEvents/:idPaziente" element={<AdverseEventsInfo />}></Route>
@@ -130,7 +129,7 @@ export default class Layout extends Component {
                     <Route path="/NewPatient" element={<NewPatient />}></Route>
                     <Route path="/NewTherapy/:codicePaziente" element={<NewTherapy />}></Route>
                     <Route path="/DoctorProfile" element={<DoctorProfile />}></Route>
-                    <Route path="/PatientTabbedInterface/:codicePaziente" element={<PatientTabbedInterface />}></Route>
+                    
                     <Route path="/PatientRegistry/:idPaziente" element={<PatientRegistry />}></Route>
                     <Route path="/PatientProfile/:idPaziente" element={<PatientProfile />}></Route>
                     <Route path="/AdverseEvents/:idPaziente" element={<AdverseEventsInfo />}></Route>

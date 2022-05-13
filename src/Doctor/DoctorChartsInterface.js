@@ -1,6 +1,7 @@
+import moment from 'moment';
 import { dashboard } from '../helpers/api/api'
 import { useState, useEffect } from 'react';
-import moment from 'moment';
+import { role } from '../helpers/Constants';
 import { Link } from "react-router-dom";
 import { Tabs, Tab } from 'react-bootstrap';
 import { Patients } from '../Dashboard/Tabs/Patients';
@@ -9,6 +10,9 @@ import { Monitoring } from '../Dashboard/Tabs/Monitoring';
 import { ContactInfo } from '../Dashboard/Tabs/ContactInfo';
 
 function DoctorChartsInterface() {
+    const user = JSON.parse(localStorage.getItem("role"));
+    const isCareManger = user.idRole === role.CAREMANAGER ? true : false
+    const isDoctor = user.idRole === role.DOCTOR ? true : false
     const [key, setKey] = useState('patients');
     const date = new Date();
     const [dataInizio, setDataInizio] = useState(moment(date));
@@ -22,10 +26,13 @@ function DoctorChartsInterface() {
     const [dataGetByAge, setDataGetByAge] = useState([{ "fasciaDiEta": "0-18", "registrazioni": 4, "registrazioniColor": "hsl(233, 100%, 50%)", "attivazioni": 5, "attivazioniColor": "hsl(37, 100%, 50%)" }, { "fasciaDiEta": "18-35", "registrazioni": 8, "registrazioniColor": "hsl(233, 100%, 50%)", "attivazioni": 9, "attivazioniColor": "hsl(37, 100%, 50%)" }, { "fasciaDiEta": "35-50", "registrazioni": 3, "registrazioniColor": "hsl(233, 100%, 50%)", "attivazioni": 2, "attivazioniColor": "hsl(37, 100%, 50%)" }, { "fasciaDiEta": ">50", "registrazioni": 7, "registrazioniColor": "hsl(233, 100%, 50%)", "attivazioni": 4, "attivazioniColor": "hsl(37, 100%, 50%)" }]);
     //Terapia
     const [dataGetAllPatientByFormulation, setDataGetAllPatientByFormulation] = useState([{ "formula": "12.5", "numeroPazienti": 4, "colore": "hsl(233, 100%, 50%)" }, { "formula": "25", "numeroPazienti": 6, "colore": "hsl(233, 100%, 50%)" }, { "formula": "50", "numeroPazienti": 9, "colore": "hsl(233, 100%, 50%)" }, { "formula": "100", "numeroPazienti": 4, "colore": "hsl(233, 100%, 50%)" }, { "formula": "200", "numeroPazienti": 1, "colore": "hsl(233, 100%, 50%)" }]);
-    const [dataGetDayByFormulation, setDataGetDayByFormulation] = useState([{"id": "12,5", "label": "12,5", "value": 16, "color": "hsl(233, 100%, 50%)"}, {"id": "200","label": "200", "value": 15,"color": "hsl(57, 2%, 50%)"},{"id": "50","label": "50","value": 13,"color": "hsl(200, 100%, 50%)"},{"id": "25","label": "25","value": 14,"color": "hsl(37, 100%, 50%)"},{"id": "100","label": "100","value": 7,"color": "hsl(57, 100%, 50%)"}]);
+    const [dataGetDayByFormulation, setDataGetDayByFormulation] = useState([{ "id": "12,5", "label": "12,5", "value": 16, "color": "hsl(233, 100%, 50%)" }, { "id": "200", "label": "200", "value": 15, "color": "hsl(57, 2%, 50%)" }, { "id": "50", "label": "50", "value": 13, "color": "hsl(200, 100%, 50%)" }, { "id": "25", "label": "25", "value": 14, "color": "hsl(37, 100%, 50%)" }, { "id": "100", "label": "100", "value": 7, "color": "hsl(57, 100%, 50%)" }]);
     //Monitoraggio
-    const [dataGetPatientsByEpilecticSeizure, setDataGetPatientsByEpilecticSeizure] = useState([{"id":"0-2","label":"0-2","value":2,"color":"hsl(233, 100%, 50%)"},{"id":"3-5","label":"3-5","value":1,"color":"hsl(37, 100%, 50%)"},{"id":"6-8","label":"6-8","value":1,"color":"hsl(57, 2%, 50%)"},{"id":">8","label":">8","value":1,"color":"hsl(57, 100%, 50%)"}]);
-    const [dataGetAdherencesByPatient, setDataGetAdherencesByPatient] = useState([{"cognomePaziente":"Meucci","numeroNotifiche":6,"numeroNotificheColor":"hsl(37, 100%, 50%)","numeroConferme":9,"numeroConfermeColor":"hsl(233, 100%, 50%)"},{"cognomePaziente":"Boggio","numeroNotifiche":25,"numeroNotificheColor":"hsl(37, 100%, 50%)","numeroConferme":45,"numeroConfermeColor":"hsl(233, 100%, 50%)"},{"cognomePaziente":"esposito","numeroNotifiche":23,"numeroNotificheColor":"hsl(37, 100%, 50%)","numeroConferme":69,"numeroConfermeColor":"hsl(233, 100%, 50%)"},{"cognomePaziente":"Boggio","numeroNotifiche":24,"numeroNotificheColor":"hsl(37, 100%, 50%)","numeroConferme":36,"numeroConfermeColor":"hsl(233, 100%, 50%)"}]);
+    const [dataGetPatientsByEpilecticSeizure, setDataGetPatientsByEpilecticSeizure] = useState([{ "id": "0-2", "label": "0-2", "value": 2, "color": "hsl(233, 100%, 50%)" }, { "id": "3-5", "label": "3-5", "value": 1, "color": "hsl(37, 100%, 50%)" }, { "id": "6-8", "label": "6-8", "value": 1, "color": "hsl(57, 2%, 50%)" }, { "id": ">8", "label": ">8", "value": 1, "color": "hsl(57, 100%, 50%)" }]);
+    const [dataGetAdherencesByPatient, setDataGetAdherencesByPatient] = useState([{ "cognomePaziente": "Meucci", "numeroNotifiche": 6, "numeroNotificheColor": "hsl(37, 100%, 50%)", "numeroConferme": 9, "numeroConfermeColor": "hsl(233, 100%, 50%)" }, { "cognomePaziente": "Boggio", "numeroNotifiche": 25, "numeroNotificheColor": "hsl(37, 100%, 50%)", "numeroConferme": 45, "numeroConfermeColor": "hsl(233, 100%, 50%)" }, { "cognomePaziente": "esposito", "numeroNotifiche": 23, "numeroNotificheColor": "hsl(37, 100%, 50%)", "numeroConferme": 69, "numeroConfermeColor": "hsl(233, 100%, 50%)" }, { "cognomePaziente": "Boggio", "numeroNotifiche": 24, "numeroNotificheColor": "hsl(37, 100%, 50%)", "numeroConferme": 36, "numeroConfermeColor": "hsl(233, 100%, 50%)" }]);
+    //ContactInfo
+    const [dataGetAllContactInfoByPatient, setDataGetAllContactInfoByPatient] = useState([{ "cognomePaziente": "Meucci", "numeroContatti": 7, "numeroNotificheColor": "hsl(233, 100%, 50%)" }, { "cognomePaziente": "esposito", "numeroContatti": 52, "numeroNotificheColor": "hsl(233, 100%, 50%)" }, { "cognomePaziente": "Boggio", "numeroContatti": 36, "numeroNotificheColor": "hsl(233, 100%, 50%)" }]);
+    const [dataGetAllContactInfoByNumber, setDataGetAllContactInfoByNumber] = useState([{ "id": "0-20", "label": "0-20", "value": 12, "color": "hsl(341, 70%, 50%)" }, { "id": "21-40", "label": "21-40", "value": 63, "color": "hsl(284, 70%, 50%)" }, { "id": "41-60", "label": "41-60", "value": 34, "color": "hsl(348, 70%, 50%)" }, { "id": ">60", "label": ">60", "value": 9, "color": "hsl(78, 70%, 50%)" }]);
 
     function fetchData(evt) {
         evt.preventDefault();
@@ -112,6 +119,24 @@ function DoctorChartsInterface() {
             }).catch((error) => {
 
             });
+        //ContactInfo
+        dashboard.getWithParam("GetAllContactInfoByPatient/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+            .then((response) => {
+                if (response.status === 200) {
+                    setDataGetAllContactInfoByPatient(response.data.dati);
+                }
+            }).catch((error) => {
+
+            });
+        dashboard.getWithParam("GetAllContactInfoByNumber", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+            .then((response) => {
+                if (response.status === 200) {
+                    setDataGetAllContactInfoByNumber(response.data.dati);
+                }
+            }).catch((error) => {
+
+            });
+
     };
 
     const commonProperties = {
@@ -166,12 +191,13 @@ function DoctorChartsInterface() {
                         dataGetAdherencesByPatient={dataGetAdherencesByPatient}
                         commonProperties={commonProperties} />
                 </Tab>
-                {/* <Tab eventKey="contactInfo" title="Contact info" >
-                    <ContactInfo dataGetAllDropOff={dataGetAllDropOff}
-                        dataGetMonthlyTrend={dataGetMonthlyTrend}
-                        dataGetBySex={dataGetBySex}
-                        commonProperties={commonProperties} />
-                </Tab> */}
+                {isCareManger ?
+                    <Tab eventKey="contactInfo" title="Contact info" >
+                        <ContactInfo dataGetAllContactInfoByPatient={dataGetAllContactInfoByPatient}
+                            dataGetAllContactInfoByNumber={dataGetAllContactInfoByNumber}
+                            commonProperties={commonProperties} />
+                    </Tab> : ""
+                }
             </Tabs>
             &nbsp;&nbsp;&nbsp;
             <div className="container-fluid">
@@ -185,6 +211,5 @@ function DoctorChartsInterface() {
 
     );
 }
-
 
 export { DoctorChartsInterface }
