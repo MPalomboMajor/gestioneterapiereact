@@ -55,25 +55,25 @@ function PieChartGetDayByFormulation(props) {
             fill={[
                 {
                     match: {
-                        id: 'causa1'
+                        id: ''
                     },
                     id: 'dots'
                 },
                 {
                     match: {
-                        id: 'causa2'
+                        id: ''
                     },
                     id: 'dots'
                 },
                 {
                     match: {
-                        id: 'causa3'
+                        id: ''
                     },
                     id: 'dots'
                 },
                 {
                     match: {
-                        id: 'causa4'
+                        id: ''
                     },
                     id: 'dots'
                 },

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { role } from '../helpers/Constants';
 import logo from '../logo/OA_logo.svg';
-import logOut from'../icons';
+import logOut from '../icons';
 import { iconLogout } from '../icons';
 
 const SideNav = () => {
@@ -10,7 +10,7 @@ const SideNav = () => {
     const [patientProfile, setPatientProfile] = useState([]);
     const user = JSON.parse(localStorage.getItem("role"));
     const isCarManger = user.idRole === role.CAREMANAGER ? true : false
-    
+
     return (
         <header className="col">
             <a href className="logo"><img src={logo} alt="OntozApp" /></a>
@@ -37,7 +37,7 @@ const SideNav = () => {
                                     <li className="nav-item">
                                         <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
                                             <p>
-                                                 Elenco assistiti
+                                                Elenco assistiti
                                             </p>
                                         </a>
                                     </li>
@@ -66,7 +66,7 @@ const SideNav = () => {
                                 :
                                 <>
 
-<li className="nav-item">
+                                    <li className="nav-item">
                                         <a href="/DoctorChartsInterface" className="nav-link" aria-current="page" >
                                             <p>
                                                 Home
@@ -77,7 +77,7 @@ const SideNav = () => {
                                     <li className="nav-item">
                                         <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
                                             <p>
-                                                 Elenco assistiti
+                                                Elenco assistiti
                                             </p>
                                         </a>
                                     </li>
@@ -185,7 +185,7 @@ const SideNav = () => {
                                     <li className="nav-item">
                                         <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
                                             <p>
-                                                 Elenco assistiti
+                                                Elenco assistiti
                                             </p>
                                         </a>
                                     </li>
@@ -217,9 +217,9 @@ const SideNav = () => {
                                             </p>
                                         </a>
                                     </li>
-                                    
+
                                     <li className="nav-item">
-                                        <a href="/"  className="nav-link logout" >
+                                        <a href="/" className="nav-link logout" >
                                             <p>
                                                 Logout
                                             </p>
@@ -238,7 +238,7 @@ const SideNav = () => {
                                     <li className="nav-item">
                                         <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
                                             <p>
-                                                 Elenco assistiti
+                                                Elenco assistiti
                                             </p>
                                         </a>
                                     </li>

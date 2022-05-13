@@ -1,6 +1,5 @@
 import { ResponsivePie } from '@nivo/pie'
-
-
+    
 function PieChartGetPatientsByEpilecticSeizure(props) {
 
     const MyResponsivePie = ({ data /* see data tab */ }) => (
@@ -56,33 +55,27 @@ function PieChartGetPatientsByEpilecticSeizure(props) {
             fill={[
                 {
                     match: {
-                        id: 'causa1'
+                        id: '0-2'
                     },
                     id: 'dots'
                 },
                 {
                     match: {
-                        id: 'causa2'
+                        id: '3-5'
                     },
                     id: 'dots'
                 },
                 {
                     match: {
-                        id: 'causa3'
+                        id: '6-8'
                     },
                     id: 'dots'
                 },
                 {
                     match: {
-                        id: 'causa4'
+                        id: '>8'
                     },
                     id: 'dots'
-                },
-                {
-                    match: {
-                        id: 'causa5'
-                    },
-                    id: 'lines'
                 }
 
             ]}

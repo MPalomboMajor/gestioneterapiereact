@@ -65,7 +65,7 @@ function BarChartGetBySex(props) {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: 'valore x',
+                legend: '',
                 legendPosition: 'middle',
                 legendOffset: 32
             }}
@@ -73,7 +73,7 @@ function BarChartGetBySex(props) {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: 'valore y',
+                legend: '',
                 legendPosition: 'middle',
                 legendOffset: -40
             }}

@@ -7,10 +7,9 @@ function BarChartGetAllPatientByFormulation(props) {
             {...props.commonProperties}
             data={data}
             keys={[
-                'registrazioni',
-                'attivazioni'
+                'numeroPazienti'
             ]}
-            indexBy="sesso"
+            indexBy="formula"
             margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
             padding={0.3}
             valueScale={{ type: 'linear' }}
@@ -65,7 +64,7 @@ function BarChartGetAllPatientByFormulation(props) {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: 'valore x',
+                legend: '',
                 legendPosition: 'middle',
                 legendOffset: 32
             }}
@@ -73,7 +72,7 @@ function BarChartGetAllPatientByFormulation(props) {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: 'valore y',
+                legend: '',
                 legendPosition: 'middle',
                 legendOffset: -40
             }}

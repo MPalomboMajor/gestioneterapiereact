@@ -22,11 +22,10 @@ function DoctorChartsInterface() {
     const [dataGetByAge, setDataGetByAge] = useState([{ "fasciaDiEta": "0-18", "registrazioni": 4, "registrazioniColor": "hsl(233, 100%, 50%)", "attivazioni": 5, "attivazioniColor": "hsl(37, 100%, 50%)" }, { "fasciaDiEta": "18-35", "registrazioni": 8, "registrazioniColor": "hsl(233, 100%, 50%)", "attivazioni": 9, "attivazioniColor": "hsl(37, 100%, 50%)" }, { "fasciaDiEta": "35-50", "registrazioni": 3, "registrazioniColor": "hsl(233, 100%, 50%)", "attivazioni": 2, "attivazioniColor": "hsl(37, 100%, 50%)" }, { "fasciaDiEta": ">50", "registrazioni": 7, "registrazioniColor": "hsl(233, 100%, 50%)", "attivazioni": 4, "attivazioniColor": "hsl(37, 100%, 50%)" }]);
     //Terapia
     const [dataGetAllPatientByFormulation, setDataGetAllPatientByFormulation] = useState([{ "formula": "12.5", "numeroPazienti": 4, "colore": "hsl(233, 100%, 50%)" }, { "formula": "25", "numeroPazienti": 6, "colore": "hsl(233, 100%, 50%)" }, { "formula": "50", "numeroPazienti": 9, "colore": "hsl(233, 100%, 50%)" }, { "formula": "100", "numeroPazienti": 4, "colore": "hsl(233, 100%, 50%)" }, { "formula": "200", "numeroPazienti": 1, "colore": "hsl(233, 100%, 50%)" }]);
-    const [dataGetDayByFormulation, setDataGetDayByFormulation] = useState([]);
+    const [dataGetDayByFormulation, setDataGetDayByFormulation] = useState([{"id": "12,5", "label": "12,5", "value": 16, "color": "hsl(233, 100%, 50%)"}, {"id": "200","label": "200", "value": 15,"color": "hsl(57, 2%, 50%)"},{"id": "50","label": "50","value": 13,"color": "hsl(200, 100%, 50%)"},{"id": "25","label": "25","value": 14,"color": "hsl(37, 100%, 50%)"},{"id": "100","label": "100","value": 7,"color": "hsl(57, 100%, 50%)"}]);
     //Monitoraggio
-    const [dataGetPatientsByEpilecticSeizure, setDataGetPatientsByEpilecticSeizure] = useState([]);
-    const [dataGetAdherencesByPatient, setDataGetAdherencesByPatient] = useState([]);
-
+    const [dataGetPatientsByEpilecticSeizure, setDataGetPatientsByEpilecticSeizure] = useState([{"id":"0-2","label":"0-2","value":2,"color":"hsl(233, 100%, 50%)"},{"id":"3-5","label":"3-5","value":1,"color":"hsl(37, 100%, 50%)"},{"id":"6-8","label":"6-8","value":1,"color":"hsl(57, 2%, 50%)"},{"id":">8","label":">8","value":1,"color":"hsl(57, 100%, 50%)"}]);
+    const [dataGetAdherencesByPatient, setDataGetAdherencesByPatient] = useState([{"cognomePaziente":"Meucci","numeroNotifiche":6,"numeroNotificheColor":"hsl(37, 100%, 50%)","numeroConferme":9,"numeroConfermeColor":"hsl(233, 100%, 50%)"},{"cognomePaziente":"Boggio","numeroNotifiche":25,"numeroNotificheColor":"hsl(37, 100%, 50%)","numeroConferme":45,"numeroConfermeColor":"hsl(233, 100%, 50%)"},{"cognomePaziente":"esposito","numeroNotifiche":23,"numeroNotificheColor":"hsl(37, 100%, 50%)","numeroConferme":69,"numeroConfermeColor":"hsl(233, 100%, 50%)"},{"cognomePaziente":"Boggio","numeroNotifiche":24,"numeroNotificheColor":"hsl(37, 100%, 50%)","numeroConferme":36,"numeroConfermeColor":"hsl(233, 100%, 50%)"}]);
 
     function fetchData(evt) {
         evt.preventDefault();
@@ -80,7 +79,7 @@ function DoctorChartsInterface() {
 
             });
         //Terapia
-        dashboard.getWithParam("GetAllPatientByFormulation/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+        dashboard.getWithParam("GetAllPatientsByFormulation/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
             .then((response) => {
                 if (response.status === 200) {
                     setDataGetAllPatientByFormulation(response.data.dati);

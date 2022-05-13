@@ -7,10 +7,10 @@ function BarChartGetAdherencesByPatient(props) {
             {...props.commonProperties}
             data={data}
             keys={[
-                'registrazioni',
-                'attivazioni'
+                'numeroNotifiche',
+                'numeroConferme'
             ]}
-            indexBy="sesso"
+            indexBy="cognomePaziente"
             margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
             padding={0.3}
             valueScale={{ type: 'linear' }}
@@ -39,13 +39,13 @@ function BarChartGetAdherencesByPatient(props) {
             fill={[
                 {
                     match: {
-                        id: 'registrazioni'
+                        id: 'numeroNotifiche'
                     },
                     id: 'dots'
                 },
                 {
                     match: {
-                        id: 'attivazioni'
+                        id: 'numeroConferme'
                     },
                     id: 'lines'
                 }
@@ -65,7 +65,7 @@ function BarChartGetAdherencesByPatient(props) {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: 'valore x',
+                legend: '',
                 legendPosition: 'middle',
                 legendOffset: 32
             }}
@@ -73,7 +73,7 @@ function BarChartGetAdherencesByPatient(props) {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: 'valore y',
+                legend: '',
                 legendPosition: 'middle',
                 legendOffset: -40
             }}
