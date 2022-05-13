@@ -1,9 +1,7 @@
-import { PieChartGetAllDropOff } from "../PieChartGetAllDropOff";
-import { LineChartGetMonthlyTrend } from "../LineChartGetMonthlyTrend";
-import { BarChartGetBySex } from "../BarChartGetBySex";
+import { PieChartGetPatientsByEpilecticSeizure } from "../PieChartGetPatientsByEpilecticSeizure";
+import { BarChartGetAdherencesByPatient } from "../BarChartGetAdherencesByPatient";
 
 function Monitoring(props) {
-
     return (
         <>
             <div className="row h-100 justify-content-center align-items-center" style={{ "width": "100%" }}>
@@ -14,14 +12,14 @@ function Monitoring(props) {
                                 <div className="container-fluid g-0">
                                     <div className="row gx-3 mb-2">
                                         <div style={{ "height": "300px" }}>
-                                            <h2>GetAllDropOff</h2>
-                                            <PieChartGetAllDropOff data={props.dataGetAllDropOff} commonProperties={props.commonProperties} />
+                                            <h2>N. pazienti / N. crisi epilettiche</h2>
+                                            <PieChartGetPatientsByEpilecticSeizure data={props.dataGetPatientsByEpilecticSeizure} commonProperties={props.commonProperties} />
                                         </div>
                                         &nbsp;&nbsp;
-                                        <div style={{ "height": "300px" }}>
-                                            <h2>GetMonthlyTrend</h2>
+                                        {/* <div style={{ "height": "300px" }}>
+                                            <h2></h2>
                                             <LineChartGetMonthlyTrend data={props.dataGetMonthlyTrend} commonProperties={props.commonProperties} />
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
@@ -29,14 +27,14 @@ function Monitoring(props) {
                                 <div className="container-fluid g-0">
                                     <div className="row gx-3 mb-2">
                                         <div style={{ "height": "300px" }}>
-                                            <h2>GetBySex</h2>
-                                            <BarChartGetBySex data={props.dataGetBySex} commonProperties={props.commonProperties} />
+                                            <h2>Aderenza alla terapia</h2>
+                                            <BarChartGetAdherencesByPatient data={props.dataGetAdherencesByPatient} commonProperties={props.commonProperties} />
                                         </div>
                                         &nbsp;&nbsp;
-                                        <div style={{ "height": "300px" }}>
-                                            <h2>Andamento mood giornaliero</h2>
-                                            {/* <HealtMapChart /> */}
-                                        </div>
+                                        {/* <div style={{ "height": "300px" }}>
+                                            <h2></h2>
+                                            <HealtMapChart />
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
@@ -46,8 +44,6 @@ function Monitoring(props) {
 
                 </div>
             </div>
-
-
         </>
 
     );
