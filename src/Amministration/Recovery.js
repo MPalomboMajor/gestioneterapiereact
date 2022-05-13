@@ -41,13 +41,13 @@ export class Recovery extends Component {
             this.setState((prevState) => ({ isSending: true }))
             user.post("RequestNewPassword", this.state.email)
                 .then((response) => {
-                    if (response.statoEsito = 0 ) {
+                    if (response.data.statoEsito===0) {
                         NotificationManager.success(message.MEDICO + message.ErroSendRevocery, entitiesLabels.SUCCESS, 5000);
                         this.setState((prevState) => ({ isSending: false }))
                         // window.location.href = "/Login";
                     }else{
-                         this.setState((prevState) => ({ isSending: false }))
-                    NotificationManager.error(message.ErrorNotFound, entitiesLabels.ERROR, 3000);
+                        NotificationManager.error( response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
+                        this.setState((prevState) => ({ isSending: false }))
                     }
                 }).catch((error) => {
                     this.setState((prevState) => ({ isSending: false }))

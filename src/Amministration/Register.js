@@ -74,9 +74,11 @@ export class Register extends Component {
             let userDto = this.state.userDto;
             user.post("SaveDoctor", { username: userDto.username, password: userDto.password, doctorDTO: this.state.medicoDTO })
                 .then((response) => {
-                    if (response.status === 200) {
+                    if (response.data.statoEsito===0) {
                         NotificationManager.success(message.MEDICO + message.SuccessInsert, entitiesLabels.SUCCESS, 3000);
                         window.location.href = "/Login";
+                    }else{
+                        NotificationManager.error( response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
                     }
                 }).catch((error) => {
                     NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);

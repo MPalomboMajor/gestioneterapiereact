@@ -56,12 +56,12 @@ export class ChangePassword extends Component {
             
         user.post("ChangePassword",dto)
             .then((response) => {
-                if (response.status === 200) {
+                if (response.data.statoEsito===0) {
                     NotificationManager.success(message.CODICE + message.SuccessSend, entitiesLabels.SUCCESS, 3000);
                     this.setState({ isSending: false });
                     window.location.href = "/Login";
-                } else {
-                    NotificationManager.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
+                }else{
+                    NotificationManager.error( response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
                     this.setState({ isSending: false });
                 }
             }).catch((error) => {
@@ -81,13 +81,12 @@ export class ChangePassword extends Component {
         this.setState((prevState) => ({ isSending: true }))
         user.post("RequestNewPassword", this.state.passwordModel.username)
             .then((response) => {
-                if (response.status === 200) {
+                if (response.data.statoEsito===0) {
                     NotificationManager.success(message.CODICE + message.SuccessSend, entitiesLabels.SUCCESS, 3000);
                     this.setState({ isSending: false , sendCode:true});
-                } else {
-                    NotificationManager.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
+                }else{
+                    NotificationManager.error( response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
                     this.setState({ isSending: false , sendCode:false});
-                    
                 }
             }).catch((error) => {
                 NotificationManager.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);

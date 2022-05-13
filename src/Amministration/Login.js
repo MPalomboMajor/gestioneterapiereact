@@ -45,7 +45,7 @@ export class Login extends Component {
     postLogin = () => {
         if (this.validator.allValid()) {
             user.post("Login", this.state)
-                .then(async (response) => {
+                .then( (response) => {
                     if (response.status == 200) {
                         if(response.data.dati.userDTO.idRole === role.DOCTOR || response.data.dati.userDTO.idRole === role.CAREMANAGER){
                             localStorage.setItem('accessToken', response.data.dati.accessToken);
