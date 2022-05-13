@@ -54,7 +54,7 @@ function PatientRegistry() {
         }
 
         function editPatient() {
-                patientProfile.disabledCause = parseInt(patientProfile.disabledCause);
+                patientProfile.idDisabledCause = parseInt(patientProfile.idDisabledCause);
                 patient.post("UpdateProfile/", patientProfile)
                         .then((response) => {
                                 if (response.status === 200) {
@@ -138,13 +138,13 @@ function PatientRegistry() {
                                                                         <p >Data disattivazione {patientProfile.disabledDate}</p>
                                                                         <div className="form-group">
                                                                                 <label htmlFor="ontozry" className="form-label small">Causa della disabilitazione</label>
-                                                                                <select className="form-select form-select-sm mb-3" type="text" name="disabledCause" placeholder=".form-control-sm" aria-label="disabledCause" onChange={handleChange}>
+                                                                                <select className="form-select form-select-sm mb-3" type="text" name="idDisabledCause" placeholder=".form-control-sm" aria-label="idDisabledCause" onChange={handleChange}>
                                                                                         <option></option>
                                                                                         <option value="1">Causa 1</option>
                                                                                         <option value="2">Causa 2</option>
                                                                                         <option value="3">Causa 3</option>
                                                                                         <option value="4">Causa 4</option>
-                                                                                        <option value="5">Causa 4</option>
+                                                                                        <option value="5">Causa 5</option>
                                                                                 </select>
                                                                                 {/* <textarea id="codice-fiscale" className="form-control form-control-sm" rows={5} aria-describedby name="disabledCause" placeholder={"Eventuale causa della disabilitazione"} aria-label="disabledCause" onChange={handleChange} defaultValue={patientProfile.disabledCause} /> */}
                                                                         </div>
