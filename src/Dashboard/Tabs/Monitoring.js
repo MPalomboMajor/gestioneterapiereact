@@ -1,7 +1,13 @@
 import { PieChartGetPatientsByEpilecticSeizure } from "../PieChartGetPatientsByEpilecticSeizure";
 import { BarChartGetAdherencesByPatient } from "../BarChartGetAdherencesByPatient";
+import { role } from "../../helpers/Constants";
 
 function Monitoring(props) {
+    const user = JSON.parse(localStorage.getItem("role"));
+    const isCareManger = user.idRole === role.CAREMANAGER ? true : false
+    const isAngelini = user.idRole === role.ANGELINI ? true : false
+    const isDoctor = user.idRole === role.DOCTOR ? true : false
+
     return (
         <>
             <div className="row h-100 justify-content-center align-items-center" style={{ "width": "100%" }}>
@@ -16,10 +22,14 @@ function Monitoring(props) {
                                             <PieChartGetPatientsByEpilecticSeizure data={props.dataGetPatientsByEpilecticSeizure} commonProperties={props.commonProperties} />
                                         </div>
                                         &nbsp;&nbsp;
-                                        {/* <div style={{ "height": "300px" }}>
-                                            <h2></h2>
-                                            <LineChartGetMonthlyTrend data={props.dataGetMonthlyTrend} commonProperties={props.commonProperties} />
-                                        </div> */}
+                                        {/* {isAngelini ?
+                                            <div style={{ "height": "300px" }}>
+                                                <h2></h2>
+                                                <LineChartGetMonthlyTrend data={props.dataGetMonthlyTrend} commonProperties={props.commonProperties} />
+                                            </div> : ""
+
+                                        } */}
+
                                     </div>
                                 </div>
                             </div>

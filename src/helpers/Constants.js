@@ -61,6 +61,7 @@ export const notificationType = {
 }
 
 export const role = {
+  ANGELINI: 4,
   CAREMANAGER: 3,
   PATIENT: 2,
   DOCTOR:1

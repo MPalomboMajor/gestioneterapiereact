@@ -116,12 +116,11 @@ function PatientProfile() {
                                 <textarea id="note" className="form-control form-control-sm mb-3" rows={14} aria-describedby name="healthInfo" defaultValue={patientProfile.healthInfo} onChange={handleChange} />
                             </div>
                             <div className="container-fluid">
-                                <div className="row justify-content-center">
-                                    <div className="col-auto mb-3">
+                                <div className="row">
+                                    <div className="col-12 mb-3 d-flex justify-content-center justify-content-md-end">
                                         <Link to={`/PatientRegistry/${patientId}`} style={{ "color": "black" }}><button className="btn btn-secondary me-3" id>Indietro</button></Link>
-                                    </div>
-                                    <div className="col-auto ms-md-auto mb-3">
-                                        <button className="btn btn-primary me-3" id type="submit" >Salva modifiche</button><Link to={`/NewTherapy/${patientId}`}><button className="btn btn-primary" id>Avanti</button></Link>
+                                        <Link to={`/NewTherapy/${patientId}`}><button className="btn btn-primary  me-3" id>Avanti</button></Link>
+                                        <button className="btn btn-primary" id type="submit" >Salva modifiche</button>
                                     </div>
                                 </div>
                             </div>
