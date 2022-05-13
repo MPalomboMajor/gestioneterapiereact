@@ -36,6 +36,7 @@ export const message = {
   ErrorUnauthorized: 'Utente non autorizzato',
   ErrorServer: 'Errore interno al programma ',
   ErrorRequire: 'Inserire tutti i campi richiesti ',
+  ErrorNotFound: 'Valore inserito non trovato',
   ///SUCCESS
   SuccessInsert: 'Inserito correttamente ',
   SuccessUpdate: 'Aggiornato correttamente',
