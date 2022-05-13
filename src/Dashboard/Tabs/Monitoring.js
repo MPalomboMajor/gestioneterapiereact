@@ -39,13 +39,10 @@ function Monitoring(props) {
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </>
-
     );
 }
 

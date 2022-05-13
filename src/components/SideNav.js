@@ -24,16 +24,23 @@ const SideNav = () => {
                     //MENU LATERALE CARMANGER
                     isCarManger ?
                         <>
-                            {window.location.pathname === "/Dashboard" || window.location.pathname === "/PatientRegistry" || window.location.pathname === "/ListDoctor" || window.location.pathname === "/MedicalCenter" || window.location.pathname === "/ContactInfo" || window.location.pathname === "/ContactInfoPatient" ?
+                            {window.location.pathname === "/Dashboard" || window.location.pathname === "/PatientRegistry" || window.location.pathname === "/ListDoctor" || window.location.pathname === "/MedicalCenter" || window.location.pathname === "/ContactInfo" || window.location.pathname === "/ContactInfoPatient" || window.location.pathname === "/DoctorChartsInterface" ?
                                 <>
                                     <li className="nav-item">
-                                        <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
+                                        <a href="/DoctorChartsInterface" className="nav-link" aria-current="page" >
                                             <p>
-                                                <i class="fas fa-arrow-circle-left"></i> Home
+                                                Home
                                             </p>
                                         </a>
                                     </li>
                                     <hr />
+                                    <li className="nav-item">
+                                        <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
+                                            <p>
+                                                 Elenco assistiti
+                                            </p>
+                                        </a>
+                                    </li>
                                     <li className="nav-item">
                                         <a href="/ListDoctor" className="nav-link">
                                             <p>
@@ -59,14 +66,21 @@ const SideNav = () => {
                                 :
                                 <>
 
-                                    <li className="nav-item">
-                                        <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
+<li className="nav-item">
+                                        <a href="/DoctorChartsInterface" className="nav-link" aria-current="page" >
                                             <p>
-                                                <i class="fas fa-arrow-circle-left"></i> Home
+                                                Home
                                             </p>
                                         </a>
                                     </li>
                                     <hr />
+                                    <li className="nav-item">
+                                        <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
+                                            <p>
+                                                 Elenco assistiti
+                                            </p>
+                                        </a>
+                                    </li>
                                     {localStorage.getItem("newPatient") != null ? '' :
                                         <>
                                             <li className="nav-item">
