@@ -5,8 +5,7 @@ function Therapies(props) {
 
     return (
         <>
-
-<div className="row h-100 justify-content-center align-items-center" style={{ "width": "100%" }}>
+            <div className="row h-100 justify-content-center align-items-center" style={{ "width": "100%" }}>
                 <div className="col-12">
                     <div className="box">
                         <div className="row">
@@ -17,7 +16,6 @@ function Therapies(props) {
                                             <h2>Numero pazienti per formulazioni</h2>
                                             <BarChartGetAllPatientByFormulation data={props.dataGetAllPatientByFormulation} commonProperties={props.commonProperties} />
                                         </div>
-                                        
                                     </div>
                                 </div>
                             </div>
