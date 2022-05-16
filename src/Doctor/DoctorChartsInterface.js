@@ -113,7 +113,7 @@ function DoctorChartsInterface() {
                         setDataGetPatientsByEpilecticSeizure(response.data.dati);
                     }
                 }).catch((error) => {
-
+                    setDataGetPatientsByEpilecticSeizure([]);
                 });
             dashboard.getWithParam("GetAdherencesByPatient/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
                 .then((response) => {
@@ -121,7 +121,7 @@ function DoctorChartsInterface() {
                         setDataGetAdherencesByPatient(response.data.dati);
                     }
                 }).catch((error) => {
-
+                    setDataGetAdherencesByPatient([]);
                 });
             //grafico da implementare
             // dashboard.getWithParam("GetCumulativeSurveysByMood/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
@@ -228,7 +228,7 @@ function DoctorChartsInterface() {
                     setDataGetPatientsByEpilecticSeizure(response.data.dati);
                 }
             }).catch((error) => {
-
+                setDataGetPatientsByEpilecticSeizure([]);
             });
         dashboard.getWithParam("GetAdherencesByPatient/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
             .then((response) => {
@@ -236,7 +236,7 @@ function DoctorChartsInterface() {
                     setDataGetAdherencesByPatient(response.data.dati);
                 }
             }).catch((error) => {
-
+                setDataGetAdherencesByPatient([]);
             });
         //grafico da implementare
         // dashboard.getWithParam("GetCumulativeSurveysByMood/", { params: { DataFine: dataFine, DataInizio: dataInizio } })

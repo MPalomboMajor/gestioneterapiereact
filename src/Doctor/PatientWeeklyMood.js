@@ -104,7 +104,7 @@ function PatientWeeklyMood(props) {
                     <div className="col-12 col-md-5">
                         <div className="input-group mb-3">
                             <span className="input-group-text" id="label-inizio">Inizio</span>
-                            <input type="date" className="form-control form-control-sm" id="captiontest" aria-describedby="label-inizio" onChange={handleChangeDate} />
+                            <input type="date" className="form-control form-control-sm" id="captiontest" aria-describedby="label-inizio" onChange={handleChangeDate} defaultValue={moment(date).format("YYYY-MM-DD")}/>
                         </div>
                     </div>
                     <div className="col-12 col-md-4">

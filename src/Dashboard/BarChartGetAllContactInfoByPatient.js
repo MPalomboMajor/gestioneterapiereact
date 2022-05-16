@@ -5,7 +5,7 @@ function BarChartGetAllContactInfoByPatient(props) {
     const MyResponsiveBar = ({ data /* see data tab */ }) => (
         <ResponsiveBar
             {...props.commonProperties}
-            data={data}
+            data={data === null ? [] : data}
             keys={[
                 'numeroContatti'
             ]}

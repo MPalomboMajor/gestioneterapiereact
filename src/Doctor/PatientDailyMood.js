@@ -109,7 +109,7 @@ function PatientDailyMood(props) {
                 <div className="col-12 col-md-5">
                     <div className="input-group mb-3">
                         <span className="input-group-text" id="label-inizio">Inizio</span>
-                        <input type="date" name="startD" placeholder="Inizio" onChange={handleChangeDate} className="form-control form-control-sm" id="captiontest" aria-describedby="label-inizio" />
+                        <input type="date" name="startD" placeholder="Inizio" onChange={handleChangeDate} defaultValue={moment(date).subtract(6, 'days').format("YYYY-MM-DD")} className="form-control form-control-sm" id="captiontest" aria-describedby="label-inizio" />
                     </div>
                 </div>
                 <div className="col-12 col-md-4">
