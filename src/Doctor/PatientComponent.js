@@ -120,7 +120,7 @@ function PatientRowData(props) {
         <td>{props.patient.name}</td>
         <td>{props.patient.phoneNumber}</td>
         <td>{props.patient.email}</td>
-        <td>{props.patient.isActive === 0 ? "Non attivo" : "Attivo"}</td>
+        <td>{props.patient.isActive != 0 ? "Attivo" : "Non attivo"}</td>
     </>
     );
 }
