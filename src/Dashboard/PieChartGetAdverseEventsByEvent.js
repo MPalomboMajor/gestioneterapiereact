@@ -1,7 +1,6 @@
 import { ResponsivePie } from '@nivo/pie'
 
-function PieChartGetDayByFormulation(props) {
-
+function PieChartGetAdverseEventsByEvent(props) {
     const MyResponsivePie = ({ data /* see data tab */ }) => (
         <ResponsivePie
             {...props.commonProperties}
@@ -79,37 +78,13 @@ function PieChartGetDayByFormulation(props) {
                 },
                 {
                     match: {
-                        id: 'causa5'
+                        id: ''
                     },
                     id: 'lines'
                 }
 
             ]}
-            legends={[
-                {
-                    anchor: 'bottom',
-                    direction: 'row',
-                    justify: false,
-                    translateX: 0,
-                    translateY: 56,
-                    itemsSpacing: 0,
-                    itemWidth: 100,
-                    itemHeight: 18,
-                    itemTextColor: '#999',
-                    itemDirection: 'left-to-right',
-                    itemOpacity: 1,
-                    symbolSize: 18,
-                    symbolShape: 'circle',
-                    effects: [
-                        {
-                            on: 'hover',
-                            style: {
-                                itemTextColor: '#000'
-                            }
-                        }
-                    ]
-                }
-            ]}
+            legends={[]}
         />
     )
 
@@ -122,7 +97,7 @@ function PieChartGetDayByFormulation(props) {
     );
 };
 
-export { PieChartGetDayByFormulation };
+export { PieChartGetAdverseEventsByEvent };
 
 
 

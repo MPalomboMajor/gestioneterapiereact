@@ -28,133 +28,33 @@ function DoctorChartsInterface() {
     //Terapia
     const [dataGetAllPatientByFormulation, setDataGetAllPatientByFormulation] = useState([]);
     const [dataGetDayByFormulation, setDataGetDayByFormulation] = useState([]);
+    const [dataGetPatientsByPhase, setDataGetPatientsByPhase] = useState([]);
     // const [dataGetCumulativeSurveysByMood, setDataGetCumulativeSurveysByMood] = useState([]);
-
     //Monitoraggio
     const [dataGetPatientsByEpilecticSeizure, setDataGetPatientsByEpilecticSeizure] = useState([]);
     const [dataGetAdherencesByPatient, setDataGetAdherencesByPatient] = useState([]);
+    const [dataGetTrackingMoodByPatient, setDataGetTrackingMoodByPatient] = useState([]);
+    const [dataGetAdverseEventsByEvent, setDataGetAdverseEventsByEvent] = useState([]);
     //ContactInfo
     const [dataGetAllContactInfoByPatient, setDataGetAllContactInfoByPatient] = useState([]);
     const [dataGetAllContactInfoByNumber, setDataGetAllContactInfoByNumber] = useState([]);
+    const [dataGetSatisfactionLevelQuestionOne, setDataGetSatisfactionLevelQuestionOne] = useState([]);
+    const [dataGetSatisfactionLevelQuestionTwo, setDataGetSatisfactionLevelQuestionTwo] = useState([]);
+    const [dataGetSatisfactionLevelQuestionThree, setDataGetSatisfactionLevelQuestionThree] = useState([]);
 
     useEffect(() => {
         const fetchInitalData = async () => {
-            
-            //Assstiti
-            dashboard.getWithParam("GetTotalRegister&Active/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setDataGetTotalRegisterActive(response.data.dati);
-                    }
-                }).catch((error) => {
-
-                });
-            dashboard.getWithParam("GetTotalNumberDropOff/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setDataGetTotalNumberDropOff(response.data.dati);
-                    }
-                }).catch((error) => {
-
-                });
-            dashboard.getWithParam("GetAllDropOff/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setDataGetAllDropOff(response.data.dati);
-                    }
-                }).catch((error) => {
-
-                });
-            dashboard.getWithParam("GetByAge/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setDataGetByAge(response.data.dati);
-                    }
-                }).catch((error) => {
-
-                });
-            dashboard.getWithParam("GetBySex/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setDataGetBySex(response.data.dati);
-                    }
-                }).catch((error) => {
-
-                });
-            dashboard.getWithParam("GetMonthlyTrend/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setDataGetMonthlyTrend(response.data.dati);
-                    }
-                }).catch((error) => {
-
-                });
-            //Terapia
-            dashboard.getWithParam("GetAllPatientsByFormulation/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setDataGetAllPatientByFormulation(response.data.dati);
-                    }
-                }).catch((error) => {
-
-                });
-            dashboard.getWithParam("GetDayByFormulation/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setDataGetDayByFormulation(response.data.dati);
-                    }
-                }).catch((error) => {
-
-                });
-            //Monitoraggio
-            dashboard.getWithParam("GetPatientsByEpilecticSeizure/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setDataGetPatientsByEpilecticSeizure(response.data.dati);
-                    }
-                }).catch((error) => {
-                    setDataGetPatientsByEpilecticSeizure([]);
-                });
-            dashboard.getWithParam("GetAdherencesByPatient/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setDataGetAdherencesByPatient(response.data.dati);
-                    }
-                }).catch((error) => {
-                    setDataGetAdherencesByPatient([]);
-                });
-            //grafico da implementare
-            // dashboard.getWithParam("GetCumulativeSurveysByMood/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-            //     .then((response) => {
-            //         if (response.status === 200) {
-            //             setDataGetCumulativeSurveysByMood(response.data.dati);
-            //         }
-            //     }).catch((error) => {
-
-            //     });
-            //ContactInfo
-            dashboard.getWithParam("GetAllContactInfoByPatient/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setDataGetAllContactInfoByPatient(response.data.dati);
-                    }
-                }).catch((error) => {
-
-                });
-            dashboard.getWithParam("GetAllContactInfoByNumber", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setDataGetAllContactInfoByNumber(response.data.dati);
-                    }
-                }).catch((error) => {
-
-                });
+            callsFetchData();
         };
         fetchInitalData();
     }, []);
 
     function fetchData(evt) {
         evt.preventDefault();
+        callsFetchData();
+    };
+
+    function callsFetchData () {
         //Assstiti
         dashboard.getWithParam("GetTotalRegister&Active/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
             .then((response) => {
@@ -221,6 +121,14 @@ function DoctorChartsInterface() {
             }).catch((error) => {
 
             });
+        dashboard.getWithParam("GetPatientsByPhase/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+            .then((response) => {
+                if (response.status === 200) {
+                    setDataGetPatientsByPhase(response.data.dati);
+                }
+            }).catch((error) => {
+
+            });
         //Monitoraggio
         dashboard.getWithParam("GetPatientsByEpilecticSeizure/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
             .then((response) => {
@@ -237,6 +145,22 @@ function DoctorChartsInterface() {
                 }
             }).catch((error) => {
                 setDataGetAdherencesByPatient([]);
+            });
+        dashboard.getWithParam("GetTrackingMoodByPatient/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+            .then((response) => {
+                if (response.status === 200) {
+                    setDataGetTrackingMoodByPatient(response.data.dati);
+                }
+            }).catch((error) => {
+                setDataGetTrackingMoodByPatient([]);
+            });
+        dashboard.getWithParam("GetAdverseEventsByEvent/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+            .then((response) => {
+                if (response.status === 200) {
+                    setDataGetAdverseEventsByEvent(response.data.dati);
+                }
+            }).catch((error) => {
+                setDataGetAdverseEventsByEvent([]);
             });
         //grafico da implementare
         // dashboard.getWithParam("GetCumulativeSurveysByMood/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
@@ -260,6 +184,30 @@ function DoctorChartsInterface() {
             .then((response) => {
                 if (response.status === 200) {
                     setDataGetAllContactInfoByNumber(response.data.dati);
+                }
+            }).catch((error) => {
+
+            });
+        dashboard.getWithParam("GetSatisfactionLevelQuestionOne", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+            .then((response) => {
+                if (response.status === 200) {
+                    setDataGetSatisfactionLevelQuestionOne(response.data.dati);
+                }
+            }).catch((error) => {
+
+            });
+        dashboard.getWithParam("GetSatisfactionLevelQuestionTwo", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+            .then((response) => {
+                if (response.status === 200) {
+                    setDataGetSatisfactionLevelQuestionTwo(response.data.dati);
+                }
+            }).catch((error) => {
+
+            });
+        dashboard.getWithParam("GetSatisfactionLevelQuestionThree", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+            .then((response) => {
+                if (response.status === 200) {
+                    setDataGetSatisfactionLevelQuestionThree(response.data.dati);
                 }
             }).catch((error) => {
 
@@ -316,17 +264,23 @@ function DoctorChartsInterface() {
                 <Tab eventKey="therapies" title="Terapie" >
                     <Therapies dataGetAllPatientByFormulation={dataGetAllPatientByFormulation}
                         dataGetDayByFormulation={dataGetDayByFormulation}
+                        dataGetPatientsByPhase={dataGetPatientsByPhase}
                         commonProperties={commonProperties} />
                 </Tab>
                 <Tab eventKey="monitoring" title="Monitoraggio" >
                     <Monitoring dataGetPatientsByEpilecticSeizure={dataGetPatientsByEpilecticSeizure}
                         dataGetAdherencesByPatient={dataGetAdherencesByPatient}
+                        dataGetTrackingMoodByPatient={dataGetTrackingMoodByPatient}
+                        dataGetAdverseEventsByEvent={dataGetAdverseEventsByEvent}
                         commonProperties={commonProperties} />
                 </Tab>
                 {isCareManger || isAngelini ?
                     <Tab eventKey="contactInfo" title="Contact info" >
                         <ContactInfo dataGetAllContactInfoByPatient={dataGetAllContactInfoByPatient}
                             dataGetAllContactInfoByNumber={dataGetAllContactInfoByNumber}
+                            dataGetSatisfactionLevelQuestionOne={dataGetSatisfactionLevelQuestionOne}
+                            dataGetSatisfactionLevelQuestionTwo={dataGetSatisfactionLevelQuestionTwo}
+                            dataGetSatisfactionLevelQuestionThree={dataGetSatisfactionLevelQuestionThree}
                             commonProperties={commonProperties} />
                     </Tab> : ""
                 }

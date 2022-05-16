@@ -1,7 +1,6 @@
 import { ResponsivePie } from '@nivo/pie'
 
-function PieChartGetDayByFormulation(props) {
-
+function PieChartGetPatientsByPhase(props) {
     const MyResponsivePie = ({ data /* see data tab */ }) => (
         <ResponsivePie
             {...props.commonProperties}
@@ -79,7 +78,7 @@ function PieChartGetDayByFormulation(props) {
                 },
                 {
                     match: {
-                        id: 'causa5'
+                        id: ''
                     },
                     id: 'lines'
                 }
@@ -122,7 +121,7 @@ function PieChartGetDayByFormulation(props) {
     );
 };
 
-export { PieChartGetDayByFormulation };
+export { PieChartGetPatientsByPhase };
 
 
 

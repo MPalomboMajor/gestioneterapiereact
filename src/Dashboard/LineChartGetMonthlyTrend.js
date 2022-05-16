@@ -8,7 +8,7 @@ function LineChartGetMonthlyTrend(props) {
     const MyResponsiveLine = ({ data /* see data tab */ }) => (
         <ResponsiveLine
             {...props.commonProperties}
-            data={data}
+            data={data === null ? [] : data}
             margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
             xScale={{ type: 'point' }}
             yScale={{

@@ -1,6 +1,6 @@
 import { ResponsivePie } from '@nivo/pie'
 
-function PieChartGetDayByFormulation(props) {
+function PieChartGetSatisfactionLevelQuestionTwo(props) {
 
     const MyResponsivePie = ({ data /* see data tab */ }) => (
         <ResponsivePie
@@ -122,7 +122,7 @@ function PieChartGetDayByFormulation(props) {
     );
 };
 
-export { PieChartGetDayByFormulation };
+export { PieChartGetSatisfactionLevelQuestionTwo };
 
 
 
