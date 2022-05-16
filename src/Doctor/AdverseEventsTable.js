@@ -140,15 +140,15 @@ function AdverseEventRowData(props) {
         <td className="split-column">
             <div className="options-wrapper">
                 <div className="form-check">
-                    <input className="form-check-input" type="radio" id value="1" name="idIntensity" defaultChecked={props.adverseEvent.idIntensity} disabled />
+                    <input className="form-check-input" type="radio" id value="1" checked={props.adverseEvent.idIntensity === 1} disabled />
                     <label className="form-check-label" htmlFor>Lieve</label>
                 </div>
                 <div className="form-check">
-                    <input className="form-check-input" type="radio" id value="2" name="idIntensity" defaultChecked={props.adverseEvent.idIntensity} disabled />
+                    <input className="form-check-input" type="radio" id value="2" checked={props.adverseEvent.idIntensity === 2} disabled />
                     <label className="form-check-label" htmlFor>Moderata</label>
                 </div>
                 <div className="form-check">
-                    <input className="form-check-input" type="radio" id value="3" name="idIntensity" defaultChecked={props.adverseEvent.idIntensity} disabled />
+                    <input className="form-check-input" type="radio" id value="3" checked={props.adverseEvent.idIntensity === 3} disabled />
                     <label className="form-check-label" htmlFor>Grave</label>
                 </div>
             </div>
@@ -280,7 +280,7 @@ function AdverseEventsModal(props) {
                                         <label className="form-check-label" htmlFor="Check2">Moderata</label>
                                     </div>
                                     <div className="form-check">
-                                        <input className="form-check-input" type="radio" id="Check3" value="2" name="idIntensity" onChange={handleChange} />
+                                        <input className="form-check-input" type="radio" id="Check3" value="3" name="idIntensity" onChange={handleChange} />
                                         <label className="form-check-label" htmlFor="Check3">Grave</label>
                                     </div>
                                 </div>
