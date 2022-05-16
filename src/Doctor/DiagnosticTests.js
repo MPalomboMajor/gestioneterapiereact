@@ -36,7 +36,7 @@ function DiagnosticTestsInfo() {
     useEffect(() => {
         const fetchDiagnosticTests = async () => {
             setLoading(true);
-            await patient.get("Analysis/", patientId)
+            await patient.get("AnalysisPreview/", patientId)
                 .then((response) => {
                     if (response.status === 200) {
                         setDiagnosticTests(response.data.dati);
