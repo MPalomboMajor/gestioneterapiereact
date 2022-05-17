@@ -13,7 +13,7 @@ function PatientInfo() {
     const [patients, setPatients] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [patientsPerPage] = useState(3);
+    const [patientsPerPage] = useState(10);
 
     useEffect(() => {
         const fetchPatients = async () => {

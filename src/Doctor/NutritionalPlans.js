@@ -19,7 +19,7 @@ function NutritionalPlansInfo() {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [nutritionalPlansPerPage] = useState(5);
+    const [nutritionalPlansPerPage] = useState(8);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);

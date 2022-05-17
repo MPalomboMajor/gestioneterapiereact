@@ -14,7 +14,7 @@ function DiagnosticTestsInfo() {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [diagnosticTestsPerPage] = useState(5);
+    const [diagnosticTestsPerPage] = useState(8);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);

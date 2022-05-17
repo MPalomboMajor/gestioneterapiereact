@@ -49,22 +49,22 @@ export class NewTherapy extends Component {
             pharmacyPatients: [],
             currentPage: 1,
             isChange: false,
-            patientsPerPage: 5,
+            patientsPerPage: 10,
             //STATE PAGINATION Ontozry
             currentOntozryPage: 1,
-            ontozryPerPage: 5,
+            ontozryPerPage: 10,
             //STATE PAGINATION OTHER MEDICATION
             currentOtherPage: 1,
-            otherMedicationPerPage: 5,
+            otherMedicationPerPage: 10,
             //STATE PAGINATION Allergies
             currentAllergiesPage: 1,
-            allergiesPerPage: 5,
+            allergiesPerPage: 10,
             //STATE PAGINATION storico
             currentStoricoPage: 1,
-            storicoPerPage: 2,
+            storicoPerPage: 5,
             //STATE PAGINATION afderenze
             currentAderenzePage: 1,
-            aderenzePerPage: 5,
+            aderenzePerPage: 10,
 
             storicPlan: [],
             allergiesDTO: { ...this.allergiesProps() },

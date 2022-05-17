@@ -15,7 +15,7 @@ function AdverseEventsInfo() {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [adverseEventsPerPage] = useState(7);
+    const [adverseEventsPerPage] = useState(12);
     const [patientProfile, setPatientProfile] = useState([]);
 
     const handleClose = () => setShow(false);

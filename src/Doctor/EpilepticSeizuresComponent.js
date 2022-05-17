@@ -17,7 +17,7 @@ function EpilepticSeizuresInfo() {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [epilepticSeizuresPerPage] = useState(3);
+    const [epilepticSeizuresPerPage] = useState(5);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
