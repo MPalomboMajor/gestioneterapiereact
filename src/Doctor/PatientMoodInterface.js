@@ -68,7 +68,7 @@ function PatientMoodInterface(props) {
     return (
 
         <>
-                <h1 className="h1">Umore</h1>
+                <h1 className="h1">Umore {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
                 &nbsp;&nbsp;
                 
                 <Tabs

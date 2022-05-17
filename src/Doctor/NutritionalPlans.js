@@ -71,7 +71,7 @@ function NutritionalPlansInfo() {
 
     return (
         <>
-            <h1>Piano nutrizionale</h1>
+            <h1 class="h1">Piano nutrizionale {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
             &nbsp;&nbsp;
 
             <NutritionalPlansTable nutritionalPlans={currentNutritionalPlans} patientId={patientId} setNutritionalPlans={setNutritionalPlans} />

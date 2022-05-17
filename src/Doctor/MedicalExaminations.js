@@ -71,7 +71,7 @@ function MedicalExaminationsInfo() {
 
     return (
         <>
-            <h1>Visite mediche</h1>
+            <h1 class="h1">Visite mediche {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
             &nbsp;&nbsp;
 
             <MedicalExaminationsTable medicalExaminations={currentmedicalExaminations} patientId={patientId} setMedicalExaminations={setMedicalExaminations} />

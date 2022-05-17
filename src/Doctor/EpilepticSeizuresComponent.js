@@ -90,7 +90,7 @@ function EpilepticSeizuresInfo() {
 
     return (
         <>
-            <h1 className="h1">Crisi</h1>
+            <h1 className="h1">Crisi {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
 
             &nbsp;&nbsp;
             <div>

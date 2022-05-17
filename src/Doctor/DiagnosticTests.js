@@ -67,7 +67,7 @@ function DiagnosticTestsInfo() {
     return (
         <>
 
-            <h1>Esami diagnostici</h1>
+            <h1 class="h1">Esami diagnostici {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
 
             &nbsp;&nbsp;
             <DiagnosticTestsTable diagnosticTests={currentDiagnosticTests} patientId={patientId} setDiagnosticTests={setDiagnosticTests} />
@@ -200,15 +200,15 @@ function DiagnosticTestsModal(props) {
                             <div className="modal-body align-items-end">
                                 <div className="input-group mb-3">
                                     <span className="input-group-text" id="captiontest">Carica referto</span>
-                                    <input type="file" className="form-control form-control-sm" id="captiontest" aria-describedby="basic-addon3" multiple onChange={saveFileSelected} required/>
+                                    <input type="file" className="form-control form-control-sm" id="captiontest" aria-describedby="basic-addon3" multiple onChange={saveFileSelected} required />
                                 </div>
                                 <div className="input-group mb-3">
                                     <span className="input-group-text" id="captiontest">Tipo di referto</span>
-                                    <input type="text" className="form-control form-control-sm" id="captiontest" aria-describedby="basic-addon3" name="tipoReferto" onChange={e => setTipoReferto(e.target.value)} required/>
+                                    <input type="text" className="form-control form-control-sm" id="captiontest" aria-describedby="basic-addon3" name="tipoReferto" onChange={e => setTipoReferto(e.target.value)} required />
                                 </div>
                                 <div className="input-group mb-3 w-sm-50">
                                     <span className="input-group-text" id="data">Data</span>
-                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" name="dateReferto" onChange={e => setDateReferto(e.target.value)} required/>
+                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" name="dateReferto" onChange={e => setDateReferto(e.target.value)} required />
                                 </div>
                             </div>
                             <div className="modal-footer d-flex justify-content-center justify-content-md-end">

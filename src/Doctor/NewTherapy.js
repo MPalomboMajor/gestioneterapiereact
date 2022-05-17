@@ -48,7 +48,7 @@ export class NewTherapy extends Component {
             patients: [],
             pharmacyPatients: [],
             currentPage: 1,
-            isChange:false,
+            isChange: false,
             patientsPerPage: 5,
             //STATE PAGINATION Ontozry
             currentOntozryPage: 1,
@@ -94,6 +94,12 @@ export class NewTherapy extends Component {
             medicationDTO: {
                 ...this.farmaciProps()
             },
+            patientDto: {
+                codicePaziente: "",
+                name: "",
+                surName: ""
+            }
+
         };
     }
 
@@ -121,6 +127,16 @@ export class NewTherapy extends Component {
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+            });
+        patient.get("Get/", window.location.pathname.split('/').pop())
+            .then((response) => {
+                if (response.status === 200) {
+                    this.setState({
+                        patientDto: response.data.dati,
+                    });
+                }
+            }).catch((error) => {
+
             });
         pianoterapeutico.get("Get/", parseInt(window.location.pathname.split('/').pop()))
             .then((response) => {
@@ -229,15 +245,15 @@ export class NewTherapy extends Component {
 
     }
     handleChange = (value, formattedValue) => {
-        
-        
+
+
         var plan = this.state.therapyDto.therapeuticPlan;
         plan.dataFineTerapia = moment(value.target.value).format("DD/MM/YYYY");
         this.updateStateDate('therapeuticPlan', plan, 'therapyDto');
     }
     updateStateDate = (inputName, inputValue, objName) => {
         let statusCopy = Object.assign({}, this.state);
-        statusCopy.isChange=true;
+        statusCopy.isChange = true;
         statusCopy[objName][inputName] = inputValue;
         this.setState(statusCopy);
     };
@@ -310,7 +326,7 @@ export class NewTherapy extends Component {
     }
     returnToMenu = () => {
         localStorage.removeItem('newPatient');
-        window.location.href = "/PatientProfile/"+window.location.pathname.split('/').pop();
+        window.location.href = "/PatientProfile/" + window.location.pathname.split('/').pop();
     }
     activeReminder = () => {
         const inputValue = this.state.medicationDTO.isActiveReminder ? false : true;
@@ -505,9 +521,9 @@ export class NewTherapy extends Component {
         const indexOfFirstStorico = indexOfLastStorico - this.state.storicoPerPage;
         const currentstoric = this.state.storicPlan ? this.state.storicPlan.slice(indexOfFirstStorico, indexOfLastStorico) : [];
         //PAGINATION Aderenze
-        const indexOfLastAderenze= this.state.currentAderenzePage * this.state.aderenzePerPage;
+        const indexOfLastAderenze = this.state.currentAderenzePage * this.state.aderenzePerPage;
         const indexOfFirstAderenze = indexOfLastAderenze - this.state.aderenzePerPage;
-        const adherences =  this.state.aderenze ?this.state.aderenze.slice(indexOfFirstAderenze, indexOfLastAderenze) : [];
+        const adherences = this.state.aderenze ? this.state.aderenze.slice(indexOfFirstAderenze, indexOfLastAderenze) : [];
 
 
         const indexOfLastPatient = this.state.currentPage * this.state.patientsPerPage;
@@ -520,7 +536,7 @@ export class NewTherapy extends Component {
         currentFarmaci.map((pa) => { pa.delete = 'delete'; });
         currentItem.map((pa) => { pa.delete = 'delete'; });
         return (<>
-            <h1 class="h1">Crea / Modifica terapia</h1>
+            <h1 class="h1">Crea / Modifica terapia {this.state.patientDto.name} {this.state.patientDto.surName} - Codice assistito: {this.state.patientDto.codicePaziente}</h1>
             <Tabs defaultActiveKey="ontozry" activeKey={this.state.linkTab} onSelect={(k) => this.selectTab(k)} id="uncontrolled-tab-example" className=" nav secondary-menu mb-4" >
 
                 <Tab eventKey="ontozry" title="Ontozry">
@@ -895,14 +911,14 @@ export class NewTherapy extends Component {
                                 <Form.Group className="col-6 mb-3" >
                                     <div class="input-group mb-3 w-sm-50">
                                         <span class="input-group-text" id="label-data">Data fine terapia</span>
-                                        <input type="text"  onMouseOverCapture={(e) => e.target.type = 'date'} onMouseOutCapture={ !this.state.isChange ?  (e) => e.target.type = 'text' : ''}   class="form-control form-control-sm" id="endTherapy" defaultValue={  this.state.therapyDto?.therapeuticPlan?.dataFineTerapia  }  placeholder={  this.state.therapyDto?.therapeuticPlan?.dataFineTerapia  } onChange={this.handleChange}></input>
+                                        <input type="text" onMouseOverCapture={(e) => e.target.type = 'date'} onMouseOutCapture={!this.state.isChange ? (e) => e.target.type = 'text' : ''} class="form-control form-control-sm" id="endTherapy" defaultValue={this.state.therapyDto?.therapeuticPlan?.dataFineTerapia} placeholder={this.state.therapyDto?.therapeuticPlan?.dataFineTerapia} onChange={this.handleChange}></input>
                                     </div>
                                 </Form.Group>
                             </Row>
                             <Row>
                                 <div class="box">
                                     <div class="label label-secondary">Motivo fine terapia</div>
-                                    <FormControl as="textarea" aria-label="With textarea" id="motivoFineTerapia" className="text-area-custom" onChange={this.handleChangeNote} value={this.state.therapyDto?.therapeuticPlan?.motivoFineTerapia ?this.state.therapyDto?.therapeuticPlan?.motivoFineTerapia : null } name="motivoFineTerapia" />
+                                    <FormControl as="textarea" aria-label="With textarea" id="motivoFineTerapia" className="text-area-custom" onChange={this.handleChangeNote} value={this.state.therapyDto?.therapeuticPlan?.motivoFineTerapia ? this.state.therapyDto?.therapeuticPlan?.motivoFineTerapia : null} name="motivoFineTerapia" />
                                 </div>
                             </Row>
                             <Row>
@@ -981,13 +997,13 @@ export class NewTherapy extends Component {
                             </Table>
                         </div>
                         <Pagination
-                                patientsPerPage={this.state.aderenzePerPage}
-                                totalPatients={this.state.aderenze?.length}
-                                paginate={(pageNumber) => this.setCurrentAderenzePage(pageNumber)}
-                                currentPage={this.state.currentAderenzePage}
-                                prevPage={(pageNumber) => this.setPrevAderenzePage(pageNumber)}
-                                nextPage={(pageNumber) => this.setNexAderenzePage(pageNumber)}
-                            />
+                            patientsPerPage={this.state.aderenzePerPage}
+                            totalPatients={this.state.aderenze?.length}
+                            paginate={(pageNumber) => this.setCurrentAderenzePage(pageNumber)}
+                            currentPage={this.state.currentAderenzePage}
+                            prevPage={(pageNumber) => this.setPrevAderenzePage(pageNumber)}
+                            nextPage={(pageNumber) => this.setNexAderenzePage(pageNumber)}
+                        />
                     </Tab>
                 }
             </Tabs>

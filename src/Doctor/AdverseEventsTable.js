@@ -16,6 +16,7 @@ function AdverseEventsInfo() {
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [adverseEventsPerPage] = useState(7);
+    const [patientProfile, setPatientProfile] = useState([]);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -28,6 +29,14 @@ function AdverseEventsInfo() {
                     if (response.status === 200) {
                         setAdverseEvents(response.data.dati);
                         setLoading(false);
+                    }
+                }).catch((error) => {
+
+                });
+            await patient.get("Get/", patientId)
+                .then((response) => {
+                    if (response.status === 200) {
+                        setPatientProfile(response.data.dati);
                     }
                 }).catch((error) => {
 
@@ -53,7 +62,7 @@ function AdverseEventsInfo() {
 
     return (
         <>
-            <h1 class="h1">Eventi avversi</h1>
+            <h1 class="h1">Eventi avversi {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
             &nbsp;&nbsp;
 
             <AdverseEventsTable adverseEvents={currentAdverseEvents} handleShow={handleShow} loading={loading} setAdverseEvents={setAdverseEvents} />

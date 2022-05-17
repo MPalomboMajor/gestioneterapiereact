@@ -71,7 +71,7 @@ function PatientRegistry() {
 
         return (
                 <>
-                        <h1 className="h1">Anagrafica assistito</h1>
+                        <h1 className="h1">Anagrafica {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
 
                         <div className="row h-100 justify-content-center" style={{ "width": "100%", "marginTop": "150px"}}>
                                 <div className="col-12">

@@ -89,7 +89,7 @@ function PatientProfile() {
     return (
         <>
             <div>
-                <h1 className="h1">Profilo assistito</h1>
+                <h1 className="h1">Profilo {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
                 <div className="row h-100 justify-content-center align-items-center">
                     <div className="col-12">
                         <form onSubmit={editPatient}>
