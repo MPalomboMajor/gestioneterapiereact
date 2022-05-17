@@ -243,7 +243,7 @@ export class Register extends Component {
                        <div class="col-12">
                        <div class="col-6 col-md-8 mb-0">
                             <div class="form-check mb-0">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" required="required"></input>
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></input>
                                     <label class="form-check-label small" for="flexCheckDefault">
                                         Consenso al trattamento dei dati personali
                                     </label>

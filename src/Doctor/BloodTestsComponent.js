@@ -1,11 +1,7 @@
-import { Col, Table, Form, Button, Container, Row, Carousel } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { api } from '../helpers/api/api';
-import { useParams } from 'react-router-dom';
-import { useLocation } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import moment from 'moment';
-import { path } from '../helpers/Constants';
 import { patient } from '../helpers/api/api';
 import { DiagnosticTestSlider } from './DiagnosticTestSlider';
 
@@ -40,12 +36,12 @@ function BloodTestsInfo() {
         <>
             <h2>Dettaglio esame diagnostico</h2>
             &nbsp;&nbsp;
-            <div className="row h-100 w-100 justify-content-center align-items-center">
+            <div className="row h-100 w-100 justify-content-center align-items-center" style={{ "marginTop": "-200px" }}>
                 <div className="col-12 col-md-6" >
                     <div className="box carousel">
                         <p className="text-center px-3">Immagini inviate</p>
 
-                        <DiagnosticTestSlider imgsNames={imgsNames}/>
+                        <DiagnosticTestSlider imgsNames={imgsNames} />
 
                     </div>
                 </div>
@@ -53,15 +49,19 @@ function BloodTestsInfo() {
                     <div className="box carousel-info">
                         <div className="input-group mb-3">
                             <span className="input-group-text" id="data-label">Data</span>
-                            <input type="data" className="form-control form-control-sm" id="data" aria-describedby="data-label" value={moment(diagnosticTest.uploadedDateTime).format("DD/MM/YYYY")} disabled />
+                            <input type="text" className="form-control form-control-sm" id="data" aria-describedby="data-label" value={moment(diagnosticTest.uploadedDateTime).format("DD/MM/YYYY")} disabled />
                         </div>
                         <div className="input-group mb-3">
                             <span className="input-group-text" id="tiporeferto-label">Tipo di referto</span>
                             <input type="text" className="form-control form-control-sm" id="tiporeferto" aria-describedby="tiporeferto-label" value={diagnosticTest.tipoReferto} disabled />
                         </div>
+                        <div className="d-flex justify-content-center justify-content-md-end">
+                            <button className="btn btn-secondary me-3" id onClick={() => navigate(-1)}>Torna a elenco</button>
+                        </div>
                     </div>
                 </div>
             </div>
+
             {/* <Row>
                 <Col>
                     <ControlledCarouselBloodTests selectedDiagnosticTest={selectedDiagnosticTest} imgsNames={imgsNames} />
@@ -77,31 +77,6 @@ function BloodTestsInfo() {
             </div> */}
 
         </>
-    );
-}
-
-
-
-
-function ControlledCarouselBloodTests(props) {
-
-    const [index, setIndex] = useState(0);
-    const imgsFolder = props.selectedDiagnosticTest.idBloodData + "/";
-    const handleSelect = (selectedIndex, e) => {
-        setIndex(selectedIndex);
-    };
-
-    return (
-        <Carousel activeIndex={index} onSelect={handleSelect} interval={null}>
-            {props.imgsNames?.map((imgName, index) => (
-                <Carousel.Item key={index}>
-                    <img
-                        className="selectedDiagnosticTestImages d-block w-100"
-                        src={imgName}
-                    />
-                </Carousel.Item>
-            ))}
-        </Carousel>
     );
 }
 

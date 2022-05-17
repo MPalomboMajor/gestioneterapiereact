@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../helpers/api/api';
 import { useParams } from 'react-router-dom';
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import moment from 'moment';
 import { path } from '../helpers/Constants';
 import { patient } from '../helpers/api/api';
@@ -22,12 +22,12 @@ function MedicalExaminationDetailsInfo() {
     const navigate = useNavigate();
     const [isLoaded, setIsLoaded] = useState(false);
     const [isPageLoaded, setIsPageLoaded] = useState(false); //this helps
-    const [ data, setData ] = useState(medicalExamination.dataVisita);
-    const [ idMedicalExam, setIdMedicalExam] = useState(medicalExamination.id);
-    const [ information, setInformation] = useState(medicalExamination.infoAggiuntive);
-    const [ idPatient, setIdPatient] = useState(medicalExamination.idPatientProfile);
-    const [ visitaSpecialistica, setVisitaSpecialistica] = useState(medicalExamination.visitaSpecialistica);
-    const [ accessoRicovero, setAccessoRicovero] = useState(medicalExamination.accessoRicovero);
+    const [data, setData] = useState(medicalExamination.dataVisita);
+    const [idMedicalExam, setIdMedicalExam] = useState(medicalExamination.id);
+    const [information, setInformation] = useState(medicalExamination.infoAggiuntive);
+    const [idPatient, setIdPatient] = useState(medicalExamination.idPatientProfile);
+    const [visitaSpecialistica, setVisitaSpecialistica] = useState(medicalExamination.visitaSpecialistica);
+    const [accessoRicovero, setAccessoRicovero] = useState(medicalExamination.accessoRicovero);
 
     useEffect(() => {
         setIsLoaded(true);
@@ -41,12 +41,12 @@ function MedicalExaminationDetailsInfo() {
             }
         }
     }, [isLoaded]);
-    
+
     function saveMedicalExamination() {
         const files = new FormData();
         patient.postMedicalExamination("Visita/", files, {
             params:
-            { idPatient, idMedicalExam, data, information, visitaSpecialistica, accessoRicovero }, headers: {
+                { idPatient, idMedicalExam, data, information, visitaSpecialistica, accessoRicovero }, headers: {
                     'Content-Type': 'multipart/form-data'
                 }
         })
@@ -56,55 +56,52 @@ function MedicalExaminationDetailsInfo() {
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
-            });   
-            navigate(`/Dashboard`);
+            });
+        navigate(`/Dashboard`);
     };
 
     return (
         <>
-            
-                <h1 className="h1">Visite mediche</h1>
-                &nbsp;&nbsp;
-                <div className="row h-100 w-100 justify-content-center align-items-center">
-                    <div className="col-12 col-md-6">
-                        <div className="box carousel">
-                            <p className="text-center px-3">Immagini inviate</p>
-                            <MedicalExaminationSlider selectedMedicalExamination={selectedMedicalExamination} imgsNames={filesArray} />
-                        </div>
-                    </div>
-                    <div className="col-12 col-md-7 overlap-md-1">
-                        <div className="box carousel-info">
-                            <form action>
-                                <div className="input-group mb-3">
-                                    <span className="input-group-text" id="data-label">Data</span>
-                                    <input type="text" className="form-control form-control-sm" id="data" aria-describedby="data-label" value={moment(medicalExamination.dataVisita).format("DD/MM/YYYY")} disabled />
-                                </div>
-                                <div className="input-group mb-3">
-                                    <span className="input-group-text" id="tiporeferto-label">Tipo di referto</span>
-                                    <input type="text" className="form-control form-control-sm" id="tiporeferto" aria-describedby="tiporeferto-label" value={medicalExamination.visitaSpecialistica === null ? medicalExamination.accessoRicovero : medicalExamination.visitaSpecialistica} disabled />
-                                </div>
-                                <label className="form-label" id="label-visita" htmlFor="visita">Visita specialistica</label>
-                                <div className="input-group mb-3">
-                                    <input type="text" className="form-control form-control-sm" id="visita" aria-describedby="label-visita" placeholder="Tipo di visita" value={medicalExamination.visitaSpecialistica === null ? medicalExamination.accessoRicovero : medicalExamination.visitaSpecialistica} disabled />
-                                </div>
-                                {/*
 
-  <label class="form-label" id="label-ricovero" for="ricovero">Accesso ps / ricovero</label>
-  <div class="input-group mb-3">
-    <input type="text" class="form-control form-control-sm" id="ricovero" aria-describedby="label-ricovero" placeholder="Causa" value="Causa lorem ipsum"disabled>
-  </div>
-
-  */}
-                                <label htmlFor="esito-visita" className="form-label">Esito visita</label>
-                                <textarea className="form-control form-control-sm mb-3" id="esito-visita" rows={6} placeholder="Note informative associate al checkup" defaultValue={medicalExamination.infoAggiuntive} onChange={e => setInformation(e.target.value)} />
-                                <div className="d-flex justify-content-center justify-content-md-end">
-                                    <button className="btn btn-primary btn-upload" id onClick={saveMedicalExamination}>Salva modifiche</button>
-                                </div>
-                            </form>
-                        </div>
+            <h1 className="h1">Visite mediche</h1>
+            &nbsp;&nbsp;
+            <div className="row h-100 w-100 justify-content-center align-items-center" style={{ "marginTop": "-200px" }}>
+                <div className="col-12 col-md-6">
+                    <div className="box carousel">
+                        <p className="text-center px-3">Immagini inviate</p>
+                        <MedicalExaminationSlider selectedMedicalExamination={selectedMedicalExamination} imgsNames={filesArray} />
                     </div>
                 </div>
-            
+                <div className="col-12 col-md-7 overlap-md-1">
+                    <div className="box carousel-info">
+                        <form action>
+                            <div className="input-group mb-3">
+                                <span className="input-group-text" id="data-label">Data</span>
+                                <input type="text" className="form-control form-control-sm" id="data" aria-describedby="data-label" value={moment(medicalExamination.dataVisita).format("DD/MM/YYYY")} disabled />
+                            </div>
+                            <div className="input-group mb-3">
+                                <span className="input-group-text" id="tiporeferto-label">Tipo di referto</span>
+                                <input type="text" className="form-control form-control-sm" id="tiporeferto" aria-describedby="tiporeferto-label" value={medicalExamination.visitaSpecialistica === null ? medicalExamination.accessoRicovero : medicalExamination.visitaSpecialistica} disabled />
+                            </div>
+                            <label className="form-label" id="label-visita" htmlFor="visita">Visita specialistica</label>
+                            <div className="input-group mb-3">
+                                <input type="text" className="form-control form-control-sm" id="visita" aria-describedby="label-visita" placeholder="Tipo di visita" value={medicalExamination.visitaSpecialistica === null ? medicalExamination.accessoRicovero : medicalExamination.visitaSpecialistica} disabled />
+                            </div>
+                            {/*<label class="form-label" id="label-ricovero" for="ricovero">Accesso ps / ricovero</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control form-control-sm" id="ricovero" aria-describedby="label-ricovero" placeholder="Causa" value="Causa lorem ipsum"disabled>
+                            </div>*/}
+                            <label htmlFor="esito-visita" className="form-label">Esito visita</label>
+                            <textarea className="form-control form-control-sm mb-3" id="esito-visita" rows={6} placeholder="Note informative associate al checkup" defaultValue={medicalExamination.infoAggiuntive} onChange={e => setInformation(e.target.value)} />
+                            <div className="d-flex justify-content-center justify-content-md-end">
+                                <Link to={`/MedicalExaminations/${idPatient}`} style={{ "color": "black" }}><button className="btn btn-secondary me-3" id>Torna a elenco</button></Link>
+                                <button className="btn btn-primary btn-upload" id onClick={saveMedicalExamination}>Salva modifiche</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
 
             {/* <Row>
                 <Col>

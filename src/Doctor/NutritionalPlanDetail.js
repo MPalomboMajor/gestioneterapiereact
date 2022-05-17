@@ -1,7 +1,7 @@
 import { Col, Table, Form, Button, Container, Row, Carousel } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { api } from '../helpers/api/api';
 import { useParams } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
@@ -23,10 +23,10 @@ function NutritionalPlanDetailsInfo() {
     const navigate = useNavigate();
     const [isLoaded, setIsLoaded] = useState(false);
     const [isPageLoaded, setIsPageLoaded] = useState(false);
-    const [ date, setDate ] = useState(nutritionalPlan.date);
-    const [ idNutritionalPlan, setIdNutritionalPlan] = useState(nutritionalPlan.id);
-    const [ idPatient, setIdPatient] = useState(nutritionalPlan.idPatientProfile);
-    
+    const [date, setDate] = useState(nutritionalPlan.date);
+    const [idNutritionalPlan, setIdNutritionalPlan] = useState(nutritionalPlan.id);
+    const [idPatient, setIdPatient] = useState(nutritionalPlan.idPatientProfile);
+
     useEffect(() => {
         setIsLoaded(true);
     }, []);
@@ -39,7 +39,7 @@ function NutritionalPlanDetailsInfo() {
             }
         }
     }, [isLoaded]);
-    
+
     // function saveMedicalExamination() {
     //     const files = new FormData();
     //     patient.postMedicalExamination("Visita/", files, {
@@ -60,30 +60,33 @@ function NutritionalPlanDetailsInfo() {
 
     return (
         <>
-            
-                <h1 className="h1">Piano nutrizionale</h1>
-                &nbsp;&nbsp;
-                <div className="row h-100 w-100 justify-content-center align-items-center">
-                    <div className="col-12 col-md-6">
-                        <div className="box carousel">
-                            <p className="text-center px-3">Immagini inviate</p>
-                            <NutritionalPlanSlider selectedNutritionalPlan={selectedNutritionalPlan} imgsNames={filesArray} />
-                        </div>
-                    </div>
-                    <div className="col-12 col-md-7 overlap-md-1">
-                        <div className="box carousel-info">
-                            <form action>
-                                <div className="input-group mb-3">
-                                    <span className="input-group-text" id="data-label">Data</span>
-                                    <input type="text" className="form-control form-control-sm" id="data" aria-describedby="data-label" value={moment(nutritionalPlan.date).format("DD/MM/YYYY")} disabled />
-                                </div>
-                            </form>
-                        </div>
+
+            <h1 className="h1">Piano nutrizionale</h1>
+            &nbsp;&nbsp;
+            <div className="row h-100 w-100 justify-content-center align-items-center" style={{ "marginTop": "-200px" }}>
+                <div className="col-12 col-md-6">
+                    <div className="box carousel">
+                        <p className="text-center px-3">Immagini inviate</p>
+                        <NutritionalPlanSlider selectedNutritionalPlan={selectedNutritionalPlan} imgsNames={filesArray} />
                     </div>
                 </div>
-            
+                <div className="col-12 col-md-7 overlap-md-1">
+                    <div className="box carousel-info">
+                        <form action>
+                            <div className="input-group mb-3">
+                                <span className="input-group-text" id="data-label">Data</span>
+                                <input type="text" className="form-control form-control-sm" id="data" aria-describedby="data-label" value={moment(nutritionalPlan.date).format("DD/MM/YYYY")} disabled />
+                            </div>
+                            <div className="d-flex justify-content-center justify-content-md-end">
+                                <Link to={`/NutritionalPlans/${nutritionalPlan.idPatientProfile}`} style={{ "color": "black" }}><button className="btn btn-secondary me-3" id>Torna a elenco</button></Link>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
-          
+
+
         </>
     );
 }

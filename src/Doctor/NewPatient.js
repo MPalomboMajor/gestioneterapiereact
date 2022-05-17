@@ -61,7 +61,6 @@ export class NewPatient extends Component {
             patientcode.post("check/", { CodPatient, PhoneNumber })
                 .then((response) => {
                     if (response.data.dati) {
-
                         var local = JSON.parse(localStorage.getItem("role"));
                         var doctor = {
                             idDoctor: local.id,
@@ -73,7 +72,7 @@ export class NewPatient extends Component {
                         DTO.doctorNameIdDTOs.push(doctor)
                         patient.post("Save", this.state.patiendDto)
                             .then((response) => {
-                                if (response.data.dati || response.status === 200) {
+                                if (response.data.dati) {
                                     localStorage.setItem('newPatient', response.data.dati.id);
                                     window.location.href = "/NewTherapy/" + response.data.dati.id;
                                 }
