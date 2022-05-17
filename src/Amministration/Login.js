@@ -45,9 +45,9 @@ export class Login extends Component {
     postLogin = () => {
         if (this.validator.allValid()) {
             user.post("Login", this.state)
-                .then( (response) => {
+                .then((response) => {
                     if (response.status == 200) {
-                        if(response.data.dati.userDTO.idRole === role.DOCTOR || response.data.dati.userDTO.idRole === role.CAREMANAGER){
+                        if (response.data.dati.userDTO.idRole === role.DOCTOR || response.data.dati.userDTO.idRole === role.CAREMANAGER) {
                             localStorage.setItem('accessToken', response.data.dati.accessToken);
                             localStorage.setItem('refreshToken', response.data.dati.refreshToken);
                             localStorage.setItem('role', JSON.stringify(response.data.dati.userDTO));
@@ -66,9 +66,10 @@ export class Login extends Component {
         }
     };
     returnSplash = () => {
-       
+
         window.location.href = "/";
     };
+
     //VIEW 
     render() {
 
@@ -125,12 +126,12 @@ export class Login extends Component {
                         <form action="" class="container">
                             <div className="row justify-content-center">
                                 <div className="col-12 col-md-6 mb-3">
-                                    <Form.Control isInvalid={validations.username != null} onChange={this.handleChange} type="username" name="username" placeholder="E-mail" />
+                                    <Form.Control isInvalid={validations.username != null} onChange={this.handleChange} type="username" name="username" placeholder="E-mail" onKeyDown={event => {if (event.key === 'Enter') {this.postLogin()}}} />
                                 </div>
                             </div>
                             <div className="row justify-content-center">
                                 <div className="col-12 col-md-6 mb-3 mb-md-3">
-                                    <Form.Control isInvalid={validations.password != null} onChange={this.handleChange} name="password" type="password" placeholder="Password" />
+                                    <Form.Control isInvalid={validations.password != null} onChange={this.handleChange} name="password" type="password" placeholder="Password" onKeyDown={event => {if (event.key === 'Enter') {this.postLogin()}}} />
                                 </div>
                             </div>
                             <div className="row justify-content-center">
@@ -142,14 +143,14 @@ export class Login extends Component {
                             </div>
                             <div class="row justify-content-center">
                                 <div className="col-12 col-md-6 mb-3 d-flex justify-content-center justify-content">
-                                <Button className='btn btn-secondary btn-arrow'  onClick={() => this.returnSplash()} >
-                                 Indietro
-                             </Button>
+                                    <Button className='btn btn-secondary btn-arrow' onClick={() => this.returnSplash()} >
+                                        Indietro
+                                    </Button>
                                 </div>
                                 <div className="col-12 col-md-6 mb-3 d-flex justify-content-center justify-content">
-                                <Button className='btn btn-primary btn-arrow'  onClick={() => this.postLogin()} >
-                                 Login
-                             </Button>
+                                    <Button className='btn btn-primary btn-arrow' onClick={() => this.postLogin()} >
+                                        Login
+                                    </Button>
                                 </div>
                             </div>
                         </form>

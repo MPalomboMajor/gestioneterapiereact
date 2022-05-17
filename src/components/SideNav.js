@@ -27,6 +27,14 @@ const SideNav = () => {
                             {window.location.pathname === "/Dashboard" || window.location.pathname === "/PatientRegistry" || window.location.pathname === "/ListDoctor" || window.location.pathname === "/MedicalCenter" || window.location.pathname === "/ContactInfo" || window.location.pathname === "/ContactInfoPatient" || window.location.pathname === "/DoctorChartsInterface" ?
                                 <>
                                     <li className="nav-item">
+                                        <div className="nav-link" aria-current="page" >
+                                            <p>
+                                                {user.username}<br />
+                                                {user.role}
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li className="nav-item">
                                         <a href="/DoctorChartsInterface" className="nav-link" aria-current="page" >
                                             <p>
                                                 Home
@@ -62,10 +70,24 @@ const SideNav = () => {
                                             </p>
                                         </a>
                                     </li>
+                                    <li className="nav-item">
+                                        <a href="/" className="nav-link logout" >
+                                            <p>
+                                                Logout
+                                            </p>
+                                        </a>
+                                    </li>
                                 </>
                                 :
                                 <>
-
+                                    <li className="nav-item">
+                                        <div className="nav-link" aria-current="page" >
+                                            <p>
+                                                {user.username}<br />
+                                                {user.role}
+                                            </p>
+                                        </div>
+                                    </li>
                                     <li className="nav-item">
                                         <a href="/DoctorChartsInterface" className="nav-link" aria-current="page" >
                                             <p>
@@ -97,6 +119,7 @@ const SideNav = () => {
                                                     </p>
                                                 </Link>
                                             </li>
+
                                         </>
                                     }
 
@@ -154,6 +177,13 @@ const SideNav = () => {
                                                     </p>
                                                 </Link>
                                             </li>
+                                            <li className="nav-item">
+                                                <a href="/" className="nav-link logout" >
+                                                    <p>
+                                                        Logout
+                                                    </p>
+                                                </a>
+                                            </li>
                                         </>
 
                                     }
@@ -174,6 +204,14 @@ const SideNav = () => {
                                 window.location.pathname === "/ContactInfo" ||
                                 window.location.pathname === "/DoctorChartsInterface"
                                 ? <>
+                                    <li className="nav-item">
+                                        <Link to={`/DoctorProfile`} className="nav-link">
+                                            <p>
+                                                {user.username}<br />
+                                                {user.role}
+                                            </p>
+                                        </Link>
+                                    </li>
                                     <li className="nav-item">
                                         <a href="/DoctorChartsInterface" className="nav-link" aria-current="page" >
                                             <p>
@@ -227,6 +265,14 @@ const SideNav = () => {
                                     </li>
                                 </>
                                 : <>
+                                    <li className="nav-item">
+                                        <Link to={`/DoctorProfile`} className="nav-link">
+                                            <p>
+                                                {user.username}<br />
+                                                {user.role}
+                                            </p>
+                                        </Link>
+                                    </li>
                                     <li className="nav-item">
                                         <a href="/DoctorChartsInterface" className="nav-link" aria-current="page" >
                                             <p>
@@ -310,6 +356,14 @@ const SideNav = () => {
                                                         Umore
                                                     </p>
                                                 </Link>
+                                            </li>
+
+                                            <li className="nav-item">
+                                                <a href="/" className="nav-link logout" >
+                                                    <p>
+                                                        Logout
+                                                    </p>
+                                                </a>
                                             </li>
                                         </>
                                     }

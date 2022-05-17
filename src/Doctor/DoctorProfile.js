@@ -5,7 +5,7 @@ import { Eye } from 'react-bootstrap-icons';
 import { user, medico, patient, patientcode } from '../helpers/api/api';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { NotificationContainer as ContainerModal, NotificationManager as ManagerModal } from 'react-notifications';
-import { entitiesLabels, message , role } from '../helpers/Constants';
+import { entitiesLabels, message, role } from '../helpers/Constants';
 import SimpleReactValidator from 'simple-react-validator';
 export class DoctorProfile extends Component {
     userModelProp = () => ({
@@ -38,7 +38,7 @@ export class DoctorProfile extends Component {
             listPatientCode: [],
             currentPage: 1,
             itemPerPage: 5,
-            sendCode:false,
+            sendCode: false,
             userDto: {
                 ...this.userModelProp(),
             },
@@ -102,7 +102,7 @@ export class DoctorProfile extends Component {
                             }).catch((error) => {
 
                             });
-                            patientcode.getAll("GetCodiciPazienti")
+                        patientcode.getAll("GetCodiciPazienti")
                             .then((response) => {
                                 if (response.status === 200) {
                                     this.setState({ listPatientCode: response.data.dati });
@@ -139,11 +139,11 @@ export class DoctorProfile extends Component {
             .then((response) => {
                 if (response.status === 200) {
                     ManagerModal.success(message.CODICE + message.SuccessSend, entitiesLabels.SUCCESS, 3000);
-                    this.setState({ isSending: false , sendCode:true});
+                    this.setState({ isSending: false, sendCode: true });
                 } else {
                     ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
-                    this.setState({ isSending: false , sendCode:false});
-                    
+                    this.setState({ isSending: false, sendCode: false });
+
                 }
             }).catch((error) => {
                 ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
@@ -152,20 +152,20 @@ export class DoctorProfile extends Component {
     }
     sendChangeProfile = () => {
         if (this.validator.allValid()) {
-        this.setState((prevState) => ({ isSending: true }))
-        medico.post("Edit", this.state.userDto)
-            .then((response) => {
-                if (response.status === 200) {
-                    ManagerModal.success(message.CODICE + message.SuccessSend, entitiesLabels.SUCCESS, 3000);
-                    this.setState({ isSending: false });
-                } else {
+            this.setState((prevState) => ({ isSending: true }))
+            medico.post("Edit", this.state.userDto)
+                .then((response) => {
+                    if (response.status === 200) {
+                        ManagerModal.success(message.CODICE + message.SuccessSend, entitiesLabels.SUCCESS, 3000);
+                        this.setState({ isSending: false });
+                    } else {
+                        ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
+                        this.setState({ isSending: false });
+                    }
+                }).catch((error) => {
                     ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
                     this.setState({ isSending: false });
-                }
-            }).catch((error) => {
-                ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
-                this.setState({ isSending: false });
-            });
+                });
         } else {
             this.validator.showMessages();
             this.setState({ warning: true });
@@ -174,24 +174,24 @@ export class DoctorProfile extends Component {
     }
     sendChangePassword = () => {
         if (this.validator.allValid()) {
-        this.setState((prevState) => ({ isSending: true }))
-        const statusCopy = { ...this.state };
-        statusCopy['passwordModel']['username'] = this.state.userDto.email;
+            this.setState((prevState) => ({ isSending: true }))
+            const statusCopy = { ...this.state };
+            statusCopy['passwordModel']['username'] = this.state.userDto.email;
 
-        this.setState(statusCopy);
-        user.post("ChangePassword", this.state.passwordModel)
-            .then((response) => {
-                if (response.status === 200) {
-                    ManagerModal.success(message.CODICE + message.SuccessSend, entitiesLabels.SUCCESS, 3000);
-                    this.setState({ isSending: false });
-                } else {
+            this.setState(statusCopy);
+            user.post("ChangePassword", this.state.passwordModel)
+                .then((response) => {
+                    if (response.status === 200) {
+                        ManagerModal.success(message.CODICE + message.SuccessSend, entitiesLabels.SUCCESS, 3000);
+                        this.setState({ isSending: false });
+                    } else {
+                        ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
+                        this.setState({ isSending: false });
+                    }
+                }).catch((error) => {
                     ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
                     this.setState({ isSending: false });
-                }
-            }).catch((error) => {
-                ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
-                this.setState({ isSending: false });
-            });
+                });
         } else {
             this.validator.showMessages();
             this.setState({ warning: true });
@@ -254,8 +254,8 @@ export class DoctorProfile extends Component {
         };
         const indexOfLastPatient = this.state.currentPage * this.state.itemPerPage;
         const indexOfFirstPatient = indexOfLastPatient - this.state.itemPerPage;
-        const currentItem =this.state.listPatient ? this.state.listPatient.slice(indexOfFirstPatient, indexOfLastPatient) : [];
-        const currentItemsCode =this.state.listPatientCode ? this.state.listPatientCode.slice(indexOfFirstPatient, indexOfLastPatient) :[];
+        const currentItem = this.state.listPatient ? this.state.listPatient.slice(indexOfFirstPatient, indexOfLastPatient) : [];
+        const currentItemsCode = this.state.listPatientCode ? this.state.listPatientCode.slice(indexOfFirstPatient, indexOfLastPatient) : [];
         return (<>
             {JSON.parse(localStorage.getItem("role")).idRole == role.CAREMANAGER ?
                 //CAREMANAGER
@@ -391,7 +391,7 @@ export class DoctorProfile extends Component {
                                 <Table striped bordered hover size="sm">
                                     <thead>
                                         <tr>
-                                        <th>Codice assistito</th>
+                                            <th>Codice assistito</th>
                                             <th>Codice assistito</th>
                                             <th>Codice Fiscale</th>
                                             <th>Cognome</th>
@@ -403,7 +403,7 @@ export class DoctorProfile extends Component {
                                     </thead>
                                     <tbody>
                                         {
-                                          this.state.listPatient ?  currentItem.map((pa) => <RowCustom colums={["id","codicePaziente", "fiscalCode", "surName", "name", "email", "phoneNumber", "isActive"]} link={'id'} reference={'id'} controller={'PatientRegistry'} item={pa} />) : ''
+                                            this.state.listPatient ? currentItem.map((pa) => <RowCustom colums={["id", "codicePaziente", "fiscalCode", "surName", "name", "email", "phoneNumber", "isActive"]} link={'id'} reference={'id'} controller={'PatientRegistry'} item={pa} />) : ''
                                         }
                                     </tbody>
                                 </Table>
@@ -425,7 +425,7 @@ export class DoctorProfile extends Component {
                                     </thead>
                                     <tbody>
                                         {
-                                         this.state.listPatientCode ?    currentItemsCode.map((pa) => <RowCustom colums={["dataStart", "dataEnd", "codiStart", "codiEnd"]} item={pa} />) : ''
+                                            this.state.listPatientCode ? currentItemsCode.map((pa) => <RowCustom colums={["dataStart", "dataEnd", "codiStart", "codiEnd"]} item={pa} />) : ''
                                         }
                                     </tbody>
                                 </Table>
@@ -439,59 +439,59 @@ export class DoctorProfile extends Component {
                 <>
                     <Container className='col-12 pt-4 row'>
                         <Form className='col-12 pt-4 row'>
-                            
-                                <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
-                                    <Form.Label className="">Cognome</Form.Label>
-                                    <Form.Control id='surName' alt='userDto' name="surName" onChange={this.handleChange} value={this.state.userDto.surName} placeholder="Inserisci cognome" />
-                                </Form.Group>
-                                <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
-                                    <Form.Label className="">Nome</Form.Label>
-                                    <Form.Control id='name' alt='userDto' name="name" onChange={this.handleChange} value={this.state.userDto.name} placeholder="Inserisci Nome" />
-                                </Form.Group>
-                           
-                                <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
-                                    <Form.Label className="">Codice Fiscale</Form.Label>
-                                    <Form.Control id='fiscalCode' alt='userDto' name="fiscalCode" onChange={this.handleChange} value={this.state.userDto.fiscalCode} placeholder="Inserisci Codice fiscale" />
-                                </Form.Group>
-                                <Form.Group className="col-4 mb-3 input-layout-wrapper" >
-                                    <Form.Label className="">Centro Medico</Form.Label>
-                                    <Form.Select id='mendicalCenter' onChange={this.onChange} name="mendicalCenter" alt="medicoDTO" placeholder="Inserisci centro medico" >
-                                        {this.state.listCentriMedici.map((item) =>
 
-                                            <option id={item.id} selected={this.state.userDto.idCentroMedico == item.id ? "selected" : ''}>{item.nomeCentro}</option>
-                                        )}
-                                    </Form.Select>
-                                </Form.Group>
-                           
-                                <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
-                                    <Form.Label className="">Email</Form.Label>
-                                    <Form.Control disabled id='email' name="email" onChange={this.handleChange} value={this.state.userDto.email} isInvalid={validations.email != null} placeholder="Inserisci email" />
-                                </Form.Group>
-                                <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
-                                    <Form.Label className="">Telefono</Form.Label>
-                                    <Form.Control disabled id='phoneNumber' alt='userDto' name="phoneNumber" onChange={this.handleChange} isInvalid={validations.telephone != null} value={this.state.userDto.phoneNumber} placeholder="Inserisci telefono" />
-                                </Form.Group>
-                           
-                                <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                    <Button variant="btn btn-primary " onClick={() => this.handleShowChangePassword()}>
-                                        Modifica Password
-                                    </Button>
-                                </Form.Group>
-                                <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                    <Button variant="btn btn-primary " onClick={() => this.sendChangeProfile()}>
-                                        Modifica Profilo
-                                    </Button>
-                                </Form.Group>
-                                <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                                    {JSON.parse(localStorage.getItem("role")).idRole == 4 ?
-                                        <Form.Check
-                                            type="switch"
-                                            id="custom-switch"
-                                            label="Disattiva"
-                                        /> : ''
-                                    }
-                                </Form.Group>
-                            
+                            <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                <Form.Label className="">Cognome</Form.Label>
+                                <Form.Control id='surName' alt='userDto' name="surName" onChange={this.handleChange} value={this.state.userDto.surName} placeholder="Inserisci cognome" />
+                            </Form.Group>
+                            <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                <Form.Label className="">Nome</Form.Label>
+                                <Form.Control id='name' alt='userDto' name="name" onChange={this.handleChange} value={this.state.userDto.name} placeholder="Inserisci Nome" />
+                            </Form.Group>
+
+                            <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                <Form.Label className="">Codice Fiscale</Form.Label>
+                                <Form.Control id='fiscalCode' alt='userDto' name="fiscalCode" onChange={this.handleChange} value={this.state.userDto.fiscalCode} placeholder="Inserisci Codice fiscale" />
+                            </Form.Group>
+                            <Form.Group className="col-4 mb-3 input-layout-wrapper" >
+                                <Form.Label className="">Centro Medico</Form.Label>
+                                <Form.Select id='mendicalCenter' onChange={this.onChange} name="mendicalCenter" alt="medicoDTO" placeholder="Inserisci centro medico" >
+                                    {this.state.listCentriMedici.map((item) =>
+
+                                        <option id={item.id} selected={this.state.userDto.idCentroMedico == item.id ? "selected" : ''}>{item.nomeCentro}</option>
+                                    )}
+                                </Form.Select>
+                            </Form.Group>
+
+                            <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                <Form.Label className="">Email</Form.Label>
+                                <Form.Control disabled id='email' name="email" onChange={this.handleChange} value={this.state.userDto.email} isInvalid={validations.email != null} placeholder="Inserisci email" />
+                            </Form.Group>
+                            <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                <Form.Label className="">Telefono</Form.Label>
+                                <Form.Control disabled id='phoneNumber' alt='userDto' name="phoneNumber" onChange={this.handleChange} isInvalid={validations.telephone != null} value={this.state.userDto.phoneNumber} placeholder="Inserisci telefono" />
+                            </Form.Group>
+
+                            <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
+                                <Button variant="btn btn-primary " onClick={() => this.handleShowChangePassword()}>
+                                    Modifica Password
+                                </Button>
+                            </Form.Group>
+                            <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
+                                <Button variant="btn btn-primary " onClick={() => this.sendChangeProfile()}>
+                                    Salva modifiche
+                                </Button>
+                            </Form.Group>
+                            <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
+                                {JSON.parse(localStorage.getItem("role")).idRole == 4 ?
+                                    <Form.Check
+                                        type="switch"
+                                        id="custom-switch"
+                                        label="Disattiva"
+                                    /> : ''
+                                }
+                            </Form.Group>
+
 
                         </Form>
                         <Modal
@@ -512,12 +512,12 @@ export class DoctorProfile extends Component {
                                 </Row>
                                 <Row>
                                     <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
-                                        <Form.Label className="text">Nuova Password</Form.Label><Eye size='22' onClick={() => this.showPassword()} className='icon-black'  />
-                                        <Form.Control id="newPassword" alt="passwordModel" isInvalid={validations.newPassword != null}  onChange={this.handleChange} name="newPassword" type='password' placeholder="Inserisci password" />
+                                        <Form.Label className="text">Nuova Password</Form.Label><Eye size='22' onClick={() => this.showPassword()} className='icon-black' />
+                                        <Form.Control id="newPassword" alt="passwordModel" isInvalid={validations.newPassword != null} onChange={this.handleChange} name="newPassword" type='password' placeholder="Inserisci password" />
                                     </Form.Group>
                                     <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                         <Form.Label className="text" >Conferma Password</Form.Label><Eye size='22' onClick={() => this.showConfirmPassword()} className='icon-black' />
-                                        <Form.Control id="confirmPassword" alt="passwordModel" isInvalid={validations.confirmPassword != null || validations.equalPass != null}  onChange={this.handleChange} name="confirmPassword" type='password' placeholder="Inserisci password" />
+                                        <Form.Control id="confirmPassword" alt="passwordModel" isInvalid={validations.confirmPassword != null || validations.equalPass != null} onChange={this.handleChange} name="confirmPassword" type='password' placeholder="Inserisci password" />
                                     </Form.Group>
 
                                     {validations.equalPass ? (
@@ -532,12 +532,12 @@ export class DoctorProfile extends Component {
                                 <Row>
                                     <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
                                         <Form.Label className="text">Codice Reset</Form.Label>
-                                        <Form.Control id="resetPasswordCode" name="resetPasswordCode" isInvalid={validations.code != null}  alt="passwordModel" onChange={this.handleChange} placeholder="Inserisci codice" />
+                                        <Form.Control id="resetPasswordCode" name="resetPasswordCode" isInvalid={validations.code != null} alt="passwordModel" onChange={this.handleChange} placeholder="Inserisci codice" />
                                     </Form.Group>
                                 </Row>
                                 <Row>
                                     <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
-                                       {this.state.sendCode ? <Form.Label className="text">Il codice di verifica è stato inviato all'indirizzo e-mail fornito.</Form.Label>: ''} 
+                                        {this.state.sendCode ? <Form.Label className="text">Il codice di verifica è stato inviato all'indirizzo e-mail fornito.</Form.Label> : ''}
                                     </Form.Group>
                                 </Row>
                             </Modal.Body>
@@ -551,7 +551,7 @@ export class DoctorProfile extends Component {
                                     size="sm"
                                     role="status"
                                     aria-hidden="true"
-                                /> : ''} {!this.state.sendCode ?  "Richiedi codice" : "Richiedi nuovamente "}</Button>
+                                /> : ''} {!this.state.sendCode ? "Richiedi codice" : "Richiedi nuovamente "}</Button>
                                 <Button variant="primary" onClick={() => this.sendChangePassword()}>{this.state.isSending == true ? <Spinner
                                     as="span"
                                     animation="border"

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Container, Form, Button } from 'react-bootstrap';
+import { Row, Container, Form, Button, InputGroup } from 'react-bootstrap';
 import { patientcode, patient, user } from '../helpers/api/api';
 import { Link } from "react-router-dom";
 import moment from 'moment';
@@ -53,12 +53,12 @@ export class NewPatient extends Component {
     }
     componentDidMount() {
         localStorage.removeItem('newPatient');
-     }
+    }
     InsertPatient = () => {
         if (this.validator.allValid()) {
-var CodPatient=parseInt(this.state.patiendDto.codicePaziente);
-var PhoneNumber = this.state.patiendDto.phoneNumber;
-            patientcode.post("check/", {CodPatient,PhoneNumber })
+            var CodPatient = parseInt(this.state.patiendDto.codicePaziente);
+            var PhoneNumber = "+39" + this.state.patiendDto.phoneNumber;
+            patientcode.post("check/", { CodPatient, PhoneNumber })
                 .then((response) => {
                     if (response.data.dati) {
 
@@ -67,15 +67,16 @@ var PhoneNumber = this.state.patiendDto.phoneNumber;
                             idDoctor: local.id,
                             nameDoctor: local.username
                         };
+                        this.state.patiendDto.phoneNumber = PhoneNumber;
                         var DTO = this.state.patiendDto;
                         DTO.codicePaziente = parseInt(this.state.patiendDto.codicePaziente)
                         DTO.doctorNameIdDTOs.push(doctor)
                         patient.post("Save", this.state.patiendDto)
                             .then((response) => {
-                                if (response.data.dati) {
+                                if (response.data.dati || response.status === 200) {
                                     localStorage.setItem('newPatient', response.data.dati.id);
-                                    window.location.href = "/NewTherapy/"+response.data.dati.id;
-                                } 
+                                    window.location.href = "/NewTherapy/" + response.data.dati.id;
+                                }
                             }).catch((error) => {
                                 this.setState({ warning: true });
                             });
@@ -123,16 +124,18 @@ var PhoneNumber = this.state.patiendDto.phoneNumber;
                 </Row>
                 <Row className='col-12 pt-4' >
                     <Row className='col-12 pt-4' >
-                        <Form.Group className="mb-3">
-                            <Form.Label>Codice assistito</Form.Label>
-                            <Form.Control id="codicePaziente" onChange={this.handleChange} alt="patiendDto" type="number" name="codicePaziente"  placeholder="Codice assistito" />
-                        </Form.Group>
+                        <Form.Label htmlFor="basic-url">Codice assistito</Form.Label>
+                        <InputGroup className="mb-3">
+                            <Form.Control id="codicePaziente" onChange={this.handleChange} alt="patiendDto" type="number" name="codicePaziente" placeholder="Codice assistito" />
+                        </InputGroup>
                     </Row>
                     <Row className='col-12 pt-4' >
-                        <Form.Group className="mb-3">
-                            <Form.Label>Telefono</Form.Label>
-                            <Form.Control id="phoneNumber" onChange={this.handleChange} alt="patiendDto" type="" name="phoneNumber"  placeholder="Telefono" />
-                        </Form.Group>
+                        <Form.Label htmlFor="basic-url">Telefono</Form.Label>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text id="basic-addon1">+39</InputGroup.Text>
+                            <Form.Control id="phoneNumber" onChange={this.handleChange} alt="patiendDto" type="" name="phoneNumber" placeholder="Telefono" >
+                            </Form.Control>
+                        </InputGroup >
                     </Row>
                 </Row>
                 <Row className='col-12 pt-4' >

@@ -73,7 +73,7 @@ function PatientRegistry() {
                 <>
                         <h1 className="h1">Anagrafica assistito</h1>
 
-                        <div className="row h-100 justify-content-center align-items-center" style={{ "width": "100%" }}>
+                        <div className="row h-100 justify-content-center" style={{ "width": "100%", "marginTop": "150px"}}>
                                 <div className="col-12">
                                         <div className="box">
                                                 <form className="container-fluid g-0" action method="post">
@@ -135,10 +135,10 @@ function PatientRegistry() {
                                                                                 <input className="form-check-input dark" type="checkbox" id="inlineCheckbox1" checked={patientProfile.isActive} onChange={() => updateStatesIsActive()} />
                                                                                 <label className="form-check-label small" htmlFor="inlineCheckbox1">Utente ATTIVO</label>
                                                                         </div>
-                                                                        <p >Data disattivazione {patientProfile.disabledDate}</p>
+                                                                        <p >Data disattivazione {patientProfile.isActive ? "" : patientProfile.disabledDate}</p>
                                                                         <div className="form-group">
                                                                                 <label htmlFor="ontozry" className="form-label small">Causa della disabilitazione</label>
-                                                                                <select className="form-select form-select-sm mb-3" type="text" name="idDisabledCause" placeholder=".form-control-sm" aria-label="idDisabledCause" onChange={handleChange}>
+                                                                                <select className="form-select form-select-sm mb-3" type="text" name="idDisabledCause" value={patientProfile.isActive ? "" : patientProfile.idDisabledCause} placeholder=".form-control-sm" aria-label="idDisabledCause" onChange={handleChange}>
                                                                                         <option></option>
                                                                                         <option value="1">Causa 1</option>
                                                                                         <option value="2">Causa 2</option>
