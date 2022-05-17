@@ -49,7 +49,7 @@ function BloodTestsInfo() {
                     <div className="box carousel-info">
                         <div className="input-group mb-3">
                             <span className="input-group-text" id="data-label">Data</span>
-                            <input type="text" className="form-control form-control-sm" id="data" aria-describedby="data-label" value={moment(diagnosticTest.uploadedDateTime).format("DD/MM/YYYY")} disabled />
+                            <input type="text" className="form-control form-control-sm" id="data" aria-describedby="data-label" value={diagnosticTest.uploadedDateTime} disabled />
                         </div>
                         <div className="input-group mb-3">
                             <span className="input-group-text" id="tiporeferto-label">Tipo di referto</span>

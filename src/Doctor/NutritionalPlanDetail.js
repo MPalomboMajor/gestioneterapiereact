@@ -75,7 +75,7 @@ function NutritionalPlanDetailsInfo() {
                         <form action>
                             <div className="input-group mb-3">
                                 <span className="input-group-text" id="data-label">Data</span>
-                                <input type="text" className="form-control form-control-sm" id="data" aria-describedby="data-label" value={moment(nutritionalPlan.date).format("DD/MM/YYYY")} disabled />
+                                <input type="text" className="form-control form-control-sm" id="data" aria-describedby="data-label" value={nutritionalPlan.date.split(' ')[0]} disabled />
                             </div>
                             <div className="d-flex justify-content-center justify-content-md-end">
                                 <Link to={`/NutritionalPlans/${nutritionalPlan.idPatientProfile}`} style={{ "color": "black" }}><button className="btn btn-secondary me-3" id>Torna a elenco</button></Link>

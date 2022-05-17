@@ -57,7 +57,7 @@ function MedicalExaminationDetailsInfo() {
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
-        navigate(`/Dashboard`);
+        navigate(`/MedicalExaminations/${idPatient}`);
     };
 
     return (
@@ -77,7 +77,7 @@ function MedicalExaminationDetailsInfo() {
                         <form action>
                             <div className="input-group mb-3">
                                 <span className="input-group-text" id="data-label">Data</span>
-                                <input type="text" className="form-control form-control-sm" id="data" aria-describedby="data-label" value={moment(medicalExamination.dataVisita).format("DD/MM/YYYY")} disabled />
+                                <input type="text" className="form-control form-control-sm" id="data" aria-describedby="data-label" value={medicalExamination.dataVisita} disabled />
                             </div>
                             <div className="input-group mb-3">
                                 <span className="input-group-text" id="tiporeferto-label">Tipo di referto</span>
