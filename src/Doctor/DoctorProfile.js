@@ -221,7 +221,7 @@ export class DoctorProfile extends Component {
     }
 
     showConfirmPassword = () => {
-        var x = document.getElementById("confirmnewPassword");
+        var x = document.getElementById("confirmPassword");
         if (x.type === "password") {
             x.type = "text";
         } else {

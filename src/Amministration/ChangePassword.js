@@ -149,7 +149,7 @@ export class ChangePassword extends Component {
                                 </div>
                             </div>
                             <div class="row justify-content-center">
-                                <div className="col-6 col-md-6 mb-3 d-flex justify-content-center justify-content">
+                                {/* <div className="col-6 col-md-6 mb-3 d-flex justify-content-center justify-content">
                                 <Button variant="secondary" onClick={() => this.sedRestCode()} > {this.state.isSending == true ? <Spinner
                                     as="span"
                                     animation="border"
@@ -157,9 +157,9 @@ export class ChangePassword extends Component {
                                     role="status"
                                     aria-hidden="true"
                                 /> : ''} {!this.state.sendCode ?  "Richiedi codice" : "Richiedi nuovamente "}</Button>
-                                </div>
+                                </div> */}
                                 <div className="col-6 col-md-6 mb-3 d-flex justify-content-center justify-content">
-                                <Button className='btn btn-primary btn-arrow'  onClick={() => this.sendChangePassword()} >
+                                <Button className='btn btn-primary btn-arrow' onClick={() => this.sendChangePassword()} >
                                 Conferma
                              </Button>
                                 </div>
