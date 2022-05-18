@@ -864,6 +864,10 @@ div.info {
     right: -100%
 }
 
+.error-checkbox-message{
+    color: red !important;
+}
+
 .menu-toggle.open span:nth-of-type(3) {
     bottom: 0.275rem;
     right: 0.45rem;
