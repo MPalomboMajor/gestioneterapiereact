@@ -36,9 +36,9 @@ export class Register extends Component {
             notificationMessage: '',
             show: undefined,
             confirmpassword: '',
-            policy:'',
+            policy: '',
             otp: '',
-            isApprove : false,
+            isApprove: false,
             iSSendOtp: false,
             listCentriMedici: [],
 
@@ -57,6 +57,7 @@ export class Register extends Component {
     componentDidMount() {
         this.getListMedicalCenter();
         this.reset();
+        document.body.className = "splash";
     }
     reset = () => {
         window.localStorage.clear();
@@ -77,9 +78,9 @@ export class Register extends Component {
     InsertUser = () => {
         if (this.validatorOTP.allValid()) {
             let userDto = this.state.userDto;
-            user.post("VerifyOTP", { idDispositivo:'', phone: this.state.medicoDTO.phoneNumber , otp: this.state.otp })
+            user.post("VerifyOTP", { idDispositivo: '', phone: this.state.medicoDTO.phoneNumber, otp: this.state.otp })
                 .then((response) => {
-                    if (response.data.statoEsito===0) {
+                    if (response.data.statoEsito === 0) {
                         let userDto = this.state.userDto;
                         user.post("Save", this.state.userDto)
                             .then((response) => {
@@ -100,13 +101,13 @@ export class Register extends Component {
                             }).catch((error) => {
                                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
                             });
-                    }else{
-                        NotificationManager.error( response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
+                    } else {
+                        NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
                     }
                 }).catch((error) => {
                     NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
                 });
-           
+
         }
         else {
             this.validator.showMessages();
@@ -115,23 +116,23 @@ export class Register extends Component {
         }
     }
     sedOtp = () => {
-        if (this.validator.allValid() ) {
+        if (this.validator.allValid()) {
             let userDto = this.state.userDto;
             user.post("PreSaveDoctor", { username: userDto.username, password: userDto.password, doctorDTO: this.state.medicoDTO })
-            .then((response) => {
-                if (response.data.statoEsito===0) {
-                    this.setState({ iSSendOtp: true });
-                    NotificationManager.success( "Ti abbiamo inviato un codice di verifica al numero di cellulare indicato in fase di registrazione", entitiesLabels.ERROR, 3000);
-                }else{
-                    NotificationManager.error( response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
-                }
-            }).catch((error) => {
-                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
-            });
-            
+                .then((response) => {
+                    if (response.data.statoEsito === 0) {
+                        this.setState({ iSSendOtp: true });
+                        NotificationManager.success("Ti abbiamo inviato un codice di verifica al numero di cellulare indicato in fase di registrazione", entitiesLabels.ERROR, 3000);
+                    } else {
+                        NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
+                    }
+                }).catch((error) => {
+                    NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+                });
+
         }
         else {
-            
+
             this.validator.showMessages();
             NotificationManager.warning(message.ErrorRequire, entitiesLabels.WARNING, 3000);
             this.forceUpdate();
@@ -168,9 +169,9 @@ export class Register extends Component {
 
         this.setState(statusCopy);
     };
-    
+
     returnSplash = () => {
-       
+
         window.location.href = "/";
     };
     return = () => {
@@ -191,8 +192,8 @@ export class Register extends Component {
             x.type = "password";
         }
     }
-    plocyApprove = () => { 
-        this.setState({ isApprove: !this.state.isApprove , policy:'ok' });
+    plocyApprove = () => {
+        this.setState({ isApprove: !this.state.isApprove, policy: 'ok' });
     }
     render() {
 
@@ -244,121 +245,124 @@ export class Register extends Component {
         };
         return (
             this.state.iSSendOtp ?
-            <div class="splash">
-            <div class="wrapper">
-                <div className="centering-form">
-                    <Row>
-                        <p class="text-center">Ti abbiamo inviato un <strong>codice di verifica</strong> al numero di cellulare indicato in fase di registrazione</p>
-                        <input type="text" class="form-control text-center" id="otp" name="otp" onChange={this.handleChangeconfirm}  isInvalid={validationsOTP.otp != null}  placeholder="Inserisci il codice di verifica"></input>
-                    </Row>
-                    <Row className={"pt-4"}>
-                        <div class="col-12 mb-3 d-flex justify-content-center">
-                            <button class="btn btn-secondary mx-2" id="indietro" onClick={()=> this.return()}>Indietro</button>
-                            <button class="btn btn-secondary mx-2" id="reinvia" onClick={() => this.sedOtp()}>Invia di nuovo</button>
-                            <Button className="btn btn-primary mx-2" onClick={() => this.InsertUser()}>
-                                Verifica
-                            </Button>
-                        </div>
-                   <div className=" input-layout-wrapper text-danger is-12">
-                        {' '}{' '}
-                    </div>
-                </Row>
-                </div>
                 
-            < NotificationContainer />
-        </div> </div>
-           :
-           <div class="splash">
-               <div class="wrapper">
-                   <Form className="centering-form">
-                       <Row>
-                           <Form.Group className="col-6 mb-2" >
-                               <Form.Control onChange={this.handleChange} name="name" alt="medicoDTO" placeholder="Nome" value={this.state.medicoDTO.name} />
-                           </Form.Group>
-                           <Form.Group className="col-6 mb-2" >
-                               <Form.Control onChange={this.handleChange} name="surName" alt="medicoDTO" placeholder="Cognome"  value={this.state.medicoDTO.surName}/>
-                           </Form.Group>
-                       </Row>
-                       <Row>
-                           <Form.Group className="col-6 mb-2" >
-                               <Form.Control onChange={this.handleChange} name="fiscalCode" alt="medicoDTO" placeholder="Codice fiscale" value={this.state.medicoDTO.fiscalCode} />
-                           </Form.Group>
-                           <Form.Group className="col-6 mb-2" >
-                               <Form.Select onChange={this.onChange} name="mendicalCenter" alt="medicoDTO" placeholder="Centro medico"  >
-                                   <option id="0">Seleziona Centro </option>
-                                   {this.state.listCentriMedici.map((item) =>
-                                       <option id={item.id}>{item.nomeCentro}</option>
-                                   )}
-                               </Form.Select>
-                           </Form.Group>
-                       </Row>
-                       <Row>
-                           <Form.Group className="col-6 mb-2">
-                               <Form.Control onChange={this.handleChange} id='eMail' alt="userDto" name="username" isInvalid={validations.username != null} placeholder="E-mail" value={this.state.userDto.username} />
-                           </Form.Group>
-                           <Form.Group className="col-6 mb-2">
-                               <Form.Control onChange={this.handleChange} id='phoneNumber' alt="medicoDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Mobile" value={this.state.medicoDTO.phoneNumber} />
-                           </Form.Group>
-                       </Row>
-                       <Row className='pb-5'>
-                           <Form.Group className="col-6 mb-2" controlId="formBasicPassword">
-                               <Form.Control type='password' id='password' alt="userDto" onChange={this.handleChange} name="password" isInvalid={validations.password != null} value={this.state.userDto.password}  placeholder="Password" />
-                           </Form.Group>
-                           <Form.Group className="col-6 mb-2" controlId="formBasicPassword">
-                               <Form.Control type='password' id='confirmpassword' alt="confirmpassword" onChange={this.handleChangeconfirm}  value={this.state.confirmpassword} name="confirmpassword" isInvalid={validations.confirmpassword != null || validations.equalPass != null} placeholder="Ripeti password" />
-                           </Form.Group>
-                           {validations.equalPass ? (
-                               <div className=" input-layout-wrapper text-danger">
-                                   {' '}
-                                   Le password devono coincidere{' '}
-                               </div>
-                           ) : <div className=" input-layout-wrapper text-danger is-12">
-                               {' '}{' '}
-                           </div>}
-                       </Row>
-                       <Row>
-                           <div class="col-2 col-md-4 mb-0">
-                               <div class="form-check mb-0">
-                                   <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={() => this.showPassword()}></input>
-                                   <label class="form-check-label small" for="flexCheckDefault">
-                                       Mostra password
-                                   </label>
-                               </div>
-                           </div>
-                           <div class="col-3 col-md-4 mb-3 d-flex justify-content-center justify-content-md-end align-items-start">
-                               <Button className="btn btn-secondary btn-arrow" onClick={() => this.returnSplash()}>
-                                   Indietro
-                               </Button>
-                           </div>
-                           <div class="col-3 col-md-4 mb-3 d-flex justify-content-center justify-content-md-end align-items-start">
-                               <Button className="btn btn-primary btn-arrow" onClick={() => this.sedOtp()}>
-                                   Registrati
-                               </Button>
-                           </div>
-                       </Row>
-                       <div class="col-12">
-                           <div class="col-6 col-md-8 mb-0">
-                               <div class="form-check mb-0">
-                                   <input class="form-check-input" type="checkbox" onChange={()=> this.plocyApprove()} isInvalid={validations.approve != null}  checked={this.state.isApprove ? true: false} id="flexCheckDefault" ></input>
-                                   <label className={(validations.policy !=  null )? 'form-check-label small error-checkbox-message':'form-check-label small'}  for="flexCheckDefault">
-                                       Consenso al trattamento dei dati personali
-                                   </label>
-                                   
-                               </div>
-                               <p>
-                                   <a href='http://testontozapp.pharmaprime.it:3000/informativa_privacy.pdf' target={'blank'} class="link-privacy small ps-4">Visualizza informativa privacy</a>
-                               </p>
-                           </div>
-                           <p class="small ps-md-4 mb-0 text-center text-md-start"><strong>Non riesci a registrarti?</strong></p>
-                           <p class="mb-0 text-center text-md-start">
-                               <a class="link-phone small ps-4">0696741200</a>
-                               {/*<a href="mailto:" class="link-email small ps-4">xxxxxxx@yyyyyyy.it</a>*/}
-                           </p>
-                       </div>
-                   </Form>
-               </div>
-               < NotificationContainer />
-           </div>
+                    
+                        <div className="centering-form">
+                            <Row>
+                                <p class="text-center">Ti abbiamo inviato un <strong>codice di verifica</strong> al numero di cellulare indicato in fase di registrazione</p>
+                                <input type="text" class="form-control text-center" id="otp" name="otp" onChange={this.handleChangeconfirm} isInvalid={validationsOTP.otp != null} placeholder="Inserisci il codice di verifica"></input>
+                            </Row>
+                            <Row className={"pt-4"}>
+                                <div class="col-12 mb-3 d-flex justify-content-center">
+                                    <button class="btn btn-secondary mx-2" id="indietro" onClick={() => this.return()}>Indietro</button>
+                                    <button class="btn btn-secondary mx-2" id="reinvia" onClick={() => this.sedOtp()}>Invia di nuovo</button>
+                                    <Button className="btn btn-primary mx-2" onClick={() => this.InsertUser()}>
+                                        Verifica
+                                    </Button>
+                                </div>
+                                <div className=" input-layout-wrapper text-danger is-12">
+                                    {' '}{' '}
+                                </div>
+                            </Row>
+                            < NotificationContainer />
+                        </div>
+
+                        
+                    
+                :
+                
+                    
+                        <Form className="centering-form">
+                            <Row>
+                                <Form.Group className="col-6 mb-2" >
+                                    <Form.Control onChange={this.handleChange} name="name" alt="medicoDTO" placeholder="Nome" value={this.state.medicoDTO.name} />
+                                </Form.Group>
+                                <Form.Group className="col-6 mb-2" >
+                                    <Form.Control onChange={this.handleChange} name="surName" alt="medicoDTO" placeholder="Cognome" value={this.state.medicoDTO.surName} />
+                                </Form.Group>
+                            </Row>
+                            <Row>
+                                <Form.Group className="col-6 mb-2" >
+                                    <Form.Control onChange={this.handleChange} name="fiscalCode" alt="medicoDTO" placeholder="Codice fiscale" value={this.state.medicoDTO.fiscalCode} />
+                                </Form.Group>
+                                <Form.Group className="col-6 mb-2" >
+                                    <Form.Select onChange={this.onChange} name="mendicalCenter" alt="medicoDTO" placeholder="Centro medico"  >
+                                        <option id="0">Seleziona Centro </option>
+                                        {this.state.listCentriMedici.map((item) =>
+                                            <option id={item.id}>{item.nomeCentro}</option>
+                                        )}
+                                    </Form.Select>
+                                </Form.Group>
+                            </Row>
+                            <Row>
+                                <Form.Group className="col-6 mb-2">
+                                    <Form.Control onChange={this.handleChange} id='eMail' alt="userDto" name="username" isInvalid={validations.username != null} placeholder="E-mail" value={this.state.userDto.username} />
+                                </Form.Group>
+                                <Form.Group className="col-6 mb-2">
+                                    <Form.Control onChange={this.handleChange} id='phoneNumber' alt="medicoDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Mobile" value={this.state.medicoDTO.phoneNumber} />
+                                </Form.Group>
+                            </Row>
+                            <Row className='pb-5'>
+                                <Form.Group className="col-6 mb-2" controlId="formBasicPassword">
+                                    <Form.Control type='password' id='password' alt="userDto" onChange={this.handleChange} name="password" isInvalid={validations.password != null} value={this.state.userDto.password} placeholder="Password" />
+                                </Form.Group>
+                                <Form.Group className="col-6 mb-2" controlId="formBasicPassword">
+                                    <Form.Control type='password' id='confirmpassword' alt="confirmpassword" onChange={this.handleChangeconfirm} value={this.state.confirmpassword} name="confirmpassword" isInvalid={validations.confirmpassword != null || validations.equalPass != null} placeholder="Ripeti password" />
+                                </Form.Group>
+                                {validations.equalPass ? (
+                                    <div className=" input-layout-wrapper text-danger">
+                                        {' '}
+                                        Le password devono coincidere{' '}
+                                    </div>
+                                ) : <div className=" input-layout-wrapper text-danger is-12">
+                                    {' '}{' '}
+                                </div>}
+                            </Row>
+                            <Row>
+                                <div class="col-2 col-md-4 mb-0">
+                                    <div class="form-check mb-0">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={() => this.showPassword()}></input>
+                                        <label class="form-check-label small" for="flexCheckDefault">
+                                            Mostra password
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-3 col-md-4 mb-3 d-flex justify-content-center justify-content-md-end align-items-start">
+                                    <Button className="btn btn-secondary btn-arrow" onClick={() => this.returnSplash()}>
+                                        Indietro
+                                    </Button>
+                                </div>
+                                <div class="col-3 col-md-4 mb-3 d-flex justify-content-center justify-content-md-end align-items-start">
+                                    <Button className="btn btn-primary btn-arrow" onClick={() => this.sedOtp()}>
+                                        Registrati
+                                    </Button>
+                                </div>
+                            </Row>
+                            <div class="col-12">
+                                <div class="col-6 col-md-8 mb-0">
+                                    <div class="form-check mb-0">
+                                        <input class="form-check-input" type="checkbox" onChange={() => this.plocyApprove()} isInvalid={validations.approve != null} checked={this.state.isApprove ? true : false} id="flexCheckDefault" ></input>
+                                        <label className={(validations.policy != null) ? 'form-check-label small error-checkbox-message' : 'form-check-label small'} for="flexCheckDefault">
+                                            Consenso al trattamento dei dati personali
+                                        </label>
+
+                                    </div>
+                                    <p>
+                                        <a href='http://testontozapp.pharmaprime.it:3000/informativa_privacy.pdf' target={'blank'} class="link-privacy small ps-4">Visualizza informativa privacy</a>
+                                    </p>
+                                </div>
+                                <p class="small ps-md-4 mb-0 text-center text-md-start"><strong>Non riesci a registrarti?</strong></p>
+                                <p class="mb-0 text-center text-md-start">
+                                    <a class="link-phone small ps-4">0696741200</a>
+                                    {/*<a href="mailto:" class="link-email small ps-4">xxxxxxx@yyyyyyy.it</a>*/}
+                                </p>
+                            </div>
+                            < NotificationContainer />
+                        </Form>
+                        
+                    
+                    
+                
         )
     }
 }

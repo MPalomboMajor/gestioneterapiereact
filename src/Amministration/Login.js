@@ -25,6 +25,7 @@ export class Login extends Component {
     }
     componentDidMount() {
         this.reset();
+        document.body.className = "splash custom-login";
     }
     //FUNZIONI 
     reset = () => {
@@ -119,23 +120,21 @@ export class Login extends Component {
  
                  < NotificationContainer />
              </Container>*/
-            <html lang="en" >
-
-                <body className="splash custom-login">
-                    <div className="wrapper">
+            <>
+                    
                         <form action="" class="container">
                             <div className="row justify-content-center">
-                                <div className="col-12 col-md-6 mb-3">
+                                <div className="col-12 col-md-12 mb-3">
                                     <Form.Control isInvalid={validations.username != null} onChange={this.handleChange} type="username" name="username" placeholder="E-mail" onKeyDown={event => {if (event.key === 'Enter') {this.postLogin()}}} />
                                 </div>
                             </div>
                             <div className="row justify-content-center">
-                                <div className="col-12 col-md-6 mb-3 mb-md-3">
+                                <div className="col-12 col-md-12 mb-3 mb-md-3">
                                     <Form.Control isInvalid={validations.password != null} onChange={this.handleChange} name="password" type="password" placeholder="Password" onKeyDown={event => {if (event.key === 'Enter') {this.postLogin()}}} />
                                 </div>
                             </div>
                             <div className="row justify-content-center">
-                                <div className="col-12 col-md-6 mb-2">
+                                <div className="col-12 col-md-12 mb-2">
                                     <p className="text-center">
                                         <a href="/Recovery" className="link-recovery small">Hai dimenticato la password?</a>
                                     </p>
@@ -154,7 +153,7 @@ export class Login extends Component {
                                 </div>
                             </div>
                         </form>
-                    </div>
+                    
 
 
 
@@ -170,15 +169,12 @@ export class Login extends Component {
                                 <div className="modal-footer"></div>
                             </div>
                         </div>
+                        < NotificationContainer />
                     </div>
 
-                    <script src="./script/jquery.slim.min.js"></script>
-                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-                    <script src="./script/swiper.bundle.min.js"></script>
-                    < NotificationContainer />
+                   
 
-                </body>
-            </html>
+                    </>
         )
     }
 }
