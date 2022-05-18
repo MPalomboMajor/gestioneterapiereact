@@ -29,12 +29,12 @@ function DoctorChartsInterface() {
     const [dataGetAllPatientByFormulation, setDataGetAllPatientByFormulation] = useState([]);
     const [dataGetDayByFormulation, setDataGetDayByFormulation] = useState([]);
     const [dataGetPatientsByPhase, setDataGetPatientsByPhase] = useState([]);
-    // const [dataGetCumulativeSurveysByMood, setDataGetCumulativeSurveysByMood] = useState([]);
     //Monitoraggio
     const [dataGetPatientsByEpilecticSeizure, setDataGetPatientsByEpilecticSeizure] = useState([]);
     const [dataGetAdherencesByPatient, setDataGetAdherencesByPatient] = useState([]);
     const [dataGetTrackingMoodByPatient, setDataGetTrackingMoodByPatient] = useState([]);
     const [dataGetAdverseEventsByEvent, setDataGetAdverseEventsByEvent] = useState([]);
+    const [dataGetCumulativeSurveysByMood, setDataGetCumulativeSurveysByMood] = useState([]);
     //ContactInfo
     const [dataGetAllContactInfoByPatient, setDataGetAllContactInfoByPatient] = useState([]);
     const [dataGetAllContactInfoByNumber, setDataGetAllContactInfoByNumber] = useState([]);
@@ -162,15 +162,14 @@ function DoctorChartsInterface() {
             }).catch((error) => {
                 setDataGetAdverseEventsByEvent([]);
             });
-        //grafico da implementare
-        // dashboard.getWithParam("GetCumulativeSurveysByMood/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-        //     .then((response) => {
-        //         if (response.status === 200) {
-        //             setDataGetCumulativeSurveysByMood(response.data.dati);
-        //         }
-        //     }).catch((error) => {
+        dashboard.getWithParam("GetCumulativeSurveysByMood/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+            .then((response) => {
+                if (response.status === 200) {
+                    setDataGetCumulativeSurveysByMood(response.data.dati);
+                }
+            }).catch((error) => {
 
-        //     });
+            });
         //ContactInfo
         dashboard.getWithParam("GetAllContactInfoByPatient/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
             .then((response) => {
@@ -272,6 +271,7 @@ function DoctorChartsInterface() {
                         dataGetAdherencesByPatient={dataGetAdherencesByPatient}
                         dataGetTrackingMoodByPatient={dataGetTrackingMoodByPatient}
                         dataGetAdverseEventsByEvent={dataGetAdverseEventsByEvent}
+                        dataGetCumulativeSurveysByMood={dataGetCumulativeSurveysByMood}
                         commonProperties={commonProperties} />
                 </Tab>
                 {isCareManger || isAngelini ?
