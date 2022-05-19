@@ -47,7 +47,7 @@ export class Login extends Component {
         if (this.validator.allValid()) {
             user.post("Login", this.state)
                 .then((response) => {
-                    if (response.status == 200) {
+                    if (response.data.statoEsito === 0) {
                         if (response.data.dati.userDTO.idRole === role.DOCTOR || response.data.dati.userDTO.idRole === role.CAREMANAGER) {
                             localStorage.setItem('accessToken', response.data.dati.accessToken);
                             localStorage.setItem('refreshToken', response.data.dati.refreshToken);
@@ -56,6 +56,8 @@ export class Login extends Component {
                         } else {
                             NotificationManager.error(message.ErrorUnauthorized, entitiesLabels.ERROR, 3000);
                         }
+                    }else{
+                        NotificationManager.error( response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
                     }
                 }).catch((error) => {
                     NotificationManager.error(message.ErrorLogin, entitiesLabels.ERROR, 3000);
@@ -169,11 +171,11 @@ export class Login extends Component {
                                 <div className="modal-footer"></div>
                             </div>
                         </div>
-                        < NotificationContainer />
+                        
                     </div>
 
                    
-
+                    < NotificationContainer />
                     </>
         )
     }

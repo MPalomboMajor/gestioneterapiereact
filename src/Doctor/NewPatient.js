@@ -37,11 +37,11 @@ export class NewPatient extends Component {
                 phoneNumber: "",
                 email: "",
                 isActive: true,
-                disabledDate: moment(new Date()),
+                disabledDate: '',
                 disabledCause: 0,
                 numeroCrisiPartenza: 0,
                 otpCode: "",
-                otpCodeExpired: "",
+                otpCodeExpired:moment(new Date()),
                 idUser: 0,
                 canTravel: true,
                 canDrive: true,
@@ -64,14 +64,16 @@ export class NewPatient extends Component {
     }
     InsertPatient = () => {
         if (this.validatorOTP.allValid()) {
-            patient.post("VerifyOTP", { otp: this.state.patiendDto.otpCode, idPatient: this.state.patiendDto.codicePaziente })
+            user.post("VerifyOTP", {idDispositivo: '', phone: this.state.patiendDto.phoneNumber , otp: this.state.patiendDto.otpCode  })
                 .then((response) => {
                     if (response.data.statoEsito === 0) {
                         patient.post("Save", this.state.patiendDto)
                             .then((response) => {
-                                if (response.data.dati) {
+                                if (response.data.statoEsito === 0) {
                                     localStorage.setItem('newPatient', response.data.dati.id);
                                     window.location.href = "/NewTherapy/" + response.data.dati.id;
+                                }else{
+                                    NotificationManager.error( response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
                                 }
                             }).catch((error) => {
                                 this.setState({ warning: true });
@@ -108,18 +110,7 @@ export class NewPatient extends Component {
                         var DTO = this.state.patiendDto;
                         DTO.codicePaziente = parseInt(this.state.patiendDto.codicePaziente)
                         DTO.doctorNameIdDTOs.push(doctor)
-                        user.post("PreSavePatient", { id: 0 , username: '', password: '', patientDTO: this.state.patiendDto })
-                            .then((response) => {
-                                if (response.data.statoEsito === 0) {
-                                    this.setState({ isSuccess: true });
-                                } else {
-                                    this.setState({ isSuccess: false });
-                                    NotificationManager.error( response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
-                                }
-                            }).catch((error) => {
-                                this.setState({ warning: true });
-                                NotificationManager.error(message, entitiesLabels.ERROR, 3000);
-                            });
+                        this.setState({ isSuccess: true });
                     } else {
                         NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
                     }
