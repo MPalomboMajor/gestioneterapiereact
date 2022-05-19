@@ -64,8 +64,7 @@ const SideNav = () => {
                                         <div className="nav-link profilo-paziente" aria-current="page" >
 
                                             <p>
-                                                {userProfile.name} {userProfile.surName}<br />
-                                                {user.role}
+                                                {userProfile.name} {userProfile.surName}
                                             </p>
 
                                         </div>
@@ -120,8 +119,7 @@ const SideNav = () => {
                                         <div className="nav-link profilo-paziente" aria-current="page" >
 
                                             <p>
-                                                {userProfile.name} {userProfile.surName}<br />
-                                                {user.role}
+                                                {userProfile.name} {userProfile.surName}
                                             </p>
 
                                         </div>
@@ -243,8 +241,7 @@ const SideNav = () => {
                                         <li className="nav-item">
                                             <Link to={`/DoctorProfile`} className="nav-link profilo-paziente">
                                                 <p>
-                                                    {userProfile.name} {userProfile.surName}<br />
-                                                    {user.role}
+                                                    {userProfile.name} {userProfile.surName}
                                                 </p>
                                             </Link>
                                         </li>
@@ -304,8 +301,7 @@ const SideNav = () => {
                                         <li className="nav-item">
                                             <Link to={`/DoctorProfile`} className="nav-link profilo-paziente">
                                                 <p>
-                                                    {userProfile.name} {userProfile.surName}<br />
-                                                    {user.role}
+                                                    {userProfile.name} {userProfile.surName}
                                                 </p>
                                             </Link>
                                         </li>
@@ -410,8 +406,7 @@ const SideNav = () => {
                                 <li className="nav-item">
                                     <div className="nav-link" aria-current="page" >
                                         <p>
-                                            {userProfile.name} {userProfile.surName}<br />
-                                            {user.role}
+                                            {userProfile.name} {userProfile.surName}
                                         </p>
                                     </div>
                                 </li>
