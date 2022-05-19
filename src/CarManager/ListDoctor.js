@@ -43,7 +43,8 @@ export class ListDoctor extends Component {
                     </div>
                 </Row>
                 <Row className='col-12 pt-4' >
-                <Table striped bordered hover size="sm">
+                <div className="table-wrapper">
+                        <Table className="table custom">
                                 <thead>
                                     <tr>
                                         <th>Codice Fiscale</th>
@@ -59,6 +60,7 @@ export class ListDoctor extends Component {
                                     }
                                 </tbody>
                             </Table>
+                            </div>
                 </Row>
             </Container>
         )
