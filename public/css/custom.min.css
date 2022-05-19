@@ -1065,6 +1065,10 @@ header {
     background-image: url("../img/icons/box-arrow-right-off.svg")
 }
 
+.main-menu .nav-link.home {
+    background-image: url("../img/icons/home-off.svg")
+}
+
 .main-menu .nav-link.active,
 .main-menu .nav-link:active,
 .main-menu .nav-link:focus,
@@ -1176,6 +1180,13 @@ header {
 .main-menu .nav-link:focus.logout,
 .main-menu .nav-link:hover.logout {
     background-image: url("../img/icons/box-arrow-right-on.svg")
+}
+
+.main-menu .nav-link.active.home,
+.main-menu .nav-link:active.home,
+.main-menu .nav-link:focus.home,
+.main-menu .nav-link:hover.home {
+    background-image: url("../img/icons/home-on.svg")
 }
 
 .angelini {

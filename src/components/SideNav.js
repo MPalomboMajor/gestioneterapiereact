@@ -4,14 +4,46 @@ import { role } from '../helpers/Constants';
 import logo from '../logo/OA_logo.svg';
 import logOut from '../icons';
 import { iconLogout } from '../icons';
+import { caremanager, medico } from '../helpers/api/api';
 
 const SideNav = () => {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
     const [patientProfile, setPatientProfile] = useState([]);
+    const [userProfile, setUserProfile] = useState([]);
     const user = JSON.parse(localStorage.getItem("role"));
+    const [loading, setLoading] = useState(false);
     const isCarManger = user.idRole === role.CAREMANAGER ? true : false
     const isAngelini = user.idRole === role.ANGELINI ? true : false
     const isDoctor = user.idRole === role.DOCTOR ? true : false
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            setLoading(true);
+            if (isDoctor) {
+                await medico.get("Get/", parseInt(user.id))
+                    .then((response) => {
+                        if (response.status === 200) {
+                            setUserProfile(response.data.dati);
+                            setLoading(false);
+                        }
+                    }).catch((error) => {
+
+                    });
+            } else if (isCarManger) {
+                await caremanager.get("", parseInt(user.id))
+                    .then((response) => {
+                        if (response.status === 200) {
+                            setUserProfile(response.data.dati);
+                            setLoading(false);
+                        }
+                    }).catch((error) => {
+
+                    });
+            }
+
+        };
+        fetchUserProfile();
+    }, []);
 
     return (
         <header className="col">
@@ -29,15 +61,17 @@ const SideNav = () => {
                             {window.location.pathname === "/Dashboard" || window.location.pathname === "/PatientRegistry" || window.location.pathname === "/ListDoctor" || window.location.pathname === "/MedicalCenter" || window.location.pathname === "/ContactInfo" || window.location.pathname === "/ContactInfoPatient" || window.location.pathname === "/DoctorChartsInterface" ?
                                 <>
                                     <li className="nav-item">
-                                        <div className="nav-link" aria-current="page" >
+                                        <div className="nav-link profilo-paziente" aria-current="page" >
+
                                             <p>
-                                                {user.username}<br />
+                                                {userProfile.name} {userProfile.surName}<br />
                                                 {user.role}
                                             </p>
+
                                         </div>
                                     </li>
                                     <li className="nav-item">
-                                        <a href="/DoctorChartsInterface" className="nav-link" aria-current="page" >
+                                        <a href="/DoctorChartsInterface" className="nav-link home" aria-current="page" >
                                             <p>
                                                 Home
                                             </p>
@@ -83,15 +117,17 @@ const SideNav = () => {
                                 :
                                 <>
                                     <li className="nav-item">
-                                        <div className="nav-link" aria-current="page" >
+                                        <div className="nav-link profilo-paziente" aria-current="page" >
+
                                             <p>
-                                                {user.username}<br />
+                                                {userProfile.name} {userProfile.surName}<br />
                                                 {user.role}
                                             </p>
+
                                         </div>
                                     </li>
                                     <li className="nav-item">
-                                        <a href="/DoctorChartsInterface" className="nav-link" aria-current="page" >
+                                        <a href="/DoctorChartsInterface" className="nav-link home" aria-current="page" >
                                             <p>
                                                 Home
                                             </p>
@@ -205,15 +241,15 @@ const SideNav = () => {
                                     window.location.pathname === "/DoctorChartsInterface"
                                     ? <>
                                         <li className="nav-item">
-                                            <Link to={`/DoctorProfile`} className="nav-link">
+                                            <Link to={`/DoctorProfile`} className="nav-link profilo-paziente">
                                                 <p>
-                                                    {user.username}<br />
+                                                    {userProfile.name} {userProfile.surName}<br />
                                                     {user.role}
                                                 </p>
                                             </Link>
                                         </li>
                                         <li className="nav-item">
-                                            <a href="/DoctorChartsInterface" className="nav-link" aria-current="page" >
+                                            <a href="/DoctorChartsInterface" className="nav-link home" aria-current="page" >
                                                 <p>
                                                     Home
                                                 </p>
@@ -266,15 +302,15 @@ const SideNav = () => {
                                     </>
                                     : <>
                                         <li className="nav-item">
-                                            <Link to={`/DoctorProfile`} className="nav-link">
+                                            <Link to={`/DoctorProfile`} className="nav-link profilo-paziente">
                                                 <p>
-                                                    {user.username}<br />
+                                                    {userProfile.name} {userProfile.surName}<br />
                                                     {user.role}
                                                 </p>
                                             </Link>
                                         </li>
                                         <li className="nav-item">
-                                            <a href="/DoctorChartsInterface" className="nav-link" aria-current="page" >
+                                            <a href="/DoctorChartsInterface" className="nav-link home" aria-current="page" >
                                                 <p>
                                                     Home
                                                 </p>
@@ -374,13 +410,13 @@ const SideNav = () => {
                                 <li className="nav-item">
                                     <div className="nav-link" aria-current="page" >
                                         <p>
-                                            {user.username}<br />
+                                            {userProfile.name} {userProfile.surName}<br />
                                             {user.role}
                                         </p>
                                     </div>
                                 </li>
                                 <li className="nav-item">
-                                    <a href="/DoctorChartsInterface" className="nav-link" aria-current="page" >
+                                    <a href="/DoctorChartsInterface" className="nav-link home" aria-current="page" >
                                         <p>
                                             Home
                                         </p>
