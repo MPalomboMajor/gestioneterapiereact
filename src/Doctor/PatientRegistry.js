@@ -139,7 +139,7 @@ function PatientRegistry() {
                                                                         <div className="form-group">
                                                                                 <label htmlFor="ontozry" className="form-label small">Causa della disabilitazione</label>
                                                                                 <select className="form-select form-select-sm mb-3" type="text" name="idDisabledCause" value={patientProfile.isActive ? "" : patientProfile.idDisabledCause} placeholder=".form-control-sm" aria-label="idDisabledCause" onChange={handleChange}>
-                                                                                        <option></option>
+                                                                                        <option value="0"></option>
                                                                                         <option value="1">Causa 1</option>
                                                                                         <option value="2">Causa 2</option>
                                                                                         <option value="3">Causa 3</option>

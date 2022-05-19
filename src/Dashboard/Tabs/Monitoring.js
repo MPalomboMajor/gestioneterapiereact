@@ -22,6 +22,7 @@ function Monitoring(props) {
                                 <div className="container-fluid g-0">
                                     <div className="row gx-3 mb-2">
                                         <div style={{ "height": "300px", "marginTop": "40px" }}>
+                                        &nbsp;
                                             <h2>Eventi avversi</h2>
                                             <PieChartGetAdverseEventsByEvent data={props.dataGetAdverseEventsByEvent} commonProperties={props.commonProperties} />
                                         </div>
@@ -46,7 +47,7 @@ function Monitoring(props) {
                             <div className="col-12 col-md-6">
                                 <div className="container-fluid g-0">
                                     <div className="row gx-3 mb-2">
-                                        &nbsp;
+                                        
                                         {isAngelini ?
                                             <div style={{ "height": "300px" }}>
                                                 <h2>Numero cumulato rilevazioni per mood</h2>
@@ -54,14 +55,14 @@ function Monitoring(props) {
                                             </div> : ""
                                         }
                                         {isDoctor || isCareManger ?
-                                            <div style={{ "height": "300px", "marginTop": "40px" }}>
+                                            <div id="chartContainer" style={{ "height": "300px", "marginTop": "40px", "width": "600px" }}>
                                                 <h2>Aderenza alla terapia</h2>
                                                 <BarChartGetAdherencesByPatient data={props.dataGetAdherencesByPatient} commonProperties={props.commonProperties} />
                                             </div> : ""
                                         }
                                         &nbsp;
                                         {isDoctor || isCareManger ?
-                                            <div style={{ "height": "300px", "marginTop": "40px" }}>
+                                            <div style={{ "height": "320px", "marginTop": "40px" }}>
                                                 <h2>Andamento mood giornaliero</h2>
                                                 <HeatMapGetTrackingMoodByPatient data={props.dataGetTrackingMoodByPatient} commonProperties={props.commonProperties} />
                                             </div> : ""

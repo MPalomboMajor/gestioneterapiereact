@@ -2099,3 +2099,8 @@ table.custom td .btn+.btn {
 .custom-th{
     margin-left: 14%;
 }
+
+#chartContainer { 
+    overflow-x: scroll;
+    overflow-y: hidden
+}

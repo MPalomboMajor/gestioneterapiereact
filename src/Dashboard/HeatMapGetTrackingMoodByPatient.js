@@ -4,9 +4,12 @@ function HeatMapGetTrackingMoodByPatient(props) {
 
   const MyResponsiveHeatMap = ({ data /* see data tab */ }) => (
     <ResponsiveHeatMap
-      {...props.commonProperties}
+    width={460}
+    height={300}
+    animate={false}
+    activeOuterRadiusOffset={8}
       data={data === null ? [] : data}
-      margin={{ top: 60, right: 90, bottom: 60, left: 90 }}
+      margin={{ top: 70, right: 90, bottom: 60, left: 90 }}
         axisTop={{
             tickSize: 5,
             tickPadding: 5,
@@ -44,7 +47,7 @@ function HeatMapGetTrackingMoodByPatient(props) {
                 anchor: 'bottom',
                 translateX: 0,
                 translateY: 30,
-                length: 400,
+                length: 300,
                 thickness: 8,
                 direction: 'row',
                 tickPosition: 'after',

@@ -52,21 +52,21 @@ const SideNav = () => {
                                         </a>
                                     </li>
                                     <li className="nav-item">
-                                        <a href="/ListDoctor" className="nav-link">
+                                        <a href="/ListDoctor" className="nav-link anagrafica-medico">
                                             <p>
                                                 Elenco medici
                                             </p>
                                         </a>
                                     </li>
                                     <li className="nav-item">
-                                        <a href="/MedicalCenter" className="nav-link">
+                                        <a href="/MedicalCenter" className="nav-link visite-mediche">
                                             <p>
                                                 Centri Medici
                                             </p>
                                         </a>
                                     </li>
                                     <li className="nav-item">
-                                        <a href="/ContactInfo" className="nav-link">
+                                        <a href="/ContactInfo" className="nav-link profilo-paziente">
                                             <p>
                                                 Contact  Info
                                             </p>
@@ -140,7 +140,7 @@ const SideNav = () => {
                                                 </Link>
                                             </li>
                                             <li className="nav-item">
-                                                <Link to={`/EpilepticSeizures/${patientId}`} className="nav-link eventi-avversi">
+                                                <Link to={`/EpilepticSeizures/${patientId}`} className="nav-link crisi-epilettiche">
                                                     <p>
                                                         Crisi
                                                     </p>

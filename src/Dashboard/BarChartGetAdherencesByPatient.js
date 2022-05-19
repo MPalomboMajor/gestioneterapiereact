@@ -3,7 +3,10 @@ import { ResponsiveBar } from '@nivo/bar'
 function BarChartGetAdherencesByPatient(props) {
     const MyResponsiveBar = ({ data /* see data tab */ }) => (
         <ResponsiveBar
-            {...props.commonProperties}
+            width={1000}
+            height={270}
+            animate={false}
+            activeOuterRadiusOffset={8}
             data={data === null ? [] : data}
             keys={[
                 'numeroNotifiche',

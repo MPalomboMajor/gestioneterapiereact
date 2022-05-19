@@ -30,10 +30,12 @@ function ContactInfo(props) {
                                             <PieChartGetSatisfactionLevelQuestionThree data={props.dataGetSatisfactionLevelQuestionThree} commonProperties={props.commonProperties} />
                                         </div>
                                         &nbsp;
-                                        <div style={{ "height": "300px", "marginTop": "40px" }}>
-                                            <h2>Numero contatti per paziente</h2>
-                                            <BarChartGetAllContactInfoByPatient data={props.dataGetAllContactInfoByPatient} commonProperties={props.commonProperties} />
-                                        </div>
+                                        {isCareManger ?
+                                            <div style={{ "height": "300px", "marginTop": "40px" }}>
+                                                <h2>Numero contatti</h2>
+                                                <PieChartGetAllContactInfoByNumber data={props.dataGetAllContactInfoByNumber} commonProperties={props.commonProperties} />
+                                            </div> : ""
+                                        }                                      
                                         &nbsp;
                                     </div>
                                 </div>
@@ -46,12 +48,10 @@ function ContactInfo(props) {
                                             <PieChartGetSatisfactionLevelQuestionTwo data={props.dataGetSatisfactionLevelQuestionTwo} commonProperties={props.commonProperties} />
                                         </div>
                                         &nbsp;
-                                        {isCareManger ?
-                                            <div style={{ "height": "300px", "marginTop": "40px" }}>
-                                                <h2>Numero contatti</h2>
-                                                <PieChartGetAllContactInfoByNumber data={props.dataGetAllContactInfoByNumber} commonProperties={props.commonProperties} />
-                                            </div> : ""
-                                        }
+                                        <div id="chartContainer" style={{ "height": "300px", "marginTop": "40px", "width": "600px" }}>
+                                            <h2>Numero contatti per paziente</h2>
+                                            <BarChartGetAllContactInfoByPatient data={props.dataGetAllContactInfoByPatient} commonProperties={props.commonProperties} />
+                                        </div>
                                         &nbsp;
                                         {/* Qui va TempoDiContatto
                                         {isCareManger ?
