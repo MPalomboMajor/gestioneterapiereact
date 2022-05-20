@@ -54,7 +54,7 @@ function DoctorChartsInterface() {
         callsFetchData();
     };
 
-    function callsFetchData () {
+    function callsFetchData() {
         //Assstiti
         dashboard.getWithParam("GetTotalRegister&Active/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
             .then((response) => {
@@ -162,55 +162,59 @@ function DoctorChartsInterface() {
             }).catch((error) => {
                 setDataGetAdverseEventsByEvent([]);
             });
-        dashboard.getWithParam("GetCumulativeSurveysByMood/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-            .then((response) => {
-                if (response.status === 200) {
-                    setDataGetCumulativeSurveysByMood(response.data.dati);
-                }
-            }).catch((error) => {
+        if (isAngelini) {
+            dashboard.getWithParam("GetCumulativeSurveysByMood/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+                .then((response) => {
+                    if (response.status === 200) {
+                        setDataGetCumulativeSurveysByMood(response.data.dati);
+                    }
+                }).catch((error) => {
 
-            });
+                });
+        }
         //ContactInfo
-        dashboard.getWithParam("GetAllContactInfoByPatient/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-            .then((response) => {
-                if (response.status === 200) {
-                    setDataGetAllContactInfoByPatient(response.data.dati);
-                }
-            }).catch((error) => {
+        if (isAngelini || isCareManger) {
+            dashboard.getWithParam("GetAllContactInfoByPatient/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+                .then((response) => {
+                    if (response.status === 200) {
+                        setDataGetAllContactInfoByPatient(response.data.dati);
+                    }
+                }).catch((error) => {
 
-            });
-        dashboard.getWithParam("GetAllContactInfoByNumber", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-            .then((response) => {
-                if (response.status === 200) {
-                    setDataGetAllContactInfoByNumber(response.data.dati);
-                }
-            }).catch((error) => {
+                });
+            dashboard.getWithParam("GetAllContactInfoByNumber", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+                .then((response) => {
+                    if (response.status === 200) {
+                        setDataGetAllContactInfoByNumber(response.data.dati);
+                    }
+                }).catch((error) => {
 
-            });
-        dashboard.getWithParam("GetSatisfactionLevelQuestionOne", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-            .then((response) => {
-                if (response.status === 200) {
-                    setDataGetSatisfactionLevelQuestionOne(response.data.dati);
-                }
-            }).catch((error) => {
+                });
+            dashboard.getWithParam("GetSatisfactionLevelQuestionOne", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+                .then((response) => {
+                    if (response.status === 200) {
+                        setDataGetSatisfactionLevelQuestionOne(response.data.dati);
+                    }
+                }).catch((error) => {
 
-            });
-        dashboard.getWithParam("GetSatisfactionLevelQuestionTwo", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-            .then((response) => {
-                if (response.status === 200) {
-                    setDataGetSatisfactionLevelQuestionTwo(response.data.dati);
-                }
-            }).catch((error) => {
+                });
+            dashboard.getWithParam("GetSatisfactionLevelQuestionTwo", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+                .then((response) => {
+                    if (response.status === 200) {
+                        setDataGetSatisfactionLevelQuestionTwo(response.data.dati);
+                    }
+                }).catch((error) => {
 
-            });
-        dashboard.getWithParam("GetSatisfactionLevelQuestionThree", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-            .then((response) => {
-                if (response.status === 200) {
-                    setDataGetSatisfactionLevelQuestionThree(response.data.dati);
-                }
-            }).catch((error) => {
+                });
+            dashboard.getWithParam("GetSatisfactionLevelQuestionThree", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+                .then((response) => {
+                    if (response.status === 200) {
+                        setDataGetSatisfactionLevelQuestionThree(response.data.dati);
+                    }
+                }).catch((error) => {
 
-            });
+                });
+        }
     };
 
     const commonProperties = {

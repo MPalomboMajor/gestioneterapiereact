@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Row, Modal, Form, Button, } from 'react-bootstrap';
-import { patient, medico, patientcode } from '../helpers/api/api';
+import { patient, medico, patientcode, user } from '../helpers/api/api';
 import SimpleReactValidator from 'simple-react-validator';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { entitiesLabels, message } from '../helpers/Constants';
@@ -15,6 +15,7 @@ export class AssociatePatient extends Component {
             otp: '',
             isSuccess: false,
             isSuccessSendOtp: false,
+            phone:'',
             patient: {
                 patientCode: null,
                 idDoctor: JSON.parse(localStorage.getItem("role")).id
@@ -54,15 +55,14 @@ export class AssociatePatient extends Component {
     associate = () => {
         if (this.validatorOTP.allValid()) {
             var code = parseInt(this.state.patient.patientCode);
-            patient.post("VerifyOTP", { otp: this.state.otp, idPatient: code })
+            user.post("VerifyOTP", {idDispositivo: '', phone: this.state.phone , otp: this.state.otp })
                 .then((response) => {
                     if (response.data.statoEsito===0) {
                         patient.post("CollegaPaziente", this.state.patient)
                             .then((response) => {
                                 if (response.data.dati) {
                                     // window.location.href = "/Dashboard";
-                                    this.setState({ isSuccessSendOtp: true });
-
+                                    this.setState({ isSuccess: true, isSuccessSendOtp: false });
                                 } else {
                                     this.validator.showMessages();
                                     NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
@@ -92,9 +92,10 @@ export class AssociatePatient extends Component {
             var code = parseInt(this.state.patient.patientCode);
             patientcode.get("InvioOTP/", code)
                 .then((response) => {
-                    if (response.data.dati) {
+                    if (response.data.statoEsito===0) {
                         // window.location.href = "/Dashboard";
-                        this.setState({ isSuccessSendOtp: true });
+                        NotificationManager.success(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
+                        this.setState({ isSuccessSendOtp: true,  phone: response.data.dati});
 
                     } else {
                         this.validator.showMessages();
