@@ -62,8 +62,7 @@ export class AssociatePatient extends Component {
                             .then((response) => {
                                 if (response.data.dati) {
                                     // window.location.href = "/Dashboard";
-                                    this.setState({ isSuccess: true });
-
+                                    this.setState({ isSuccess: true, isSuccessSendOtp: false });
                                 } else {
                                     this.validator.showMessages();
                                     NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
