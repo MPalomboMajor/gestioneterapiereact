@@ -32,34 +32,43 @@ function PatientMoodInterface(props) {
     useEffect(() => {
         const fetchPatientDailyMoods = async () => {
             setLoading(true);
-            await patient.get("DailyMoodTracking/", patientId)
+            patient.get("DailyMoodTracking/", patientId)
                 .then((response) => {
                     if (response.status === 200) {
                         setPatientDailyMoods(response.data.dati);
-                        setLoading(false);
+                        patient.get("TrackingMoodSettimanale/", patientId)
+                            .then((response) => {
+                                if (response.status === 200) {
+                                    setPatientWeeklyMoods(response.data.dati);
+                                    setLoading(false);
+                                }
+                            }).catch((error) => {
+
+                            });
                     }
                 }).catch((error) => {
 
                 });
+
         };
         fetchPatientDailyMoods();
     }, [patientId]);
 
-    useEffect(() => {
-        const fetchPatientWeeklyMoods = async () => {
-            setLoading(true);
-            await patient.get("TrackingMoodSettimanale/", patientId)
-                .then((response) => {
-                    if (response.status === 200) {
-                        setPatientWeeklyMoods(response.data.dati);
-                        setLoading(false);
-                    }
-                }).catch((error) => {
+    // useEffect(() => {
+    //     const fetchPatientWeeklyMoods = async () => {
+    //         setLoading(true);
+    //         await patient.get("TrackingMoodSettimanale/", patientId)
+    //             .then((response) => {
+    //                 if (response.status === 200) {
+    //                     setPatientWeeklyMoods(response.data.dati);
+    //                     setLoading(false);
+    //                 }
+    //             }).catch((error) => {
 
-                });
-        };
-        fetchPatientWeeklyMoods();
-    }, [patientId]);
+    //             });
+    //     };
+    //     fetchPatientWeeklyMoods();
+    // }, [patientWeeklyMoods]);
 
     if (loading) {
         return <h2>Loading...</h2>;
@@ -68,23 +77,23 @@ function PatientMoodInterface(props) {
     return (
 
         <>
-                <h1 className="h1">Umore {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
-                &nbsp;&nbsp;
-                
-                <Tabs
-                    id="mood-tabs"
-                    activeKey={key}
-                    onSelect={(k) => setKey(k)}
-                    className="nav secondary-menu mb-4"
-                >
-                    <Tab eventKey="dailyMoodMonitoring" title="Umore quotidiano">
-                        <PatientDailyMood patientDailyMoods={ patientDailyMoods } />
-                    </Tab>
-                    <Tab eventKey="weeklyMoodMonitoring" title="Umore settimanale" >
-                        <PatientWeeklyMood patientWeeklyMoods={ patientWeeklyMoods }/>
-                    </Tab>
-                </Tabs>
-                < NotificationContainer />
+            <h1 className="h1">Umore {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
+            &nbsp;&nbsp;
+
+            <Tabs
+                id="mood-tabs"
+                activeKey={key}
+                onSelect={(k) => setKey(k)}
+                className="nav secondary-menu mb-4"
+            >
+                <Tab eventKey="dailyMoodMonitoring" title="Umore quotidiano">
+                    <PatientDailyMood patientDailyMoods={patientDailyMoods} />
+                </Tab>
+                <Tab eventKey="weeklyMoodMonitoring" title="Umore settimanale" >
+                    {<PatientWeeklyMood patientWeeklyMoods={patientWeeklyMoods} />}
+                </Tab>
+            </Tabs>
+            < NotificationContainer />
         </>
 
     );

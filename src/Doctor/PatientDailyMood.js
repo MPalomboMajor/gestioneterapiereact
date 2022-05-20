@@ -56,8 +56,9 @@ function PatientDailyMood(props) {
         }
         //setCalendarDates(state => [dateArray, ...state]);
         const listApp = [];
-        dateArray.map(x => {
-            const value = selectedPatientDailyMoods.filter(y => y.dataOraRisposta === x);
+        dateArray.map((x) => {
+            
+            const value = selectedPatientDailyMoods.filter(y => y.dataOraRisposta != null && y.dataOraRisposta.split(" ")[0] === x);
             if (value.length === 0) {
                 listApp.push({
                     id: 0,
@@ -70,10 +71,20 @@ function PatientDailyMood(props) {
                     idPatientProfile: window.location.pathname.split('/').pop()
                 })
             } else {
-                listApp.push(value[0])
+                listApp.push({
+                    id: value[0].id,
+                    idUmore: value[0].idUmore,
+                    umore: value[0].umore,
+                    idEmozione: value[0].idEmozione,
+                    emozione: value[0].emozione,
+                    commento: value[0].commento,
+                    dataOraRisposta: value[0].dataOraRisposta.split(" ")[0],
+                    idPatientProfile: window.location.pathname.split('/').pop()
+                })
             }
         })
         setList(state => [listApp, ...state]);
+        //console.log(list[0]);
     }
 
     // function addEmptySlides() {

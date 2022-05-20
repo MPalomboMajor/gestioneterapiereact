@@ -67,7 +67,7 @@ function PatientWeeklyMood(props) {
         listInitDates?.map(y => {
             let dateA = moment(y);
             let dateB = moment(y).add(6, 'days');
-            let obj = props.patientWeeklyMoods?.filter(x => moment(x.dataOraRisposta, 'DD-MM-YYYY').toDate() >= dateA.toDate() && moment(x.dataOraRisposta, 'DD-MM-YYYY').toDate() <= dateB.toDate())
+            let obj = selectedPatientWeeklyMoods?.filter(x => x.dataOraRisposta != null && (moment(x.dataOraRisposta, 'DD-MM-YYYY').toDate() >= dateA.toDate() && moment(x.dataOraRisposta, 'DD-MM-YYYY').toDate() <= dateB.toDate()))
             if (obj.length != 0) {
                 obj[0].startDate = dateA;
                 obj[0].endDate = dateB;
