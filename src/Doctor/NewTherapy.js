@@ -184,7 +184,7 @@ export class NewTherapy extends Component {
             .then((response) => {
                 if (response.status === 200) {
                     if (response.data.dati.statoesito != 1) {
-                        NotificationManager.success(message.TERAPIA + message.SuccessInsert, entitiesLabels.SUCCESS, 3000);
+                        NotificationManager.success("La terapia è stata inserita correttamente", entitiesLabels.SUCCESS, 3000);
                         this.setState({
                             therapyDto: response.data.dati,
                         });
@@ -949,8 +949,8 @@ export class NewTherapy extends Component {
                             {
                                 currentstoric.map((el) =>
                                     <Row className='pb-2 mb-5'>
-                                        <div className='col-2 custom-td'>
-                                            <span className="label label-primary">{el.nameDoctor}</span>
+                                        <div className='col-2'>
+                                            <span className="label label-primary">{el.nameDoctor} {el.surnameDoctor}</span>
                                         </div>
                                         <div className="table-wrapper col-8">
                                             <Table className="table custom">

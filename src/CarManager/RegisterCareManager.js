@@ -20,7 +20,8 @@ export class RegisterCareManager extends Component {
         name: '',
         surName: '',
         email: '',
-        idUser:0,
+        idUser: 0,
+        phoneNumber: ''
     });
     constructor(props) {
         super(props);
@@ -47,6 +48,7 @@ export class RegisterCareManager extends Component {
     }
     componentDidMount() {
         this.getListMedicalCenter();
+        document.body.className = "splash custom-login";
     }
     getListMedicalCenter = () => {
         medico.getAll("GetCentriMedici")
@@ -67,7 +69,7 @@ export class RegisterCareManager extends Component {
             user.post("SaveCareManager", { username: userDto.username, password: userDto.password, careManagerDTO: this.state.careManagerDTO })
                 .then((response) => {
                     if (response.status === 200) {
-                        NotificationManager.success(message.MEDICO + message.SuccessInsert, entitiesLabels.SUCCESS, 3000);
+                        NotificationManager.success(message.CAREMANAGER + message.SuccessInsert, entitiesLabels.SUCCESS, 3000);
                     }
                 }).catch((error) => {
                     NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
@@ -140,6 +142,11 @@ export class RegisterCareManager extends Component {
                 this.state.userDto.username,
                 'required|email'
             ),
+            phoneNumber: this.validator.message(
+                'Email',
+                this.state.careManagerDTO.phoneNumber,
+                'required'
+            ),
             password: this.validator.message(
                 'Password',
                 this.state.userDto.password,
@@ -153,20 +160,22 @@ export class RegisterCareManager extends Component {
             equalPass: this.validator.message('equalPass', equalPass, 'accepted'),
         };
         return (
-            <div class="splash">
-                <div class="wrapper">
+            <>
                     <Form className="centering-form">
                         <Row>
                             <Form.Group className="col-6 mb-2" >
-                                <Form.Control onChange={this.handleChange} name="name" alt="careManagerDTO" placeholder="Enter cognome" />
+                                <Form.Control onChange={this.handleChange} name="name" alt="careManagerDTO" placeholder="Nome" />
                             </Form.Group>
                             <Form.Group className="col-6 mb-2" >
-                                <Form.Control onChange={this.handleChange} name="surName" alt="careManagerDTO" placeholder="Enter Nome" />
+                                <Form.Control onChange={this.handleChange} name="surName" alt="careManagerDTO" placeholder="Cognome" />
                             </Form.Group>
                         </Row>
                         <Row>
-                            <Form.Group className="col-12 mb-2">
-                                <Form.Control onChange={this.handleChange} id='eMail' alt="userDto" name="username" isInvalid={validations.username != null} placeholder="Enter email" />
+                            <Form.Group className="col-6 mb-2">
+                                <Form.Control onChange={this.handleChange} id='eMail' alt="userDto" name="username" isInvalid={validations.username != null} placeholder="E-mail" />
+                            </Form.Group>
+                            <Form.Group className="col-6 mb-2">
+                                <Form.Control onChange={this.handleChange} id='phoneNumber' alt="careManagerDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Mobile" value={this.state.careManagerDTO.phoneNumber} />
                             </Form.Group>
                         </Row>
                         <Row className='pb-5'>
@@ -186,24 +195,24 @@ export class RegisterCareManager extends Component {
                             </div>}
                         </Row>
                         <Row>
-                        <div class="col-6 col-md-8 mb-0">
-                            <div class="form-check mb-0">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={() => this.showPassword()}></input>
+                            <div class="col-6 col-md-8 mb-0">
+                                <div class="form-check mb-0">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={() => this.showPassword()}></input>
                                     <label class="form-check-label small" for="flexCheckDefault">
                                         Mostra password
                                     </label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-6 col-md-4 mb-3 d-flex justify-content-center justify-content-md-end align-items-start">
-                            <Button className="btn btn-primary btn-arrow" onClick={() => this.InsertUser()}>
-                                Registrati
-                            </Button>
-                        </div>
+                            <div class="col-6 col-md-4 mb-3 d-flex justify-content-center justify-content-md-end align-items-start">
+                                <Button className="btn btn-primary btn-arrow" onClick={() => this.InsertUser()}>
+                                    Registrati
+                                </Button>
+                            </div>
                         </Row>
                     </Form>
-                </div>
+                
                 < NotificationContainer />
-            </div>
+                </>
         )
     }
 }

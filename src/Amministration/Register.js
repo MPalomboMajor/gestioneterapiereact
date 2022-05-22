@@ -123,7 +123,7 @@ export class Register extends Component {
                     if (response.data.statoEsito === 0) {
                         localStorage.setItem('accessToken', response.data.dati);
                         this.setState({ iSSendOtp: true });
-                        NotificationManager.success("Ti abbiamo inviato un codice di verifica al numero di cellulare indicato in fase di registrazione", entitiesLabels.ERROR, 3000);
+                        NotificationManager.success("Ti abbiamo inviato un codice di verifica al numero di cellulare indicato in fase di registrazione", entitiesLabels.SUCCESS, 3000);
                     } else {
                         NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
                     }

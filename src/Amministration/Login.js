@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Modal } from 'react-bootstrap';
 import { api, user } from '../helpers/api/api';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
@@ -14,11 +14,17 @@ export class Login extends Component {
     });
     constructor(props) {
         super(props);
+        this.validator = new SimpleReactValidator();
+        this.validatorOTP = new SimpleReactValidator();
         this.state = {
             username: '',
             password: '',
             idDispositivo: '',
             dataOraRichiesta: moment(new Date()).format("DD/MM/YYYY HH:mm"),
+            otp: '',
+            isSuccess: false,
+            isSuccessSendOtp: false,
+            phone: '',
         }
         this.validator = new SimpleReactValidator();
         this.reset = this.reset.bind(this);
@@ -48,16 +54,26 @@ export class Login extends Component {
             user.post("Login", this.state)
                 .then((response) => {
                     if (response.data.statoEsito === 0) {
-                        if (response.data.dati.userDTO.idRole === role.DOCTOR || response.data.dati.userDTO.idRole === role.CAREMANAGER) {
+                        if (response.data.dati.userDTO.idRole === role.DOCTOR || response.data.dati.userDTO.idRole === role.CAREMANAGER || response.data.dati.userDTO.idRole === role.ADMIN) {
                             localStorage.setItem('accessToken', response.data.dati.accessToken);
                             localStorage.setItem('refreshToken', response.data.dati.refreshToken);
                             localStorage.setItem('role', JSON.stringify(response.data.dati.userDTO));
-                            window.location.href = "/DoctorChartsInterface";
+                            this.setState({ phone: JSON.parse(localStorage.getItem("role")).phone });
+                            user.post("RequestOTP/", response.data.dati.userDTO.phone)
+                                .then((response) => {
+                                    if (response.status === 200) {
+                                        NotificationManager.success(response.data.descrizioneEsito, entitiesLabels.SUCCESS, 3000);
+                                        this.setState({ isSuccessSendOtp: true });
+                                    }
+                                }).catch((error) => {
+                                    NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+                                });
+
                         } else {
                             NotificationManager.error(message.ErrorUnauthorized, entitiesLabels.ERROR, 3000);
                         }
-                    }else{
-                        NotificationManager.error( response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
+                    } else {
+                        NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
                     }
                 }).catch((error) => {
                     NotificationManager.error(message.ErrorLogin, entitiesLabels.ERROR, 3000);
@@ -68,10 +84,57 @@ export class Login extends Component {
             this.forceUpdate();
         }
     };
+
     returnSplash = () => {
 
         window.location.href = "/";
     };
+
+    handleChangeOtp = (el) => {
+        const inputName = el.target.name;
+        const inputValue = el.target.value;
+        this.updateStateconfirm(inputName, inputValue);
+    };
+
+    updateStateconfirm = (inputName, inputValue) => {
+        const statusCopy = { ...this.state };
+        statusCopy[inputName] = inputValue;
+        this.setState(statusCopy);
+    };
+
+    handleClose = (el) => {
+        window.location.href = "/Login";
+    };
+
+    handleCloseOtp = (el) => {
+        this.setState({ isSuccessSendOtp: false });
+    };
+
+    verifyOtp = () => {
+        if (this.validatorOTP.allValid()) {
+            user.post("VerifyLoginOTP/", { idDispositivo: '', phone: this.state.phone, otp: this.state.otp })
+                .then((response) => {
+                    if (response.data.statoEsito === 0 && response.data.descrizioneEsito !== "Codice OTP non valido") {
+                        localStorage.setItem('accessToken', response.data.dati.accessToken);
+                        localStorage.setItem('refreshToken', response.data.dati.refreshToken);
+                        localStorage.setItem('role', JSON.stringify(response.data.dati.userDTO));
+                        window.location.href = "/DoctorChartsInterface";
+
+                    } else {
+                        this.validator.showMessages();
+                        NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
+                        this.forceUpdate();
+                    }
+                }).catch((error) => {
+                    this.setState({ warning: true });
+                });
+        }
+        else {
+            this.validator.showMessages();
+            NotificationManager.warning(message.ErrorRequire, entitiesLabels.WARNING, 3000);
+            this.forceUpdate();
+        }
+    }
 
     //VIEW 
     render() {
@@ -88,6 +151,15 @@ export class Login extends Component {
                 'required'
             ),
         };
+
+        const validationsOTP = {
+            otp: this.validatorOTP.message(
+                'opt',
+                this.state.otp,
+                'required'
+            ),
+        };
+
         return (
             /* <Container className=" text-center">
                  <h1 className="text-color-title mt-2 p-2"> Login</h1>
@@ -123,60 +195,91 @@ export class Login extends Component {
                  < NotificationContainer />
              </Container>*/
             <>
-                    
-                        <form action="" class="container">
-                            <div className="row justify-content-center">
-                                <div className="col-12 col-md-12 mb-3">
-                                    <Form.Control isInvalid={validations.username != null} onChange={this.handleChange} type="username" name="username" placeholder="E-mail" onKeyDown={event => {if (event.key === 'Enter') {this.postLogin()}}} />
-                                </div>
-                            </div>
-                            <div className="row justify-content-center">
-                                <div className="col-12 col-md-12 mb-3 mb-md-3">
-                                    <Form.Control isInvalid={validations.password != null} onChange={this.handleChange} name="password" type="password" placeholder="Password" onKeyDown={event => {if (event.key === 'Enter') {this.postLogin()}}} />
-                                </div>
-                            </div>
-                            <div className="row justify-content-center">
-                                <div className="col-12 col-md-12 mb-2">
-                                    <p className="text-center">
-                                        <a href="/Recovery" className="link-recovery small">Hai dimenticato la password?</a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row justify-content-center">
-                                <div className="col-12 col-md-6 mb-3 d-flex justify-content-center justify-content">
-                                    <Button className='btn btn-secondary btn-arrow' onClick={() => this.returnSplash()} >
-                                        Indietro
-                                    </Button>
-                                </div>
-                                <div className="col-12 col-md-6 mb-3 d-flex justify-content-center justify-content">
-                                    <Button className='btn btn-primary btn-arrow' onClick={() => this.postLogin()} >
-                                        Login
-                                    </Button>
-                                </div>
-                            </div>
-                        </form>
-                    
 
-
-
-                    <div className="modal fade" id="welcome" tabindex="-1" aria-labelledby="welcome" aria-hidden="true">
-                        <div className="modal-dialog modal-dialog-centered modal-sm">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div className="modal-body">
-                                    <p className="text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni facere, facilis, ullam vero voluptatem labore.</p>
-                                </div>
-                                <div className="modal-footer"></div>
-                            </div>
+                <form action="" class="container">
+                    <div className="row justify-content-center">
+                        <div className="col-12 col-md-12 mb-3">
+                            <Form.Control isInvalid={validations.username != null} onChange={this.handleChange} type="username" name="username" placeholder="E-mail" onKeyDown={event => { if (event.key === 'Enter') { this.postLogin() } }} />
                         </div>
-                        
+                    </div>
+                    <div className="row justify-content-center">
+                        <div className="col-12 col-md-12 mb-3 mb-md-3">
+                            <Form.Control isInvalid={validations.password != null} onChange={this.handleChange} name="password" type="password" placeholder="Password" onKeyDown={event => { if (event.key === 'Enter') { this.postLogin() } }} />
+                        </div>
+                    </div>
+                    <div className="row justify-content-center">
+                        <div className="col-12 col-md-12 mb-2">
+                            <p className="text-center">
+                                <a href="/Recovery" className="link-recovery small">Hai dimenticato la password?</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div className="col-12 col-md-6 mb-3 d-flex justify-content-center justify-content">
+                            <Button className='btn btn-secondary btn-arrow' onClick={() => this.returnSplash()} >
+                                Indietro
+                            </Button>
+                        </div>
+                        <div className="col-12 col-md-6 mb-3 d-flex justify-content-center justify-content">
+                            <Button className='btn btn-primary btn-arrow' onClick={() => this.postLogin()} >
+                                Login
+                            </Button>
+                        </div>
+                    </div>
+                </form>
+
+
+
+
+                <div className="modal fade" id="welcome" tabindex="-1" aria-labelledby="welcome" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered modal-sm">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div className="modal-body">
+                                <p className="text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni facere, facilis, ullam vero voluptatem labore.</p>
+                            </div>
+                            <div className="modal-footer"></div>
+                        </div>
                     </div>
 
-                   
-                    < NotificationContainer />
-                    </>
+                </div>
+
+                <Modal
+                    show={this.state.isSuccessSendOtp}
+                    onHide={() => this.handleCloseOtp()}
+                    backdrop="static"
+                    keyboard={false}
+                    centered
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>{'Codice OTP inviato'}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Row>
+                            <Form.Group className="col-12 mb-3" >
+                                <Form.Label className="text-">Ti abbiamo inviato un <strong>codice di verifica</strong> al numero di cellulare indicato in fase di registrazione. Inseriscilo nel campo sottostante e premi Invia.</Form.Label>
+                                {/* isInvalid={validationsOTP.otp != null} onChange={this.handleChangeOtp} */}
+                                <Form.Control name="otp" alt="patiendDto" id="otpCode" placeholder="Inserisci il codice OTP" onChange={this.handleChangeOtp} isInvalid={validationsOTP.otp != null}/>
+                            </Form.Group>
+                        </Row>
+                    </Modal.Body>
+                    <Modal.Footer>
+
+                        <Button variant="secondary" onClick={() => this.handleClose()}>
+                            Chiudi
+                        </Button>
+                        <button class="btn btn-secondary mx-2" id="reinvia" onClick={() => this.postLogin()}>Invia di nuovo</button>
+                        <Button variant="primary" onClick={() => this.verifyOtp()}>
+                            Invia
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+
+                < NotificationContainer />
+            </>
         )
     }
 }

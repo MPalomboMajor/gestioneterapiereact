@@ -16,7 +16,7 @@ export class ContactInfo extends Component {
         this.state = {
             listPatient: [],
             currentPage: 1,
-            itemPerPage: 5,
+            itemPerPage: 10,
             isOpenModal:false,
             isUpdate:false,
             medicalCenterDto:{ ...this.medicalCenterProps(),}

@@ -5,7 +5,7 @@ import { iconNotFoundSmall } from '../icons';
 
 export default (props) => {
   const [slides, setSlides] = useState(props.patientDailyMoods);
-  //console.log(props.patientDailyMoods);
+  console.log(props.patientDailyMoods);
 
   return (
     <Swiper

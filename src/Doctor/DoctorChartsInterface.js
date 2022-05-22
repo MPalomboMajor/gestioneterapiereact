@@ -12,7 +12,7 @@ import { ContactInfo } from '../Dashboard/Tabs/ContactInfo';
 function DoctorChartsInterface() {
     const user = JSON.parse(localStorage.getItem("role"));
     const isCareManger = user.idRole === role.CAREMANAGER ? true : false
-    const isAngelini = user.idRole === role.ANGELINI ? true : false
+    const isAngelini = user.idRole === role.ADMIN ? true : false
     const isDoctor = user.idRole === role.DOCTOR ? true : false
     const [key, setKey] = useState('patients');
     const date = new Date();
@@ -130,22 +130,24 @@ function DoctorChartsInterface() {
 
             });
         //Monitoraggio
-        dashboard.getWithParam("GetPatientsByEpilecticSeizure/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-            .then((response) => {
-                if (response.status === 200) {
-                    setDataGetPatientsByEpilecticSeizure(response.data.dati);
-                }
-            }).catch((error) => {
-                setDataGetPatientsByEpilecticSeizure([]);
-            });
-        dashboard.getWithParam("GetAdherencesByPatient/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
-            .then((response) => {
-                if (response.status === 200) {
-                    setDataGetAdherencesByPatient(response.data.dati);
-                }
-            }).catch((error) => {
-                setDataGetAdherencesByPatient([]);
-            });
+        if (isDoctor || isCareManger) {
+            dashboard.getWithParam("GetPatientsByEpilecticSeizure/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+                .then((response) => {
+                    if (response.status === 200) {
+                        setDataGetPatientsByEpilecticSeizure(response.data.dati);
+                    }
+                }).catch((error) => {
+                    setDataGetPatientsByEpilecticSeizure([]);
+                });
+            dashboard.getWithParam("GetAdherencesByPatient/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+                .then((response) => {
+                    if (response.status === 200) {
+                        setDataGetAdherencesByPatient(response.data.dati);
+                    }
+                }).catch((error) => {
+                    setDataGetAdherencesByPatient([]);
+                });
+        }
         dashboard.getWithParam("GetTrackingMoodByPatient/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
             .then((response) => {
                 if (response.status === 200) {

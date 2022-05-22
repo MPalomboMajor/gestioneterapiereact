@@ -174,13 +174,13 @@ export class AssociatePatient extends Component {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>{'Invio  codice Otp avvenuta con successo'}</Modal.Title>
+                    <Modal.Title>{'Invio codice Otp avvenuta con successo'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
                         <Form.Group className="col-12 mb-3" >
                             <Form.Label className="text-">Codice OTP</Form.Label>
-                            <Form.Control name="otp" alt="patiendDto" id="otpCode" placeholder="Inserisci codice otp inviato al paziente" isInvalid={validationsOTP.otp != null} onChange={this.handleChangeOtp} />
+                            <Form.Control name="otp" alt="patiendDto" id="otpCode" placeholder="Inserisci il codice fornito dall'assistito" isInvalid={validationsOTP.otp != null} onChange={this.handleChangeOtp} />
                         </Form.Group>
                     </Row>
                 </Modal.Body>

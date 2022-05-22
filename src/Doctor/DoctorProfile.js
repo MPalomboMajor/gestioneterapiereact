@@ -537,7 +537,7 @@ export class DoctorProfile extends Component {
                                 </Row>
                                 <Row>
                                     <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
-                                        {this.state.sendCode ? <Form.Label className="text">Il codice di verifica è stato inviato all'indirizzo e-mail fornito.</Form.Label> : ''}
+                                        {this.state.sendCode ? <Form.Label className="text">Il codice di verifica è stato inviato all'indirizzo e-mail fornito. Digitarlo nel campo Codice Reset e cliccare su Cambia password.</Form.Label> : ''}
                                     </Form.Group>
                                 </Row>
                             </Modal.Body>
