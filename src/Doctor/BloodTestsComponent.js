@@ -36,7 +36,7 @@ function BloodTestsInfo() {
         <>
             <h2>Dettaglio esame diagnostico</h2>
             &nbsp;&nbsp;
-            <div className="row h-100 w-100 justify-content-center align-items-center" style={{ "marginTop": "-200px" }}>
+            <div className="row h-100 w-100 justify-content-center align-items-center" >
                 <div className="col-12 col-md-6" >
                     <div className="box carousel">
                         <p className="text-center px-3">Immagini inviate</p>
