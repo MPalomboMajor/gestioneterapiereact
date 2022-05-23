@@ -71,6 +71,12 @@ export class NewTherapy extends Component {
             isOpenAllergic: false,
             isOpenModalOntozry: false,
             isOtherOntozry: false,
+            somministrazione: 1,
+            times: [{
+                id: 1,
+                time: '',
+                reminder: true,
+            }],
             therapyDto: {
 
                 therapeuticPlan: {
@@ -203,8 +209,7 @@ export class NewTherapy extends Component {
                     }
                 }
             }).catch((error) => {
-                window.location.href = "/Dashboard";
-                //NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
     }
     AddAllergies = () => {
@@ -294,11 +299,40 @@ export class NewTherapy extends Component {
         const inputValue = el.target.value;
         this.updateState(inputName, parseInt(inputValue), objName);
     };
-    handleChangeIntTimeTherapy = (el) => {
-        let objName = el.target.alt;
+    handleChangeSomministrazione = (el) => {
+        if(el.target.value > 0){
         const inputName = el.target.name;
         const inputValue = el.target.value;
-        this.updateState('oraAssunzioneIndicata', parseInt(inputValue), 'medicationDTO');
+        this.updateStateSomministrazione(inputName, parseInt(inputValue));
+    }
+    };
+    updateStateSomministrazione = (inputName, inputValue) => {
+        let statusCopy = Object.assign({}, this.state);
+        statusCopy[inputName] = inputValue;
+        const time = [];
+        Array.from(Array(inputValue), (e, i) => {
+            time.push({ id: parseInt(i + 1), time: '', reminder: true })
+        });
+        statusCopy['times'] = time.sort(function (a, b) {
+            return (a.id - b.id);
+        });
+        this.setState(statusCopy);
+    };
+    handleChangeIntTimeTherapy = (el) => {
+        const times = this.state.times,
+            indexTime = times.filter(x => x.id == parseInt(el.target.id))
+        if (indexTime.length === 0) {
+            times.push({ id: parseInt(el.target.id), time: el.target.value, reminder: true })
+            this.setState({ times: times });
+        } else {
+            var updateList = times.filter(x => x.id != parseInt(el.target.id));
+            updateList.push({ id: parseInt(indexTime[0].id), time: el.target.value, reminder: indexTime[0].reminder })
+            this.setState({
+                times: updateList.sort(function (a, b) {
+                    return (a.id - b.id);
+                })
+            });
+        }
     };
     updateState = (inputName, inputValue, objName) => {
         let statusCopy = Object.assign({}, this.state);
@@ -322,35 +356,89 @@ export class NewTherapy extends Component {
         this.setState({ isOpenModalOntozry: true, isOntozryFlag: true });
     }
     handleClose = () => {
-        this.setState({ isOpenModalOntozry: false, isOntozryFlag: false });
+        this.setState({
+            isOpenModalOntozry: false, isOntozryFlag: false, somministrazione: 1,
+            times: [{
+                id: 1,
+                time: '',
+                reminder: true,
+            }]
+        });
     }
     returnToMenu = () => {
         localStorage.removeItem('newPatient');
         window.location.href = "/PatientProfile/" + window.location.pathname.split('/').pop();
     }
-    activeReminder = () => {
-        const inputValue = this.state.medicationDTO.isActiveReminder ? false : true;
-        this.updateState('isActiveReminder', inputValue, 'medicationDTO');
+    activeReminder = (el) => {
+        const times = this.state.times,
+            indexTime = times.filter(x => x.id == parseInt(el.target.id))
+        if (indexTime.length === 0) {
+            times.push({ id: parseInt(el.target.id), time: '', reminder: true })
+            this.setState({ times: times });
+        } else {
+            var updateList = times.filter(x => x.id != parseInt(el.target.id));
+            updateList.push({ id: parseInt(indexTime[0].id), time: indexTime[0].time, reminder: indexTime[0].reminder ? false : true })
+            this.setState({
+                times: updateList.sort(function (a, b) {
+                    return (a.id - b.id);
+                })
+            });
+        }
     }
     addOntozry = () => {
         var list = [];
         var farmaco = this.state.medicationDTO;
+        var list = this.state.therapyDto.ontozryMedication;
+        this.state.times.map((item) => {
+            var newElement = {}
+            var id = this.state.therapyDto.ontozryMedication.length;
+            newElement.dataFine = farmaco.dataFine;
+            newElement.dataInizio = farmaco.dataInizio;
+            newElement.formulazione = farmaco.formulazione;
+            newElement.idPianoTerapeutico = farmaco.idPianoTerapeutico;
+            newElement.id = id + 1;
+            newElement.oraAssunzioneIndicata =parseInt( item.time);
+            newElement.quantitaPrescrizione = 1;
+            newElement.isActiveReminder = item.reminder;
+            list.push(newElement);
+        })
 
-        var id = this.state.therapyDto.ontozryMedication.length;
-        farmaco.id = id + 1;
-        var list = this.state.therapyDto.ontozryMedication.push(farmaco);
-        this.setState({ ontozryMedication: { list }, isOpenModalOntozry: false, medicationDTO: { ...this.farmaciProps() } });
+        this.setState({
+            ontozryMedication: { list }, isOpenModalOntozry: false, medicationDTO: { ...this.farmaciProps() }, somministrazione: 1,
+            times: [{
+                id: 1,
+                time: '',
+                reminder: true,
+            }]
+        });
 
     }
     addOther = () => {
         var list = [];
-        var farmaco = this.state.medicationDTO;
-        list = this.state.therapyDto.ontozryMedication;
-        var id = this.state.therapyDto.otherMedication.length;
-        farmaco.id = 0;
+        var farmaco = {};
         list = this.state.therapyDto.otherMedication;
-        list.push(farmaco);
-        this.setState({ otherMedication: { list }, isOpenModalOntozry: false, medicationDTO: { ...this.farmaciProps() } });
+        farmaco = this.state.medicationDTO;
+        this.state.times.map((item) => {
+            var newElement = {}
+            var id = this.state.therapyDto.otherMedication.length;
+            newElement.dataFine = farmaco.dataFine;
+            newElement.dataInizio = farmaco.dataInizio;
+            newElement.formulazione = farmaco.formulazione;
+            newElement.idPianoTerapeutico = farmaco.idPianoTerapeutico;
+            newElement.id = id + 1;
+            newElement.oraAssunzioneIndicata = parseInt( item.time);
+            newElement.quantitaPrescrizione = 1;
+            newElement.isActiveReminder = item.reminder;
+            list.push(newElement);
+        })
+        this.setState({
+            otherMedication: { list }, isOpenModalOntozry: false, medicationDTO: { ...this.farmaciProps() }, somministrazione: 1,
+            times: [{
+                id: 1,
+                time: '',
+                reminder: true,
+            }]
+        });
 
     }
     handleChangeDosaggio = (inputName) => {
@@ -625,8 +713,8 @@ export class NewTherapy extends Component {
                                         <Form.Control id="quantitaPrescrizione" onChange={this.handleChangeDosaggio} alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci dosaggio" />
                                     </Form.Group>
                                     <Form.Group className="col-6 mb-3" >
-                                        <Form.Label className="text-">Quantità</Form.Label>
-                                        <Form.Control id="quantitaPrescrizione" onChange={this.handleChangeIntTherapy} type='number' alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci quantità" />
+                                        <Form.Label className="text-">Somministrazioni</Form.Label>
+                                        <Form.Control id="somministrazione" onChange={this.handleChangeSomministrazione} type='number' alt="somministrazione" name="somministrazione" placeholder="Inserisci somministrazione" />
                                     </Form.Group>
                                 </React.Fragment>
                                     : <React.Fragment >
@@ -661,52 +749,52 @@ export class NewTherapy extends Component {
                                     </div>
                                 </Form.Group>
                             </Row>
-                            <Row className="col-12 mb-3">
-                                <Form.Group className="col-6 mb-3" >
-                                    <Form.Label className="text-">Orario consigliato assunzione {this.state.isOntozryFlag ? 'Ontozry' : ''} </Form.Label>
-                                    <Form.Select id="oraAssunzioneIndicata" onChange={this.handleChangeIntTimeTherapy} alt="medicationDTO" name="oraAssunzioneIndicata" placeholder="Inserisci orario" >
-                                        <option></option>
-                                        <option value="1">1:00</option>
-                                        <option value="2">2:00</option>
-                                        <option value="3">3:00</option>
-                                        <option value="4">4:00</option>
-                                        <option value="5">5:00</option>
-                                        <option value="6">6:00</option>
-                                        <option value="7">7:00</option>
-                                        <option value="8">8:00</option>
-                                        <option value="9">9:00</option>
-                                        <option value="10">10:00</option>
-                                        <option value="11">11:00</option>
-                                        <option value="12">12:00</option>
-                                        <option value="13">13:00</option>
-                                        <option value="14">14:00</option>
-                                        <option value="15">15:00</option>
-                                        <option value="16">16:00</option>
-                                        <option value="17">17:00</option>
-                                        <option value="18">18:00</option>
-                                        <option value="19">19:00</option>
-                                        <option value="20">20:00</option>
-                                        <option value="21">21:00</option>
-                                        <option value="22">22:00</option>
-                                        <option value="23">23:00</option>
-                                        <option value="24">24:00</option>
-                                    </Form.Select>
-                                </Form.Group>
-                                {/* <Form.Group className="col-6 mb-3" >
-                                    <Form.Label className="text-">Orario consigliato assunzione {this.state.isOntozryFlag ? 'Ontozry' : ''} </Form.Label>
-                                    <Form.Control id="oraAssunzioneIndicata" onChange={this.handleChangeIntTherapy} alt="medicationDTO" name="oraAssunzioneIndicata" placeholder="Inserisci orario" />
-                                </Form.Group> */}
-                                <Form.Group className="col-2 mb-3" >
-                                    <Form.Label className="text-">Promemoria Terapie</Form.Label>
-                                    <Form.Check
-                                        type="switch"
-                                        defaultChecked={true}
-                                        id="custom-switch"
-                                        onClick={() => this.activeReminder()}
-                                        label={!this.state.medicationDTO.isActiveReminder ? 'No' : 'Si'}
-                                    />
-                                </Form.Group>
-                            </Row>
+
+                            {this.state.times != [] ? this.state.times.map((item) => {
+
+                                return <Row className="col-12 mb-3">
+                                    <Form.Group className="col-6 mb-3" >
+                                        <Form.Label className="text-">Orario consigliato assunzione {this.state.isOntozryFlag ? 'Ontozry' : ''} </Form.Label>
+                                        <Form.Select id={item.id} onChange={this.handleChangeIntTimeTherapy} alt="medicationDTO" name="oraAssunzioneIndicata"  value={item.time} placeholder="Inserisci orario" >
+                                            <option></option>
+                                            <option value="1">1:00</option>
+                                            <option value="2">2:00</option>
+                                            <option value="3">3:00</option>
+                                            <option value="4">4:00</option>
+                                            <option value="5">5:00</option>
+                                            <option value="6">6:00</option>
+                                            <option value="7">7:00</option>
+                                            <option value="8">8:00</option>
+                                            <option value="9">9:00</option>
+                                            <option value="10">10:00</option>
+                                            <option value="11">11:00</option>
+                                            <option value="12">12:00</option>
+                                            <option value="13">13:00</option>
+                                            <option value="14">14:00</option>
+                                            <option value="15">15:00</option>
+                                            <option value="16">16:00</option>
+                                            <option value="17">17:00</option>
+                                            <option value="18">18:00</option>
+                                            <option value="19">19:00</option>
+                                            <option value="20">20:00</option>
+                                            <option value="21">21:00</option>
+                                            <option value="22">22:00</option>
+                                            <option value="23">23:00</option>
+                                            <option value="24">24:00</option>
+                                        </Form.Select>
+                                    </Form.Group>
+                                    <Form.Group className="col-2 mb-3" >
+                                        <Form.Label className="text-">Promemoria Terapie</Form.Label>
+                                        <Form.Check
+                                            type="switch"
+                                            defaultChecked={true}
+                                            id={item.id}
+                                            onClick={(el) => this.activeReminder(el)}
+                                            label={!item.reminder ? 'No' : 'Si'}
+                                        />
+                                    </Form.Group>
+                                </Row>
+                            }) : ''}
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={() => this.handleClose()}>
