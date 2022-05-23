@@ -118,7 +118,9 @@ export class Register extends Component {
     sedOtp = () => {
         if (this.validator.allValid()) {
             let userDto = this.state.userDto;
-            user.post("PreSaveDoctor", { username: userDto.username, password: userDto.password, doctorDTO: this.state.medicoDTO })
+            let doctorDTO = this.state.medicoDTO;
+            doctorDTO.phoneNumber = doctorDTO.phoneNumber.startsWith('+39') ? doctorDTO.phoneNumber : "+39" + doctorDTO.phoneNumber   
+            user.post("PreSaveDoctor", { username: userDto.username, password: userDto.password, doctorDTO: doctorDTO })
                 .then((response) => {
                     if (response.data.statoEsito === 0) {
                         localStorage.setItem('accessToken', response.data.dati);
@@ -160,14 +162,13 @@ export class Register extends Component {
     handleChange = (el) => {
         let objName = el.target.alt;
         const inputName = el.target.name;
-        const inputValue = el.target.value;
+        const inputValue = el.target.value;     
         this.updateState(inputName, inputValue, objName);
     };
 
     updateState = (inputName, inputValue, objName) => {
         const statusCopy = { ...this.state };
         statusCopy[objName][inputName] = inputValue;
-
         this.setState(statusCopy);
     };
 

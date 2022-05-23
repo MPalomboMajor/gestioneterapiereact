@@ -66,6 +66,8 @@ export class RegisterCareManager extends Component {
     InsertUser = () => {
         if (this.validator.allValid()) {
             let userDto = this.state.userDto;
+            let careManagerDTO = this.state.careManagerDTO;
+            careManagerDTO.phoneNumber = careManagerDTO.phoneNumber.startsWith('+39') ? careManagerDTO.phoneNumber : "+39" + careManagerDTO.phoneNumber   
             user.post("SaveCareManager", { username: userDto.username, password: userDto.password, careManagerDTO: this.state.careManagerDTO })
                 .then((response) => {
                     if (response.status === 200) {

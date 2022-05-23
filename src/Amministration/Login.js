@@ -12,6 +12,7 @@ export class Login extends Component {
     userModelProp = () => ({
 
     });
+
     constructor(props) {
         super(props);
         this.validator = new SimpleReactValidator();
@@ -29,10 +30,12 @@ export class Login extends Component {
         this.validator = new SimpleReactValidator();
         this.reset = this.reset.bind(this);
     }
+
     componentDidMount() {
         this.reset();
         document.body.className = "splash custom-login";
     }
+    
     //FUNZIONI 
     reset = () => {
         window.localStorage.clear();
@@ -86,7 +89,6 @@ export class Login extends Component {
     };
 
     returnSplash = () => {
-
         window.location.href = "/";
     };
 
