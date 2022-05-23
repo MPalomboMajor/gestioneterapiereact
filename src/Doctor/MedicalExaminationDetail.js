@@ -65,7 +65,7 @@ function MedicalExaminationDetailsInfo() {
 
             <h1 className="h1">Visite mediche</h1>
             &nbsp;&nbsp;
-            <div className="row h-100 w-100 justify-content-center align-items-center" >
+            <div className="row h-100 w-100 justify-content-center" >
                 <div className="col-12 col-md-6">
                     <div className="box carousel">
                         <p className="text-center px-3">Immagini inviate</p>

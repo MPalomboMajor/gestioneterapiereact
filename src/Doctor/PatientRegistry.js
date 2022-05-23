@@ -163,69 +163,7 @@ function PatientRegistry() {
                                         </div>
                                 </div>
                         </div>
-                        {/* <h1>Anagrafica Paziente</h1>
-                        <Row className='col-12 pt-4'>
-                                <Col className='col-6'>
-                                        <Form>
-                                                <div >
-                                                        <Form.Group controlId='selectedPatientCode'>
-                                                                <Form.Label>Codice paziente</Form.Label>
-                                                                <Form.Control type='text' name="codicePaziente" defaultValue={patientProfile.codicePaziente} onChange={handleChange} disabled />
-
-                                                        </Form.Group>
-                                                        <Form.Group controlId='selectedFiscalCode'>
-                                                                <Form.Label>Codice fiscale</Form.Label>
-                                                                <Form.Control type='text' name="fiscalCode" defaultValue={patientProfile.fiscalCode} onChange={handleChange} disabled />
-                                                        </Form.Group>
-                                                        <Form.Group controlId='selectedName'>
-                                                                <Form.Label>Nome</Form.Label>
-                                                                <Form.Control type='text' name="name" defaultValue={patientProfile.name} onChange={handleChange} disabled />
-                                                        </Form.Group>
-                                                        <Form.Group controlId='selectedLastName'>
-                                                                <Form.Label>Cognome</Form.Label>
-                                                                <Form.Control type='text' name="surName" defaultValue={patientProfile.surName} onChange={handleChange} disabled />
-                                                        </Form.Group>
-                                                        <Form.Group controlId='selectedPhone'>
-                                                                <Form.Label>Telefono</Form.Label>
-                                                                <Form.Control type='text' name="phoneNumber" defaultValue={patientProfile.phoneNumber} onChange={handleChange} disabled />
-                                                        </Form.Group>
-                                                        <Form.Group controlId='selectedEmail'>
-                                                                <Form.Label>Email</Form.Label>
-                                                                <Form.Control type='text' name="email" defaultValue={patientProfile.email} onChange={handleChange} disabled />
-                                                        </Form.Group>
-                                                </div>
-
-                                        </Form>
-                                </Col>
-                                <Col className='col-6'>
-                                        <Form>
-                                                <Form.Check
-                                                        checked={patientProfile.isActive}
-                                                        inline
-                                                        label="Utente attivo"
-                                                        name="canTravel"
-                                                        onChange={() => updateStatesIsActive()}
-                                                />
-                                                <Form.Group controlId="disactivationDate">
-                                                        <Form.Label>Data di disattivazione:</Form.Label>
-                                                        <Form.Control type="date" name="disabledDate" placeholder="Inizio" onChange={handleChange} />
-                                                </Form.Group>
-                                        </Form>
-                                        &nbsp;&nbsp;
-                                        <Form.Label>Causa disabilitazione</Form.Label>
-                                        <select className="form-select form-select-sm mb-3" type="text" name="disabledCause" placeholder=".form-control-sm" aria-label="disabledCause" onChange={handleChange}>
-                                                <option></option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
-                                        </select>
-                                </Col>
-
-                        </Row>
-                        <div className='col-6 mt-4'>
-
-                                <Button onClick={() => editPatient()} >Salva le modifiche</Button>
-                        </div> */}
+                      
                         < NotificationContainer />
                 </>
         )

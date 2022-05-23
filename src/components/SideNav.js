@@ -61,13 +61,11 @@ const SideNav = () => {
                             {window.location.pathname === "/Dashboard" || window.location.pathname === "/PatientRegistry" || window.location.pathname === "/ListDoctor" || window.location.pathname === "/MedicalCenter" || window.location.pathname === "/ContactInfo" || window.location.pathname === "/ContactInfoPatient" || window.location.pathname === "/DoctorChartsInterface" ?
                                 <>
                                     <li className="nav-item">
-                                        <div className="nav-link profilo-paziente" aria-current="page" >
-
+                                        <Link to={`/CareManagerProfile`} className="nav-link profilo-paziente">
                                             <p>
                                                 {userProfile.name} {userProfile.surName}
                                             </p>
-
-                                        </div>
+                                        </Link>
                                     </li>
                                     <li className="nav-item">
                                         <a href="/DoctorChartsInterface" className="nav-link home" aria-current="page" >
@@ -116,13 +114,11 @@ const SideNav = () => {
                                 :
                                 <>
                                     <li className="nav-item">
-                                        <div className="nav-link profilo-paziente" aria-current="page" >
-
+                                        <Link to={`/CareManagerProfile`} className="nav-link profilo-paziente">
                                             <p>
                                                 {userProfile.name} {userProfile.surName}
                                             </p>
-
-                                        </div>
+                                        </Link>
                                     </li>
                                     <li className="nav-item">
                                         <a href="/DoctorChartsInterface" className="nav-link home" aria-current="page" >

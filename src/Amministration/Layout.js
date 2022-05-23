@@ -31,6 +31,7 @@ import { MedicalExaminationDetailsInfo } from '../Doctor/MedicalExaminationDetai
 import { NutritionalPlansInfo } from '../Doctor/NutritionalPlans';
 import { NutritionalPlanDetailsInfo } from '../Doctor/NutritionalPlanDetail';
 import { DoctorChartsInterface } from '../Doctor/DoctorChartsInterface';
+import { CareManagerProfile } from '../CarManager/CareManagerProfile';
 
 export default class Layout extends Component {
 
@@ -86,6 +87,7 @@ export default class Layout extends Component {
                             <Route path="/NewPatient" element={<NewPatient />}></Route>
                             <Route path="/NewTherapy/:codicePaziente" element={<NewTherapy />}></Route>
                             <Route path="/DoctorProfile" element={<DoctorProfile />}></Route>
+                            <Route path="/CareManagerProfile" element={<CareManagerProfile />}></Route>
                             
                             <Route path="/PatientRegistry/:idPaziente" element={<PatientRegistry />}></Route>
                             <Route path="/PatientProfile/:idPaziente" element={<PatientProfile />}></Route>
@@ -129,7 +131,8 @@ export default class Layout extends Component {
                     <Route path="/NewPatient" element={<NewPatient />}></Route>
                     <Route path="/NewTherapy/:codicePaziente" element={<NewTherapy />}></Route>
                     <Route path="/DoctorProfile" element={<DoctorProfile />}></Route>
-                    
+                    <Route path="/CareManagerProfile" element={<CareManagerProfile />}></Route>
+
                     <Route path="/PatientRegistry/:idPaziente" element={<PatientRegistry />}></Route>
                     <Route path="/PatientProfile/:idPaziente" element={<PatientProfile />}></Route>
                     <Route path="/AdverseEvents/:idPaziente" element={<AdverseEventsInfo />}></Route>
