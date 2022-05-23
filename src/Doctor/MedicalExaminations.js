@@ -161,31 +161,24 @@ function MedicalExaminationsModal(props) {
     const [type, setType] = useState();
     const [data, setData] = useState();
     const [information, setInformation] = useState();
-    const [visitaSpecialistica, setVisitaSpecialistica] = useState();
-    const [accessoRicovero, setAccessoRicovero] = useState();
+    const [visitaSpecialistica, setVisitaSpecialistica] = useState('');
+    const [accessoRicovero, setAccessoRicovero] = useState('');
     const [checkTipoReferto, setCheckTipoReferto] = useState();
     const [file, setFile] = useState([]);
     const [fileName, setFileName] = useState([]);
     const [filesArray, setFilesArray] = useState([]);
 
-    // useEffect(() => {
-    //     if(checkTipoReferto === "checkVisita") {
-    //         setAccessoRicovero("");
-    //         setVisitaSpecialistica(visitaSpecialistica != "" ? visitaSpecialistica : "");
-    //     } else {
-    //         setVisitaSpecialistica("");
-    //         setAccessoRicovero(accessoRicovero != "" ? accessoRicovero : "");
-    //     }
-    //  }, [checkTipoReferto]);
-
-    function saveMedicalExamination() {
-        if (checkTipoReferto === "checkVisita") {
+    useEffect(() => {
+        if(checkTipoReferto === "checkVisita") {
             setAccessoRicovero("");
-            setVisitaSpecialistica(visitaSpecialistica != "" ? visitaSpecialistica : "");
+            setVisitaSpecialistica(document.getElementById('visita').value);
         } else {
             setVisitaSpecialistica("");
-            setAccessoRicovero(accessoRicovero != "" ? accessoRicovero : "");
+            setAccessoRicovero(document.getElementById('ricovero').value);
         }
+     }, [checkTipoReferto]);
+
+    function saveMedicalExamination() {
         // setIdPaziente(parseInt(idPaziente));
         // setIdidMedicalExam(parseInt(idMedicalExam));
         const files = new FormData();
