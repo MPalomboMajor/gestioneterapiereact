@@ -42,6 +42,7 @@ function PatientProfile() {
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                    window.location.href = `/NewTherapy/${patientId}`
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
@@ -129,8 +130,8 @@ function PatientProfile() {
                                 <div className="row">
                                     <div className="col-12 mb-3 d-flex justify-content-center justify-content-md-end">
                                         <Link to={`/PatientRegistry/${patientId}`} style={{ "color": "black" }}><button className="btn btn-secondary me-3" id>Indietro</button></Link>
-                                        <Link to={`/NewTherapy/${patientId}`}><button className="btn btn-primary  me-3" id>Avanti</button></Link>
-                                        <button className="btn btn-primary" id type="submit" >Salva modifiche</button>
+                                        {/* <Link to={`/NewTherapy/${patientId}`}><button className="btn btn-primary  me-3" id>Avanti</button></Link> */}
+                                        <button className="btn btn-primary" id type="submit" >Salva e vai avanti</button>
                                     </div>
                                 </div>
                             </div>

@@ -59,6 +59,7 @@ function PatientRegistry() {
                         .then((response) => {
                                 if (response.status === 200) {
                                         NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                                        window.location.href = `/PatientProfile/${patientId}`
                                 }
                         }).catch((error) => {
                                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
@@ -156,8 +157,8 @@ function PatientRegistry() {
                                                 <div className="row">
                                                         <div className="col-12 mb-3 d-flex justify-content-center justify-content-md-end">
                                                                 <Link to={`/Dashboard`} style={{ "color": "black" }}><button className="btn btn-secondary me-3" id>Indietro</button></Link>
-                                                                <Link to={`/PatientProfile/${patientId}`}><button className="btn btn-primary me-3" id>Avanti</button></Link>
-                                                                <button className="btn btn-primary" id onClick={() => editPatient()}>Salva le modifiche</button>
+                                                                {/* <Link to={`/PatientProfile/${patientId}`}><button className="btn btn-primary me-3" id>Avanti</button></Link> */}
+                                                                <button className="btn btn-primary" id onClick={() => editPatient()}>Salva e vai avanti</button>
                                                         </div>
                                                 </div>
                                         </div>
