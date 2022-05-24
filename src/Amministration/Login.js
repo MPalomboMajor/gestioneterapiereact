@@ -263,7 +263,7 @@ export class Login extends Component {
                             <Form.Group className="col-12 mb-3" >
                                 <Form.Label className="text-">Ti abbiamo inviato un <strong>codice di verifica</strong> al numero di cellulare indicato in fase di registrazione. Inseriscilo nel campo sottostante e premi Invia.</Form.Label>
                                 {/* isInvalid={validationsOTP.otp != null} onChange={this.handleChangeOtp} */}
-                                <Form.Control name="otp" alt="patiendDto" id="otpCode" placeholder="Inserisci il codice OTP" onChange={this.handleChangeOtp} isInvalid={validationsOTP.otp != null}/>
+                                <Form.Control name="otp" alt="patiendDto" id="otpCode" placeholder="Inserisci il codice OTP" onChange={this.handleChangeOtp} isInvalid={validationsOTP.otp != null} onKeyDown={event => { if (event.key === 'Enter') { this.verifyOtp() } }}/>
                             </Form.Group>
                         </Row>
                     </Modal.Body>
@@ -273,7 +273,7 @@ export class Login extends Component {
                             Chiudi
                         </Button>
                         <button class="btn btn-secondary mx-2" id="reinvia" onClick={() => this.postLogin()}>Invia di nuovo</button>
-                        <Button variant="primary" onClick={() => this.verifyOtp()}>
+                        <Button variant="primary" onClick={() => this.verifyOtp()} >
                             Invia
                         </Button>
                     </Modal.Footer>
