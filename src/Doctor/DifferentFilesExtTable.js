@@ -71,7 +71,7 @@ function DifferentFilesInfo(props) {
 
     return (
         <>
-            <h1 className="h1">Altri tipi di file</h1>
+            <h4 className="h4">Altri file inviati</h4>
             <DifferentFilesExtTable noImgsNames={props.noImgsNames} />
         </>
     );

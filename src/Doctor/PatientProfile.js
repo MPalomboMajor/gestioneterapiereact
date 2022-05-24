@@ -6,6 +6,7 @@ import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { Link } from 'react-router-dom';
+import { role } from '../helpers/Constants';
 
 function PatientProfile() {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
@@ -14,6 +15,8 @@ function PatientProfile() {
     const [canDrive, setCanDrive] = useState();
     const [isFumatore, setIsFumatore] = useState();
     const [isAlcool, setIsAlcool] = useState();
+    const user = JSON.parse(localStorage.getItem("role"));
+    const isCareManger = user.idRole === role.CAREMANAGER ? true : false
 
     useEffect(() => {
         const fetchPatient = async () => {
@@ -112,9 +115,16 @@ function PatientProfile() {
                                 </div>
                             </div>
                             <div className="box">
-                                <div className="label label-primary">NOTE</div>
-                                <textarea id="note" className="form-control form-control-sm mb-3" rows={14} aria-describedby name="healthInfo" defaultValue={patientProfile.healthInfo} onChange={handleChange} />
+                                <div className="label label-primary">NOTE MEDICO</div>
+                                <textarea id="note" className="form-control form-control-sm mb-3" rows={10} aria-describedby name="healthInfo" defaultValue={patientProfile.healthInfo} onChange={handleChange} disabled={isCareManger ? true : false}/>
                             </div>
+                            &nbsp;
+                            { isCareManger ? 
+                            <div className="box">
+                                <div className="label label-primary">NOTE CARE MANAGER</div>
+                                <textarea id="note" className="form-control form-control-sm mb-3" rows={10} aria-describedby name="CareManagerInfo" defaultValue={patientProfile.careManagerInfo} onChange={handleChange} />
+                            </div> : ""
+                            }
                             <div className="container-fluid">
                                 <div className="row">
                                     <div className="col-12 mb-3 d-flex justify-content-center justify-content-md-end">
