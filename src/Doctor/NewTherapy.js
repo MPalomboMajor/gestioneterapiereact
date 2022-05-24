@@ -8,6 +8,7 @@ import { entitiesLabels, message } from '../helpers/Constants';
 import { PatientRow, PatientAllergyRow } from "./PatientComponent";
 import SimpleReactValidator from 'simple-react-validator';
 import moment from 'moment';
+import "moment/locale/it";
 import Pagination from '../helpers/pagination';
 
 export class NewTherapy extends Component {
@@ -106,7 +107,10 @@ export class NewTherapy extends Component {
             patientDto: {
                 codicePaziente: "",
                 name: "",
-                surName: ""
+                surName: "",
+                disabledDate: "",
+                idDisabledCause: "",
+                isActive: true
             }
 
         };
@@ -180,6 +184,7 @@ export class NewTherapy extends Component {
             });
     }
     //FUNZIONI POST
+
     updateTherapy = () => {
         this.state.therapyDto.ontozryMedication.map((el) =>
             el.id != 0 ? el.id = 0 : ''
@@ -193,7 +198,7 @@ export class NewTherapy extends Component {
             .then((response) => {
                 if (response.status === 200) {
                     if (response.data.dati.statoesito != 1) {
-                        NotificationManager.success("La terapia è stata inserita correttamente", entitiesLabels.SUCCESS, 3000);
+                        NotificationManager.success("La terapia è stata inserita/aggiornata correttamente", entitiesLabels.SUCCESS, 3000);
                         this.setState({
                             therapyDto: response.data.dati,
                         });
@@ -215,6 +220,56 @@ export class NewTherapy extends Component {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
     }
+
+    updateTherapyPatientDisable = () => {
+        this.state.therapyDto.ontozryMedication.map((el) =>
+            el.id != 0 ? el.id = 0 : ''
+        )
+        this.state.therapyDto.otherMedication.map((el) =>
+            el.id != 0 ? el.id = 0 : ''
+        )
+        this.state.patientDto.disabledDate = moment(new Date()).format("DD/MM/YYYY");
+        this.state.patientDto.isActive = false;
+        this.state.patientDto.idDisabledCause = 1;
+
+        this.state.therapyDto.therapeuticPlan.id = 0;
+        pianoterapeutico.post("SaveCompleteTherapy", this.state.therapyDto)
+            .then((response) => {
+                if (response.status === 200) {
+                    if (response.data.dati.statoesito != 1) {
+                        patient.post("UpdateProfile/", this.state.patientDto)
+                            .then((response) => {
+                                if (response.status === 200) {
+                                    NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                                   
+                                }
+                            }).catch((error) => {
+                                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+                            });
+                        NotificationManager.success("La terapia è stata inserita/aggiornata correttamente", entitiesLabels.SUCCESS, 3000);
+                        this.setState({
+                            therapyDto: response.data.dati,
+                        });
+                        pianoterapeutico.get("Storico/", parseInt(window.location.pathname.split('/').pop()))
+                            .then((response) => {
+                                if (response.status === 200) {
+                                    this.setState({
+                                        storicPlan: response.data.dati,
+                                    });
+                                    window.location.href = "/Dashboard"
+                                }
+                            }).catch((error) => {
+                                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+                            });
+                    } else {
+                        NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+                    }
+                }
+            }).catch((error) => {
+                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+            });
+    }
+
     AddAllergies = () => {
         if (this.state.therapyDto.idPatientProfile != 0) {
             let updateDTO = this.state.allergiesDTO;
@@ -389,7 +444,7 @@ export class NewTherapy extends Component {
         }
     }
     addOntozry = () => {
-        if (this.state.isOtherOntozry == false || (this.state.isOtherOntozry == true &&  this.validatorOnto.allValid())) {
+        if (this.state.isOtherOntozry == false || (this.state.isOtherOntozry == true && this.validatorOnto.allValid())) {
             var list = [];
             var farmaco = this.state.medicationDTO;
             var list = this.state.therapyDto.ontozryMedication;
@@ -649,10 +704,11 @@ export class NewTherapy extends Component {
         const validationsOnto = {
             otherFormulation: this.validatorOnto.message(
                 'Other',
-                 this.state.medicationDTO.formulazione.formula,
+                this.state.medicationDTO.formulazione.formula,
                 'required|numeric'
             ),
         };
+        const date = new Date();
         return (<>
             <h1 class="h1">Crea / Modifica terapia {this.state.patientDto.name} {this.state.patientDto.surName} - Codice assistito: {this.state.patientDto.codicePaziente}</h1>
             <Tabs defaultActiveKey="ontozry" activeKey={this.state.linkTab} onSelect={(k) => this.selectTab(k)} id="uncontrolled-tab-example" className=" nav secondary-menu mb-4" >
@@ -751,7 +807,7 @@ export class NewTherapy extends Component {
                                         {this.state.isOtherOntozry ?
                                             <Form.Group className="col-6 mb-3" >
                                                 <Form.Label className="text-">Formulazione personalizzata</Form.Label>
-                                                <Form.Control id="formulazioneOnt"  onChange={this.handleChangeDosaggio} isInvalid={validationsOnto.otherFormulation != null}  alt="medicationDTO" name="quantitaPrescrizione" placeholder="Formulazione personalizzata" />
+                                                <Form.Control id="formulazioneOnt" onChange={this.handleChangeDosaggio} isInvalid={validationsOnto.otherFormulation != null} alt="medicationDTO" name="quantitaPrescrizione" placeholder="Formulazione personalizzata" />
                                             </Form.Group>
                                             : ''}
                                     </React.Fragment>
@@ -836,6 +892,34 @@ export class NewTherapy extends Component {
 
                         </Modal.Footer>
                     </Modal>
+                    {/* JM */}
+                    &nbsp;
+                    {this.state.isNewPatient ? '' : <>
+                        <h3 className='h3'>Cessazione terapia</h3>
+                        <Form className="">
+                            <Row>
+                                <Form.Group className="col-6 mb-3" >
+                                    <div class="input-group mb-3 w-sm-50">
+                                        <span class="input-group-text" id="label-data">Data fine terapia</span>
+                                        <input type="date" name="startD" placeholder={this.state.therapyDto?.therapeuticPlan?.dataFineTerapia} defaultValue={moment(date).format("YYYY-MM-DD")} className="form-control form-control-sm" id="endTherapy" aria-describedby="label-inizio" onChange={this.handleChange} />
+                                        {/* <input type="text" onMouseOverCapture={(e) => e.target.type = 'date'} onMouseOutCapture={!this.state.isChange ? (e) => e.target.type = 'text' : ''} class="form-control form-control-sm" id="endTherapy" defaultValue={this.state.therapyDto?.therapeuticPlan?.dataFineTerapia} placeholder={this.state.therapyDto?.therapeuticPlan?.dataFineTerapia} onChange={this.handleChange}></input> */}
+                                    </div>
+                                </Form.Group>
+                            </Row>
+                            <Row>
+                                <div class="box">
+                                    <div class="label label-secondary">Motivo fine terapia</div>
+                                    <FormControl as="textarea" aria-label="With textarea" id="motivoFineTerapia" className="text-area-custom" onChange={this.handleChangeNote} defaultValue={this.state.therapyDto?.therapeuticPlan?.motivoFineTerapia ? this.state.therapyDto?.therapeuticPlan?.motivoFineTerapia : null} name="motivoFineTerapia" />
+                                </div>
+                            </Row>
+                            <Row>
+                                <Form.Group className="col-4 mb-3" >
+                                    <Button variant="btn btn-primary" onClick={() => this.updateTherapyPatientDisable()} >
+                                        Salva Cessazione terapia
+                                    </Button>
+                                </Form.Group>
+                            </Row>
+                        </Form></>}
                 </Tab>
                 <Tab eventKey="altriFarmaci" title="Altri antiepilettici" >
                     <Row>
@@ -952,7 +1036,7 @@ export class NewTherapy extends Component {
                         </Form.Group>
                     </Row>
                 </Tab>
-                {this.state.isNewPatient ? '' :
+                {/* {this.state.isNewPatient ? '' :
 
                     <Tab eventKey="terapia" title="Cessazione Terapia">
 
@@ -979,7 +1063,7 @@ export class NewTherapy extends Component {
                                 </Form.Group>
                             </Row>
                         </Form>
-                    </Tab>}
+                    </Tab>} */}
                 {this.state.isNewPatient ? '' :
                     <Tab eventKey="storicoTerapie" title="Storico terapie" >
                         <Row>
