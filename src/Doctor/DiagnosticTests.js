@@ -138,7 +138,7 @@ function DiagnosticTestRowData(props) {
     return (<>
         <td>{props.diagnosticTest.tipoReferto}</td>
         <td>{props.diagnosticTest.uploadedDateTime.split(' ')[0]}</td>
-        <td><img src={props.diagnosticTest.fileName} style={{ width: 100, height: 70 }} /></td>
+        <td><Link to={`/BloodTest/${props.patientId}/${props.diagnosticTest.id}`} state={props.diagnosticTest} patientId={props.patientId} ><img src={props.diagnosticTest.fileName} style={{ width: 100, height: 70 }} /></Link></td>
         <td><Link to={`/BloodTest/${props.patientId}/${props.diagnosticTest.id}`} state={props.diagnosticTest} patientId={props.patientId} className="btn btn-primary btn-sm">Visualizza Immagini</Link></td>
     </>
     );
