@@ -6,6 +6,7 @@ import { medico, pianoterapeutico, patient, medication } from '../helpers/api/ap
 import DatePicker from "react-datepicker";
 import { entitiesLabels, message } from '../helpers/Constants';
 import { PatientRow, PatientAllergyRow } from "./PatientComponent";
+import SimpleReactValidator from 'simple-react-validator';
 import moment from 'moment';
 import Pagination from '../helpers/pagination';
 
@@ -25,7 +26,7 @@ export class NewTherapy extends Component {
         idPianoTerapeutico: 1,
         formulazione: {
             id: 0,
-            formula: 0,
+            formula: '',
             idFarmaco: 0,
             isStandard: false,
             farmaco: {
@@ -37,6 +38,8 @@ export class NewTherapy extends Component {
     })
     constructor(props) {
         super(props);
+        this.validator = new SimpleReactValidator();
+        this.validatorOnto = new SimpleReactValidator();
         this.state = {
             linkTab: 'ontozry',
             listOntozry: [],
@@ -300,11 +303,11 @@ export class NewTherapy extends Component {
         this.updateState(inputName, parseInt(inputValue), objName);
     };
     handleChangeSomministrazione = (el) => {
-        if(el.target.value > 0){
-        const inputName = el.target.name;
-        const inputValue = el.target.value;
-        this.updateStateSomministrazione(inputName, parseInt(inputValue));
-    }
+        if (el.target.value > 0) {
+            const inputName = el.target.name;
+            const inputValue = el.target.value;
+            this.updateStateSomministrazione(inputName, parseInt(inputValue));
+        }
     };
     updateStateSomministrazione = (inputName, inputValue) => {
         let statusCopy = Object.assign({}, this.state);
@@ -386,60 +389,73 @@ export class NewTherapy extends Component {
         }
     }
     addOntozry = () => {
-        var list = [];
-        var farmaco = this.state.medicationDTO;
-        var list = this.state.therapyDto.ontozryMedication;
-        this.state.times.map((item) => {
-            var newElement = {}
-            var id = this.state.therapyDto.ontozryMedication.length;
-            newElement.dataFine = farmaco.dataFine;
-            newElement.dataInizio = farmaco.dataInizio;
-            newElement.formulazione = farmaco.formulazione;
-            newElement.idPianoTerapeutico = farmaco.idPianoTerapeutico;
-            newElement.id = id + 1;
-            newElement.oraAssunzioneIndicata =parseInt( item.time);
-            newElement.quantitaPrescrizione = 1;
-            newElement.isActiveReminder = item.reminder;
-            list.push(newElement);
-        })
+        if (this.state.isOtherOntozry == false || (this.state.isOtherOntozry == true &&  this.validatorOnto.allValid())) {
+            var list = [];
+            var farmaco = this.state.medicationDTO;
+            var list = this.state.therapyDto.ontozryMedication;
+            this.state.times.map((item) => {
+                var newElement = {}
+                var id = this.state.therapyDto.ontozryMedication.length;
+                newElement.dataFine = farmaco.dataFine;
+                newElement.dataInizio = farmaco.dataInizio;
+                newElement.formulazione = farmaco.formulazione;
+                newElement.idPianoTerapeutico = farmaco.idPianoTerapeutico;
+                newElement.id = id + 1;
+                newElement.oraAssunzioneIndicata = parseInt(item.time);
+                newElement.quantitaPrescrizione = 1;
+                newElement.isActiveReminder = item.reminder;
+                list.push(newElement);
+            })
 
-        this.setState({
-            ontozryMedication: { list }, isOpenModalOntozry: false, medicationDTO: { ...this.farmaciProps() }, somministrazione: 1,
-            times: [{
-                id: 1,
-                time: '',
-                reminder: true,
-            }]
-        });
+            this.setState({
+                ontozryMedication: { list }, isOpenModalOntozry: false, medicationDTO: { ...this.farmaciProps() }, somministrazione: 1,
+                times: [{
+                    id: 1,
+                    time: '',
+                    reminder: true,
+                }]
+            });
+        }
+        else {
+            this.validatorOnto.showMessages();
+            NotificationManager.warning(message.ErrorRequire, entitiesLabels.WARNING, 3000);
+            this.forceUpdate();
+        }
 
     }
     addOther = () => {
-        var list = [];
-        var farmaco = {};
-        list = this.state.therapyDto.otherMedication;
-        farmaco = this.state.medicationDTO;
-        this.state.times.map((item) => {
-            var newElement = {}
-            var id = this.state.therapyDto.otherMedication.length;
-            newElement.dataFine = farmaco.dataFine;
-            newElement.dataInizio = farmaco.dataInizio;
-            newElement.formulazione = farmaco.formulazione;
-            newElement.idPianoTerapeutico = farmaco.idPianoTerapeutico;
-            newElement.id = id + 1;
-            newElement.oraAssunzioneIndicata = parseInt( item.time);
-            newElement.quantitaPrescrizione = 1;
-            newElement.isActiveReminder = item.reminder;
-            list.push(newElement);
-        })
-        this.setState({
-            otherMedication: { list }, isOpenModalOntozry: false, medicationDTO: { ...this.farmaciProps() }, somministrazione: 1,
-            times: [{
-                id: 1,
-                time: '',
-                reminder: true,
-            }]
-        });
-
+        if (this.validator.allValid()) {
+            var list = [];
+            var farmaco = {};
+            list = this.state.therapyDto.otherMedication;
+            farmaco = this.state.medicationDTO;
+            this.state.times.map((item) => {
+                var newElement = {}
+                var id = this.state.therapyDto.otherMedication.length;
+                newElement.dataFine = farmaco.dataFine;
+                newElement.dataInizio = farmaco.dataInizio;
+                newElement.formulazione = farmaco.formulazione;
+                newElement.idPianoTerapeutico = farmaco.idPianoTerapeutico;
+                newElement.id = id + 1;
+                newElement.oraAssunzioneIndicata = parseInt(item.time);
+                newElement.quantitaPrescrizione = 1;
+                newElement.isActiveReminder = item.reminder;
+                list.push(newElement);
+            })
+            this.setState({
+                otherMedication: { list }, isOpenModalOntozry: false, medicationDTO: { ...this.farmaciProps() }, somministrazione: 1,
+                times: [{
+                    id: 1,
+                    time: '',
+                    reminder: true,
+                }]
+            });
+        }
+        else {
+            this.validator.showMessages();
+            NotificationManager.warning(message.ErrorRequire, entitiesLabels.WARNING, 3000);
+            this.forceUpdate();
+        }
     }
     handleChangeDosaggio = (inputName) => {
         var formulaziones = this.state.medicationDTO.formulazione;
@@ -623,6 +639,20 @@ export class NewTherapy extends Component {
 
         currentFarmaci.map((pa) => { pa.delete = 'delete'; });
         currentItem.map((pa) => { pa.delete = 'delete'; });
+        const validations = {
+            dosaggio: this.validator.message(
+                'Dosaggio',
+                this.state.medicationDTO.formulazione.formula,
+                'required'
+            ),
+        };
+        const validationsOnto = {
+            otherFormulation: this.validatorOnto.message(
+                'Other',
+                 this.state.medicationDTO.formulazione.formula,
+                'required|numeric'
+            ),
+        };
         return (<>
             <h1 class="h1">Crea / Modifica terapia {this.state.patientDto.name} {this.state.patientDto.surName} - Codice assistito: {this.state.patientDto.codicePaziente}</h1>
             <Tabs defaultActiveKey="ontozry" activeKey={this.state.linkTab} onSelect={(k) => this.selectTab(k)} id="uncontrolled-tab-example" className=" nav secondary-menu mb-4" >
@@ -710,7 +740,7 @@ export class NewTherapy extends Component {
                                 {!this.state.isOntozryFlag ? <React.Fragment >
                                     <Form.Group className="col-6 mb-3" >
                                         <Form.Label className="text-">Dosaggio</Form.Label>
-                                        <Form.Control id="quantitaPrescrizione" onChange={this.handleChangeDosaggio} alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci dosaggio" />
+                                        <Form.Control id="quantitaPrescrizione" onChange={this.handleChangeDosaggio} isInvalid={validations.dosaggio != null} alt="medicationDTO" name="quantitaPrescrizione" placeholder="Inserisci dosaggio" />
                                     </Form.Group>
                                     <Form.Group className="col-6 mb-3" >
                                         <Form.Label className="text-">Somministrazioni</Form.Label>
@@ -721,7 +751,7 @@ export class NewTherapy extends Component {
                                         {this.state.isOtherOntozry ?
                                             <Form.Group className="col-6 mb-3" >
                                                 <Form.Label className="text-">Formulazione personalizzata</Form.Label>
-                                                <Form.Control id="formulazioneOnt" type='number' onChange={this.handleChangeDosaggio} alt="medicationDTO" name="quantitaPrescrizione" placeholder="Formulazione personalizzata" />
+                                                <Form.Control id="formulazioneOnt"  onChange={this.handleChangeDosaggio} isInvalid={validationsOnto.otherFormulation != null}  alt="medicationDTO" name="quantitaPrescrizione" placeholder="Formulazione personalizzata" />
                                             </Form.Group>
                                             : ''}
                                     </React.Fragment>
@@ -755,7 +785,7 @@ export class NewTherapy extends Component {
                                 return <Row className="col-12 mb-3">
                                     <Form.Group className="col-6 mb-3" >
                                         <Form.Label className="text-">Orario consigliato assunzione {this.state.isOntozryFlag ? 'Ontozry' : ''} </Form.Label>
-                                        <Form.Select id={item.id} onChange={this.handleChangeIntTimeTherapy} alt="medicationDTO" name="oraAssunzioneIndicata"  value={item.time} placeholder="Inserisci orario" >
+                                        <Form.Select id={item.id} onChange={this.handleChangeIntTimeTherapy} alt="medicationDTO" name="oraAssunzioneIndicata" value={item.time} placeholder="Inserisci orario" >
                                             <option></option>
                                             <option value="1">1:00</option>
                                             <option value="2">2:00</option>
@@ -808,74 +838,6 @@ export class NewTherapy extends Component {
                     </Modal>
                 </Tab>
                 <Tab eventKey="altriFarmaci" title="Altri antiepilettici" >
-                    <Modal
-                        show={this.state.isOpenOtherPharmacy}
-                        onHide={() => this.handleCloseOtherPharmacy()}
-                        backdrop="static"
-                        keyboard={false}
-                    >
-                        <Modal.Header closeButton>
-                            <Modal.Title>Aggiungi nuovi farmaci </Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Row>
-                                <Form.Group className="col-8 mb-3" >
-                                    <Form.Label className="text-">Farmaco</Form.Label>
-                                    <Form.Control name="farmaco" placeholder="Inserisci farmaco" onChange={this.handleChangeTherapy} />
-                                </Form.Group>
-                                <Form.Group className="col-2 mb-3" >
-                                    <Form.Label className="text-">Promemoria Terapie</Form.Label>
-                                    <Form.Check
-                                        type="switch"
-                                        defaultChecked={this.state.medicationDTO.isActiveReminder}
-                                        id="custom-switch"
-                                        onClick={() => this.activeReminder()}
-                                        label={!this.state.medicationDTO.isActiveReminder ? 'No' : 'Si'}
-                                    />
-                                </Form.Group>
-                            </Row>
-                            <Row>
-                                <Form.Group className="col-6 mb-3" >
-                                    <Form.Label className="text-">Dosaggio</Form.Label>
-                                    <Form.Control name="dosaggio" placeholder="Inserisci dosaggio" onChange={this.handleChangeTherapy} />
-                                </Form.Group>
-                                <Form.Group className="col-6 mb-3" >
-                                    <Form.Label className="text-">Quantità</Form.Label>
-                                    <Form.Control name="quantita" placeholder="Inserisci quantità" onChange={this.handleChangeTherapy} />
-                                </Form.Group>
-                            </Row>
-                            <Row>
-                                <Row>
-                                    <Form.Group className="col-6 mb-3" >
-                                        <Form.Label className="text">Data inizio terapia</Form.Label>
-                                        <InputGroup className="mb-3">
-                                            <Button variant="outline-secondary" className='bi bi-calendar-date-fill' id="button-addon1" />
-                                            <div className='datepicker-wrapper-datemodal datepicker-wrapper-modal'>
-                                                <DatePicker id='startTherapy' name={'startTherapy'} aria-label="Example text with button addon"
-                                                    aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.dateNow} onChange={this.handleChangeStartDateMedication} />
-                                            </div>
-                                        </InputGroup>
-                                    </Form.Group>
-                                    <Form.Group className="col-6 mb-3" >
-                                        <Form.Label className="text">Data fine terapia</Form.Label>
-                                        <InputGroup className="mb-3">
-                                            <Button variant="outline-secondary" className='bi bi-calendar-date-fill' id="button-addon1" />
-                                            <div className='datepicker-wrapper-datemodal datepicker-wrapper-modal'>
-                                                <DatePicker id='endTherapy' name={'endTherapy'} aria-label="Example text with button addon"
-                                                    aria-describedby="basic-addon1" className=' form-control bi bi-calendar-date-fill' value={this.state.dateNow} onChange={this.handleChangeEndDateMedication} />
-                                            </div>
-                                        </InputGroup>
-                                    </Form.Group>
-                                </Row>
-                            </Row>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="secondary" onClick={() => this.handleCloseOtherPharmacy()}>
-                                Chiudi
-                            </Button>
-                            <Button variant="primary">Aggiungi</Button>
-                        </Modal.Footer>
-                    </Modal>
                     <Row>
                         <Form.Group className="col-4 mb-3" >
                             <Button variant="btn btn-primary" onClick={() => this.handleShowOtherPharmacy()}>
