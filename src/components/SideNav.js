@@ -103,13 +103,13 @@ const SideNav = () => {
                                             </p>
                                         </a>
                                     </li>
-                                    <li className="nav-item">
+                                    {/* <li className="nav-item">
                                         <a href="/" className="nav-link logout" >
                                             <p>
                                                 Logout
                                             </p>
                                         </a>
-                                    </li>
+                                    </li> */}
                                 </>
                                 :
                                 <>
@@ -206,13 +206,13 @@ const SideNav = () => {
                                                     </p>
                                                 </Link>
                                             </li>
-                                            <li className="nav-item">
+                                            {/* <li className="nav-item">
                                                 <a href="/" className="nav-link logout" >
                                                     <p>
                                                         Logout
                                                     </p>
                                                 </a>
-                                            </li>
+                                            </li> */}
                                         </>
 
                                     }
@@ -285,13 +285,13 @@ const SideNav = () => {
                                             </a>
                                         </li>
 
-                                        <li className="nav-item">
+                                        {/* <li className="nav-item">
                                             <a href="/" className="nav-link logout" >
                                                 <p>
                                                     Logout
                                                 </p>
                                             </a>
-                                        </li>
+                                        </li> */}
                                     </>
                                     : <>
                                         <li className="nav-item">
@@ -386,13 +386,13 @@ const SideNav = () => {
                                                     </Link>
                                                 </li>
 
-                                                <li className="nav-item">
+                                                {/* <li className="nav-item">
                                                     <a href="/" className="nav-link logout" >
                                                         <p>
                                                             Logout
                                                         </p>
                                                     </a>
-                                                </li>
+                                                </li> */}
                                             </>
                                         }
                                     </>

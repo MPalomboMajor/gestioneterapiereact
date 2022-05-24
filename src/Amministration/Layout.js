@@ -32,6 +32,8 @@ import { NutritionalPlansInfo } from '../Doctor/NutritionalPlans';
 import { NutritionalPlanDetailsInfo } from '../Doctor/NutritionalPlanDetail';
 import { DoctorChartsInterface } from '../Doctor/DoctorChartsInterface';
 import { CareManagerProfile } from '../CarManager/CareManagerProfile';
+import { iconLogout } from '../icons';
+import { Row } from 'react-bootstrap';
 
 export default class Layout extends Component {
 
@@ -54,13 +56,13 @@ export default class Layout extends Component {
 
     return (
       <>
-        {localStorage.getItem("accessToken") != null 
-        && this.state.url != "/" 
-        && this.state.url != "/Register" 
-        && this.state.url != "/Login"  
-        && this.state.url != "/RegisterCareManager"  
-        && this.state.url != "/ChangePassword" 
-        && this.state.url != "/Recovery"   ?
+        {localStorage.getItem("accessToken") != null
+          && this.state.url != "/"
+          && this.state.url != "/Register"
+          && this.state.url != "/Login"
+          && this.state.url != "/RegisterCareManager"
+          && this.state.url != "/ChangePassword"
+          && this.state.url != "/Recovery" ?
           <>
 
             <div class="wrapper" >
@@ -72,7 +74,11 @@ export default class Layout extends Component {
                     <SideNav></SideNav>
 
                     <div role="main" className="col">
-
+                      {/* <div className="row">
+                        <div className="col-12 mb-3 d-flex justify-content-center justify-content-md-end">
+                          <Link to={`/`} style={{ "color": "black" }}><button className="btn btn-primary me-3" id>Logout {iconLogout} </button></Link>
+                        </div>
+                      </div> */}
 
                       <Routes>
                         <Route path="/" element={<Splash />}></Route>
@@ -88,7 +94,7 @@ export default class Layout extends Component {
                             <Route path="/NewTherapy/:codicePaziente" element={<NewTherapy />}></Route>
                             <Route path="/DoctorProfile" element={<DoctorProfile />}></Route>
                             <Route path="/CareManagerProfile" element={<CareManagerProfile />}></Route>
-                            
+
                             <Route path="/PatientRegistry/:idPaziente" element={<PatientRegistry />}></Route>
                             <Route path="/PatientProfile/:idPaziente" element={<PatientProfile />}></Route>
                             <Route path="/AdverseEvents/:idPaziente" element={<AdverseEventsInfo />}></Route>

@@ -140,7 +140,6 @@ function NutritionalPlanRow(props) {
 }
 
 function NutritionalPlanRowData(props) {
-
     return (<>
         <td>{props.nutritionalPlan.date.split(' ')[0]}</td>
         <td><Link to={`/NutritionalPlanDetails/${props.patientId}/${props.nutritionalPlan.id}`} state={props.nutritionalPlan} patientId={props.patientId} ><img src={props.nutritionalPlan.elencoNutritionalDiaryPhoto[0].fileName} style={{ width: 100, height: 70 }} /></Link></td>
