@@ -39,11 +39,19 @@ export default (props) => {
         {props.patientDailyMoods?.map((slideContent) => (
           <SwiperSlide key={slideContent} className="swiper-slide"><p className="date">{slideContent.dataOraRisposta}</p>
             <div className="upper-wrapper">
-              {slideContent.umore === "#" ? iconNotFoundSmall : <img src={slideContent.umore} />}
+              {slideContent.umore === "#" ? 
+              <svg width={40} height={40} style={{ marginLeft: '40' }} >
+              <rect width={20} height={20} rx={5} ry={5} style={{ fill: '#fff', strokeWidth: 0, stroke: 'rgb(0,0,0)' }} />
+            </svg>
+              : <img src={slideContent.umore} />}
             </div>
             <div className="row-label" data-label="Umore" />
             <div className="lower-wrapper">
-              {slideContent.emozione === "#" ? iconNotFoundSmall : <img src={slideContent.emozione} />}
+              {slideContent.emozione === "#" ? 
+              <svg width={40} height={46} style={{ marginLeft: '40' }} >
+              <rect width={20} height={20} rx={5} ry={5} style={{ fill: '#fff', strokeWidth: 0, stroke: 'rgb(0,0,0)' }} />
+            </svg>
+              : <img src={slideContent.emozione} />}
             </div>
             <div className="row-label" data-label="Emozione" />
           </SwiperSlide>

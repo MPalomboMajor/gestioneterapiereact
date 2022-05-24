@@ -12,11 +12,13 @@ import { MedicalExaminationSlider } from './MedicalExaminationSlider';
 import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { DifferentFilesInfo } from './DifferentFilesExtTable';
 
 function MedicalExaminationDetailsInfo() {
     const location = useLocation();
     const selectedMedicalExamination = location.state;
     const [filesArray, setFilesArray] = useState([]);
+    const [filesArrayNoImgs, setFilesArrayNoImg] = useState([]);
     const [imgsNames, setImgsNames] = useState([]);
     const [medicalExamination, setMedicalExamination] = useState(selectedMedicalExamination);
     const navigate = useNavigate();
@@ -37,7 +39,17 @@ function MedicalExaminationDetailsInfo() {
         if (isLoaded) {
             setIsPageLoaded(true);
             for (var i = 0; i < selectedMedicalExamination.elencoRefertiVisita.length; i++) {
-                filesArray.push(selectedMedicalExamination.elencoRefertiVisita[i].immagineReferto);
+                selectedMedicalExamination.elencoRefertiVisita[i].immagineReferto.split('.').pop() === 'png' ||
+                selectedMedicalExamination.elencoRefertiVisita[i].immagineReferto.split('.').pop() === 'jpg' ||
+                selectedMedicalExamination.elencoRefertiVisita[i].immagineReferto.split('.').pop() === 'jpeg' ||
+                selectedMedicalExamination.elencoRefertiVisita[i].immagineReferto.split('.').pop() === 'bmp' ||
+                selectedMedicalExamination.elencoRefertiVisita[i].immagineReferto.split('.').pop() === 'gif' ||
+                selectedMedicalExamination.elencoRefertiVisita[i].immagineReferto.split('.').pop() === 'eps' ||
+                selectedMedicalExamination.elencoRefertiVisita[i].immagineReferto.split('.').pop() === 'raw' ||
+                selectedMedicalExamination.elencoRefertiVisita[i].immagineReferto.split('.').pop() === 'tif' ||
+                selectedMedicalExamination.elencoRefertiVisita[i].immagineReferto.split('.').pop() === 'tiff' ?
+                filesArray.push(selectedMedicalExamination.elencoRefertiVisita[i].immagineReferto) : 
+                filesArrayNoImgs.push(selectedMedicalExamination.elencoRefertiVisita[i].immagineReferto)
             }
         }
     }, [isLoaded]);
@@ -100,47 +112,10 @@ function MedicalExaminationDetailsInfo() {
                         </form>
                     </div>
                 </div>
+                <DifferentFilesInfo noImgsNames={filesArrayNoImgs}/>
             </div>
 
-
-            {/* <Row>
-                <Col>
-                    <ControlledCarouselMedicalExamination selectedMedicalExamination={selectedMedicalExamination} imgsNames={filesArray} />
-                </Col>
-                <Col>
-                    <div><strong>Visita del:</strong> {medicalExamination.dataVisita}</div>
-                    &nbsp;&nbsp;
-                    <div><h3>Esito della visita</h3></div>
-                    <div>{selectedMedicalExamination.infoAggiuntive}</div>
-                </Col>
-            </Row>
-            <div className='mb-3'>
-                <Button type='submit' onClick={() => navigate(-1)}>Torna a elenco visite </Button>
-            </div> */}
-
         </>
-    );
-}
-
-function ControlledCarouselMedicalExamination(props) {
-    const [index, setIndex] = useState(0);
-    const imgsFolder = props.selectedMedicalExamination.id + "/";
-    const handleSelect = (selectedIndex, e) => {
-        setIndex(selectedIndex);
-    };
-    console.log(process.env.REACT_APP_VISIT_REPORT_IMGS_PATH);
-    console.log(imgsFolder);
-    return (
-        <Carousel activeIndex={index} onSelect={handleSelect} interval={null}>
-            {props.imgsNames?.map((imgName, index) => (
-                <Carousel.Item key={index}>
-                    <img
-                        className="selectedDiagnosticTestImages d-block w-100"
-                        src={imgName}
-                    />
-                </Carousel.Item>
-            ))}
-        </Carousel>
     );
 }
 

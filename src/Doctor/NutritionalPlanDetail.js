@@ -13,11 +13,13 @@ import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { NutritionalPlanSlider } from './NutritionalPlanSlider';
+import { DifferentFilesInfo } from './DifferentFilesExtTable';
 
 function NutritionalPlanDetailsInfo() {
     const location = useLocation();
     const selectedNutritionalPlan = location.state;
     const [filesArray, setFilesArray] = useState([]);
+    const [filesArrayNoImgs, setFilesArrayNoImg] = useState([]);
     const [imgsNames, setImgsNames] = useState([]);
     const [nutritionalPlan, setNutritionalPlan] = useState(selectedNutritionalPlan);
     const navigate = useNavigate();
@@ -35,10 +37,22 @@ function NutritionalPlanDetailsInfo() {
         if (isLoaded) {
             setIsPageLoaded(true);
             for (var i = 0; i < selectedNutritionalPlan.elencoNutritionalDiaryPhoto.length; i++) {
-                filesArray.push(selectedNutritionalPlan.elencoNutritionalDiaryPhoto[i].fileName);
+                selectedNutritionalPlan.elencoNutritionalDiaryPhoto[i].fileName.split('.').pop() === 'png' ||
+                    selectedNutritionalPlan.elencoNutritionalDiaryPhoto[i].fileName.split('.').pop() === 'jpg' ||
+                    selectedNutritionalPlan.elencoNutritionalDiaryPhoto[i].fileName.split('.').pop() === 'jpeg' ||
+                    selectedNutritionalPlan.elencoNutritionalDiaryPhoto[i].fileName.split('.').pop() === 'bmp' ||
+                    selectedNutritionalPlan.elencoNutritionalDiaryPhoto[i].fileName.split('.').pop() === 'gif' ||
+                    selectedNutritionalPlan.elencoNutritionalDiaryPhoto[i].fileName.split('.').pop() === 'eps' ||
+                    selectedNutritionalPlan.elencoNutritionalDiaryPhoto[i].fileName.split('.').pop() === 'raw' ||
+                    selectedNutritionalPlan.elencoNutritionalDiaryPhoto[i].fileName.split('.').pop() === 'tif' ||
+                    selectedNutritionalPlan.elencoNutritionalDiaryPhoto[i].fileName.split('.').pop() === 'tiff' ?
+                    filesArray.push(selectedNutritionalPlan.elencoNutritionalDiaryPhoto[i].fileName) :
+                    filesArrayNoImgs.push(selectedNutritionalPlan.elencoNutritionalDiaryPhoto[i].fileName)
             }
         }
     }, [isLoaded]);
+
+
 
     // function saveMedicalExamination() {
     //     const files = new FormData();
@@ -83,6 +97,7 @@ function NutritionalPlanDetailsInfo() {
                         </form>
                     </div>
                 </div>
+                <DifferentFilesInfo noImgsNames={filesArrayNoImgs}/>
             </div>
 
 

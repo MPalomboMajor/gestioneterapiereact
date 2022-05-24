@@ -43,16 +43,17 @@ function CareManagerProfile() {
                 });
         };
 
-        // function editCareManager() {        
-        //         patient.post("UpdateProfile/", patientProfile)
-        //                 .then((response) => {
-        //                         if (response.status === 200) {
-        //                                 NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
-        //                         }
-        //                 }).catch((error) => {
-        //                         NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
-        //                 });
-        // };
+        function editCareManager() {    
+                careManagerProfile.id = user.id;       
+                caremanager.post("Edit/", careManagerProfile)
+                        .then((response) => {
+                                if (response.status === 200) {
+                                        NotificationManager.success(message.CAREMANAGER + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                                }
+                        }).catch((error) => {
+                                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+                        });
+        };
 
 
 
@@ -71,7 +72,7 @@ function CareManagerProfile() {
                                                                         <label htmlFor="nome" className="col-form-label w-100 text-md-end">Nome</label>
                                                                 </div>
                                                                 <div className="col-12 col-md-8">
-                                                                        <input type="text" id="nome" className="form-control" aria-describedby name="name" defaultValue={careManagerProfile.name} onChange={handleChange} disabled/>
+                                                                        <input type="text" id="nome" className="form-control" aria-describedby name="name" defaultValue={careManagerProfile.name} onChange={handleChange} />
                                                                 </div>
                                                         </div>
                                                         <div className="row gx-3 mb-2">
@@ -79,7 +80,7 @@ function CareManagerProfile() {
                                                                         <label htmlFor="cognome" className="col-form-label w-100 text-md-end">Cognome</label>
                                                                 </div>
                                                                 <div className="col-12 col-md-8">
-                                                                        <input type="text" id="cognome" className="form-control" aria-describedby name="surName" defaultValue={careManagerProfile.surName} onChange={handleChange} disabled/>
+                                                                        <input type="text" id="cognome" className="form-control" aria-describedby name="surName" defaultValue={careManagerProfile.surName} onChange={handleChange} />
                                                                 </div>
                                                         </div>
                                                         <div className="row gx-3 mb-2">
@@ -104,8 +105,8 @@ function CareManagerProfile() {
                                                 <div className="row">
                                                         <div className="col-12 mb-3 d-flex justify-content-center justify-content-md-end">
                                                                 <Link to={`/DoctorChartsInterface`} style={{ "color": "black" }}><button className="btn btn-secondary me-3" id>Home</button></Link>
-                                                                {/* <Link to={`/PatientProfile/${patientId}`}><button className="btn btn-primary me-3" id>Avanti</button></Link>
-                                                                <button className="btn btn-primary" id onClick={() => editPatient()}>Salva le modifiche</button> */}
+                                                                {/* <Link to={`/PatientProfile/${patientId}`}><button className="btn btn-primary me-3" id>Avanti</button></Link> */}
+                                                                <button className="btn btn-primary" id onClick={() => editCareManager()}>Salva le modifiche</button>
                                                         </div>
                                                 </div>
                                         </div>

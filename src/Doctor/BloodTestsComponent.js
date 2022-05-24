@@ -4,12 +4,16 @@ import { useLocation, Link, useNavigate } from "react-router-dom";
 import moment from 'moment';
 import { patient } from '../helpers/api/api';
 import { DiagnosticTestSlider } from './DiagnosticTestSlider';
+import { DifferentFilesInfo } from './DifferentFilesExtTable';
 
 function BloodTestsInfo() {
     const location = useLocation();
     const selectedDiagnosticTest = location.state;
     const selectedPatientId = location.patientId;
-    const [imgsNames, setImgsNames] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [fileNames, setFileNames] = useState([]);
+    // const [imgsNames, setImgsNames] = useState([]);
+    //const [noImgsNames, setNoImgsNames] = useState([]);
     const [diagnosticTest, setDiagnosticTest] = useState(selectedDiagnosticTest);
     const [patientId, setPatientId] = useState(selectedPatientId);
     const navigate = useNavigate();
@@ -23,7 +27,7 @@ function BloodTestsInfo() {
             await patient.get("GetFileName/", window.location.pathname.split('/').pop())
                 .then((response) => {
                     if (response.status === 200) {
-                        setImgsNames(response.data.dati);
+                        setFileNames(response.data.dati);
                     }
                 }).catch((error) => {
 
@@ -32,6 +36,30 @@ function BloodTestsInfo() {
         fetchImgsNames();
     }, []);
 
+    const imgsNames = fileNames.filter(y =>
+        y.split('.').pop() === 'png' ||
+        y.split('.').pop() === 'jpg' ||
+        y.split('.').pop() === 'jpeg' ||
+        y.split('.').pop() === 'bmp' ||
+        y.split('.').pop() === 'gif' ||
+        y.split('.').pop() === 'eps' ||
+        y.split('.').pop() === 'raw' ||
+        y.split('.').pop() === 'tif' ||
+        y.split('.').pop() === 'tiff'
+    );
+
+    const noImgsNames = fileNames.filter(y =>
+        y.split('.').pop() !== 'png' &&
+        y.split('.').pop() !== 'jpg' &&
+        y.split('.').pop() !== 'jpeg' &&
+        y.split('.').pop() !== 'bmp' &&
+        y.split('.').pop() !== 'gif' &&
+        y.split('.').pop() !== 'eps' &&
+        y.split('.').pop() !== 'raw' &&
+        y.split('.').pop() !== 'tif' &&
+        y.split('.').pop() !== 'tiff'
+    );
+    
     return (
         <>
             <h2>Dettaglio esame diagnostico</h2>
@@ -60,6 +88,7 @@ function BloodTestsInfo() {
                         </div>
                     </div>
                 </div>
+                <DifferentFilesInfo noImgsNames={noImgsNames} />
             </div>
 
             {/* <Row>
