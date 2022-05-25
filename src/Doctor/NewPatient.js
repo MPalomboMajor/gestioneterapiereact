@@ -41,7 +41,7 @@ export class NewPatient extends Component {
                 disabledCause: 0,
                 numeroCrisiPartenza: 0,
                 otpCode: "",
-                otpCodeExpired:moment(new Date()),
+                otpCodeExpired: moment(new Date()),
                 idUser: 0,
                 canTravel: true,
                 canDrive: true,
@@ -63,54 +63,25 @@ export class NewPatient extends Component {
         localStorage.removeItem('newPatient');
     }
     InsertPatient = () => {
-        if (this.validatorOTP.allValid()) {
-            user.post("VerifyOTP", {idDispositivo: '', phone: this.state.patiendDto.phoneNumber , otp: this.state.patiendDto.otpCode  })
-                .then((response) => {
-                    if (response.data.statoEsito === 0) {
-                        patient.post("Save", this.state.patiendDto)
-                            .then((response) => {
-                                if (response.data.statoEsito === 0) {
-                                    localStorage.setItem('newPatient', response.data.dati.id);
-                                    window.location.href = "/NewTherapy/" + response.data.dati.id;
-                                }else{
-                                    NotificationManager.error( response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
-                                }
-                            }).catch((error) => {
-                                this.setState({ warning: true });
-                                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
-                            });
-                    }else{
-                        NotificationManager.error( response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
-                    }
-                }).catch((error) => {
-                    this.setState({ warning: true });
-                    NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
-                });
-
-        } else {
-            this.validatorOTP.showMessages();
-            this.setState({ warning: true });
-            this.forceUpdate();
-        }
-    }
-
-    openOTP = () => {
         if (this.validator.allValid()) {
-            var CodPatient = parseInt(this.state.patiendDto.codicePaziente);
+            // user.post("VerifyOTP", { idDispositivo: '', phone: this.state.patiendDto.phoneNumber, otp: this.state.patiendDto.otpCode })
+            //     .then((response) => {
+            //         if (response.data.statoEsito === 0) {
+            var local = JSON.parse(localStorage.getItem("role"));
+            var doctor = {
+                idDoctor: local.id,
+                nameDoctor: local.username
+            };
             var PhoneNumber = "+39" + this.state.patiendDto.phoneNumber;
-            patientcode.post("check/", { CodPatient, PhoneNumber })
+            this.state.patiendDto.phoneNumber = PhoneNumber;
+            var DTO = this.state.patiendDto;
+            DTO.codicePaziente = parseInt(this.state.patiendDto.codicePaziente)
+            DTO.doctorNameIdDTOs.push(doctor)
+            patient.post("Save", DTO)
                 .then((response) => {
                     if (response.data.statoEsito === 0) {
-                        var local = JSON.parse(localStorage.getItem("role"));
-                        var doctor = {
-                            idDoctor: local.id,
-                            nameDoctor: local.username
-                        };
-                        this.state.patiendDto.phoneNumber = PhoneNumber;
-                        var DTO = this.state.patiendDto;
-                        DTO.codicePaziente = parseInt(this.state.patiendDto.codicePaziente)
-                        DTO.doctorNameIdDTOs.push(doctor)
-                        this.setState({ isSuccess: true });
+                        localStorage.setItem('newPatient', response.data.dati.id);
+                        window.location.href = "/NewTherapy/" + response.data.dati.id;
                     } else {
                         NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
                     }
@@ -118,13 +89,53 @@ export class NewPatient extends Component {
                     this.setState({ warning: true });
                     NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
                 });
+            //     } else {
+            //         NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
+            //     }
+            // }).catch((error) => {
+            //     this.setState({ warning: true });
+            //     NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+            // });
+
         } else {
             this.validator.showMessages();
             this.setState({ warning: true });
             this.forceUpdate();
         }
-
     }
+
+    // openOTP = () => {
+    //     if (this.validator.allValid()) {
+    //         var CodPatient = parseInt(this.state.patiendDto.codicePaziente);
+    //         var PhoneNumber = "+39" + this.state.patiendDto.phoneNumber;
+    //         patientcode.post("check/", { CodPatient, PhoneNumber })
+    //             .then((response) => {
+    //                 if (response.data.statoEsito === 0) {
+    //                     var local = JSON.parse(localStorage.getItem("role"));
+    //                     var doctor = {
+    //                         idDoctor: local.id,
+    //                         nameDoctor: local.username
+    //                     };
+    //                     this.state.patiendDto.phoneNumber = PhoneNumber;
+    //                     var DTO = this.state.patiendDto;
+    //                     DTO.codicePaziente = parseInt(this.state.patiendDto.codicePaziente)
+    //                     DTO.doctorNameIdDTOs.push(doctor)
+    //                     this.setState({ isSuccess: true });
+    //                 } else {
+    //                     NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
+    //                 }
+    //             }).catch((error) => {
+    //                 this.setState({ warning: true });
+    //                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+    //             });
+    //     } else {
+    //         this.validator.showMessages();
+    //         this.setState({ warning: true });
+    //         this.forceUpdate();
+    //     }
+
+    // }
+
     handleChange = (el) => {
         let objName = el.target.alt;
         const inputName = el.target.name;
@@ -187,8 +198,9 @@ export class NewPatient extends Component {
                 </Row>
                 <Row className='col-12 pt-4' >
 
-                    <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
-                        <Button variant="btn btn-primary" onClick={() => this.openOTP()}>
+                    <Form.Group className="col-4 mb-3" controlId="formBasicPassword"> 
+                        {/* Se si vuole richiedere codice otp per inserimento nuovo paziente chiamare openOTP invece di InsertPatient */}
+                        <Button variant="btn btn-primary" onClick={() => this.InsertPatient()}>                        
                             Avanti
                         </Button>
                     </Form.Group>
