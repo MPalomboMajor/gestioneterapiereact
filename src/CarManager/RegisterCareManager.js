@@ -70,8 +70,10 @@ export class RegisterCareManager extends Component {
             careManagerDTO.phoneNumber = careManagerDTO.phoneNumber.startsWith('+39') ? careManagerDTO.phoneNumber : "+39" + careManagerDTO.phoneNumber   
             user.post("SaveCareManager", { username: userDto.username, password: userDto.password, careManagerDTO: this.state.careManagerDTO })
                 .then((response) => {
-                    if (response.status === 200) {
+                    if (response.data.statoEsito === 0) {
                         NotificationManager.success(message.CAREMANAGER + message.SuccessInsert, entitiesLabels.SUCCESS, 3000);
+                    } else {
+                        NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
                     }
                 }).catch((error) => {
                     NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
