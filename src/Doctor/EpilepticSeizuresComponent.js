@@ -613,7 +613,7 @@ function EpilepticSeizuresModal(props) {
                             <div className="modal-body align-items-end">
                                 <div className="input-group mb-3">
                                     <span className="input-group-text" id="data">Data</span>
-                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" alt="dateTimeEventOccured" onChange={handleChange} required />
+                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" alt="dateTimeEventOccured" onChange={handleChange} max={moment().format("YYYY-MM-DD")} required />
                                 </div>
                                 <div className="input-group">
                                     <span className="input-group-text" id="descrizione">Descrizione</span>

@@ -250,7 +250,7 @@ function MedicalExaminationsModal(props) {
                                 </div>
                                 <div className="input-group mb-3 w-sm-50">
                                     <span className="input-group-text" id="label-data">Data</span>
-                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="label-data" name="data" onChange={e => setData(e.target.value)} required />
+                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="label-data" name="data" onChange={e => setData(e.target.value)} max={moment().format("YYYY-MM-DD")} required />
                                 </div>
                                 <label htmlFor="esito-visita" className="form-label">Esito visita</label>
                                 <div className="input-group position-relative mb-3">

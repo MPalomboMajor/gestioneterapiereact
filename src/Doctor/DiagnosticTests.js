@@ -6,6 +6,7 @@ import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import Pagination from '../helpers/pagination';
+import moment from 'moment';
 
 function DiagnosticTestsInfo() {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
@@ -208,7 +209,7 @@ function DiagnosticTestsModal(props) {
                                 </div>
                                 <div className="input-group mb-3 w-sm-50">
                                     <span className="input-group-text" id="data">Data</span>
-                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" name="dateReferto" onChange={e => setDateReferto(e.target.value)} required />
+                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" name="dateReferto" onChange={e => setDateReferto(e.target.value)} required max={moment().format("YYYY-MM-DD")} />
                                 </div>
                             </div>
                             <div className="modal-footer d-flex justify-content-center justify-content-md-end">

@@ -235,13 +235,13 @@ function DoctorChartsInterface() {
                         <div className="col-12 col-md-4">
                             <div className="input-group mb-3">
                                 <span className="input-group-text" id="label-inizio">Data inizio</span>
-                                <input type="date" className="form-control form-control-sm" id="dataI" defaultValue={moment(date).subtract(6, 'days').format("YYYY-MM-DD")} aria-describedby="label-data" name="dataInizio" onChange={e => setDataInizio(moment(e.target.value).format("DD/MM/YYYY"))} />
+                                <input type="date" className="form-control form-control-sm" id="dataI" defaultValue={moment(date).subtract(6, 'days').format("YYYY-MM-DD")} aria-describedby="label-data" name="dataInizio" onChange={e => setDataInizio(moment(e.target.value).format("DD/MM/YYYY"))} max={moment().format("YYYY-MM-DD")}/>
                             </div>
                         </div>
                         <div className="col-12 col-md-4">
                             <div className="input-group mb-3">
                                 <span className="input-group-text" id="label-inizio">Data fine</span>
-                                <input type="date" className="form-control form-control-sm" id="dataF" aria-describedby="label-data" defaultValue={moment(date).format("YYYY-MM-DD")} name="dataFine" onChange={e => setDataFine(moment(e.target.value).format("DD/MM/YYYY"))} />
+                                <input type="date" className="form-control form-control-sm" id="dataF" aria-describedby="label-data" defaultValue={moment(date).format("YYYY-MM-DD")} name="dataFine" onChange={e => setDataFine(moment(e.target.value).format("DD/MM/YYYY"))} max={moment().format("YYYY-MM-DD")}/>
                             </div>
                         </div>
                         <div className="col-12 col-md-3">

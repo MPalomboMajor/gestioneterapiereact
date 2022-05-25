@@ -355,15 +355,11 @@ export class Register extends Component {
                                 </div>
                                 <p class="small ps-md-4 mb-0 text-center text-md-start"><strong>Non riesci a registrarti?</strong></p>
                                 <p class="mb-0 text-center text-md-start">
-                                    <a class="link-phone small ps-4">0696741200</a> <a href="mailto:" class="link-email small ps-4">ontozapp@pharmaprime.it</a>
-                                    
+                                    <a class="link-phone small ps-4">0696741200</a> <a href="mailto:" class="link-email small ps-4">ontozapp@pharmaprime.it</a>                                   
                                 </p>
                             </div>
                             < NotificationContainer />
-                        </Form>
-                        
-                    
-                    
+                        </Form>          
                 
         )
     }
