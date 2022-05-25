@@ -76,7 +76,7 @@ export default class Layout extends Component {
                     <div role="main" className="col">
                       <div className="row">
                         <div className="col-12 mb-3 d-flex justify-content-center justify-content-md-end">
-                          <Link to={`/`} style={{ "color": "black" }}><button className="btn btn-primary me-3" id>Logout {iconLogout} </button></Link>
+                        <a href="/" style={{ "color": "black" }}><button className="btn btn-primary me-3" id>Logout {iconLogout} </button></a>
                         </div>
                       </div>
 
