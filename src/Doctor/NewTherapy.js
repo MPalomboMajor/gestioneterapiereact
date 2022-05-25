@@ -197,7 +197,7 @@ export class NewTherapy extends Component {
         pianoterapeutico.post("SaveCompleteTherapy", this.state.therapyDto)
             .then((response) => {
                 if (response.status === 200) {
-                    if (response.data.dati.statoesito != 1) {
+                    if (response.data.statoEsito != 1) {
                         NotificationManager.success("La terapia è stata inserita correttamente", entitiesLabels.SUCCESS, 3000);
                         this.setState({
                             therapyDto: response.data.dati,
@@ -210,10 +210,10 @@ export class NewTherapy extends Component {
                                     });
                                 }
                             }).catch((error) => {
-                                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+                                NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 4000);
                             });
                     } else {
-                        NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+                        NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 4000);
                     }
                 }
             }).catch((error) => {
@@ -236,7 +236,7 @@ export class NewTherapy extends Component {
         pianoterapeutico.post("SaveCompleteTherapy", this.state.therapyDto)
             .then((response) => {
                 if (response.status === 200) {
-                    if (response.data.dati.statoesito != 1) {
+                    if (response.data.statoEsito != 1) {
                         patient.post("UpdateProfile/", this.state.patientDto)
                             .then((response) => {
                                 if (response.status === 200) {
@@ -259,10 +259,10 @@ export class NewTherapy extends Component {
                                     window.location.href = "/Dashboard"
                                 }
                             }).catch((error) => {
-                                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+                                NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 4000);
                             });
                     } else {
-                        NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+                        NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 4000);
                     }
                 }
             }).catch((error) => {
