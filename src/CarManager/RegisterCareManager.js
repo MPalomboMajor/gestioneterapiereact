@@ -48,8 +48,12 @@ export class RegisterCareManager extends Component {
     }
     componentDidMount() {
         this.getListMedicalCenter();
+        this.reset();
         document.body.className = "splash custom-login";
     }
+    reset = () => {
+        window.localStorage.clear();
+    };
     getListMedicalCenter = () => {
         medico.getAll("GetCentriMedici")
             .then(async (response) => {
