@@ -198,7 +198,7 @@ export class NewTherapy extends Component {
             .then((response) => {
                 if (response.status === 200) {
                     if (response.data.dati.statoesito != 1) {
-                        NotificationManager.success("La terapia è stata inserita/aggiornata correttamente", entitiesLabels.SUCCESS, 3000);
+                        NotificationManager.success("La terapia è stata inserita correttamente", entitiesLabels.SUCCESS, 3000);
                         this.setState({
                             therapyDto: response.data.dati,
                         });
@@ -246,7 +246,7 @@ export class NewTherapy extends Component {
                             }).catch((error) => {
                                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
                             });
-                        NotificationManager.success("La terapia è stata inserita/aggiornata correttamente", entitiesLabels.SUCCESS, 3000);
+                        NotificationManager.success("La terapia è cessata", entitiesLabels.SUCCESS, 3000);
                         this.setState({
                             therapyDto: response.data.dati,
                         });
