@@ -419,6 +419,14 @@ const SideNav = () => {
             <p className="angelini d-none d-lg-block">
                 Realizzato con il contributo di
             </p>
+            <br />
+            <p className="pharmaPrime d-none d-lg-block">
+                Progetto a cura di
+            </p>
+            <br />
+            <p className="ae d-none d-lg-block">
+                Con il patrocinio di
+            </p>
         </header>
 
 
