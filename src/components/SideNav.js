@@ -257,23 +257,9 @@ const SideNav = () => {
                                             </a>
                                         </li>
                                         <li className="nav-item">
-                                            <Link to={`/DoctorProfile`} className="nav-link anagrafica-medico">
-                                                <p>
-                                                    Anagrafica medico
-                                                </p>
-                                            </Link>
-                                        </li>
-                                        <li className="nav-item">
-                                            <a href="/AssociatePatient" className="nav-link collega-paziente">
-                                                <p>
-                                                    Collega assistito già assegnato
-                                                </p>
-                                            </a>
-                                        </li>
-                                        <li className="nav-item">
                                             <a href="/NewPatient" className="nav-link nuovo-paziente">
                                                 <p>
-                                                    Nuovo assistito
+                                                    Crea nuovo assistito
                                                 </p>
                                             </a>
                                         </li>
@@ -284,6 +270,22 @@ const SideNav = () => {
                                                 </p>
                                             </a>
                                         </li>
+                                        <li className="nav-item">
+                                            <a href="/AssociatePatient" className="nav-link collega-paziente">
+                                                <p>
+                                                    Collega assistito già assegnato
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link to={`/DoctorProfile`} className="nav-link anagrafica-medico">
+                                                <p>
+                                                    Anagrafica medico
+                                                </p>
+                                            </Link>
+                                        </li>
+                                        
+                                        
 
                                         {/* <li className="nav-item">
                                             <a href="/" className="nav-link logout" >
