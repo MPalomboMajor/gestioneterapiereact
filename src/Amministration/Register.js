@@ -174,13 +174,13 @@ export class Register extends Component {
     };
 
     returnSplash = () => {
-
         window.location.href = "/";
     };
-    return = () => {
 
+    return = () => {
         this.setState({ iSSendOtp: false });
     };
+
     showPassword = () => {
         var x = document.getElementById("password");
         if (x.type === "password") {
@@ -195,6 +195,7 @@ export class Register extends Component {
             x.type = "password";
         }
     }
+    
     plocyApprove = () => {
         this.setState({ isApprove: !this.state.isApprove, policy: 'ok' });
     }

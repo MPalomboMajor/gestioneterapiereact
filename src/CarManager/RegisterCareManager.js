@@ -46,14 +46,17 @@ export class RegisterCareManager extends Component {
         }
         this.getListMedicalCenter = this.getListMedicalCenter.bind(this);
     }
+
     componentDidMount() {
         this.getListMedicalCenter();
         this.reset();
         document.body.className = "splash custom-login";
     }
+
     reset = () => {
         window.localStorage.clear();
     };
+
     getListMedicalCenter = () => {
         medico.getAll("GetCentriMedici")
             .then(async (response) => {
@@ -67,12 +70,13 @@ export class RegisterCareManager extends Component {
             });
 
     }
+
     InsertUser = () => {
         if (this.validator.allValid()) {
             let userDto = this.state.userDto;
             let careManagerDTO = this.state.careManagerDTO;
-            careManagerDTO.phoneNumber = careManagerDTO.phoneNumber.startsWith('+39') ? careManagerDTO.phoneNumber : "+39" + careManagerDTO.phoneNumber   
-            careManagerDTO.phoneNumber = careManagerDTO.phoneNumber.replace(/ /g,'');
+            careManagerDTO.phoneNumber = careManagerDTO.phoneNumber.startsWith('+39') ? careManagerDTO.phoneNumber : "+39" + careManagerDTO.phoneNumber
+            careManagerDTO.phoneNumber = careManagerDTO.phoneNumber.replace(/ /g, '');
             user.post("SaveCareManager", { username: userDto.username, password: userDto.password, careManagerDTO: this.state.careManagerDTO })
                 .then((response) => {
                     if (response.data.statoEsito === 0) {
@@ -90,6 +94,7 @@ export class RegisterCareManager extends Component {
             this.forceUpdate();
         }
     }
+
     onChange = (inputName) => {
         const selected = inputName.target;
         const id = selected.children[selected.selectedIndex].id;
@@ -97,17 +102,20 @@ export class RegisterCareManager extends Component {
         statusCopy['careManagerDTO']['idCentroMedico'] = parseInt(id);
         this.setState(statusCopy);
     };
+
     handleChangeconfirm = (el) => {
         const inputName = el.target.name;
         const inputValue = el.target.value;
         this.updateStateconfirm(inputName, inputValue);
     };
+
     updateStateconfirm = (inputName, inputValue) => {
         const statusCopy = { ...this.state };
         statusCopy[inputName] = inputValue;
 
         this.setState(statusCopy);
     };
+
     handleChange = (el) => {
         let objName = el.target.alt;
         const inputName = el.target.name;
@@ -136,6 +144,10 @@ export class RegisterCareManager extends Component {
             x.type = "password";
         }
     }
+
+    returnSplash = () => {
+        window.location.href = "/";
+    };
 
     render() {
 
@@ -170,58 +182,61 @@ export class RegisterCareManager extends Component {
         };
         return (
             <>
-                    <Form className="centering-form">
-                        <Row>
-                            <Form.Group className="col-6 mb-2" >
-                                <Form.Control onChange={this.handleChange} name="name" alt="careManagerDTO" placeholder="Nome" />
-                            </Form.Group>
-                            <Form.Group className="col-6 mb-2" >
-                                <Form.Control onChange={this.handleChange} name="surName" alt="careManagerDTO" placeholder="Cognome" />
-                            </Form.Group>
-                        </Row>
-                        <Row>
-                            <Form.Group className="col-6 mb-2">
-                                <Form.Control onChange={this.handleChange} id='eMail' alt="userDto" name="username" isInvalid={validations.username != null} placeholder="E-mail" />
-                            </Form.Group>
-                            <Form.Group className="col-6 mb-2">
-                                <Form.Control onChange={this.handleChange} id='phoneNumber' alt="careManagerDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Mobile" value={this.state.careManagerDTO.phoneNumber} />
-                            </Form.Group>
-                        </Row>
-                        <Row className='pb-5'>
-                            <Form.Group className="col-6 mb-2" controlId="formBasicPassword">
-                                <Form.Control type='password' id='password' alt="userDto" onChange={this.handleChange} name="password" isInvalid={validations.password != null} placeholder="Password" />
-                            </Form.Group>
-                            <Form.Group className="col-6 mb-2" controlId="formBasicPassword">
-                                <Form.Control type='password' id='confirmpassword' alt="confirmpassword" onChange={this.handleChangeconfirm} name="confirmpassword" isInvalid={validations.confirmpassword != null || validations.equalPass != null} placeholder="Password" />
-                            </Form.Group>
-                            {validations.equalPass ? (
-                                <div className=" input-layout-wrapper text-danger">
-                                    {' '}
-                                    Le password devono coincidere{' '}
-                                </div>
-                            ) : <div className=" input-layout-wrapper text-danger is-12">
-                                {' '}{' '}
-                            </div>}
-                        </Row>
-                        <Row>
-                            <div class="col-6 col-md-8 mb-0">
-                                <div class="form-check mb-0">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={() => this.showPassword()}></input>
-                                    <label class="form-check-label small" for="flexCheckDefault">
-                                        Mostra password
-                                    </label>
-                                </div>
+                <Form className="centering-form">
+                    <Row>
+                        <Form.Group className="col-6 mb-2" >
+                            <Form.Control onChange={this.handleChange} name="name" alt="careManagerDTO" placeholder="Nome" />
+                        </Form.Group>
+                        <Form.Group className="col-6 mb-2" >
+                            <Form.Control onChange={this.handleChange} name="surName" alt="careManagerDTO" placeholder="Cognome" />
+                        </Form.Group>
+                    </Row>
+                    <Row>
+                        <Form.Group className="col-6 mb-2">
+                            <Form.Control onChange={this.handleChange} id='eMail' alt="userDto" name="username" isInvalid={validations.username != null} placeholder="E-mail" />
+                        </Form.Group>
+                        <Form.Group className="col-6 mb-2">
+                            <Form.Control onChange={this.handleChange} id='phoneNumber' alt="careManagerDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Mobile" value={this.state.careManagerDTO.phoneNumber} />
+                        </Form.Group>
+                    </Row>
+                    <Row className='pb-5'>
+                        <Form.Group className="col-6 mb-2" controlId="formBasicPassword">
+                            <Form.Control type='password' id='password' alt="userDto" onChange={this.handleChange} name="password" isInvalid={validations.password != null} placeholder="Password" />
+                        </Form.Group>
+                        <Form.Group className="col-6 mb-2" controlId="formBasicPassword">
+                            <Form.Control type='password' id='confirmpassword' alt="confirmpassword" onChange={this.handleChangeconfirm} name="confirmpassword" isInvalid={validations.confirmpassword != null || validations.equalPass != null} placeholder="Password" />
+                        </Form.Group>
+                        {validations.equalPass ? (
+                            <div className=" input-layout-wrapper text-danger">
+                                {' '}
+                                Le password devono coincidere{' '}
                             </div>
-                            <div class="col-6 col-md-4 mb-3 d-flex justify-content-center justify-content-md-end align-items-start">
-                                <Button className="btn btn-primary btn-arrow" onClick={() => this.InsertUser()}>
-                                    Registrati
-                                </Button>
+                        ) : <div className=" input-layout-wrapper text-danger is-12">
+                            {' '}{' '}
+                        </div>}
+                    </Row>
+                    <Row>
+                        <div class="col-6 col-md-8 mb-0">
+                            <div class="form-check mb-0">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={() => this.showPassword()}></input>
+                                <label class="form-check-label small" for="flexCheckDefault">
+                                    Mostra password
+                                </label>
                             </div>
-                        </Row>
-                    </Form>
-                
+                        </div>
+                        <div class="col-6 col-md-4 mb-3 d-flex justify-content-center justify-content-md-end align-items-start">
+                            <Button className="btn btn-secondary btn-arrow me-3" onClick={() => this.returnSplash()}>
+                                Indietro
+                            </Button>
+                            <Button className="btn btn-primary btn-arrow" onClick={() => this.InsertUser()}>
+                                Registrati
+                            </Button>
+                        </div>
+                    </Row>
+                </Form>
+
                 < NotificationContainer />
-                </>
+            </>
         )
     }
 }
