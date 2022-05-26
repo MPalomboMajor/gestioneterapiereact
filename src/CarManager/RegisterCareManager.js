@@ -218,7 +218,7 @@ export class RegisterCareManager extends Component {
                     <Row>
                         <div class="col-6 col-md-8 mb-0">
                             <div class="form-check mb-0">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={() => this.showPassword()}></input>
+                                <Eye size='22' onClick={() => this.showPassword()} className='icon-black' style={{ 'marginRight': "5px" }} />
                                 <label class="form-check-label small" for="flexCheckDefault">
                                     Mostra password
                                 </label>

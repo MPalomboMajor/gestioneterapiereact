@@ -7,6 +7,8 @@ import { entitiesLabels, message, role } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import moment from 'moment';
+import { Eye } from 'react-bootstrap-icons';
+
 export class Login extends Component {
     //STATO
     userModelProp = () => ({
@@ -35,7 +37,7 @@ export class Login extends Component {
         this.reset();
         document.body.className = "splash custom-login";
     }
-    
+
     //FUNZIONI 
     reset = () => {
         window.localStorage.clear();
@@ -111,6 +113,15 @@ export class Login extends Component {
     handleCloseOtp = (el) => {
         this.setState({ isSuccessSendOtp: false });
     };
+
+    showPassword = () => {
+        var x = document.getElementById("password");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
 
     verifyOtp = () => {
         if (this.validatorOTP.allValid()) {
@@ -206,7 +217,15 @@ export class Login extends Component {
                     </div>
                     <div className="row justify-content-center">
                         <div className="col-12 col-md-12 mb-3 mb-md-3">
-                            <Form.Control isInvalid={validations.password != null} onChange={this.handleChange} name="password" type="password" placeholder="Password" onKeyDown={event => { if (event.key === 'Enter') { this.postLogin() } }} />
+                            <Form.Control isInvalid={validations.password != null} onChange={this.handleChange} id="password" name="password" type="password" placeholder="Password" onKeyDown={event => { if (event.key === 'Enter') { this.postLogin() } }} />
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-12 mb-0 justify-content-center">
+                        <div class="form-check mb-0">
+                        <Eye size='22' onClick={() => this.showPassword()} className='icon-black' style={{ 'marginRight': "5px"}} />
+                            <label class="form-check-label small" for="flexCheckDefault">
+                                Mostra password
+                            </label>
                         </div>
                     </div>
                     <div className="row justify-content-center">
@@ -263,7 +282,7 @@ export class Login extends Component {
                             <Form.Group className="col-12 mb-3" >
                                 <Form.Label className="text-">Ti abbiamo inviato un <strong>codice di verifica</strong> al numero di cellulare indicato in fase di registrazione. Inseriscilo nel campo sottostante e premi Invia.</Form.Label>
                                 {/* isInvalid={validationsOTP.otp != null} onChange={this.handleChangeOtp} */}
-                                <Form.Control name="otp" alt="patiendDto" id="otpCode" placeholder="Inserisci il codice OTP" onChange={this.handleChangeOtp} isInvalid={validationsOTP.otp != null} onKeyDown={event => { if (event.key === 'Enter') { this.verifyOtp() } }}/>
+                                <Form.Control name="otp" alt="patiendDto" id="otpCode" placeholder="Inserisci il codice OTP" onChange={this.handleChangeOtp} isInvalid={validationsOTP.otp != null} onKeyDown={event => { if (event.key === 'Enter') { this.verifyOtp() } }} />
                             </Form.Group>
                         </Row>
                     </Modal.Body>

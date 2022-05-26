@@ -7,6 +7,8 @@ import { entitiesLabels, message, role } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import moment from 'moment';
+import { Eye } from 'react-bootstrap-icons';
+
 export class ChangePassword extends Component {
     //STATO
     passwordModelProp = () => ({
@@ -76,9 +78,23 @@ export class ChangePassword extends Component {
             this.forceUpdate();
         }
     }
+
+    showPassword = () => {
+        var x = document.getElementById("newPassword");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+        var x = document.getElementById("confirmPassword");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+
     sedRestCode = () => {
-
-
         if (this.validatorSend.allValid()) {
             this.setState((prevState) => ({ isSending: true }))
             user.post("RequestNewPassword", this.state.passwordModel.username)
@@ -139,12 +155,20 @@ export class ChangePassword extends Component {
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-12 col-md-12 mb-3 mb-md-3">
-                        <Form.Control isInvalid={validations.newPassword != null} onChange={this.handleChange} name="newPassword" alt="passwordModel" type="password" placeholder="Nuova password" />
+                        <Form.Control isInvalid={validations.newPassword != null} onChange={this.handleChange} id="newPassword" name="newPassword" alt="passwordModel" type="password" placeholder="Nuova password" />
                     </div>
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-12 col-md-12 mb-3 mb-md-3">
-                        <Form.Control isInvalid={validations.confirmPassword != null} onChange={this.handleChange} name="confirmPassword" alt="passwordModel" type="password" placeholder="Ripeti password" />
+                        <Form.Control isInvalid={validations.confirmPassword != null} onChange={this.handleChange} id="confirmPassword" name="confirmPassword" alt="passwordModel" type="password" placeholder="Ripeti password" />
+                    </div>
+                </div>
+                <div class="col-12 col-md-12 mb-0 justify-content-center">
+                    <div class="form-check mb-0">
+                        <Eye size='22' onClick={() => this.showPassword()} className='icon-black' style={{ 'marginRight': "5px" }} />
+                        <label class="form-check-label small" for="flexCheckDefault">
+                            Mostra password
+                        </label>
                     </div>
                 </div>
                 <div class="row justify-content-center">

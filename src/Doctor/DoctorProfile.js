@@ -506,11 +506,11 @@ export class DoctorProfile extends Component {
                                 </Row>
                                 <Row>
                                     <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
-                                        <Form.Label className="text">Nuova Password</Form.Label><Eye size='22' onClick={() => this.showPassword()} className='icon-black' />
+                                        <Form.Label className="text">Nuova Password</Form.Label><Eye size='22' onClick={() => this.showPassword()} style={{ 'marginLeft': "5px" }} className='icon-black' />
                                         <Form.Control id="newPassword" alt="passwordModel" isInvalid={validations.newPassword != null} onChange={this.handleChange} name="newPassword" type='password' placeholder="Inserisci password" />
                                     </Form.Group>
                                     <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
-                                        <Form.Label className="text" >Conferma Password</Form.Label><Eye size='22' onClick={() => this.showConfirmPassword()} className='icon-black' />
+                                        <Form.Label className="text" >Conferma Password</Form.Label><Eye size='22' onClick={() => this.showConfirmPassword()} style={{ 'marginLeft': "5px" }} className='icon-black' />
                                         <Form.Control id="confirmPassword" alt="passwordModel" isInvalid={validations.confirmPassword != null || validations.equalPass != null} onChange={this.handleChange} name="confirmPassword" type='password' placeholder="Inserisci password" />
                                     </Form.Group>
 

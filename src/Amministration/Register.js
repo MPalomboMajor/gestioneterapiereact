@@ -195,7 +195,7 @@ export class Register extends Component {
             x.type = "password";
         }
     }
-    
+
     plocyApprove = () => {
         this.setState({ isApprove: !this.state.isApprove, policy: 'ok' });
     }
@@ -323,15 +323,15 @@ export class Register extends Component {
                                 </div>}
                             </Row>
                             <Row>
-                                <div class="col-2 col-md-4 mb-0">
+                                <div class="col-2 col-md-5 mb-0">
                                     <div class="form-check mb-0">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={() => this.showPassword()}></input>
                                         <label class="form-check-label small" for="flexCheckDefault">
+                                        <Eye size='22' onClick={() => this.showPassword()} className='icon-black' style={{ 'marginRight': "5px" }} />
                                             Mostra password
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-3 col-md-4 mb-3 d-flex justify-content-center justify-content-md-end align-items-start">
+                                <div class="col-3 col-md-3 mb-3 d-flex justify-content-center justify-content-md-end align-items-start">
                                     <Button className="btn btn-secondary btn-arrow" onClick={() => this.returnSplash()}>
                                         Indietro
                                     </Button>
