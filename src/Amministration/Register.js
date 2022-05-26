@@ -120,6 +120,7 @@ export class Register extends Component {
             let userDto = this.state.userDto;
             let doctorDTO = this.state.medicoDTO;
             doctorDTO.phoneNumber = doctorDTO.phoneNumber.startsWith('+39') ? doctorDTO.phoneNumber : "+39" + doctorDTO.phoneNumber   
+            doctorDTO.phoneNumber = doctorDTO.phoneNumber.replace(/ /g,'');
             user.post("PreSaveDoctor", { username: userDto.username, password: userDto.password, doctorDTO: doctorDTO })
                 .then((response) => {
                     if (response.data.statoEsito === 0) {

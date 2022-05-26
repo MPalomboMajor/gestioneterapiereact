@@ -72,6 +72,7 @@ export class RegisterCareManager extends Component {
             let userDto = this.state.userDto;
             let careManagerDTO = this.state.careManagerDTO;
             careManagerDTO.phoneNumber = careManagerDTO.phoneNumber.startsWith('+39') ? careManagerDTO.phoneNumber : "+39" + careManagerDTO.phoneNumber   
+            careManagerDTO.phoneNumber = careManagerDTO.phoneNumber.replace(/ /g,'');
             user.post("SaveCareManager", { username: userDto.username, password: userDto.password, careManagerDTO: this.state.careManagerDTO })
                 .then((response) => {
                     if (response.data.statoEsito === 0) {

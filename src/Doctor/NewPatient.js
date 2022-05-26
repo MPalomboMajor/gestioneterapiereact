@@ -72,7 +72,7 @@ export class NewPatient extends Component {
                 idDoctor: local.id,
                 nameDoctor: local.username
             };
-            var PhoneNumber = "+39" + this.state.patiendDto.phoneNumber;
+            var PhoneNumber = "+39" + this.state.patiendDto.phoneNumber.replace(/ /g,'');
             this.state.patiendDto.phoneNumber = PhoneNumber;
             var DTO = this.state.patiendDto;
             DTO.codicePaziente = parseInt(this.state.patiendDto.codicePaziente)

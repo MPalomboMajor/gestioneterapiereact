@@ -55,7 +55,7 @@ export class AssociatePatient extends Component {
     associate = () => {
         if (this.validatorOTP.allValid()) {
             var code = parseInt(this.state.patient.patientCode);
-            user.post("VerifyOTP", {idDispositivo: '', phone: this.state.phone , otp: this.state.otp })
+            user.post("VerifyOTP", {idDispositivo: '', phone: this.state.phone, otp: this.state.otp })
                 .then((response) => {
                     if (response.data.statoEsito===0) {
                         patient.post("CollegaPaziente", this.state.patient)
