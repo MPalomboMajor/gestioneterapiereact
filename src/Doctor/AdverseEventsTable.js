@@ -270,10 +270,10 @@ function AdverseEventsModal(props) {
                                     <span className="input-group-text" id="data">Data</span>
                                     <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" name="dateEvent" onChange={handleChange} max={moment().format("YYYY-MM-DD")} required />
                                 </div>
-                                <div className="input-group mb-3">
+                                {/* <div className="input-group mb-3">
                                     <span className="input-group-text" id="tipo-evento-label">Tipo di evento</span>
                                     <input type="text" className="form-control form-control-sm" id="tipo-evento" aria-describedby="tipo-evemto-label" />
-                                </div>
+                                </div> */}
                                 <div className="input-group mb-3">
                                     <span className="input-group-text" id="descrizione">Descrizione</span>
                                     <input type="text" className="form-control form-control-sm" id="descrizione" aria-describedby="descrizione-label" name="description" onChange={handleChange} rows={5} required />
