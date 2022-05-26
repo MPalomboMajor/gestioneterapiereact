@@ -296,30 +296,30 @@ const SideNav = () => {
                                         </li> */}
                                     </>
                                     : <>
-                                        <li className="nav-item">
-                                            <a href="/DoctorProfile" className="nav-link profilo-paziente">
-                                                <p>
-                                                    {userProfile.name} {userProfile.surName}
-                                                </p>
-                                            </a>
-                                        </li>
-                                        <li className="nav-item">
-                                            <a href="/DoctorChartsInterface" className="nav-link home" aria-current="page" >
-                                                <p>
-                                                    Home
-                                                </p>
-                                            </a>
-                                        </li>
-                                        <hr />
-                                        <li className="nav-item">
-                                            <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
-                                                <p>
-                                                    Elenco assistiti
-                                                </p>
-                                            </a>
-                                        </li>
                                         {localStorage.getItem("newPatient") != null ? '' :
                                             <>
+                                                <li className="nav-item">
+                                                    <a href="/DoctorProfile" className="nav-link profilo-paziente">
+                                                        <p>
+                                                            {userProfile.name} {userProfile.surName}
+                                                        </p>
+                                                    </a>
+                                                </li>
+                                                <li className="nav-item">
+                                                    <a href="/DoctorChartsInterface" className="nav-link home" aria-current="page" >
+                                                        <p>
+                                                            Home
+                                                        </p>
+                                                    </a>
+                                                </li>
+                                                <hr />
+                                                <li className="nav-item">
+                                                    <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
+                                                        <p>
+                                                            Elenco assistiti
+                                                        </p>
+                                                    </a>
+                                                </li>
                                                 <li className="nav-item">
                                                     <Link to={`/PatientRegistry/${patientId}`} className="nav-link anagrafica-paziente">
                                                         <p >

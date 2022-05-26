@@ -70,6 +70,9 @@ export class NewTherapy extends Component {
             currentAderenzePage: 1,
             aderenzePerPage: 10,
 
+
+            isSave:false,
+            isOpenAlertModal:false,
             storicPlan: [],
             allergiesDTO: { ...this.allergiesProps() },
             isOpenAllergic: false,
@@ -117,6 +120,7 @@ export class NewTherapy extends Component {
     }
 
     componentDidMount() {
+
         medication.getAll("GetAll/")
             .then((response) => {
                 if (response.status === 200) {
@@ -153,10 +157,16 @@ export class NewTherapy extends Component {
         pianoterapeutico.get("Get/", parseInt(window.location.pathname.split('/').pop()))
             .then((response) => {
                 if (response.status === 200 && response.data.dati != null) {
-
-                    this.setState({
-                        therapyDto: response.data.dati,
-                    });
+                    if(response.data.dati.ontozryMedication.length > 0){
+                        this.setState({
+                            isSave: true,therapyDto: response.data.dati,
+                        });
+                    }else{
+                        this.setState({
+                            therapyDto: response.data.dati,
+                        });
+                    }
+                    
                 }
             }).catch((error) => {
                 this.setState({ error: 1 })
@@ -181,6 +191,8 @@ export class NewTherapy extends Component {
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
+
+            
     }
     //FUNZIONI POST
 
@@ -205,8 +217,9 @@ export class NewTherapy extends Component {
                             .then((response) => {
                                 if (response.status === 200) {
                                     this.setState({
-                                        storicPlan: response.data.dati,
+                                        storicPlan: response.data.dati, isSave:true,
                                     });
+                                    
                                 }
                             }).catch((error) => {
                                 NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 4000);
@@ -220,54 +233,6 @@ export class NewTherapy extends Component {
             });
     }
 
-    updateTherapyPatientDisable = () => {
-        this.state.therapyDto.ontozryMedication.map((el) =>
-            el.id != 0 ? el.id = 0 : ''
-        )
-        this.state.therapyDto.otherMedication.map((el) =>
-            el.id != 0 ? el.id = 0 : ''
-        )
-        this.state.patientDto.disabledDate = moment(new Date()).format("DD/MM/YYYY");
-        this.state.patientDto.isActive = false;
-        this.state.patientDto.idDisabledCause = 1;
-
-        this.state.therapyDto.therapeuticPlan.id = 0;
-        pianoterapeutico.post("SaveCompleteTherapy", this.state.therapyDto)
-            .then((response) => {
-                if (response.status === 200) {
-                    if (response.data.statoEsito != 1) {
-                        patient.post("UpdateProfile/", this.state.patientDto)
-                            .then((response) => {
-                                if (response.status === 200) {
-                                    NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
-                                   
-                                }
-                            }).catch((error) => {
-                                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
-                            });
-                        NotificationManager.success("La terapia è cessata", entitiesLabels.SUCCESS, 3000);
-                        this.setState({
-                            therapyDto: response.data.dati,
-                        });
-                        pianoterapeutico.get("Storico/", parseInt(window.location.pathname.split('/').pop()))
-                            .then((response) => {
-                                if (response.status === 200) {
-                                    this.setState({
-                                        storicPlan: response.data.dati,
-                                    });
-                                    window.location.href = "/Dashboard"
-                                }
-                            }).catch((error) => {
-                                NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 4000);
-                            });
-                    } else {
-                        NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 4000);
-                    }
-                }
-            }).catch((error) => {
-                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
-            });
-    }
 
     AddAllergies = () => {
         if (this.state.therapyDto.idPatientProfile != 0) {
@@ -414,7 +379,7 @@ export class NewTherapy extends Component {
     }
     handleClose = () => {
         this.setState({
-            isOpenModalOntozry: false, isOntozryFlag: false, somministrazione: 1,
+            isOpenModalOntozry: false, isOpenAlertModal:false, isOntozryFlag: false, somministrazione: 1,
             times: [{
                 id: 1,
                 time: '',
@@ -422,9 +387,15 @@ export class NewTherapy extends Component {
             }]
         });
     }
-    returnToMenu = () => {
-        localStorage.removeItem('newPatient');
-        window.location.href = "/PatientProfile/" + window.location.pathname.split('/').pop();
+    returnToMenu = (check) => {
+        if(this.state.isSave == true || check == true){
+            localStorage.removeItem('newPatient');
+            window.location.href = "/PatientProfile/" + window.location.pathname.split('/').pop();
+        }else{
+            this.setState({
+               isOpenAlertModal:true,
+            });
+        }
     }
     activeReminder = (el) => {
         const times = this.state.times,
@@ -748,7 +719,7 @@ export class NewTherapy extends Component {
                     />
                     <Row>
                         <Form.Group className="col-4 mb-3" >
-                            <Button variant="btn  btn-secondary" onClick={() => this.returnToMenu()}>
+                            <Button variant="btn  btn-secondary"  onClick={() => this.returnToMenu(false)} >
                                 Indietro
                             </Button>
                         </Form.Group>
@@ -891,6 +862,20 @@ export class NewTherapy extends Component {
 
                         </Modal.Footer>
                     </Modal>
+                    <Modal show={this.state.isOpenAlertModal} onHide={() => this.handleClose()}  >
+                                                <Modal.Header closeButton>
+                                                    <Modal.Title>Attenzione nessun farmaco inserito </Modal.Title>
+                                                </Modal.Header>
+                                                <Modal.Body>Tornando indietro non verra salvata nessuna terapia per il seguente paziente. Vuoi continuare ? </Modal.Body>
+                                                <Modal.Footer>
+                                                    <Button variant="secondary" onClick={() => this.handleClose()}>
+                                                        Annulla
+                                                    </Button>
+                                                    <Button variant="primary"  onClick={() => this.returnToMenu(true)} >
+                                                        Si 
+                                                    </Button>
+                                                </Modal.Footer>
+                                                </Modal>
                     {/* JM */}
                     &nbsp;
                     {/*this.state.isNewPatient ? '' : <>
@@ -1139,6 +1124,8 @@ export class NewTherapy extends Component {
                         />
                     </Tab>
                 }
+                
+            
             </Tabs>
             < NotificationContainer />
         </>
