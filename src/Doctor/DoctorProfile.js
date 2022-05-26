@@ -151,26 +151,20 @@ export class DoctorProfile extends Component {
             });
     }
     sendChangeProfile = () => {
-        if (this.validator.allValid()) {
             this.setState((prevState) => ({ isSending: true }))
             medico.post("Edit", this.state.userDto)
                 .then((response) => {
                     if (response.status === 200) {
-                        ManagerModal.success(message.CODICE + message.SuccessSend, entitiesLabels.SUCCESS, 3000);
+                        ManagerModal.success(message.MEDICO + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
                         this.setState({ isSending: false });
                     } else {
-                        ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
+                        ManagerModal.error(message.MEDICO + message.ErrorServer, entitiesLabels.ERROR, 3000);
                         this.setState({ isSending: false });
                     }
                 }).catch((error) => {
-                    ManagerModal.error(message.CODICE + message.ErroSend, entitiesLabels.ERROR, 3000);
+                    ManagerModal.error(message.MEDICO + message.ErrorServer, entitiesLabels.ERROR, 3000);
                     this.setState({ isSending: false });
                 });
-        } else {
-            this.validator.showMessages();
-            this.setState({ warning: true });
-            this.forceUpdate();
-        }
     }
     sendChangePassword = () => {
         if (this.validator.allValid()) {
