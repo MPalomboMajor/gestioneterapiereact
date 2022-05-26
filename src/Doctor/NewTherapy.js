@@ -117,7 +117,6 @@ export class NewTherapy extends Component {
     }
 
     componentDidMount() {
-        localStorage.removeItem('newPatient');
         medication.getAll("GetAll/")
             .then((response) => {
                 if (response.status === 200) {
@@ -894,7 +893,7 @@ export class NewTherapy extends Component {
                     </Modal>
                     {/* JM */}
                     &nbsp;
-                    {this.state.isNewPatient ? '' : <>
+                    {/*this.state.isNewPatient ? '' : <>
                         <h3 className='h3'>Cessazione terapia</h3>
                         <Form className="">
                             <Row>
@@ -902,7 +901,7 @@ export class NewTherapy extends Component {
                                     <div class="input-group mb-3 w-sm-50">
                                         <span class="input-group-text" id="label-data">Data fine terapia</span>
                                         <input type="date" name="startD" placeholder={this.state.therapyDto?.therapeuticPlan?.dataFineTerapia} defaultValue={moment(date).format("YYYY-MM-DD")} className="form-control form-control-sm" id="endTherapy" aria-describedby="label-inizio" onChange={this.handleChange} />
-                                        {/* <input type="text" onMouseOverCapture={(e) => e.target.type = 'date'} onMouseOutCapture={!this.state.isChange ? (e) => e.target.type = 'text' : ''} class="form-control form-control-sm" id="endTherapy" defaultValue={this.state.therapyDto?.therapeuticPlan?.dataFineTerapia} placeholder={this.state.therapyDto?.therapeuticPlan?.dataFineTerapia} onChange={this.handleChange}></input> */}
+                                        {/* <input type="text" onMouseOverCapture={(e) => e.target.type = 'date'} onMouseOutCapture={!this.state.isChange ? (e) => e.target.type = 'text' : ''} class="form-control form-control-sm" id="endTherapy" defaultValue={this.state.therapyDto?.therapeuticPlan?.dataFineTerapia} placeholder={this.state.therapyDto?.therapeuticPlan?.dataFineTerapia} onChange={this.handleChange}></input> }
                                     </div>
                                 </Form.Group>
                             </Row>
@@ -919,7 +918,7 @@ export class NewTherapy extends Component {
                                     </Button>
                                 </Form.Group>
                             </Row>
-                        </Form></>}
+                        </Form></> */}
                 </Tab>
                 <Tab eventKey="altriFarmaci" title="Altri antiepilettici" >
                     <Row>

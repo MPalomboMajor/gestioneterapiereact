@@ -235,11 +235,11 @@ const SideNav = () => {
                                     window.location.pathname === "/DoctorChartsInterface"
                                     ? <>
                                         <li className="nav-item">
-                                            <Link to={`/DoctorProfile`} className="nav-link profilo-paziente">
+                                            <a href="/DoctorProfile" className="nav-link profilo-paziente">
                                                 <p>
                                                     {userProfile.name} {userProfile.surName}
                                                 </p>
-                                            </Link>
+                                            </a>
                                         </li>
                                         <li className="nav-item">
                                             <a href="/DoctorChartsInterface" className="nav-link home" aria-current="page" >
@@ -284,8 +284,8 @@ const SideNav = () => {
                                                 </p>
                                             </Link>
                                         </li>
-                                        
-                                        
+
+
 
                                         {/* <li className="nav-item">
                                             <a href="/" className="nav-link logout" >
@@ -297,11 +297,11 @@ const SideNav = () => {
                                     </>
                                     : <>
                                         <li className="nav-item">
-                                            <Link to={`/DoctorProfile`} className="nav-link profilo-paziente">
+                                            <a href="/DoctorProfile" className="nav-link profilo-paziente">
                                                 <p>
                                                     {userProfile.name} {userProfile.surName}
                                                 </p>
-                                            </Link>
+                                            </a>
                                         </li>
                                         <li className="nav-item">
                                             <a href="/DoctorChartsInterface" className="nav-link home" aria-current="page" >

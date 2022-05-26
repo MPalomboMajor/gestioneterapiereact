@@ -60,7 +60,7 @@ export class NewPatient extends Component {
         }
     }
     componentDidMount() {
-        localStorage.removeItem('newPatient');
+       
     }
     InsertPatient = () => {
         if (this.validator.allValid()) {
