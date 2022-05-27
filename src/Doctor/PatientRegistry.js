@@ -181,25 +181,11 @@ function PatientRegistry() {
                                                                                 </div>
                                                                         </div>
                                                                 </div>
-                                                                {  /* <div className="col-12 col-md-6">
-                                                                        <div className="form-check form-check-inline">
-                                                                                <input className="form-check-input dark" type="checkbox" id="inlineCheckbox1" checked={patientProfile.isActive} onChange={() => updateStatesIsActive()} />
-                                                                                <label className="form-check-label small" htmlFor="inlineCheckbox1">Utente ATTIVO</label>
-                                                                        </div>
-                                                                        <p >Data disattivazione {patientProfile.isActive ? "" : patientProfile.disabledDate}</p>
-                                                                        <div className="form-group">
-                                                                                <label htmlFor="ontozry" className="form-label small">Causa della disabilitazione</label>
-                                                                                <select className="form-select form-select-sm mb-3" type="text" name="idDisabledCause" defaultValue={patientProfile.isActive ? "" : patientProfile.idDisabledCause} value={patientProfile.isActive ? "" : patientProfile.idDisabledCause} placeholder=".form-control-sm" aria-label="idDisabledCause" onChange={handleChange}>
-                                                                                        <option value="0"></option>
-                                                                                        <option value="1">Causa 1</option>
-                                                                                        <option value="2">Causa 2</option>
-                                                                                        <option value="3">Causa 3</option>
-                                                                                        <option value="4">Causa 4</option>
-                                                                                        <option value="5">Causa 5</option>
-                                                                                </select>
-                                                                                {/* <textarea id="codice-fiscale" className="form-control form-control-sm" rows={5} aria-describedby name="disabledCause" placeholder={"Eventuale causa della disabilitazione"} aria-label="disabledCause" onChange={handleChange} defaultValue={patientProfile.disabledCause} /> }
-                                                                        </div>
-                                                                </div> */ }
+                                                                 <div className="col-12 col-md-6">
+                                                                       {patientProfile.disabledDate != "" ? <p >Utente Disabilitato. Data disattivazione: {patientProfile.disabledDate }</p> : ''}
+                                                                       {patientProfile.disabledCause != null ? <p >Causa disabilitazione: {patientProfile.disabledCause }</p> : ''}
+                                                                       {patientProfile.therapyTerminationCause != "" ? <p >Terapia cessata. Causa cessazione terapia: {patientProfile.therapyTerminationCause }</p> : ''}
+                                                                </div> 
                                                         </div>
                                                 </form>
                                         </div>
