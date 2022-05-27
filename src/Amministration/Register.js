@@ -325,7 +325,7 @@ export class Register extends Component {
                             <Row>
                                 <div class="col-2 col-md-5 mb-0">
                                     <div class="form-check mb-0">
-                                        <label class="form-check-label small" for="flexCheckDefault">
+                                        <label class="form-check-label small">
                                         <Eye size='22' onClick={() => this.showPassword()} className='icon-black' style={{ 'marginRight': "5px" }} />
                                             Mostra password
                                         </label>
