@@ -1,31 +1,34 @@
 import React, { Component } from 'react';
-import { Container, Row, Table, Form, Button,Modal } from 'react-bootstrap';
+import { Container, Row, Table, Form, Button, Modal } from 'react-bootstrap';
 import { user, medico } from '../helpers/api/api';
 import { RowCustom } from "../Doctor/PatientComponent";
 import Pagination from '../helpers/pagination';
 
 export class MedicalCenter extends Component {
     medicalCenterProps = () => ({
-        id:0,
-        nomeCentro:'',
-        isAbilitato:false,
-        openModal:'',
+        id: 0,
+        nomeCentro: '',
+        isAbilitato: false,
+        openModal: '',
+        idRegione:0,
     })
     constructor(props) {
         super(props);
         this.state = {
             listMedicalCenter: [],
+            listRegion: [],
             currentPage: 1,
             itemPerPage: 5,
-            isOpenModal:false,
-            isUpdate:false,
-            medicalCenterDto:{ ...this.medicalCenterProps(),}
-            
+            isOpenModal: false,
+            isUpdate: false,
+            medicalCenterDto: { ...this.medicalCenterProps(), }
+
         }
         this.GetListMedicalCenter = this.GetListMedicalCenter.bind(this);
     }
     componentDidMount() {
         this.GetListMedicalCenter();
+        this.GetListRegion();
     }
     GetListMedicalCenter = () => {
         medico.getAll("GetCentriMedici")
@@ -39,12 +42,24 @@ export class MedicalCenter extends Component {
             .finally(() => {
             });
     }
+    GetListRegion = () => {
+        medico.getAll("GetRegions")
+            .then(async (response) => {
+                if (response.status == 200) {
+                    this.setState({ listRegion: response.data.dati });
+                }
+            }).catch((error) => {
+
+            })
+            .finally(() => {
+            });
+    }
     sedMedicalCenter = () => {
         medico.post("CentroMedico", this.state.medicalCenterDto)
             .then(async (response) => {
                 if (response.status == 200) {
-                    
-                    this.setState({ medicalCenterDto:{ ...this.medicalCenterProps()}, isOpenModal: false , isUpdate: false });
+
+                    this.setState({ medicalCenterDto: { ...this.medicalCenterProps() }, isOpenModal: false, isUpdate: false });
                     this.GetListMedicalCenter();
                 }
             }).catch((error) => {
@@ -54,16 +69,16 @@ export class MedicalCenter extends Component {
             });
     }
     openModal = (el) => {
-        this.setState({ medicalCenterDto:{ ...this.medicalCenterProps()}, isOpenModal: true , isUpdate: true });
-        var element =  this.state.listMedicalCenter.filter((x) => x.id==el);
+        this.setState({ medicalCenterDto: { ...this.medicalCenterProps() }, isOpenModal: true, isUpdate: true });
+        var element = this.state.listMedicalCenter.filter((x) => x.id == el);
         this.setState({ medicalCenterDto: element[0] });
     }
     openModalNew = () => {
-        this.setState({ medicalCenterDto:{ ...this.medicalCenterProps()}, isOpenModal: true , isUpdate: false });
+        this.setState({ medicalCenterDto: { ...this.medicalCenterProps() }, isOpenModal: true, isUpdate: false });
     }
     handleClose = () => {
         this.GetListMedicalCenter();
-        this.setState({ medicalCenterDto:{ ...this.medicalCenterProps()}, isOpenModal: false , isUpdate: false });
+        this.setState({ medicalCenterDto: { ...this.medicalCenterProps() }, isOpenModal: false, isUpdate: false });
     }
     activeCenter = () => {
         const inputValue = this.state.medicalCenterDto.isAbilitato ? false : true;
@@ -75,7 +90,12 @@ export class MedicalCenter extends Component {
         const inputValue = el.target.value;
         this.updateState(inputName, inputValue, objName);
     };
-
+    handleChangeRegion = (el) => {
+        let objName = el.target.alt;
+        const inputName = el.target.name;
+        const inputValue = parseInt( el.target.value);
+        this.updateState('idRegione', inputValue, 'medicalCenterDto');
+    };
     updateState = (inputName, inputValue, objName) => {
         const statusCopy = { ...this.state };
         statusCopy[objName][inputName] = inputValue;
@@ -86,10 +106,10 @@ export class MedicalCenter extends Component {
         this.setState({ currentPage: n });
     }
     setPrevPage = (n) => {
-        this.setState({ currentPage: n-1 });
+        this.setState({ currentPage: n - 1 });
     }
     setNexPage = (n) => {
-        this.setState({ currentPage: n +1 });
+        this.setState({ currentPage: n + 1 });
     }
     render() {
         const indexOfLastPatient = this.state.currentPage * this.state.itemPerPage;
@@ -114,28 +134,28 @@ export class MedicalCenter extends Component {
                     </Row>
                     <div className="table-wrapper">
                         <Table className="table custom">
-                        <thead>
-                            <tr>
-                                <th>Centro Medico</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                currentItem.map((pa) => <RowCustom colums={["nomeCentro", "openModal"]} elementUpdate={"openModal"} reference={'id'} update={(el) => this.openModal(el)} item={pa} />)
-                            }
-                        </tbody>
-                    </Table>
+                            <thead>
+                                <tr>
+                                    <th>Centro Medico</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    currentItem.map((pa) => <RowCustom colums={["nomeCentro", "openModal"]} elementUpdate={"openModal"} reference={'id'} update={(el) => this.openModal(el)} item={pa} />)
+                                }
+                            </tbody>
+                        </Table>
                     </div>
                     <Pagination
-                                patientsPerPage={5}
-                                totalPatients={this.state.listMedicalCenter.length}
-                                paginate={(pageNumber) => this.setCurrentPage(pageNumber)}
-                                currentPage={this.state.currentPage}
-                                prevPage={(pageNumber) => this.setPrevPage(pageNumber)}
-                            nextPage={(pageNumber) => this.setNexPage(pageNumber)}
-                            />
-                           
+                        patientsPerPage={5}
+                        totalPatients={this.state.listMedicalCenter.length}
+                        paginate={(pageNumber) => this.setCurrentPage(pageNumber)}
+                        currentPage={this.state.currentPage}
+                        prevPage={(pageNumber) => this.setPrevPage(pageNumber)}
+                        nextPage={(pageNumber) => this.setNexPage(pageNumber)}
+                    />
+
                 </Row>
                 <Modal
                     show={this.state.isOpenModal}
@@ -144,22 +164,32 @@ export class MedicalCenter extends Component {
                     keyboard={false}
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>{this.state.isUpdate ?'Modifica Centro Medico' : 'Aggiungi Centro Medico'}</Modal.Title>
+                        <Modal.Title>{this.state.isUpdate ? 'Modifica Centro Medico' : 'Aggiungi Centro Medico'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                        <Row>
+                            <Form.Group className="col-12 mb-2" >
+                                <Form.Select onChange={this.handleChangeRegion} name="region" alt="medicalCenterDto" placeholder="Centro medico"  >
+                                    <option value={0}  id="0">Seleziona Regione</option>
+                                    {this.state.listRegion.map((item) =>
+                                        <option value={item.id} id={item.id}>{item.nomeRegione}</option>
+                                    )}
+                                </Form.Select>
+                            </Form.Group>
+                        </Row>
                         <Row>
                             <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
                                 <Form.Label className="text-">Nome Centro</Form.Label>
                                 {this.state.isUpdate ?
-                                                <Form.Check
-                                                    type="switch"
-                                                    defaultChecked={this.state.medicalCenterDto.isAbilitato}
-                                                    id="custom-switch"
-                                                    onClick={() => this.activeCenter()}
-                                                    label={!this.state.medicalCenterDto.isAbilitato ? 'Attiva': 'Disattiva'}
-                                                /> : ''
-                                            }
-                                <Form.Control id="nomeCentro" alt="medicalCenterDto" onChange={this.handleChange} value={this.state.medicalCenterDto.nomeCentro ?this.state.medicalCenterDto.nomeCentro : '' }  name="nomeCentro" placeholder="Inserisci centro" />
+                                    <Form.Check
+                                        type="switch"
+                                        defaultChecked={this.state.medicalCenterDto.isAbilitato}
+                                        id="custom-switch"
+                                        onClick={() => this.activeCenter()}
+                                        label={!this.state.medicalCenterDto.isAbilitato ? 'Attiva' : 'Disattiva'}
+                                    /> : ''
+                                }
+                                <Form.Control id="nomeCentro" alt="medicalCenterDto" onChange={this.handleChange} value={this.state.medicalCenterDto.nomeCentro ? this.state.medicalCenterDto.nomeCentro : ''} name="nomeCentro" placeholder="Inserisci centro" />
                             </Form.Group>
                         </Row>
                     </Modal.Body>
@@ -167,7 +197,7 @@ export class MedicalCenter extends Component {
                         <Button variant="secondary" onClick={() => this.handleClose()}>
                             Chiudi
                         </Button>
-                        <Button variant="primary" onClick={() => this.sedMedicalCenter()}>{this.state.isUpdate ?'Modifica' : 'Aggiungi'}</Button>
+                        <Button variant="primary" onClick={() => this.sedMedicalCenter()}>{this.state.isUpdate ? 'Modifica' : 'Aggiungi'}</Button>
                     </Modal.Footer>
                 </Modal>
             </Container>

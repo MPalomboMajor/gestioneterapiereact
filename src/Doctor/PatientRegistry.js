@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import { patient } from '../helpers/api/api';
+import { Container, Row, Col, Form, Button, Modal } from 'react-bootstrap';
+import { patient, pianoterapeutico } from '../helpers/api/api';
 import moment from 'moment';
 import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
@@ -12,7 +12,11 @@ import { Link } from 'react-router-dom';
 function PatientRegistry() {
         const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
         const [patientProfile, setPatientProfile] = useState([]);
+        const [disabledProfile, setDisabledProfile] = useState([]);
         const [isActive, setIsActive] = useState();
+        const [isOpen, setIsOpen] = useState();
+        const [causes, setCauses] = useState([]);
+        const [motivations, setMotivations] = useState([]);
 
         useEffect(() => {
                 const reloadCount = sessionStorage.getItem('reloadCount');
@@ -33,7 +37,29 @@ function PatientRegistry() {
 
                                 });
                 };
+                const fetchCauses = async () => {
+                        await patient.getAll("GetAllDeactivationCauses")
+                                .then((response) => {
+                                        if (response.status === 200) {
+                                                setCauses(response.data.dati);
+                                        }
+                                }).catch((error) => {
+
+                                });
+                };
+                const fetchMotivation = async () => {
+                        await pianoterapeutico.getAll("GetAllTerminationCauses")
+                                .then((response) => {
+                                        if (response.status === 200) {
+                                                setMotivations(response.data.dati);
+                                        }
+                                }).catch((error) => {
+
+                                });
+                };
                 fetchPatient();
+                fetchCauses();
+                fetchMotivation();
         }, []);
 
         const handleChange = (e) => {
@@ -42,6 +68,21 @@ function PatientRegistry() {
                 setPatientProfile({
                         ...patientProfile, [inputName]:
                                 inputValue
+                });
+        };
+        const handleChangeDisabled = (e) => {
+                const inputValue = parseInt(e.target.value);
+                const inputName = e.target.getAttribute('name');
+                setDisabledProfile({
+                        ...disabledProfile, [inputName]:
+                                inputValue
+                });
+        };
+        const handleChangeDate = (e) => {
+                const inputValue = e.target.value;
+                var sdate = moment(new Date(inputValue)).format("DD/MM/YYYY");
+                setDisabledProfile({
+                        ...disabledProfile, dataFineTerapia: sdate
                 });
         };
 
@@ -66,15 +107,24 @@ function PatientRegistry() {
                         });
         };
 
-
-
-
+        function disabledPatient() {
+                disabledProfile.idPatient = parseInt(patientId);
+                patient.post("DisablePatient/", disabledProfile)
+                        .then((response) => {
+                                if (response.status === 200) {
+                                        NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                                        window.location.href = `/PatientProfile/${patientId}`
+                                }
+                        }).catch((error) => {
+                                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+                        });
+        };
 
         return (
                 <>
                         <h1 className="h1">Anagrafica {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
 
-                        <div className="row h-100 justify-content-center" style={{ "width": "100%", "marginTop": "150px"}}>
+                        <div className="row h-100 justify-content-center" style={{ "width": "100%", "marginTop": "150px" }}>
                                 <div className="col-12">
                                         <div className="box">
                                                 <form className="container-fluid g-0" action method="post">
@@ -131,7 +181,7 @@ function PatientRegistry() {
                                                                                 </div>
                                                                         </div>
                                                                 </div>
-                                                                <div className="col-12 col-md-6">
+                                                                {  /* <div className="col-12 col-md-6">
                                                                         <div className="form-check form-check-inline">
                                                                                 <input className="form-check-input dark" type="checkbox" id="inlineCheckbox1" checked={patientProfile.isActive} onChange={() => updateStatesIsActive()} />
                                                                                 <label className="form-check-label small" htmlFor="inlineCheckbox1">Utente ATTIVO</label>
@@ -147,9 +197,9 @@ function PatientRegistry() {
                                                                                         <option value="4">Causa 4</option>
                                                                                         <option value="5">Causa 5</option>
                                                                                 </select>
-                                                                                {/* <textarea id="codice-fiscale" className="form-control form-control-sm" rows={5} aria-describedby name="disabledCause" placeholder={"Eventuale causa della disabilitazione"} aria-label="disabledCause" onChange={handleChange} defaultValue={patientProfile.disabledCause} /> */}
+                                                                                {/* <textarea id="codice-fiscale" className="form-control form-control-sm" rows={5} aria-describedby name="disabledCause" placeholder={"Eventuale causa della disabilitazione"} aria-label="disabledCause" onChange={handleChange} defaultValue={patientProfile.disabledCause} /> }
                                                                         </div>
-                                                                </div>
+                                                                </div> */ }
                                                         </div>
                                                 </form>
                                         </div>
@@ -158,13 +208,52 @@ function PatientRegistry() {
                                                         <div className="col-12 mb-3 d-flex justify-content-center justify-content-md-end">
                                                                 <Link to={`/Dashboard`} style={{ "color": "black" }}><button className="btn btn-secondary me-3" id>Indietro</button></Link>
                                                                 {/* <Link to={`/PatientProfile/${patientId}`}><button className="btn btn-primary me-3" id>Avanti</button></Link> */}
+                                                                <button className="btn btn-secondary me-3" onClick={() => setIsOpen(true)}>Disabilita Utente</button>
                                                                 <button className="btn btn-primary" id onClick={() => editPatient()}>Salva e vai avanti</button>
                                                         </div>
                                                 </div>
                                         </div>
                                 </div>
                         </div>
-                      
+                        <Modal show={isOpen} onHide={() => setIsOpen(false)}  >
+                                <Modal.Header closeButton>
+                                        <Modal.Title>Disabilitazione </Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                        <Row className="col-14 mb-3">
+                                                <Form.Label className="text">Causa della disabilitazione</Form.Label>
+                                                <Form.Select onChange={handleChangeDisabled} name="idCausaDisabilitazione" placeholder="Causa della disabilitazione " >
+                                                        <option  value={0} id="0">Seleziona </option>
+                                                        {causes.map((item) =>
+                                                                <option  value={item.id} id={item.id}>{item.description}</option>
+                                                        )}
+                                                </Form.Select>
+                                        </Row>
+                                        <Row className="col-14 mb-3">
+                                                <Form.Label className="text">Se si vuole cessare anche la terapia indicare data e motivo</Form.Label>
+                                                <div className=' input-group col-6 mb-3 input-col-5' >
+                                                        <input type="date"
+                                                                name="startD" placeholder="Inizio" onChange={handleChangeDate} defaultValue={moment(patientProfile?.date).subtract(6, 'days').format("YYYY-MM-DD")} className="form-control form-control-sm" id="captiontest" aria-describedby="label-inizio" />
+                                                </div>
+                                                <div className='col-6 mb-3' >
+                                                        <Form.Select className='col-6 mb-3' onChange={handleChangeDisabled} name="idCausaCessazioneTerapia" placeholder="Causa della disabilitazione " >
+                                                                <option value={0}  id="0">Seleziona </option>
+                                                                {motivations.map((item) =>
+                                                                        <option value={item.id} id={item.id}>{item.description}</option>
+                                                                )}
+                                                        </Form.Select>
+                                                </div>
+                                        </Row>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                        <Button variant="secondary" onClick={() => setIsOpen(false)}>
+                                                Chiudi
+                                        </Button>
+                                        <Button variant="primary" onClick={() => disabledPatient()} >
+                                                Salva
+                                        </Button>
+                                </Modal.Footer>
+                        </Modal>
                         < NotificationContainer />
                 </>
         )

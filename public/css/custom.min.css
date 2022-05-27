@@ -2153,6 +2153,9 @@ table.custom td .btn+.btn {
 .custom-th{
     margin-left: 14%;
 }
+.input-col-5{
+    width: 50% !important;
+}
 
 #chartContainer { 
     overflow-x: scroll;
