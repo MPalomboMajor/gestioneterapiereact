@@ -719,12 +719,12 @@ export class NewTherapy extends Component {
                     />
                     <Row>
                         <Form.Group className="col-4 mb-3" >
-                            <Button variant="btn  btn-secondary"  onClick={() => this.returnToMenu(false)} >
+                            <Button variant="btn btn-secondary btn-arrow-prev" onClick={() => this.returnToMenu(false)}>
                                 Indietro
                             </Button>
                         </Form.Group>
                         <Form.Group className="col-4 mb-3" >
-                            <Button variant="btn btn-primary" onClick={(k) => this.selectTab('altriFarmaci')} >
+                            <Button variant="btn btn-primary btn-arrow" onClick={(k) => this.selectTab('altriFarmaci')} >
                                 2/3
                             </Button >
                         </Form.Group>
@@ -942,12 +942,12 @@ export class NewTherapy extends Component {
                     />
                     <Row>
                         <Form.Group className="col-4 mb-3" >
-                            <Button variant="btn btn-secondary" onClick={(k) => this.selectTab('ontozry')}>
+                            <Button variant="btn btn-secondary btn-arrow-prev" onClick={(k) => this.selectTab('ontozry')}>
                                 1/3
                             </Button>
                         </Form.Group>
                         <Form.Group className="col-4 mb-3" >
-                            <Button variant="btn btn-primary" onClick={(k) => this.selectTab('allergieFarmaci')}>
+                            <Button variant="btn btn-primary btn-arrow" onClick={(k) => this.selectTab('allergieFarmaci')}>
                                 3/3
                             </Button>
                         </Form.Group>
@@ -1009,12 +1009,12 @@ export class NewTherapy extends Component {
                     />
                     <Row>
                         <Form.Group className="col-4 mb-3" >
-                            <Button variant="btn btn-secondary" onClick={(k) => this.selectTab('altriFarmaci')}>
+                            <Button variant="btn btn-secondary btn-arrow-prev" onClick={(k) => this.selectTab('altriFarmaci')}>
                                 2/3
                             </Button>
                         </Form.Group>
                         <Form.Group className="col-4 mb-3" >
-                            <Button variant="btn btn-primary " onClick={() => this.updateTherapy()} >
+                            <Button variant="btn btn-primary btn-arrow" onClick={() => this.updateTherapy()} >
                                 Salva
                             </Button>
                         </Form.Group>

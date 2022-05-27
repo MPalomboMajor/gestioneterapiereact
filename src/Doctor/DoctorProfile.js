@@ -7,6 +7,7 @@ import { NotificationContainer, NotificationManager } from 'react-notifications'
 import { NotificationContainer as ContainerModal, NotificationManager as ManagerModal } from 'react-notifications';
 import { entitiesLabels, message, role } from '../helpers/Constants';
 import SimpleReactValidator from 'simple-react-validator';
+
 export class DoctorProfile extends Component {
     userModelProp = () => ({
         idDoctor: 0,

@@ -222,7 +222,7 @@ export class Login extends Component {
                     </div>
                     <div class="col-12 col-md-12 mb-0 justify-content-center">
                         <div class="form-check mb-0">
-                        <Eye size='22' onClick={() => this.showPassword()} className='icon-black' style={{ 'marginRight': "5px"}} />
+                            <Eye size='22' onClick={() => this.showPassword()} className='icon-black' style={{ 'marginRight': "5px" }} />
                             <label class="form-check-label small" for="flexCheckDefault">
                                 Mostra password
                             </label>
