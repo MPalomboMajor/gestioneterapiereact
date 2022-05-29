@@ -97,6 +97,8 @@ export class NewTherapy extends Component {
                     motivoFineTerapia: "",
                     idDoctor: JSON.parse(localStorage.getItem("role")).id,
                     idPatientProfile: parseInt(window.location.pathname.split('/').pop()),
+                    idTerminationCause: null,
+                    terminationCause:'',
                     elencoFarmaciPrescritti: [],
                 },
                 ontozryMedication: [],
