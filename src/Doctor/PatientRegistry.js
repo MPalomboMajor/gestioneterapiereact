@@ -109,17 +109,31 @@ function PatientRegistry() {
 
         function disabledPatient() {
                 disabledProfile.idPatient = parseInt(patientId);
-                patient.post("DisablePatient/", disabledProfile)
+                patient.post("EnableDisablePatient/", disabledProfile)
                         .then((response) => {
-                                if (response.status === 200) {
+                                if (response.data.statoEsito === 0) {
                                         NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
                                         window.location.href = `/PatientProfile/${patientId}`
+                                }else{
+                                        NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
                                 }
                         }).catch((error) => {
                                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
                         });
         };
-
+        function activePatient() {
+                patient.post("EnableDisablePatient/", {idPatient: parseInt(patientId), idCausaDisabilitazione: 0 ,idCausaCessazioneTerapia:0 ,dataFineTerapia : "" })
+                        .then((response) => {
+                                if (response.data.statoEsito === 0) {
+                                        NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                                        window.location.href = `/PatientProfile/${patientId}`
+                                }else{
+                                        NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
+                                }
+                        }).catch((error) => {
+                                NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
+                        });
+        };
         return (
                 <>
                         <h1 className="h1">Anagrafica {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
@@ -182,9 +196,9 @@ function PatientRegistry() {
                                                                         </div>
                                                                 </div>
                                                                  <div className="col-12 col-md-6">
-                                                                       {patientProfile.disabledDate != "" ? <p >Utente Disabilitato. Data disattivazione: {patientProfile.disabledDate }</p> : ''}
-                                                                       {patientProfile.disabledCause != null ? <p >Causa disabilitazione: {patientProfile.disabledCause }</p> : ''}
-                                                                       {patientProfile.therapyTerminationCause != "" ? <p >Terapia cessata. Causa cessazione terapia: {patientProfile.therapyTerminationCause }</p> : ''}
+                                                                       { !isActive && patientProfile.disabledDate != "" ? <p >Utente Disabilitato. Data disattivazione: {patientProfile.disabledDate }</p> : ''}
+                                                                       { !isActive && patientProfile.disabledCause != null ? <p >Causa disabilitazione: {patientProfile.disabledCause }</p> : ''}
+                                                                       { !isActive && patientProfile.therapyTerminationCause != "" ? <p >Terapia cessata. Causa cessazione terapia: {patientProfile.therapyTerminationCause }</p> : ''}
                                                                 </div> 
                                                         </div>
                                                 </form>
@@ -194,7 +208,9 @@ function PatientRegistry() {
                                                         <div className="col-12 mb-3 d-flex justify-content-center justify-content-md-end">
                                                                 <Link to={`/Dashboard`} style={{ "color": "black" }}><button className="btn btn-secondary me-3" id>Indietro</button></Link>
                                                                 {/* <Link to={`/PatientProfile/${patientId}`}><button className="btn btn-primary me-3" id>Avanti</button></Link> */}
-                                                                <button className="btn btn-secondary me-3" onClick={() => setIsOpen(true)}>Disabilita Utente</button>
+                                                                { isActive ?<button className="btn btn-secondary me-3" onClick={() => setIsOpen(true)}>Disabilita Utente</button>:
+                                                                <button className="btn btn-secondary me-3" onClick={() => activePatient()}>Abilita Utente</button>
+                                                                }
                                                                 <button className="btn btn-primary" id onClick={() => editPatient()}>Salva e vai avanti</button>
                                                         </div>
                                                 </div>
