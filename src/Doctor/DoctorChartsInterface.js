@@ -58,7 +58,7 @@ function DoctorChartsInterface() {
                     return;
                 }
                 const arr = (response.data.dati
-                    ?.map(function (item) { return moment.min(item["disabledDate"]); })
+                    ?.map(function (item) { return moment.min(item["creationDate"]); })
                         .filter(item => item));
                 setCreationDatesPatients(arr);
 
