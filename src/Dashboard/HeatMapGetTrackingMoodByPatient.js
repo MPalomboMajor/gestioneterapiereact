@@ -28,8 +28,8 @@ function HeatMapGetTrackingMoodByPatient(props) {
         colors={{
             type: 'diverging',
             scheme: 'red_yellow_blue',
-            minValue: -100000,
-            maxValue: 100000,
+            minValue: 0,
+            maxValue: 200,
             divergeAt: 0.5
         }}
         emptyColor="#555555"

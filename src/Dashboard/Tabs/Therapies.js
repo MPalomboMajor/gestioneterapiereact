@@ -14,12 +14,12 @@ function Therapies(props) {
                                 <div className="container-fluid g-0">
                                     <div className="row gx-3 mb-2">
                                     <div style={{ "height": "300px", "marginTop": "40px"}}>
-                                            <h2>Numero pazienti per formulazioni</h2>
+                                            <h2>Numero assistiti per dosaggio</h2>
                                             <BarChartGetAllPatientByFormulation data={props.dataGetAllPatientByFormulation} commonProperties={props.commonProperties} />
                                         </div>
                                         &nbsp;
                                         <div style={{ "height": "300px", "marginTop": "40px"}}>
-                                            <h2>Numero assistiti per fase</h2>
+                                            <h2>Numero assistiti per fase di trattamento</h2>
                                             <PieChartGetPatientsByPhase data={props.dataGetPatientsByPhase} commonProperties={props.commonProperties} />
                                         </div>
                                     </div>

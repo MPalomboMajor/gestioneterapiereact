@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { dashboard } from '../helpers/api/api'
+import { patient, dashboard } from '../helpers/api/api'
 import { useState, useEffect } from 'react';
 import { role } from '../helpers/Constants';
 import { Link } from "react-router-dom";
@@ -14,10 +14,13 @@ function DoctorChartsInterface() {
     const isCareManger = user.idRole === role.CAREMANAGER ? true : false
     const isAngelini = user.idRole === role.ADMIN ? true : false
     const isDoctor = user.idRole === role.DOCTOR ? true : false
-    const [key, setKey] = useState('patients');
     const date = new Date();
-    const [dataInizio, setDataInizio] = useState(moment(date).subtract(6, 'days').format("DD/MM/YYYY"));
-    const [dataFine, setDataFine] = useState(moment(date).format("DD/MM/YYYY"));
+    const [loading, setLoading] = useState(false);
+    const [key, setKey] = useState('patients');
+    const [dataInizio, setDataInizio] = useState();
+    const [dataFine, setDataFine] = useState(moment(date).format("YYYY-MM-DD"));
+    const [creationDatesPatients, setCreationDatesPatients] = useState([]);
+    const [minDate, setMinDate] = useState();
     //Assistiti
     const [dataGetTotalRegisterActive, setDataGetTotalRegisterActive] = useState("");
     const [dataGetTotalNumberDropOff, setDataGetTotalNumberDropOff] = useState("");
@@ -43,16 +46,60 @@ function DoctorChartsInterface() {
     const [dataGetSatisfactionLevelQuestionThree, setDataGetSatisfactionLevelQuestionThree] = useState([]);
 
     useEffect(() => {
-        const fetchInitalData = async () => {
-            callsFetchData();
-        };
-        fetchInitalData();
+        let request = null;
+        if (JSON.parse(localStorage.getItem("role")).idRole == role.CAREMANAGER || JSON.parse(localStorage.getItem("role")).idRole == role.ADMIN) {
+            request = patient.getAll("GetAll");
+        } else {
+            request = patient.get("GetByDoctor/", JSON.parse(localStorage.getItem("role")).id);
+        }
+        request
+            .then((response) => {
+                if (response.status !== 200) {
+                    return;
+                }
+                const arr = (response.data.dati
+                    ?.map(function (item) { return moment.min(item["disabledDate"]); })
+                        .filter(item => item));
+                setCreationDatesPatients(arr);
+
+                setLoading(false);
+            }).catch((error) => {
+
+            });
     }, []);
+
+    useEffect(() => {
+        if(!creationDatesPatients.length){
+            return;
+        }
+        console.log(creationDatesPatients)
+        fillMinDate();
+    }, [creationDatesPatients]);
+
+    useEffect(() => {
+        if(!minDate){
+            return;
+        }
+        callsFetchData();
+    }, [minDate]);
 
     function fetchData(evt) {
         evt.preventDefault();
         callsFetchData();
     };
+
+    function fillMinDate() {
+        const sorted = creationDatesPatients.sort((a, b) => {
+            const newA = a.split('/').reverse().join('-');
+            const newB = b.split('/').reverse().join('-');
+            return +new Date(newA) - +new Date(newB)
+        })
+        console.log(sorted);
+        setMinDate(sorted[0]);
+        const dateMomentObject = moment(sorted[0], "DD-MM-YYYY");
+        const dateObject = dateMomentObject.toDate();
+        setDataInizio(moment(dateObject).format("YYYY-MM-DD"));
+    }
 
     function callsFetchData() {
         //Assstiti
@@ -226,26 +273,30 @@ function DoctorChartsInterface() {
         activeOuterRadiusOffset: 8,
     }
 
+
+
     return (
         <>
             <div className="row mb-4">
                 <form onSubmit={fetchData}>
                     <div className="row align-items-center g-0 g-md-3">
+                        {dataInizio &&
+                            <div className="col-12 col-md-4">
+                                <div className="input-group mb-3">
+                                    <span className="input-group-text" id="label-inizio">Dal</span>
+                                    <input type="date" className="form-control form-control-sm" id="dataI" value={dataInizio} aria-describedby="label-data" name="dataInizio" onChange={e => {setDataInizio(e.target.value); }}  min={dataInizio} max={moment().format("YYYY-MM-DD")} />
+                                </div>
+                            </div>
+                        }
 
                         <div className="col-12 col-md-4">
                             <div className="input-group mb-3">
-                                <span className="input-group-text" id="label-inizio">Data inizio</span>
-                                <input type="date" className="form-control form-control-sm" id="dataI" defaultValue={moment(date).subtract(6, 'days').format("YYYY-MM-DD")} aria-describedby="label-data" name="dataInizio" onChange={e => setDataInizio(moment(e.target.value).format("DD/MM/YYYY"))} max={moment().format("YYYY-MM-DD")}/>
-                            </div>
-                        </div>
-                        <div className="col-12 col-md-4">
-                            <div className="input-group mb-3">
-                                <span className="input-group-text" id="label-inizio">Data fine</span>
-                                <input type="date" className="form-control form-control-sm" id="dataF" aria-describedby="label-data" defaultValue={moment(date).format("YYYY-MM-DD")} name="dataFine" onChange={e => setDataFine(moment(e.target.value).format("DD/MM/YYYY"))} max={moment().format("YYYY-MM-DD")}/>
+                                <span className="input-group-text" id="label-inizio">al</span>
+                                <input type="date" className="form-control form-control-sm" id="dataF" aria-describedby="label-data" value={dataFine} name="dataFine" onChange={e => setDataFine(e.target.value)} min={dataInizio} max={moment().format("YYYY-MM-DD")} />
                             </div>
                         </div>
                         <div className="col-12 col-md-3">
-                            <button className="btn btn-primary btn-upload form-control form-control-sm" id type="submit" >Filtra</button>
+                            <button className="btn btn-primary btn-upload form-control form-control-sm" id type="submit" >Seleziona</button>
                         </div>
                     </div>
                     &nbsp;&nbsp;&nbsp;
@@ -266,7 +317,7 @@ function DoctorChartsInterface() {
                         dataGetBySex={dataGetBySex}
                         commonProperties={commonProperties} />
                 </Tab>
-                <Tab eventKey="therapies" title="Terapie" >
+                <Tab eventKey="therapies" title="Terapia Ontozry" >
                     <Therapies dataGetAllPatientByFormulation={dataGetAllPatientByFormulation}
                         dataGetDayByFormulation={dataGetDayByFormulation}
                         dataGetPatientsByPhase={dataGetPatientsByPhase}
@@ -295,7 +346,7 @@ function DoctorChartsInterface() {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-12 mb-3 d-flex justify-content-center justify-content-md-start">
-                        <Link to={`/Dashboard`}><button className="btn btn-primary me-3" id>Elenco assistiti</button></Link>
+                        <Link to={`/Dashboard`}><button className="btn btn-primary me-3" id>Elenco assistiti</button> </Link>
                     </div>
                 </div>
             </div>

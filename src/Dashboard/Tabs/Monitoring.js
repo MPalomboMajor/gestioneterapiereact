@@ -56,14 +56,14 @@ function Monitoring(props) {
                                         }
                                         {isDoctor || isCareManger ?
                                             <div id="chartContainer" style={{ "height": "300px", "marginTop": "40px", "width": "600px" }}>
-                                                <h2>Aderenza alla terapia</h2>
+                                                <h2>Aderenza terapia anticrisi</h2>
                                                 <BarChartGetAdherencesByPatient data={props.dataGetAdherencesByPatient} commonProperties={props.commonProperties} />
                                             </div> : ""
                                         }
                                         &nbsp;
                                         {isDoctor || isCareManger ?
                                             <div style={{ "height": "320px", "marginTop": "40px" }}>
-                                                <h2>Andamento mood giornaliero</h2>
+                                                <h2>Andamento mood giornaliero ultime 2 settimane</h2>
                                                 <HeatMapGetTrackingMoodByPatient data={props.dataGetTrackingMoodByPatient} commonProperties={props.commonProperties} />
                                             </div> : ""
                                         }
