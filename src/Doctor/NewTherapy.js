@@ -221,14 +221,17 @@ export class NewTherapy extends Component {
                                     this.setState({
                                         storicPlan: response.data.dati, isSave:true,
                                     });
-                                    
-                                }
+                                    if(localStorage.getItem("newPatient")) {
+                                        localStorage.removeItem('newPatient');
+                                        window.location.href = "/PatientRegistry/" + window.location.pathname.split('/').pop()
+                                    }
+                                }   
                             }).catch((error) => {
                                 NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 4000);
                             });
                     } else {
                         NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 4000);
-                    }
+                    }  
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
