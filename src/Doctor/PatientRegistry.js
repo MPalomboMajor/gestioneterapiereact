@@ -113,7 +113,7 @@ function PatientRegistry() {
                         .then((response) => {
                                 if (response.data.statoEsito === 0) {
                                         NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
-                                        window.location.href = `/PatientProfile/${patientId}`
+                                        window.location.href = `/PatientRegistry/${patientId}`
                                 }else{
                                         NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
                                 }
@@ -126,7 +126,7 @@ function PatientRegistry() {
                         .then((response) => {
                                 if (response.data.statoEsito === 0) {
                                         NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
-                                        window.location.href = `/PatientProfile/${patientId}`
+                                        window.location.href = `/PatientRegistry/${patientId}`
                                 }else{
                                         NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
                                 }
