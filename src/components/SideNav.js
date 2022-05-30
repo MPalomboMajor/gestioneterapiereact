@@ -61,14 +61,14 @@ const SideNav = () => {
                             {window.location.pathname === "/Dashboard" || window.location.pathname === "/PatientRegistry" || window.location.pathname === "/ListDoctor" || window.location.pathname === "/MedicalCenter" || window.location.pathname === "/ContactInfo" || window.location.pathname === "/ContactInfoPatient" || window.location.pathname === "/DoctorChartsInterface" ?
                                 <>
                                     <li className="nav-item">
-                                        <Link to={`/CareManagerProfile`} className="nav-link profilo-paziente">
+                                        <a href="/CareManagerProfile" className={window.location.pathname.split('/').pop() === "CareManagerProfile" ? "nav-link profilo-paziente-nome active" : "nav-link profilo-paziente-nome"} aria-current="page" >
                                             <p>
                                                 {userProfile.name} {userProfile.surName}
                                             </p>
-                                        </Link>
+                                        </a>
                                     </li>
                                     <li className="nav-item">
-                                        <a href="/DoctorChartsInterface" className="nav-link home" aria-current="page" >
+                                        <a href="/DoctorChartsInterface" className={window.location.pathname.split('/').pop() === "DoctorChartsInterface" ? "nav-link home active" : "nav-link home"} aria-current="page" >
                                             <p>
                                                 Home
                                             </p>
@@ -76,28 +76,28 @@ const SideNav = () => {
                                     </li>
                                     <hr />
                                     <li className="nav-item">
-                                        <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
+                                        <a href="/Dashboard" className={window.location.pathname.split('/').pop() === "Dashboard" ? "nav-link profilo-paziente active" : "nav-link profilo-paziente"} aria-current="page" >
                                             <p>
                                                 Elenco assistiti
                                             </p>
                                         </a>
                                     </li>
                                     <li className="nav-item">
-                                        <a href="/ListDoctor" className="nav-link anagrafica-medico">
+                                        <a href="/ListDoctor" className={window.location.pathname.split('/').pop() === "ListDoctor" ? "nav-link anagrafica-medico active" : "nav-link anagrafica-medico"} aria-current="page" >
                                             <p>
                                                 Elenco medici
                                             </p>
                                         </a>
                                     </li>
                                     <li className="nav-item">
-                                        <a href="/MedicalCenter" className="nav-link visite-mediche">
+                                        <a href="/MedicalCenter" className={window.location.pathname.split('/').pop() === "MedicalCenter" ? "nav-link visite-mediche active" : "nav-link visite-mediche"} aria-current="page" >
                                             <p>
                                                 Centri Medici
                                             </p>
                                         </a>
                                     </li>
                                     <li className="nav-item">
-                                        <a href="/ContactInfo" className="nav-link profilo-paziente">
+                                        <a href="/ContactInfo" className={window.location.pathname.split('/').pop() === "ContactInfo" ? "nav-link profilo-paziente active" : "nav-link profilo-paziente"} aria-current="page" >
                                             <p>
                                                 Contact  Info
                                             </p>
@@ -114,14 +114,14 @@ const SideNav = () => {
                                 :
                                 <>
                                     <li className="nav-item">
-                                        <Link to={`/CareManagerProfile`} className="nav-link profilo-paziente">
+                                        <a href="/CareManagerProfile" className={window.location.pathname.split('/').pop() === "CareManagerProfile" ? "nav-link profilo-paziente-nome active" : "nav-link profilo-paziente-nome"} aria-current="page" >
                                             <p>
                                                 {userProfile.name} {userProfile.surName}
                                             </p>
-                                        </Link>
+                                        </a>
                                     </li>
                                     <li className="nav-item">
-                                        <a href="/DoctorChartsInterface" className="nav-link home" aria-current="page" >
+                                        <a href="/DoctorChartsInterface" className={window.location.pathname.split('/').pop() === "DoctorChartsInterface" ? "nav-link home active" : "nav-link home"} aria-current="page" >
                                             <p>
                                                 Home
                                             </p>
@@ -129,7 +129,7 @@ const SideNav = () => {
                                     </li>
                                     <hr />
                                     <li className="nav-item">
-                                        <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
+                                        <a href="/Dashboard" className={window.location.pathname.split('/').pop() === "Dashboard" ? "nav-link profilo-paziente active" : "nav-link profilo-paziente"} aria-current="page" >
                                             <p>
                                                 Elenco assistiti
                                             </p>
@@ -138,73 +138,74 @@ const SideNav = () => {
                                     {localStorage.getItem("newPatient") != null ? '' :
                                         <>
                                             <li className="nav-item">
-                                                <Link to={`/PatientRegistry/${patientId}`} className="nav-link anagrafica-paziente">
+                                                <a href={`/PatientRegistry/${patientId}`} className={window.location.pathname.split('/').at(-2) === "PatientRegistry" ? "nav-link anagrafica-paziente active" : "nav-link anagrafica-paziente"} aria-current="page" >
                                                     <p >
                                                         Anagrafica assistito
                                                     </p>
-                                                </Link>
+                                                </a>
                                             </li>
                                             <li className="nav-item">
-                                                <Link to={`/PatientProfile/${patientId}`} className="nav-link profilo-paziente">
+                                                <a href={`/PatientProfile/${patientId}`} className={window.location.pathname.split('/').at(-2) === "PatientProfile" ? "nav-link profilo-paziente active" : "nav-link profilo-paziente"} aria-current="page" >
                                                     <p>
                                                         Profilo assistito
                                                     </p>
-                                                </Link>
+                                                </a>
                                             </li>
                                         </>
                                     }
                                     <li className="nav-item">
-                                        <Link to={`/NewTherapy/${patientId}`} className="nav-link terapia">
+                                        <a href={`/NewTherapy/${patientId}`} className={window.location.pathname.split('/').at(-2) === "NewTherapy" ? "nav-link terapia active" : "nav-link terapia"} aria-current="page" >
                                             <p>
                                                 Terapia
                                             </p>
-                                        </Link>
+                                        </a>
                                     </li>
                                     {localStorage.getItem("newPatient") != null ? '' :
                                         <>
                                             <li className="nav-item">
-                                                <Link to={`/AdverseEvents/${patientId}`} className="nav-link eventi-avversi">
+                                                <a href={`/AdverseEvents/${patientId}`} className={window.location.pathname.split('/').at(-2) === "AdverseEvents" ? "nav-link eventi-avversi active" : "nav-link eventi-avversi"} aria-current="page" >
+
                                                     <p>
                                                         Eventi avversi
                                                     </p>
-                                                </Link>
+                                                </a>
                                             </li>
                                             <li className="nav-item">
-                                                <Link to={`/EpilepticSeizures/${patientId}`} className="nav-link crisi-epilettiche">
+                                                <a href={`/EpilepticSeizures/${patientId}`} className={window.location.pathname.split('/').at(-2) === "EpilepticSeizures" ? "nav-link crisi-epilettiche active" : "nav-link crisi-epilettiche"} aria-current="page" >
                                                     <p>
                                                         Crisi
                                                     </p>
-                                                </Link>
+                                                </a>
                                             </li>
                                             <li className="nav-item">
-                                                <Link to={`/DiagnosticTests/${patientId}`} className="nav-link anagrafica-medico">
+                                                <a href={`/DiagnosticTests/${patientId}`} className={window.location.pathname.split('/').at(-2) === "DiagnosticTests" ? "nav-link esami-diagnostici active" : "nav-link esami-diagnostici"} aria-current="page" >
                                                     <p>
                                                         Esami diagnostici
                                                     </p>
-                                                </Link>
+                                                </a>
                                             </li>
                                             <li className="nav-item">
-                                                <Link to={`/MedicalExaminations/${patientId}`} className="nav-link visite-mediche">
+                                                <a href={`/MedicalExaminations/${patientId}`} className={window.location.pathname.split('/').at(-2) === "MedicalExaminations" ? "nav-link esami-diagnostici active" : "nav-link esami-diagnostici"} aria-current="page" >
                                                     <p>
                                                         Visite mediche
                                                     </p>
-                                                </Link>
+                                                </a>
                                             </li>
 
                                             <li className="nav-item">
-                                                <Link to={`/NutritionalPlans/${patientId}`} className="nav-link piano-nutrizionale">
+                                                <a href={`/NutritionalPlans/${patientId}`} className={window.location.pathname.split('/').at(-2) === "NutritionalPlans" ? "nav-link piano-nutrizionale active" : "nav-link piano-nutrizionale"} aria-current="page" >
                                                     <p>
                                                         Piano nutrizionale
                                                     </p>
-                                                </Link>
+                                                </a>
                                             </li>
 
                                             <li className="nav-item">
-                                                <Link to={`/MoodMonitoring/${patientId}`} className="nav-link umore">
+                                                <a href={`/MoodMonitoring/${patientId}`} className={window.location.pathname.split('/').at(-2) === "MoodMonitoring" ? "nav-link umore active" : "nav-link umore"} aria-current="page" >
                                                     <p>
                                                         Umore
                                                     </p>
-                                                </Link>
+                                                </a>
                                             </li>
                                             {/* <li className="nav-item">
                                                 <a href="/" className="nav-link logout" >
@@ -235,14 +236,14 @@ const SideNav = () => {
                                     window.location.pathname === "/DoctorChartsInterface"
                                     ? <>
                                         <li className="nav-item">
-                                            <a href="/DoctorProfile" className="nav-link profilo-paziente">
+                                            <a href="/DoctorProfile" className={window.location.pathname.split('/').pop() === "DoctorProfile" ? "nav-link profilo-paziente-nome active" : "nav-link profilo-paziente-nome"} aria-current="page" >
                                                 <p>
                                                     {userProfile.name} {userProfile.surName}
                                                 </p>
                                             </a>
                                         </li>
                                         <li className="nav-item">
-                                            <a href="/DoctorChartsInterface" className="nav-link home" aria-current="page" >
+                                            <a href="/DoctorChartsInterface" className={window.location.pathname.split('/').pop() === "DoctorChartsInterface" ? "nav-link home active" : "nav-link home"} aria-current="page" >
                                                 <p>
                                                     Home
                                                 </p>
@@ -250,39 +251,40 @@ const SideNav = () => {
                                         </li>
                                         <hr />
                                         <li className="nav-item">
-                                            <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
+                                            <a href="/Dashboard" className={window.location.pathname.split('/').pop() === "Dashboard" ? "nav-link elenco-pazienti active" : "nav-link elenco-pazienti"} aria-current="page" >
+
                                                 <p>
                                                     Elenco assistiti
                                                 </p>
                                             </a>
                                         </li>
                                         <li className="nav-item">
-                                            <a href="/NewPatient" className="nav-link nuovo-paziente">
+                                            <a href="/NewPatient" className={window.location.pathname.split('/').pop() === "NewPatient" ? "nav-link nuovo-paziente active" : "nav-link nuovo-paziente"} aria-current="page" >
                                                 <p>
                                                     Crea nuovo assistito
                                                 </p>
                                             </a>
                                         </li>
                                         <li className="nav-item">
-                                            <a href="/RichiediCodice" className="nav-link no-kit">
+                                            <a href="/RichiediCodice" className={window.location.pathname.split('/').pop() === "RichiediCodice" ? "nav-link no-kit active" : "nav-link no-kit"} aria-current="page" >
                                                 <p>
                                                     Richiedi nuovo codice assistito
                                                 </p>
                                             </a>
                                         </li>
                                         <li className="nav-item">
-                                            <a href="/AssociatePatient" className="nav-link collega-paziente">
+                                            <a href="/AssociatePatient" className={window.location.pathname.split('/').pop() === "AssociatePatient" ? "nav-link collega-paziente active" : "nav-link collega-paziente"} aria-current="page" >
                                                 <p>
                                                     Collega assistito già assegnato
                                                 </p>
                                             </a>
                                         </li>
                                         <li className="nav-item">
-                                            <Link to={`/DoctorProfile`} className="nav-link anagrafica-medico">
+                                            <a href="/DoctorProfile" className={window.location.pathname.split('/').pop() === "DoctorProfile" ? "nav-link profilo-paziente active" : "nav-link profilo-paziente"} aria-current="page" >
                                                 <p>
                                                     Anagrafica medico
                                                 </p>
-                                            </Link>
+                                            </a>
                                         </li>
 
 
@@ -299,14 +301,14 @@ const SideNav = () => {
                                         {localStorage.getItem("newPatient") != null ? '' :
                                             <>
                                                 <li className="nav-item">
-                                                    <a href="/DoctorProfile" className="nav-link profilo-paziente">
+                                                    <a href="/DoctorProfile" className={window.location.pathname.split('/').pop() === "DoctorProfile" ? "nav-link profilo-paziente-nome active" : "nav-link profilo-paziente-nome"} aria-current="page" >
                                                         <p>
                                                             {userProfile.name} {userProfile.surName}
                                                         </p>
                                                     </a>
                                                 </li>
                                                 <li className="nav-item">
-                                                    <a href="/DoctorChartsInterface" className="nav-link home" aria-current="page" >
+                                                    <a href="/DoctorChartsInterface" className={window.location.pathname.split('/').pop() === "DoctorChartsInterface" ? "nav-link home active" : "nav-link home"} aria-current="page" >
                                                         <p>
                                                             Home
                                                         </p>
@@ -314,78 +316,80 @@ const SideNav = () => {
                                                 </li>
                                                 <hr />
                                                 <li className="nav-item">
-                                                    <a href="/Dashboard" className="nav-link elenco-pazienti" aria-current="page" >
+                                                    <a href="/Dashboard" className={window.location.pathname.split('/').pop() === "Dashboard" ? "nav-link profilo-paziente active" : "nav-link profilo-paziente"} aria-current="page" >
                                                         <p>
                                                             Elenco assistiti
                                                         </p>
                                                     </a>
                                                 </li>
                                                 <li className="nav-item">
-                                                    <Link to={`/PatientRegistry/${patientId}`} className="nav-link anagrafica-paziente">
+                                                    <a href={`/PatientRegistry/${patientId}`} className={window.location.pathname.split('/').at(-2) === "PatientRegistry" ? "nav-link anagrafica-paziente active" : "nav-link anagrafica-paziente"} aria-current="page" >
+
                                                         <p >
                                                             Anagrafica assistito
                                                         </p>
-                                                    </Link>
+                                                    </a>
                                                 </li>
                                                 <li className="nav-item">
-                                                    <Link to={`/PatientProfile/${patientId}`} className="nav-link profilo-paziente">
+                                                    <a href={`/PatientProfile/${patientId}`} className={window.location.pathname.split('/').at(-2) === "PatientProfile" ? "nav-link profilo-paziente active" : "nav-link profilo-paziente"} aria-current="page" >
+
                                                         <p>
                                                             Profilo assistito
                                                         </p>
-                                                    </Link>
+                                                    </a>
                                                 </li>
                                             </>
                                         }
                                         <li className="nav-item">
-                                            <Link to={`/NewTherapy/${patientId}`} className="nav-link terapia">
+                                            <a href={`/NewTherapy/${patientId}`} className={window.location.pathname.split('/').at(-2) === "NewTherapy" ? "nav-link terapia active" : "nav-link terapia"} aria-current="page" >
                                                 <p>
                                                     Terapia
                                                 </p>
-                                            </Link>
+                                            </a>
                                         </li>
                                         {localStorage.getItem("newPatient") != null ? '' :
                                             <>
                                                 <li className="nav-item">
-                                                    <Link to={`/AdverseEvents/${patientId}`} className="nav-link eventi-avversi">
+                                                    <a href={`/AdverseEvents/${patientId}`} className={window.location.pathname.split('/').at(-2) === "AdverseEvents" ? "nav-link eventi-avversi active" : "nav-link eventi-avversi"} aria-current="page" >
                                                         <p>
                                                             Eventi avversi
                                                         </p>
-                                                    </Link>
+                                                    </a>
                                                 </li>
                                                 <li className="nav-item">
-                                                    <Link to={`/EpilepticSeizures/${patientId}`} className="nav-link crisi-epilettiche">
+                                                    <a href={`/EpilepticSeizures/${patientId}`} className={window.location.pathname.split('/').at(-2) === "EpilepticSeizures" ? "nav-link crisi-epilettiche active" : "nav-link crisi-epilettiche"} aria-current="page" >
                                                         <p>
                                                             Crisi
                                                         </p>
-                                                    </Link>
+                                                    </a>
                                                 </li>
                                                 <li className="nav-item">
-                                                    <Link to={`/DiagnosticTests/${patientId}`} className="nav-link esami-diagnostici">
+                                                    <a href={`/DiagnosticTests/${patientId}`} className={window.location.pathname.split('/').at(-2) === "DiagnosticTests" ? "nav-link esami-diagnostici active" : "nav-link esami-diagnostici"} aria-current="page" >
                                                         <p>
                                                             Esami diagnostici
                                                         </p>
-                                                    </Link>
+                                                    </a>
                                                 </li>
                                                 <li className="nav-item">
-                                                    <Link to={`/MedicalExaminations/${patientId}`} className="nav-link visite-mediche">
+                                                    <a href={`/MedicalExaminations/${patientId}`} className={window.location.pathname.split('/').at(-2) === "MedicalExaminations" ? "nav-link esami-diagnostici active" : "nav-link esami-diagnostici"} aria-current="page" >
                                                         <p>
                                                             Visite mediche
                                                         </p>
-                                                    </Link>
+                                                    </a>
                                                 </li>
                                                 <li className="nav-item">
-                                                    <Link to={`/NutritionalPlans/${patientId}`} className="nav-link piano-nutrizionale">
+                                                    <a href={`/NutritionalPlans/${patientId}`} className={window.location.pathname.split('/').at(-2) === "NutritionalPlans" ? "nav-link piano-nutrizionale active" : "nav-link piano-nutrizionale"} aria-current="page" >
                                                         <p>
                                                             Piano nutrizionale
                                                         </p>
-                                                    </Link>
+                                                    </a>
                                                 </li>
                                                 <li className="nav-item">
-                                                    <Link to={`/MoodMonitoring/${patientId}`} className="nav-link umore">
+                                                    <a href={`/MoodMonitoring/${patientId}`} className={window.location.pathname.split('/').at(-2) === "MoodMonitoring" ? "nav-link umore active" : "nav-link umore"} aria-current="page" >
                                                         <p>
                                                             Umore
                                                         </p>
-                                                    </Link>
+                                                    </a>
                                                 </li>
 
                                                 {/* <li className="nav-item">
@@ -402,14 +406,14 @@ const SideNav = () => {
                             </>
                             : <>
                                 <li className="nav-item">
-                                    <div className="nav-link" aria-current="page" >
+                                    <a href="/DoctorProfile" className={window.location.pathname.split('/').pop() === "DoctorProfile" ? "nav-link profilo-paziente-nome active" : "nav-link profilo-paziente-nome"} aria-current="page" >
                                         <p>
                                             {userProfile.name} {userProfile.surName}
                                         </p>
-                                    </div>
+                                    </a>
                                 </li>
                                 <li className="nav-item">
-                                    <a href="/DoctorChartsInterface" className="nav-link home" aria-current="page" >
+                                    <a href="/DoctorChartsInterface" className={window.location.pathname.split('/').pop() === "DoctorChartsInterface" ? "nav-link home active" : "nav-link home"} aria-current="page" >
                                         <p>
                                             Home
                                         </p>

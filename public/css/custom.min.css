@@ -1054,6 +1054,10 @@ header {
     background-image: url("../img/icons/OA_icon-profilo-paziente-off.svg")
 }
 
+.main-menu .nav-link.profilo-paziente-nome {
+    background-image: url("../img/icons/OA_icon-profilo-paziente-off.svg")
+}
+
 .main-menu .nav-link.terapia {
     background-image: url("../img/icons/OA_icon-terapia-off.svg")
 }
@@ -1144,6 +1148,13 @@ header {
 .main-menu .nav-link:active.profilo-paziente,
 .main-menu .nav-link:focus.profilo-paziente,
 .main-menu .nav-link:hover.profilo-paziente {
+    background-image: url("../img/icons/OA_icon-profilo-paziente-on.svg")
+}
+
+.main-menu .nav-link.active.profilo-paziente-nome,
+.main-menu .nav-link:active.profilo-paziente-nome,
+.main-menu .nav-link:focus.profilo-paziente-nome,
+.main-menu .nav-link:hover.profilo-paziente-nome {
     background-image: url("../img/icons/OA_icon-profilo-paziente-on.svg")
 }
 
