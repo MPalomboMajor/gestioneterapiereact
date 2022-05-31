@@ -91,7 +91,7 @@ export class ContactInfoPatient extends Component {
         this.setState({ isOpenModal: false });
     }
     openModal = (el) => {
-        this.setState({isOpenModal: true });
+        this.setState({ isOpenModal: true });
     }
     updateState = (inputName, inputValue, objName) => {
         const statusCopy = { ...this.state };
@@ -124,96 +124,102 @@ export class ContactInfoPatient extends Component {
                     <Tab eventKey="contactInfo" title="Info">
                         <Container className="">
                             <Row className='col-12 pt-4' >
-                    <Row className='col-8 pt-4' >
-                        <Form.Group className="col-4 mb-3" controlId="formBasicEmail">
-                            <Form.Label className="">Codice fiscale assistito</Form.Label>
-                            <Form.Control disabled id='surName' value={this.state.patient.fiscalCode ? this.state.patient.fiscalCode : ''} alt='userDto' name="surName" placeholder="Enter cognome" />
-                        </Form.Group>
-                        <Form.Group className="col-4 mb-3" controlId="formBasicEmail">
-                            <Form.Label className="">Telefono</Form.Label>
-                            <Form.Control disabled id='name' value={this.state.patient.phoneNumber ? this.state.patient.phoneNumber : ''} alt='userDto' name="name" placeholder="Enter Nome" />
-                        </Form.Group>
-                        <Form.Group className="col-4 mb-3" controlId="formBasicEmail">
-                            <Form.Label className="">Email</Form.Label>
-                            <Form.Control disabled id='name' alt='userDto' name="name" value={this.state.patient.email ? this.state.patient.email : ''} placeholder="Enter Nome" />
-                        </Form.Group>
-                        
-                    </Row>
-                    <Row className='col-3 pt-4 pl-4' >
-                                        <div className="table-wrapper">
-                            <Table className="table custom">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Nome Medico </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {
-                                                        this.state.patient.doctorNameIdDTOs ? doclist.map((pa) => <RowCustom colums={["nameDoctor"]} item={pa} />) : ''
-                                                    }
-                                                </tbody>
-                                            </Table>
-                        </div>
-                    </Row>
-                    <Row className='col-3 ml-3 pt-4' >
-                        <Button className='ml-4 mb-3' onClick={() => this.openModal()}>Aggiungi Info</Button>
-                    </Row>
-                    <Row className='col-3 pt-4' >
+                                <Row className='col-8 pt-4' >
 
-                    </Row>
-                </Row>
-                <Row className='col-12 pt-4' >
-                    <Row className='col-12 pt-4' >
-                        <div className="table-wrapper">
-                            <Table className="table custom">
-                                <thead>
-                                    <tr>
-                                        <th>Data </th>
-                                        <th>Info</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        currentItem.map((pa) => <RowCustom colums={["dataOraContatto", "info"]} link={'codicePaziente'} reference={'codicePaziente'} controller={'ContactInfoPatient'} item={pa} />)
-                                    }
-                                </tbody>
-                            </Table>
-                        </div>
-                        <Pagination
-                            patientsPerPage={5}
-                            totalPatients={this.state.listPatientInfo.length}
-                            paginate={(pageNumber) => this.setCurrentPage(pageNumber)}
-                            currentPage={this.state.currentPage}
-                            prevPage={(pageNumber) => this.setPrevPage(pageNumber)}
-                            nextPage={(pageNumber) => this.setNexPage(pageNumber)}
-                        />
-                    </Row>
+                                    <Row className='col-12 pt-4' >
+                                        <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                            <Form.Label className="">Codice fiscale assistito</Form.Label>
+                                            <Form.Control disabled id='surName' value={this.state.patient.fiscalCode ? this.state.patient.fiscalCode : ''} alt='userDto' name="surName" placeholder="Enter cognome" />
+                                        </Form.Group>
+                                        <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                                            <Form.Label className="">Telefono</Form.Label>
+                                            <Form.Control disabled id='name' value={this.state.patient.phoneNumber ? this.state.patient.phoneNumber : ''} alt='userDto' name="name" placeholder="Enter Nome" />
+                                        </Form.Group>
 
-                </Row>
-                <Modal
-                    show={this.state.isOpenModal}
-                    onHide={() => this.handleClose()}
-                    backdrop="static"
-                    keyboard={false}
-                >
-                    <Modal.Header closeButton>
-                        <Modal.Title>{this.state.isUpdate ? 'Modifica Centro Medico' : 'Aggiungi Centro Medico'}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Row>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                            <Form.Label>Note</Form.Label>
-                            <Form.Control as="textarea" id='info' alt='contactInfoDto' name='info' onChange={this.handleChange} rows={3} />
-                        </Form.Group>
-                        </Row>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => this.handleClose()}>
-                            Chiudi
-                        </Button>
-                        <Button variant="primary" onClick={() => this.sedNote()} >{'Salva'}</Button>
-                    </Modal.Footer>
-                </Modal>
+                                    </Row>
+                                    <Row className='col-12 pt-4' >
+                                        <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
+                                            <Form.Label className="">Email</Form.Label>
+                                            <Form.Control disabled id='name' alt='userDto' name="name" value={this.state.patient.email ? this.state.patient.email : ''} placeholder="Enter Nome" />
+                                        </Form.Group>
+
+                                    </Row>
+                                </Row>
+                                <Row className='col-3 pt-4 pl-4' >
+                                    <div className="table-wrapper">
+                                        <Table className="table custom">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nome Medico </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    this.state.patient.doctorNameIdDTOs ? doclist.map((pa) => <RowCustom colums={["nameDoctor"]} item={pa} />) : ''
+                                                }
+                                            </tbody>
+                                        </Table>
+                                    </div>
+                                </Row>
+                                <Row className='col-3 ml-3 pt-4' >
+                                    <Button className='ml-4 mb-3' onClick={() => this.openModal()}>Aggiungi Info</Button>
+                                </Row>
+                                <Row className='col-3 pt-4' >
+
+                                </Row>
+                            </Row>
+                            <Row className='col-12 pt-4' >
+                                <Row className='col-12 pt-4' >
+                                    <div className="table-wrapper">
+                                        <Table className="table custom">
+                                            <thead>
+                                                <tr>
+                                                    <th>Data </th>
+                                                    <th>Info</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    currentItem.map((pa) => <RowCustom colums={["dataOraContatto", "info"]} link={'codicePaziente'} reference={'codicePaziente'} controller={'ContactInfoPatient'} item={pa} />)
+                                                }
+                                            </tbody>
+                                        </Table>
+                                    </div>
+                                    <Pagination
+                                        patientsPerPage={5}
+                                        totalPatients={this.state.listPatientInfo.length}
+                                        paginate={(pageNumber) => this.setCurrentPage(pageNumber)}
+                                        currentPage={this.state.currentPage}
+                                        prevPage={(pageNumber) => this.setPrevPage(pageNumber)}
+                                        nextPage={(pageNumber) => this.setNexPage(pageNumber)}
+                                    />
+                                </Row>
+
+                            </Row>
+                            <Modal
+                                show={this.state.isOpenModal}
+                                onHide={() => this.handleClose()}
+                                backdrop="static"
+                                keyboard={false}
+                            >
+                                <Modal.Header closeButton>
+                                    <Modal.Title>{this.state.isUpdate ? 'Modifica Centro Medico' : 'Aggiungi Centro Medico'}</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <Row>
+                                        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                                            <Form.Label>Note</Form.Label>
+                                            <Form.Control as="textarea" id='info' alt='contactInfoDto' name='info' onChange={this.handleChange} rows={3} />
+                                        </Form.Group>
+                                    </Row>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={() => this.handleClose()}>
+                                        Chiudi
+                                    </Button>
+                                    <Button variant="primary" onClick={() => this.sedNote()} >{'Salva'}</Button>
+                                </Modal.Footer>
+                            </Modal>
                         </Container>
                     </Tab>
                     <Tab eventKey="satisfactionInfo" title="Soddisfazione servizio" >
