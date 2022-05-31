@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { Container, Row, Table, Form, Button, Modal } from 'react-bootstrap';
+import { Container, Row, Table, Form, Button, Modal, Tabs, Tab } from 'react-bootstrap';
 import { user, medico, patient, caremanager } from '../helpers/api/api';
 import { RowCustom } from "../Doctor/PatientComponent";
 import Pagination from '../helpers/pagination';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { SatisfactionInfo } from './SatisfactionInfo';
+
 
 export class ContactInfoPatient extends Component {
     contactInfoDtoProps = () => ({
-
         id: 0,
         dataOraContatto: "2022-04-24T14:00:15.110Z",
         pazienteContattato: true,
@@ -18,6 +20,7 @@ export class ContactInfoPatient extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            linkTab: 'contactInfo',
             listPatientInfo: [],
             currentPage: 1,
             itemPerPage: 5,
@@ -105,16 +108,22 @@ export class ContactInfoPatient extends Component {
     setNexPage = (n) => {
         this.setState({ currentPage: n + 1 });
     }
+    selectTab = (e) => {
+        this.setState({ linkTab: e });
+    }
     render() {
         const indexOfLastPatient = this.state.currentPage * this.state.itemPerPage;
         const indexOfFirstPatient = indexOfLastPatient - this.state.itemPerPage;
-        const currentItem = this.state.listPatientInfo.slice(indexOfFirstPatient, indexOfLastPatient);
+        const currentItem = this.state.listPatientInfo?.slice(indexOfFirstPatient, indexOfLastPatient);
         const doclist = this.state.patient.doctorNameIdDTOs ? this.state.patient.doctorNameIdDTOs.slice(indexOfFirstPatient, indexOfLastPatient) : [];
         const element = {};
         currentItem.map((pa) => { pa.openModal = 'openModal'; });
         return (
-            <Container className="">
-                <Row className='col-12 pt-4' >
+            <>
+                <Tabs defaultActiveKey="contactInfo" activeKey={this.state.linkTab} onSelect={(k) => this.selectTab(k)} id="" className="nav secondary-menu mb-4" >
+                    <Tab eventKey="contactInfo" title="Info">
+                        <Container className="">
+                            <Row className='col-12 pt-4' >
                     <Row className='col-8 pt-4' >
                         <Form.Group className="col-4 mb-3" controlId="formBasicEmail">
                             <Form.Label className="">Codice fiscale assistito</Form.Label>
@@ -131,19 +140,19 @@ export class ContactInfoPatient extends Component {
                         
                     </Row>
                     <Row className='col-3 pt-4 pl-4' >
-                        <div className="table-wrapper">
+                                        <div className="table-wrapper">
                             <Table className="table custom">
-                                <thead>
-                                    <tr>
-                                        <th>Nome Medico </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        this.state.patient.doctorNameIdDTOs ? doclist.map((pa) => <RowCustom colums={["nameDoctor"]} item={pa} />) : ''
-                                    }
-                                </tbody>
-                            </Table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nome Medico </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {
+                                                        this.state.patient.doctorNameIdDTOs ? doclist.map((pa) => <RowCustom colums={["nameDoctor"]} item={pa} />) : ''
+                                                    }
+                                                </tbody>
+                                            </Table>
                         </div>
                     </Row>
                     <Row className='col-3 ml-3 pt-4' >
@@ -205,7 +214,14 @@ export class ContactInfoPatient extends Component {
                         <Button variant="primary" onClick={() => this.sedNote()} >{'Salva'}</Button>
                     </Modal.Footer>
                 </Modal>
-            </Container>
+                        </Container>
+                    </Tab>
+                    <Tab eventKey="satisfactionInfo" title="Soddisfazione servizio" >
+                        <SatisfactionInfo />
+                    </Tab>
+                </Tabs>
+                < NotificationContainer />
+            </>
         )
     }
 }

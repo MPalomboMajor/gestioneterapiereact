@@ -69,7 +69,7 @@ function DoctorChartsInterface() {
     }, []);
 
     useEffect(() => {
-        if(!creationDatesPatients.length){
+        if(!creationDatesPatients?.length){
             return;
         }
         console.log(creationDatesPatients)
