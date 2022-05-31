@@ -54,7 +54,7 @@ export class ContactInfoPatient extends Component {
         caremanager.get("ContactInfo/", id)
             .then(async (response) => {
                 if (response.status == 200) {
-                    this.setState({ listPatientInfo: response.data.dati });
+                    response.data.dati != null ?   this.setState({ listPatientInfo: response.data.dati }):this.setState({ listPatientInfo: [] }) ;
                 }
             }).catch((error) => {
 
@@ -109,7 +109,49 @@ export class ContactInfoPatient extends Component {
         return (
             <Container className="">
                 <Row className='col-12 pt-4' >
-                    <Row className='col-6 pt-4' >
+                        <Row className='col-8 pt-4' >
+                            <Form.Group className="col-4 mb-3" controlId="formBasicEmail">
+                                <Form.Label className="">Codice fiscale assistito</Form.Label>
+                                <Form.Control disabled id='surName' value={this.state.patient.fiscalCode ? this.state.patient.fiscalCode : ''} alt='userDto' name="surName" placeholder="Enter cognome" />
+                            </Form.Group>
+                            <Form.Group className="col-4 mb-3" controlId="formBasicEmail">
+                                <Form.Label className="">Telefono</Form.Label>
+                                <Form.Control disabled id='name' value={this.state.patient.phoneNumber ? this.state.patient.phoneNumber : ''} alt='userDto' name="name" placeholder="Enter Nome" />
+                            </Form.Group>
+                            <Form.Group className="col-4 mb-3" controlId="formBasicEmail">
+                                <Form.Label className="">Email</Form.Label>
+                                <Form.Control disabled id='name' alt='userDto' name="name" value={this.state.patient.email ? this.state.patient.email : ''} placeholder="Enter Nome" />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                                <Form.Label>Note</Form.Label> 
+                                <Form.Control as="textarea" id='info' alt='contactInfoDto' name='info' onChange={this.handleChange} rows={3} />
+                            </Form.Group>
+                        </Row>
+                        <Row className='col-3 pt-4 pl-4' >
+                        <div className="table-wrapper">
+                        <Table className="table custom">
+                                <thead>
+                                    <tr>
+                                        <th>Nome Medico </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        this.state.patient.doctorNameIdDTOs ? doclist.map((pa) => <RowCustom colums={["nameDoctor"]} item={pa} />) : ''
+                                    }
+                                </tbody>
+                            </Table>
+                            </div>
+                        </Row>
+                        <Row className='col-2 ml-3 pt-4' >
+                        <Button className='ml-4 mb-3' onClick={() => this.sedNote()}>Salva Info</Button>
+                        </Row>
+                        <Row className='col-3 pt-4' >
+                           
+                        </Row>
+                    </Row>
+                <Row className='col-12 pt-4' >
+                    <Row className='col-12 pt-4' >
                     <div className="table-wrapper">
                         <Table className="table custom">
                             <thead>
@@ -134,47 +176,7 @@ export class ContactInfoPatient extends Component {
                             nextPage={(pageNumber) => this.setNexPage(pageNumber)}
                         />
                     </Row>
-                    <Row className='col-6 pt-4' >
-                        <Row className='col-12 pt-4' >
-                            <Form.Group className="col-4 mb-3" controlId="formBasicEmail">
-                                <Form.Label className="">Codice fiscale assistito</Form.Label>
-                                <Form.Control disabled id='surName' value={this.state.patient.fiscalCode ? this.state.patient.fiscalCode : ''} alt='userDto' name="surName" placeholder="Enter cognome" />
-                            </Form.Group>
-                            <Form.Group className="col-4 mb-3" controlId="formBasicEmail">
-                                <Form.Label className="">Telefono</Form.Label>
-                                <Form.Control disabled id='name' value={this.state.patient.phoneNumber ? this.state.patient.phoneNumber : ''} alt='userDto' name="name" placeholder="Enter Nome" />
-                            </Form.Group>
-                            <Form.Group className="col-4 mb-3" controlId="formBasicEmail">
-                                <Form.Label className="">Email</Form.Label>
-                                <Form.Control disabled id='name' alt='userDto' name="name" value={this.state.patient.email ? this.state.patient.email : ''} placeholder="Enter Nome" />
-                            </Form.Group>
-                        </Row>
-                        <Row className='col-12 pt-4 pl-4' >
-                        <div className="table-wrapper">
-                        <Table className="table custom">
-                                <thead>
-                                    <tr>
-                                        <th>Nome Medico </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        this.state.patient.doctorNameIdDTOs ? doclist.map((pa) => <RowCustom colums={["nameDoctor"]} item={pa} />) : ''
-                                    }
-                                </tbody>
-                            </Table>
-                            </div>
-                        </Row>
-                        <Row className='col-12 pt-4' >
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label>Note</Form.Label>
-                                <Form.Control as="textarea" id='info' alt='contactInfoDto' name='info' onChange={this.handleChange} rows={3} />
-                            </Form.Group>
-                        </Row>
-                        <Row className='col-3 pt-4' >
-                            <Button onClick={() => this.sedNote()}>Salva Info</Button>
-                        </Row>
-                    </Row>
+                    
                 </Row>
 
             </Container>
