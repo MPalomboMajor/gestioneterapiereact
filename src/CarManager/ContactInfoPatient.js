@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import { Container, Row, Table, Form, Button, Modal, Tabs, Tab } from 'react-bootstrap';
 import { user, medico, patient, caremanager } from '../helpers/api/api';
 import { RowCustom } from "../Doctor/PatientComponent";
@@ -10,7 +11,7 @@ import { SatisfactionInfo } from './SatisfactionInfo';
 export class ContactInfoPatient extends Component {
     contactInfoDtoProps = () => ({
         id: 0,
-        dataOraContatto: "2022-04-24T14:00:15.110Z",
+        dataOraContatto: "",
         pazienteContattato: true,
         info: "",
         idCareManager: 0,
@@ -83,6 +84,11 @@ export class ContactInfoPatient extends Component {
             });
     }
     handleChange = (el) => {
+        const inputName = el.target.name;
+        const inputValue = el.target.value;
+        this.updateState(inputName, inputValue, 'contactInfoDto');
+    };
+    handleChangeDate = (el) => {
         const inputName = el.target.name;
         const inputValue = el.target.value;
         this.updateState(inputName, inputValue, 'contactInfoDto');
@@ -206,6 +212,14 @@ export class ContactInfoPatient extends Component {
                                     <Modal.Title>{this.state.isUpdate ? 'Modifica Centro Medico' : 'Aggiungi Centro Medico'}</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
+                                    <Row>
+                                        <div className="col-12 col-md-8">
+                                            <div className="input-group mb-8">
+                                            <span className="input-group-text" id="label-inizio">Inizio  contatto</span>
+                                                <input type="datetime-local" className="form-control form-control-sm" id="data" aria-describedby="label-data" name="dataOraContatto" onChange={this.handleChangeDate} min={moment().format("YYYY-MM-DD")}  />
+                                            </div>
+                                        </div>
+                                    </Row>
                                     <Row>
                                         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                             <Form.Label>Note</Form.Label>
