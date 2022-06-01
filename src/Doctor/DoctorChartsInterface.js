@@ -59,7 +59,7 @@ function DoctorChartsInterface() {
                 }
                 const arr = (response.data.dati
                     ?.map(function (item) { return moment.min(item["creationDate"]); })
-                        .filter(item => item));
+                    .filter(item => item));
                 setCreationDatesPatients(arr);
 
                 setLoading(false);
@@ -69,7 +69,7 @@ function DoctorChartsInterface() {
     }, []);
 
     useEffect(() => {
-        if(!creationDatesPatients?.length){
+        if (!creationDatesPatients?.length) {
             return;
         }
         console.log(creationDatesPatients)
@@ -77,7 +77,7 @@ function DoctorChartsInterface() {
     }, [creationDatesPatients]);
 
     useEffect(() => {
-        if(!minDate){
+        if (!minDate) {
             return;
         }
         callsFetchData();
@@ -284,7 +284,7 @@ function DoctorChartsInterface() {
                             <div className="col-12 col-md-4">
                                 <div className="input-group mb-3">
                                     <span className="input-group-text" id="label-inizio">Dal</span>
-                                    <input type="date" className="form-control form-control-sm" id="dataI" value={dataInizio} aria-describedby="label-data" name="dataInizio" onChange={e => {setDataInizio(e.target.value); }}  min={dataInizio} max={moment().format("YYYY-MM-DD")} />
+                                    <input type="date" className="form-control form-control-sm" id="dataI" value={dataInizio} aria-describedby="label-data" name="dataInizio" onChange={e => { setDataInizio(e.target.value); }} min={dataInizio} max={moment().format("YYYY-MM-DD")} />
                                 </div>
                             </div>
                         }
@@ -346,7 +346,8 @@ function DoctorChartsInterface() {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-12 mb-3 d-flex justify-content-center justify-content-md-start">
-                        <Link to={`/Dashboard`}><button className="btn btn-primary me-3" id>Elenco assistiti</button> </Link>
+                        {JSON.parse(localStorage.getItem("role")).idRole == role.CAREMANAGER || JSON.parse(localStorage.getItem("role")).idRole == role.DOCTOR ?
+                            <Link to={`/Dashboard`}><button className="btn btn-primary me-3" id>Elenco assistiti</button> </Link> : ""}
                     </div>
                 </div>
             </div>

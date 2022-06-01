@@ -404,14 +404,7 @@ const SideNav = () => {
                                     </>
                                 }
                             </>
-                            : <>
-                                <li className="nav-item">
-                                    <a href="/DoctorProfile" className={window.location.pathname.split('/').pop() === "DoctorProfile" ? "nav-link profilo-paziente-nome active" : "nav-link profilo-paziente-nome"} aria-current="page" >
-                                        <p>
-                                            {userProfile.name} {userProfile.surName}
-                                        </p>
-                                    </a>
-                                </li>
+                            : <>                              
                                 <li className="nav-item">
                                     <a href="/DoctorChartsInterface" className={window.location.pathname.split('/').pop() === "DoctorChartsInterface" ? "nav-link home active" : "nav-link home"} aria-current="page" >
                                         <p>
