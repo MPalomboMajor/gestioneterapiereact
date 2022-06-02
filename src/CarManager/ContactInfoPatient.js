@@ -129,6 +129,7 @@ export class ContactInfoPatient extends Component {
                 <Tabs defaultActiveKey="contactInfo" activeKey={this.state.linkTab} onSelect={(k) => this.selectTab(k)} id="" className="nav secondary-menu mb-4" >
                     <Tab eventKey="contactInfo" title="Info">
                         <Container className="">
+                        <h1 class="h1">Info contatto {this.state.patient.name} {this.state.patient.surName} - Codice assistito: {this.state.patient.codicePaziente}</h1>
                             <Row className='col-12 pt-4' >
                                 <Row className='col-8 pt-4' >
 

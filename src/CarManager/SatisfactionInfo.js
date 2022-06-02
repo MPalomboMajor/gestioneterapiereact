@@ -12,7 +12,7 @@ function SatisfactionInfo() {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [satisfactionInfosPerPage] = useState(3);
+    const [satisfactionInfosPerPage] = useState(12);
     const [patientProfile, setPatientProfile] = useState([]);
 
     const handleClose = () => setShow(false);
@@ -21,7 +21,7 @@ function SatisfactionInfo() {
     useEffect(() => {
         const fetchSatisfactionInfo = async () => {
             setLoading(true);
-            await patient.get("GetServiceSuggestions/", patientId)
+            await patient.get("GetServiceSatisfaction/", patientId)
                 .then((response) => {
                     if (response.status === 200) {
                         setSatisfactionInfos(response.data.dati);
@@ -59,7 +59,7 @@ function SatisfactionInfo() {
 
     return (
         <>
-            {/* <h1 class="h1">Soddisfazione servizio {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
+            <h1 class="h1">Soddisfazione servizio {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
             &nbsp;&nbsp;
 
             <SatisfactionInfosTable satisfactionInfos={currentSatisfactionInfos} handleShow={handleShow} loading={loading} setSatisfactionInfos={setSatisfactionInfos} />
@@ -82,7 +82,7 @@ function SatisfactionInfo() {
 
 
 
-            <SatisfactionInfosModal show={show} handleClose={handleClose} setSatisfactionInfos={setSatisfactionInfos} /> */}
+            <SatisfactionInfosModal show={show} handleClose={handleClose} setSatisfactionInfos={setSatisfactionInfos} />
         </>
 
     );
@@ -127,7 +127,7 @@ function SatisfactionInfoRow(props) {
 
 function SatisfactionInfoRowData(props) {
     return (<>
-        <td>{props.satisfactionInfo.dateEvent.split(' ')[0]}</td>
+        <td>{props.satisfactionInfo.data.split(' ')[0]}</td>
         <td>{props.satisfactionInfo.domanda}</td>
         <td>{props.satisfactionInfo.risposta}</td>
     </>
@@ -169,7 +169,7 @@ function SatisfactionInfosModal(props) {
         newSatisfactionInfo.idCareManager = parseInt(newSatisfactionInfo.idCareManager);
         newSatisfactionInfo.valutazione = parseInt(newSatisfactionInfo.valutazione);
         moment(newSatisfactionInfo.dataInserimento).format("DD/MM/YYYY")
-        patient.post("InsertServiceSuggestion/", newSatisfactionInfo)
+        patient.post("InsertServiceSatisfaction/", newSatisfactionInfo)
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
@@ -221,7 +221,7 @@ function SatisfactionInfosModal(props) {
                                 <div className="input-group mb-3">
                                 <span className="input-group-text" id="descrizione">Quali funzionalità aggiuntive vorrebbe fossero presenti?</span> 
                                     <div className="input-group position-relative mb-3">
-                                        <textarea className="form-control form-control-sm mb-3" id="funzionalita" rows={5} onChange={handleChange} />
+                                        <textarea className="form-control form-control-sm mb-3" id="funzionalita" name="funzionalita" rows={5} onChange={handleChange} />
                                     </div>
 
                                 </div>
