@@ -132,7 +132,7 @@ function DiagnosticTestsTable(props) {
 }
 
 function DiagnosticTestRow(props) {
-    return <tr><DiagnosticTestRowData diagnosticTest={props.diagnosticTest} patientId={props.patientId} /> <RowControl diagnosticTestId={props.diagnosticTest.id} deleteDiagnosticTest={props.deleteDiagnosticTest} /></tr>
+    return <tr><DiagnosticTestRowData diagnosticTest={props.diagnosticTest} patientId={props.patientId} /> <RowControl diagnosticTestId={props.diagnosticTest.idBloodData} deleteDiagnosticTest={props.deleteDiagnosticTest} /></tr>
 }
 
 function DiagnosticTestRowData(props) {
