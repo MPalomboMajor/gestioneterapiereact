@@ -3,6 +3,7 @@ import { BarChartGetAdherencesByPatient } from "../BarChartGetAdherencesByPatien
 import { HeatMapGetTrackingMoodByPatient } from "../HeatMapGetTrackingMoodByPatient";
 import { PieChartGetAdverseEventsByEvent } from "../PieChartGetAdverseEventsByEvent";
 import { PieChartGetCumulativeSurveysByMood } from "../PieChartGetCumulativeSurveysByMood";
+import { PieChartGetTherapyAdherence } from "../PieChartGetTherapyAdherence";
 import { role } from "../../helpers/Constants";
 
 
@@ -20,19 +21,18 @@ function Monitoring(props) {
                         <div className="row" style={{ "marginTop": "40px" }}>
                             <div className="col-12 col-md-6 mb-2">
                                 <div className="container-fluid g-0">
-                                    {isDoctor || isCareManger ?
+                                    {isDoctor ?
                                         <div style={{ "height": "300px" }}>
                                             <h2>N. pazienti / N. crisi epilettiche</h2>
                                             <PieChartGetPatientsByEpilecticSeizure data={props.dataGetPatientsByEpilecticSeizure} commonProperties={props.commonProperties} />
                                         </div> : ""
                                     }
-                                    {/* Qui va NotifichePromemoriaTerapia
-                                        {isAngelini ?
-                                            <div style={{ "height": "300px" }}>
-                                                <h2></h2>
-                                                <PieChartGetCumulativeSurveysByMood data={props.dataGetCumulativeSurveysByMood} commonProperties={props.commonProperties} />
-                                            </div> : ""
-                                        } */}
+                                    {isAngelini || isCareManger ?
+                                        <div style={{ "height": "300px" }}>
+                                            <h2>Aderenza terapia anticrisi</h2>
+                                            <PieChartGetTherapyAdherence data={props.dataGetTherapyAdherence} commonProperties={props.commonProperties} />
+                                        </div> : ""
+                                    }
                                 </div>
                             </div>
                             <div className="col-12 col-md-6 mb-2">
@@ -48,7 +48,7 @@ function Monitoring(props) {
                             <div className="col-12 col-md-6 mb-2">
                                 <div className="container-fluid g-0">
                                     <div style={{ "height": "320px", "marginBottom": "40px" }}>
-                                        <h2>Andamento mood giornaliero<br/>ultime 2 settimane</h2>
+                                        <h2>Andamento mood giornaliero<br />ultime 2 settimane</h2>
                                         <HeatMapGetTrackingMoodByPatient data={props.dataGetTrackingMoodByPatient} commonProperties={props.commonProperties} />
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@ function Monitoring(props) {
                             </div>
 
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

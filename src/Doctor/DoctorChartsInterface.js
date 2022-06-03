@@ -35,6 +35,7 @@ function DoctorChartsInterface() {
     //Monitoraggio
     const [dataGetPatientsByEpilecticSeizure, setDataGetPatientsByEpilecticSeizure] = useState([]);
     const [dataGetAdherencesByPatient, setDataGetAdherencesByPatient] = useState([]);
+    const [dataGetTherapyAdherence, setDataGetTherapyAdherence] = useState([]);
     const [dataGetTrackingMoodByPatient, setDataGetTrackingMoodByPatient] = useState([]);
     const [dataGetAdverseEventsByEvent, setDataGetAdverseEventsByEvent] = useState([]);
     const [dataGetCumulativeSurveysByMood, setDataGetCumulativeSurveysByMood] = useState([]);
@@ -195,6 +196,16 @@ function DoctorChartsInterface() {
                     }
                 }).catch((error) => {
                     setDataGetAdherencesByPatient([]);
+                });           
+        }
+        if (isAngelini || isCareManger) {
+            dashboard.getWithParam("GetTherapyAdherence/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+                .then((response) => {
+                    if (response.status === 200) {
+                        setDataGetTherapyAdherence(response.data.dati);
+                    }
+                }).catch((error) => {
+                    setDataGetTherapyAdherence([]);
                 });
         }
         dashboard.getWithParam("GetTrackingMoodByPatient/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
@@ -344,6 +355,7 @@ function DoctorChartsInterface() {
                 <Tab eventKey="monitoring" title="Monitoraggio" >
                     <Monitoring dataGetPatientsByEpilecticSeizure={dataGetPatientsByEpilecticSeizure}
                         dataGetAdherencesByPatient={dataGetAdherencesByPatient}
+                        dataGetTherapyAdherence={dataGetTherapyAdherence}
                         dataGetTrackingMoodByPatient={dataGetTrackingMoodByPatient}
                         dataGetAdverseEventsByEvent={dataGetAdverseEventsByEvent}
                         dataGetCumulativeSurveysByMood={dataGetCumulativeSurveysByMood}
