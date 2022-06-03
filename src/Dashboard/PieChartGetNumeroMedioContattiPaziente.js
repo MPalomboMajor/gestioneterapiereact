@@ -1,12 +1,12 @@
 import { ResponsivePie } from '@nivo/pie'
 
-function PieChartGetSatisfactionLevelQuestionTwo(props) {
+function PieChartGetNumeroMedioContattiPaziente(props) {
 
     const MyResponsivePie = ({ data /* see data tab */ }) => (
         <ResponsivePie
-            whidth={250}
+            {...props.commonProperties}
             data={data === null ? [] : data}
-            margin={{ top: 40, right: 40, bottom: 80, left: 80 }}
+            margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
             activeOuterRadiusOffset={8}
             borderWidth={1}
             borderColor={{
@@ -122,7 +122,7 @@ function PieChartGetSatisfactionLevelQuestionTwo(props) {
     );
 };
 
-export { PieChartGetSatisfactionLevelQuestionTwo };
+export { PieChartGetNumeroMedioContattiPaziente };
 
 
 

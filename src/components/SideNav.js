@@ -420,11 +420,11 @@ const SideNav = () => {
             </p>
             <br />
             <p className="pharmaPrime d-none d-lg-block">
-                Progetto a cura di
+                Progetto <br/>a cura di
             </p>
             <br />
             <p className="ae d-none d-lg-block">
-                Con il patrocinio di
+                Con il <br/>patrocinio di
             </p>
         </header>
 

@@ -39,11 +39,13 @@ function DoctorChartsInterface() {
     const [dataGetAdverseEventsByEvent, setDataGetAdverseEventsByEvent] = useState([]);
     const [dataGetCumulativeSurveysByMood, setDataGetCumulativeSurveysByMood] = useState([]);
     //ContactInfo
-    const [dataGetAllContactInfoByPatient, setDataGetAllContactInfoByPatient] = useState([]);
+    //const [dataGetAllContactInfoByPatient, setDataGetAllContactInfoByPatient] = useState([]);
+    const [dataGetNumeroMedioContattiPaziente, setDataGetNumeroMedioContattiPaziente] = useState([]);
     const [dataGetAllContactInfoByNumber, setDataGetAllContactInfoByNumber] = useState([]);
     const [dataGetSatisfactionLevelQuestionOne, setDataGetSatisfactionLevelQuestionOne] = useState([]);
     const [dataGetSatisfactionLevelQuestionTwo, setDataGetSatisfactionLevelQuestionTwo] = useState([]);
     const [dataGetSatisfactionLevelQuestionThree, setDataGetSatisfactionLevelQuestionThree] = useState([]);
+    const [dataGetTempoMedioContatto, setDataGetTempoMedioContatto] = useState([]);
 
     useEffect(() => {
         let request = null;
@@ -223,10 +225,18 @@ function DoctorChartsInterface() {
         }
         //ContactInfo
         if (isAngelini || isCareManger) {
-            dashboard.getWithParam("GetAllContactInfoByPatient/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+            // dashboard.getWithParam("GetAllContactInfoByPatient/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+            //     .then((response) => {
+            //         if (response.status === 200) {
+            //             setDataGetAllContactInfoByPatient(response.data.dati);
+            //         }
+            //     }).catch((error) => {
+
+            //     });
+            dashboard.getWithParam("GetNumeroMedioContattiPaziente/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
                 .then((response) => {
                     if (response.status === 200) {
-                        setDataGetAllContactInfoByPatient(response.data.dati);
+                        setDataGetNumeroMedioContattiPaziente(response.data.dati);
                     }
                 }).catch((error) => {
 
@@ -239,7 +249,7 @@ function DoctorChartsInterface() {
                 }).catch((error) => {
 
                 });
-            dashboard.getWithParam("GetSatisfactionLevelQuestionOne", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+            dashboard.getWithParam("GetValutazioniServizio", { params: { DataFine: dataFine, DataInizio: dataInizio } })
                 .then((response) => {
                     if (response.status === 200) {
                         setDataGetSatisfactionLevelQuestionOne(response.data.dati);
@@ -247,7 +257,7 @@ function DoctorChartsInterface() {
                 }).catch((error) => {
 
                 });
-            dashboard.getWithParam("GetSatisfactionLevelQuestionTwo", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+            dashboard.getWithParam("GetServiceSuggestions", { params: { DataFine: dataFine, DataInizio: dataInizio } })
                 .then((response) => {
                     if (response.status === 200) {
                         setDataGetSatisfactionLevelQuestionTwo(response.data.dati);
@@ -255,10 +265,18 @@ function DoctorChartsInterface() {
                 }).catch((error) => {
 
                 });
-            dashboard.getWithParam("GetSatisfactionLevelQuestionThree", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+            dashboard.getWithParam("GetAdditionalServiceFeatures", { params: { DataFine: dataFine, DataInizio: dataInizio } })
                 .then((response) => {
                     if (response.status === 200) {
                         setDataGetSatisfactionLevelQuestionThree(response.data.dati);
+                    }
+                }).catch((error) => {
+
+                });
+            dashboard.getWithParam("GetTempoMedioContatto", { params: { DataFine: dataFine, DataInizio: dataInizio } })
+                .then((response) => {
+                    if (response.status === 200) {
+                        setDataGetTempoMedioContatto(response.data.dati);
                     }
                 }).catch((error) => {
 
@@ -333,11 +351,13 @@ function DoctorChartsInterface() {
                 </Tab>
                 {isCareManger || isAngelini ?
                     <Tab eventKey="contactInfo" title="Contact info" >
-                        <ContactInfo dataGetAllContactInfoByPatient={dataGetAllContactInfoByPatient}
+                        <ContactInfo dataGetNumeroMedioContattiPaziente={dataGetNumeroMedioContattiPaziente}
+                            //dataGetAllContactInfoByPatient={dataGetAllContactInfoByPatient}
                             dataGetAllContactInfoByNumber={dataGetAllContactInfoByNumber}
                             dataGetSatisfactionLevelQuestionOne={dataGetSatisfactionLevelQuestionOne}
                             dataGetSatisfactionLevelQuestionTwo={dataGetSatisfactionLevelQuestionTwo}
                             dataGetSatisfactionLevelQuestionThree={dataGetSatisfactionLevelQuestionThree}
+                            dataGetTempoMedioContatto={dataGetTempoMedioContatto}
                             commonProperties={commonProperties} />
                     </Tab> : ""
                 }

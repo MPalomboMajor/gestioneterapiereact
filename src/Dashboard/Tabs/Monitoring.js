@@ -9,7 +9,7 @@ import { role } from "../../helpers/Constants";
 function Monitoring(props) {
     const user = JSON.parse(localStorage.getItem("role"));
     const isCareManger = user.idRole === role.CAREMANAGER ? true : false
-    const isAngelini = user.idRole === role.ANGELINI ? true : false
+    const isAngelini = user.idRole === role.ADMIN ? true : false
     const isDoctor = user.idRole === role.DOCTOR ? true : false
 
     return (
@@ -17,61 +17,61 @@ function Monitoring(props) {
             <div className="row h-100 justify-content-center align-items-center" style={{ "width": "100%" }}>
                 <div className="col-12">
                     <div className="box">
-                        <div className="row">
+                        <div className="row" style={{ "marginTop": "40px" }}>
                             <div className="col-12 col-md-6 mb-2">
                                 <div className="container-fluid g-0">
-                                    <div className="row gx-3 mb-2">
-                                        <div style={{ "height": "300px", "marginTop": "40px" }}>
-                                        &nbsp;
-                                            <h2>Eventi avversi</h2>
-                                            <PieChartGetAdverseEventsByEvent data={props.dataGetAdverseEventsByEvent} commonProperties={props.commonProperties} />
-                                        </div>
-                                        &nbsp;
-                                        {isDoctor || isCareManger ?
-                                            <div style={{ "height": "300px", "marginTop": "40px" }}>
-                                                <h2>N. pazienti / N. crisi epilettiche</h2>
-                                                <PieChartGetPatientsByEpilecticSeizure data={props.dataGetPatientsByEpilecticSeizure} commonProperties={props.commonProperties} />
-                                            </div> : ""
-                                        }
-                                        &nbsp;
-                                        {/* Qui va NotifichePromemoriaTerapia
+                                    {isDoctor || isCareManger ?
+                                        <div style={{ "height": "300px" }}>
+                                            <h2>N. pazienti / N. crisi epilettiche</h2>
+                                            <PieChartGetPatientsByEpilecticSeizure data={props.dataGetPatientsByEpilecticSeizure} commonProperties={props.commonProperties} />
+                                        </div> : ""
+                                    }
+                                    {/* Qui va NotifichePromemoriaTerapia
                                         {isAngelini ?
                                             <div style={{ "height": "300px" }}>
                                                 <h2></h2>
                                                 <PieChartGetCumulativeSurveysByMood data={props.dataGetCumulativeSurveysByMood} commonProperties={props.commonProperties} />
                                             </div> : ""
                                         } */}
-                                    </div>
                                 </div>
                             </div>
-                            <div className="col-12 col-md-6">
+                            <div className="col-12 col-md-6 mb-2">
                                 <div className="container-fluid g-0">
-                                    <div className="row gx-3 mb-2">
-                                        
-                                        {isAngelini ?
-                                            <div style={{ "height": "300px" }}>
-                                                <h2>Numero cumulato rilevazioni per mood</h2>
-                                                <PieChartGetCumulativeSurveysByMood data={props.dataGetCumulativeSurveysByMood} commonProperties={props.commonProperties} />
-                                            </div> : ""
-                                        }
-                                        {isDoctor || isCareManger ?
-                                            <div id="chartContainer" style={{ "height": "300px", "marginTop": "40px", "width": "600px" }}>
-                                                <h2>Aderenza terapia anticrisi</h2>
-                                                <BarChartGetAdherencesByPatient data={props.dataGetAdherencesByPatient} commonProperties={props.commonProperties} />
-                                            </div> : ""
-                                        }
-                                        &nbsp;
-                                        {isDoctor || isCareManger ?
-                                            <div style={{ "height": "320px", "marginTop": "40px" }}>
-                                                <h2>Andamento mood giornaliero ultime 2 settimane</h2>
-                                                <HeatMapGetTrackingMoodByPatient data={props.dataGetTrackingMoodByPatient} commonProperties={props.commonProperties} />
-                                            </div> : ""
-                                        }
-
+                                    <div style={{ "height": "300px" }}>
+                                        <h2>Eventi avversi</h2>
+                                        <PieChartGetAdverseEventsByEvent data={props.dataGetAdverseEventsByEvent} commonProperties={props.commonProperties} />
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div className="row" style={{ "marginTop": "40px" }}>
+                            <div className="col-12 col-md-6 mb-2">
+                                <div className="container-fluid g-0">
+                                    <div style={{ "height": "320px", "marginBottom": "40px" }}>
+                                        <h2>Andamento mood giornaliero<br/>ultime 2 settimane</h2>
+                                        <HeatMapGetTrackingMoodByPatient data={props.dataGetTrackingMoodByPatient} commonProperties={props.commonProperties} />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-12 col-md-6 mb-2">
+                                <div className="container-fluid g-0">
+                                    {isAngelini ?
+                                        <div style={{ "height": "300px" }}>
+                                            <h2>Numero cumulato rilevazioni per mood</h2>
+                                            <PieChartGetCumulativeSurveysByMood data={props.dataGetCumulativeSurveysByMood} commonProperties={props.commonProperties} />
+                                        </div> : ""
+                                    }
+                                    {isDoctor || isCareManger ?
+                                        <div id="chartContainer" style={{ "height": "300px" }}>
+                                            <h2>Aderenza terapia anticrisi</h2>
+                                            <BarChartGetAdherencesByPatient data={props.dataGetAdherencesByPatient} commonProperties={props.commonProperties} />
+                                        </div> : ""
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                        
                     </div>
                 </div>
             </div>

@@ -4,7 +4,7 @@ function PieChartGetSatisfactionLevelQuestionOne(props) {
 
     const MyResponsivePie = ({ data /* see data tab */ }) => (
         <ResponsivePie
-            {...props.commonProperties}
+            whidth={250}
             data={data === null ? [] : data}
             margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
             activeOuterRadiusOffset={8}
