@@ -391,7 +391,7 @@ export class Register extends Component {
 
                             </div>
                             <p>
-                                <a href='http://testontozapp.pharmaprime.it:3000/informativa_privacy.pdf' target={'blank'} class="link-privacy small ps-4">Visualizza informativa privacy</a>
+                                <a href='informativa_privacy_medico.pdf' target={'blank'} class="link-privacy small ps-4">Visualizza informativa privacy</a>
                             </p>
                         </div>
                         <p class="small ps-md-4 mb-0 text-center text-md-start"><strong>Non riesci a registrarti?</strong></p>
