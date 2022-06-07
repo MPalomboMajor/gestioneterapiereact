@@ -248,7 +248,6 @@ function EpilepticSeizureRow(props) {
             </div>
             <div className="col-12 col-md-2 d-flex">
                 <div className="box small w-100">
-                    <div className="label label-primary">Actions</div>
                     <RowControl epilepticSeizureId={props.epilepticSeizure.id} deleteEpilepticSeizure={props.deleteEpilepticSeizure} />
 
                 </div>

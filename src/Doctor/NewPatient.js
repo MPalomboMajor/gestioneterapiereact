@@ -162,7 +162,7 @@ export class NewPatient extends Component {
             phoneNumber: this.validator.message(
                 'Number',
                 this.state.patiendDto.phoneNumber,
-                'required'
+                'required|phone|numeric'
             ),
         };
         const validationsOTP = {

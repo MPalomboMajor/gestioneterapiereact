@@ -35,11 +35,14 @@ export class DoctorProfile extends Component {
             email: '',
             isSending: false,
             listCentriMedici: [],
+            listFilterRegion:  [],
+            listRegion: [],
             listPatient: [],
             listPatientCode: [],
             currentPage: 1,
             itemPerPage: 5,
             sendCode: false,
+            idRegion:0,
             userDto: {
                 ...this.userModelProp(),
             },
@@ -55,6 +58,7 @@ export class DoctorProfile extends Component {
     componentDidMount() {
         this.getProfile();
         this.getListPatient();
+        this.getListRegion();
         this.getListMedicalCenter();
     }
 
@@ -64,11 +68,24 @@ export class DoctorProfile extends Component {
 
 
     }
+    getListRegion = () => {
+        medico.getAll("GetRegions")
+            .then(async (response) => {
+                if (response.status == 200) {
+                    this.setState({ listRegion: response.data.dati });
+                }
+            }).catch((error) => {
+
+            })
+            .finally(() => {
+            });
+
+    }
     getListMedicalCenter = () => {
         medico.getAll("GetCentriMedici")
             .then(async (response) => {
                 if (response.status == 200) {
-                    this.setState({ listCentriMedici: response.data.dati });
+                    this.setState({ listCentriMedici: response.data.dati , listFilterRegion: response.data.dati  });
 
                 }
             }).catch((error) => {
@@ -128,6 +145,18 @@ export class DoctorProfile extends Component {
         statusCopy['userDto']['idCentroMedico'] = parseInt(id);
         this.setState(statusCopy);
     };
+    onChangeRegion = (inputName) => {
+        const selected = inputName.target;
+        const id = selected.children[selected.selectedIndex].id;
+        const statusCopy = { ...this.state };
+        if(id!= 0){
+            statusCopy['listFilterRegion'] = this.state.listCentriMedici.filter( x  => x.idRegione == id);
+        }else{
+            statusCopy['listFilterRegion'] = this.state.listCentriMedici;
+        }
+        
+        this.setState(statusCopy);
+    };
     handleCloseChangePassword = () => {
         this.setState({ isOpenChangePassword: false });
     }
@@ -152,20 +181,20 @@ export class DoctorProfile extends Component {
             });
     }
     sendChangeProfile = () => {
-            this.setState((prevState) => ({ isSending: true }))
-            medico.post("Edit", this.state.userDto)
-                .then((response) => {
-                    if (response.status === 200) {
-                        ManagerModal.success(message.MEDICO + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
-                        this.setState({ isSending: false });
-                    } else {
-                        ManagerModal.error(message.MEDICO + message.ErrorServer, entitiesLabels.ERROR, 3000);
-                        this.setState({ isSending: false });
-                    }
-                }).catch((error) => {
+        this.setState((prevState) => ({ isSending: true }))
+        medico.post("Edit", this.state.userDto)
+            .then((response) => {
+                if (response.status === 200) {
+                    ManagerModal.success(message.MEDICO + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                    this.setState({ isSending: false });
+                } else {
                     ManagerModal.error(message.MEDICO + message.ErrorServer, entitiesLabels.ERROR, 3000);
                     this.setState({ isSending: false });
-                });
+                }
+            }).catch((error) => {
+                ManagerModal.error(message.MEDICO + message.ErrorServer, entitiesLabels.ERROR, 3000);
+                this.setState({ isSending: false });
+            });
     }
     sendChangePassword = () => {
         if (this.validator.allValid()) {
@@ -250,7 +279,11 @@ export class DoctorProfile extends Component {
         const indexOfLastPatient = this.state.currentPage * this.state.itemPerPage;
         const indexOfFirstPatient = indexOfLastPatient - this.state.itemPerPage;
         const currentItem = this.state.listPatient ? this.state.listPatient.slice(indexOfFirstPatient, indexOfLastPatient) : [];
+        const currentRegion = this.state.listCentriMedici != [] ? this.state.listCentriMedici.filter( x  => x.id == this.state.userDto.idCentroMedico): [];
         const currentItemsCode = this.state.listPatientCode ? this.state.listPatientCode.slice(indexOfFirstPatient, indexOfLastPatient) : [];
+        var objRegion   = currentRegion != [] ? this.state.listCentriMedici.filter( x  => x.id == this.state.userDto.idCentroMedico): null;
+        var idRegion = objRegion.length > 0 ? objRegion[0].idRegione : 0;
+        
         return (<>
             {JSON.parse(localStorage.getItem("role")).idRole == role.CAREMANAGER ?
                 //CAREMANAGER
@@ -444,20 +477,28 @@ export class DoctorProfile extends Component {
                                 <Form.Control id='name' alt='userDto' name="name" onChange={this.handleChange} value={this.state.userDto.name} placeholder="Inserisci Nome" />
                             </Form.Group>
 
-                            <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
+                            <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
                                 <Form.Label className="">Codice Fiscale</Form.Label>
                                 <Form.Control id='fiscalCode' alt='userDto' name="fiscalCode" onChange={this.handleChange} value={this.state.userDto.fiscalCode} placeholder="Inserisci Codice fiscale" />
                             </Form.Group>
-                            <Form.Group className="col-4 mb-3 input-layout-wrapper" >
+                            <Form.Group className="col-6 mb-2" >
+                            <Form.Label className="">Regione</Form.Label>
+                                <Form.Select onChange={this.onChangeRegion} name="region" alt="medicoDTO" placeholder="Centro medico"  >
+                                    <option id="0">Seleziona Regione</option>
+                                    {this.state.listRegion.map((item) =>
+                                        <option selected={ idRegion == item.id  ? "selected" : ''} id={item.id}>{item.nomeRegione}</option>
+                                    )}
+                                </Form.Select>
+                            </Form.Group>
+                            <Form.Group className="col-6 mb-3 input-layout-wrapper" >
                                 <Form.Label className="">Centro Medico</Form.Label>
                                 <Form.Select id='mendicalCenter' onChange={this.onChange} name="mendicalCenter" alt="medicoDTO" placeholder="Inserisci centro medico" >
-                                    {this.state.listCentriMedici.map((item) =>
+                                    {this.state.listFilterRegion.map((item) =>
 
                                         <option id={item.id} selected={this.state.userDto.idCentroMedico == item.id ? "selected" : ''}>{item.nomeCentro}</option>
                                     )}
                                 </Form.Select>
                             </Form.Group>
-
                             <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                 <Form.Label className="">Email</Form.Label>
                                 <Form.Control disabled id='email' name="email" onChange={this.handleChange} value={this.state.userDto.email} isInvalid={validations.email != null} placeholder="Inserisci email" />

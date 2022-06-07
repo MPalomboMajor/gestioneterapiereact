@@ -166,7 +166,7 @@ export class RegisterCareManager extends Component {
             phoneNumber: this.validator.message(
                 'Email',
                 this.state.careManagerDTO.phoneNumber,
-                'required'
+                'required|phone|numeric'
             ),
             password: this.validator.message(
                 'Password',
