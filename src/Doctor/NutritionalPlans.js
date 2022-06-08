@@ -52,7 +52,7 @@ function NutritionalPlansInfo() {
                 });
         };
         fetchNutritionalPlans();
-    }, [show]);
+    }, [nutritionalPlans]);
 
     // Get current
     const indexOfLastNutritionalPlans = currentPage * nutritionalPlansPerPage;
@@ -160,6 +160,14 @@ function NutritionalPlansModal(props) {
     const [fileName, setFileName] = useState([]);
     const [filesArray, setFilesArray] = useState([]);
 
+    useEffect(() => {
+        if (!filesArray.length) {
+            document.getElementById("btnUpload").disabled = true
+        } else {
+            document.getElementById("btnUpload").disabled = false
+        }
+    }, [filesArray]);
+
     function saveNutritionalPlan(evt) {
         evt.preventDefault();
         // setIdPaziente(parseInt(idPaziente));
@@ -196,22 +204,17 @@ function NutritionalPlansModal(props) {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
         document.getElementById("caricapiano").value = "";
-        clearState();
+        
     };
 
     const saveFileSelected = (e) => {
+        const fa = [];
         for (var i = 0; i < e.target.files.length; i++) {
-            filesArray.push(e.target.files.item(i));
+            fa.push(e.target.files.item(i));
         }
-        console.log(filesArray);
+        setFilesArray(fa);  
     };
 
-
-    const clearState = () => {
-        setDate();
-        setIdNutritionalDiary();
-        setFilesArray([]);
-    }
 
     return (
         <>
@@ -234,7 +237,7 @@ function NutritionalPlansModal(props) {
                                 </div> */}
                             </div>
                             <div className="modal-footer d-flex justify-content-center justify-content-md-end">
-                                <button className="btn btn-primary btn-upload" id type="submit" data-bs-dismiss="modal">Carica piano nutrizionale</button>
+                                <button className="btn btn-primary btn-upload" id="btnUpload" type="submit" data-bs-dismiss="modal">Carica piano nutrizionale</button>
                             </div>
                         </form>
                     </div>

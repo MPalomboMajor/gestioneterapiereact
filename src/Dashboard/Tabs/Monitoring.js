@@ -63,7 +63,7 @@ function Monitoring(props) {
                                     }
                                     {isDoctor || isCareManger ?
                                         <div id="chartContainer" style={{ "height": "300px" }}>
-                                            <h2>Aderenza terapia anticrisi</h2>
+                                            <h2>Aderenza terapia</h2>
                                             <BarChartGetAdherencesByPatient data={props.dataGetAdherencesByPatient} commonProperties={props.commonProperties} />
                                         </div> : ""
                                     }

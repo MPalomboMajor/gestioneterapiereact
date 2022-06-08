@@ -52,7 +52,7 @@ function MedicalExaminationsInfo() {
                 });
         };
         fetchMedicalExaminations();
-    }, [show]);
+    }, [medicalExaminations]);
 
     // Get current
     const indexOfLastmedicalExamination = currentPage * medicalExaminationsPerPage;
@@ -169,6 +169,14 @@ function MedicalExaminationsModal(props) {
     const [filesArray, setFilesArray] = useState([]);
 
     useEffect(() => {
+        if (!filesArray.length) {
+            document.getElementById("btnUpload").disabled = true
+        } else {
+            document.getElementById("btnUpload").disabled = false
+        }
+    }, [filesArray]);
+
+    useEffect(() => {
         if(checkTipoReferto === "checkVisita") {
             setAccessoRicovero("");
             setVisitaSpecialistica(document.getElementById('visita').value);
@@ -206,11 +214,11 @@ function MedicalExaminationsModal(props) {
     };
 
     const saveFileSelected = (e) => {
-
+        const fa = [];
         for (var i = 0; i < e.target.files.length; i++) {
-            filesArray.push(e.target.files.item(i));
+            fa.push(e.target.files.item(i));
         }
-        console.log(filesArray);
+        setFilesArray(fa);
     };
 
     const clearState = () => {
@@ -258,7 +266,7 @@ function MedicalExaminationsModal(props) {
                                 </div>
                             </div>
                             <div className="modal-footer d-flex justify-content-center justify-content-md-end">
-                                <button className="btn btn-primary btn-upload" id onClick={saveMedicalExamination}>Carica referto</button>
+                                <button className="btn btn-primary btn-upload" id="btnUpload" onClick={saveMedicalExamination}>Carica referto</button>
                             </div>
                         </form>
                     </div>

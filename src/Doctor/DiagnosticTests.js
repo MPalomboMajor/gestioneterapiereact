@@ -21,8 +21,8 @@ function DiagnosticTestsInfo() {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        const fetchPatient = async () => {
-            await patient.get("Get/", patientId)
+        const fetchPatient = () => {
+            patient.get("Get/", patientId)
                 .then((response) => {
                     if (response.status === 200) {
                         setPatientProfile(response.data.dati);
@@ -35,9 +35,9 @@ function DiagnosticTestsInfo() {
     }, []);
 
     useEffect(() => {
-        const fetchDiagnosticTests = async () => {
+        const fetchDiagnosticTests = () => {
             setLoading(true);
-            await patient.get("AnalysisPreview/", patientId)
+            patient.get("AnalysisPreview/", patientId)
                 .then((response) => {
                     if (response.status === 200) {
                         setDiagnosticTests(response.data.dati);
@@ -48,7 +48,7 @@ function DiagnosticTestsInfo() {
                 });
         };
         fetchDiagnosticTests();
-    }, [show]);
+    }, [diagnosticTests]);
 
     // Get current
     const indexOfLastDiagnosticTest = currentPage * diagnosticTestsPerPage;
@@ -63,6 +63,10 @@ function DiagnosticTestsInfo() {
     }
     const prevPage = (pageNumber) => {
         setCurrentPage(pageNumber - 1)
+    }
+
+    if (!loading) {
+        return <h2>Loading...</h2>;
     }
 
     return (
@@ -158,6 +162,14 @@ function DiagnosticTestsModal(props) {
     const [fileName, setFileName] = useState([]);
     const [filesArray, setFilesArray] = useState([]);
 
+    useEffect(() => {
+        if (!filesArray.length) {
+            document.getElementById("btnUpload").disabled = true
+        } else {
+            document.getElementById("btnUpload").disabled = false
+        }
+    }, [filesArray]);
+
     function saveDiagnosticTest() {
         const files = new FormData();
         // files.append("files", file);
@@ -178,15 +190,23 @@ function DiagnosticTestsModal(props) {
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
+            clearState();
         document.getElementById("diagnosticTestForm").reset();
     };
 
     const saveFileSelected = (e) => {
+        const fa = [];
         for (var i = 0; i < e.target.files.length; i++) {
-            filesArray.push(e.target.files.item(i));
+            fa.push(e.target.files.item(i));
         }
-        console.log(filesArray);
+        setFilesArray(fa);    
     };
+
+    const clearState = () => {
+        setDateReferto();
+        setTipoReferto();
+        setFilesArray([]);
+    }
 
     return (
         <>
@@ -209,11 +229,11 @@ function DiagnosticTestsModal(props) {
                                 </div>
                                 <div className="input-group mb-3 w-sm-50">
                                     <span className="input-group-text" id="data">Data</span>
-                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" name="dateReferto" onChange={e => setDateReferto(e.target.value)} required max={moment().format("YYYY-MM-DD")} />
+                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" name="dateReferto" onChange={e => setDateReferto(e.target.value)} required max={moment().format("YYYY-MM-DD")}/>
                                 </div>
                             </div>
                             <div className="modal-footer d-flex justify-content-center justify-content-md-end">
-                                <button className="btn btn-primary btn-upload" id onClick={saveDiagnosticTest}>Carica referto</button>
+                                <button className="btn btn-primary btn-upload" id="btnUpload" onClick={saveDiagnosticTest}>Carica referto</button>
                             </div>
                         </form>
                         < NotificationContainer />
@@ -223,38 +243,7 @@ function DiagnosticTestsModal(props) {
             <div>
             </div>
 
-            {/* <Modal show={props.show} onHide={props.handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Aggiungi esame diagnostico</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form id="diagnosticTestForm">
-                        <Form.Group controlId="diagnosticTestDate">
-                            <Form.Label>Data referto</Form.Label>
-                            <Form.Control type="date" name="dateReferto" placeholder="Data referto" onChange={e => setDateReferto(e.target.value)} />
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="diagnosticTestType">
-                            <Form.Label>Tipo referto</Form.Label>
-                            <Form.Control type="text" name="tipoReferto" placeholder="Tipo referto" onChange={e => setTipoReferto(e.target.value)} />
-                        </Form.Group>
-                        <Form.Group controlId="formFile" className="mb-3">
-                            <Form.Label>Carica file</Form.Label>
-                            <Form.Control type="file" multiple onChange={saveFileSelected} />
-                        </Form.Group>
-
-                    </Form>
-                    < NotificationContainer />
-
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={props.handleClose}>
-                        Chiudi
-                    </Button>
-                    <Button variant="primary" id="btnSave" onClick={saveDiagnosticTest}>
-                        Salva esame
-                    </Button>
-                </Modal.Footer>
-            </Modal> */}
+         
         </>
     );
 }
