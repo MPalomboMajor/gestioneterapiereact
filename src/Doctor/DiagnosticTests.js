@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { patient } from '../helpers/api/api';
 import { Link } from 'react-router-dom';
@@ -18,7 +18,9 @@ function DiagnosticTestsInfo() {
     const [diagnosticTestsPerPage] = useState(8);
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = () => {
+        setShow(true)
+    };
 
     useEffect(() => {
         const fetchPatient = () => {
@@ -92,7 +94,7 @@ function DiagnosticTestsInfo() {
                 </nav>
                 <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuovo-esame" onClick={handleShow}>Nuovo esame</button>
             </div>
-            <DiagnosticTestsModal show={show} handleClose={handleClose} patientId={patientId} />
+            <DiagnosticTestsModal show={show} handleClosed={ handleClose} patientId={patientId}  />
         </>
     );
 }
@@ -161,6 +163,8 @@ function DiagnosticTestsModal(props) {
     const [file, setFile] = useState([]);
     const [fileName, setFileName] = useState([]);
     const [filesArray, setFilesArray] = useState([]);
+    const imageInputRef = useRef(); 
+    const [flagModal, setFlagModal] = useState(true);
 
     useEffect(() => {
         if (!filesArray.length) {
@@ -169,12 +173,17 @@ function DiagnosticTestsModal(props) {
             document.getElementById("btnUpload").disabled = false
         }
     }, [filesArray]);
-
-    function saveDiagnosticTest(evt) {       
-        evt.preventDefault();
+    useEffect(() => {
+        setDateReferto();
+        setTipoReferto();
+        setFilesArray([]);
+        imageInputRef.current.value= '';
+    }, [props.show]);
+    useEffect(() => {
+        setFlagModal(true);
+    }, [flagModal]);
+    function saveDiagnosticTest(evt) {
         const files = new FormData();
-        // files.append("files", file);
-        // files.append("fileName", fileName);
         filesArray.forEach(file => {
             files.append("files", file);
         });
@@ -187,13 +196,12 @@ function DiagnosticTestsModal(props) {
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
-                    props.show = false;
+                   window.location.reload();
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
-        clearState();
-        document.getElementById("diagnosticTestForm").reset();
+            
     };
 
     const saveFileSelected = (e) => {
@@ -204,48 +212,39 @@ function DiagnosticTestsModal(props) {
         setFilesArray(fa);
     };
 
-    const clearState = () => {
-        setDateReferto();
-        setTipoReferto();
-        setFilesArray([]);
-    }
+
 
     return (
+
         <>
-            <div className="modal fade" id="nuovo-esame" tabIndex={-1} aria-labelledby="Nuovo esame" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered" show={props.show} onHide={props.handleClose}>
+            <div className="modal fade" id="nuovo-esame" tabIndex={-1} aria-labelledby="Nuovo esame" aria-hidden="false">
+                <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h3 className="h3">Nuovo esame</h3>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"  onClick={props.handleClosed} />
                         </div>
-                        <form onSubmit={saveDiagnosticTest}>
-                            <div className="modal-body align-items-end">
-                                <div className="input-group mb-3">
-                                    <span className="input-group-text" id="captiontest">Carica referto</span>
-                                    <input type="file" className="form-control form-control-sm" id="captiontest" aria-describedby="basic-addon3" multiple onChange={saveFileSelected} required />
-                                </div>
-                                <div className="input-group mb-3">
-                                    <span className="input-group-text" id="captiontest">Tipo di referto</span>
-                                    <input type="text" className="form-control form-control-sm" id="captiontest" aria-describedby="basic-addon3" name="tipoReferto" onChange={e => setTipoReferto(e.target.value)} required />
-                                </div>
-                                <div className="input-group mb-3 w-sm-50">
-                                    <span className="input-group-text" id="data">Data</span>
-                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" name="dateReferto" onChange={e => setDateReferto(e.target.value)} required max={moment().format("YYYY-MM-DD")} />
-                                </div>
+                        <div className="modal-body align-items-end">
+                            <div className="input-group mb-3">
+                                <span className="input-group-text" id="captiontest">Carica referto</span>
+                                <input type="file" className="form-control form-control-sm" id="captiontestfile"  aria-describedby="basic-addon3" multiple  ref={imageInputRef}  onChange={saveFileSelected} required />
                             </div>
-                            <div className="modal-footer d-flex justify-content-center justify-content-md-end">
-                                <button className="btn btn-primary btn-upload" type="submit" id="btnUpload"  >Carica referto</button>
+                            <div className="input-group mb-3">
+                                <span className="input-group-text" id="type">Tipo di referto</span>
+                                <input type="text" className="form-control form-control-sm" id="type" value={tipoReferto? tipoReferto : ''} placeholder='Inserisci tipo di referto' name="tipoReferto" onChange={e => setTipoReferto(e.target.value)} required />
                             </div>
-                        </form>
+                            <div className="input-group mb-3 w-sm-50">
+                                <span className="input-group-text" id="data">Data</span>
+                                <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" name="dateReferto" value={dateReferto? dateReferto: ''} onChange={e => setDateReferto(e.target.value)} required max={moment().format("YYYY-MM-DD")} />
+                            </div>
+                        </div>
+                        <div className="modal-footer d-flex justify-content-center justify-content-md-end">
+                            <button className="btn btn-primary btn-upload" id="btnUpload"  onClick={saveDiagnosticTest}  >Carica referto</button>
+                        </div>
                         < NotificationContainer />
                     </div>
                 </div>
             </div>
-            <div>
-            </div>
-
-
         </>
     );
 }
