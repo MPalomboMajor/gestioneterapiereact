@@ -50,7 +50,7 @@ function EpilepticSeizuresInfo() {
                 });
         };
         fetchEpilepticSeizures();
-    }, [show]);
+    }, []);
 
     // Get current
     const indexOfLastEpilepticSeizure = currentPage * epilepticSeizuresPerPage;
