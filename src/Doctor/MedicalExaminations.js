@@ -52,7 +52,7 @@ function MedicalExaminationsInfo() {
                 });
         };
         fetchMedicalExaminations();
-    }, [medicalExaminations]);
+    }, []);
 
     // Get current
     const indexOfLastmedicalExamination = currentPage * medicalExaminationsPerPage;
@@ -195,7 +195,6 @@ function MedicalExaminationsModal(props) {
         filesArray.forEach(file => {
             files.append("files", file);
         });
-        console.log(files);
         patient.postMedicalExamination("Visita/", files, {
             params:
                 { idPatient, idMedicalExam, type, data, information, visitaSpecialistica, accessoRicovero }, headers: {
@@ -205,6 +204,7 @@ function MedicalExaminationsModal(props) {
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                    window.location.reload();
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
@@ -234,13 +234,12 @@ function MedicalExaminationsModal(props) {
     return (
         <>
             <div className="modal fade" id="nuova-visita" tabIndex={-1} aria-labelledby="Nuova visita" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered" show={props.show} onHide={props.handleClose}>
+                <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h3 className="h3">Carica nuova visita</h3>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => props.handleClose()} />
                         </div>
-                        <form action>
                             <div className="modal-body align-items-start">
                                 <div className="input-group mb-3">
                                     <span className="input-group-text" id="label-caricareferto">Carica referto</span>
@@ -268,7 +267,6 @@ function MedicalExaminationsModal(props) {
                             <div className="modal-footer d-flex justify-content-center justify-content-md-end">
                                 <button className="btn btn-primary btn-upload" id="btnUpload" onClick={saveMedicalExamination}>Carica referto</button>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>
