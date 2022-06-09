@@ -52,7 +52,7 @@ function NutritionalPlansInfo() {
                 });
         };
         fetchNutritionalPlans();
-    }, [nutritionalPlans]);
+    }, []);
 
     // Get current
     const indexOfLastNutritionalPlans = currentPage * nutritionalPlansPerPage;
