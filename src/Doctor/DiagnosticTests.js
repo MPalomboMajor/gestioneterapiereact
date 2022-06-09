@@ -170,7 +170,8 @@ function DiagnosticTestsModal(props) {
         }
     }, [filesArray]);
 
-    function saveDiagnosticTest() {
+    function saveDiagnosticTest(evt) {       
+        evt.preventDefault();
         const files = new FormData();
         // files.append("files", file);
         // files.append("fileName", fileName);
@@ -186,11 +187,12 @@ function DiagnosticTestsModal(props) {
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                    props.show = false;
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
-            clearState();
+        clearState();
         document.getElementById("diagnosticTestForm").reset();
     };
 
@@ -199,7 +201,7 @@ function DiagnosticTestsModal(props) {
         for (var i = 0; i < e.target.files.length; i++) {
             fa.push(e.target.files.item(i));
         }
-        setFilesArray(fa);    
+        setFilesArray(fa);
     };
 
     const clearState = () => {
@@ -217,7 +219,7 @@ function DiagnosticTestsModal(props) {
                             <h3 className="h3">Nuovo esame</h3>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                         </div>
-                        <form action>
+                        <form onSubmit={saveDiagnosticTest}>
                             <div className="modal-body align-items-end">
                                 <div className="input-group mb-3">
                                     <span className="input-group-text" id="captiontest">Carica referto</span>
@@ -229,11 +231,11 @@ function DiagnosticTestsModal(props) {
                                 </div>
                                 <div className="input-group mb-3 w-sm-50">
                                     <span className="input-group-text" id="data">Data</span>
-                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" name="dateReferto" onChange={e => setDateReferto(e.target.value)} required max={moment().format("YYYY-MM-DD")}/>
+                                    <input type="date" className="form-control form-control-sm" id="data" aria-describedby="basic-addon3" name="dateReferto" onChange={e => setDateReferto(e.target.value)} required max={moment().format("YYYY-MM-DD")} />
                                 </div>
                             </div>
                             <div className="modal-footer d-flex justify-content-center justify-content-md-end">
-                                <button className="btn btn-primary btn-upload" id="btnUpload" onClick={saveDiagnosticTest}>Carica referto</button>
+                                <button className="btn btn-primary btn-upload" type="submit" id="btnUpload"  >Carica referto</button>
                             </div>
                         </form>
                         < NotificationContainer />
@@ -243,7 +245,7 @@ function DiagnosticTestsModal(props) {
             <div>
             </div>
 
-         
+
         </>
     );
 }
