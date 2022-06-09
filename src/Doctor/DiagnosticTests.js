@@ -50,7 +50,7 @@ function DiagnosticTestsInfo() {
                 });
         };
         fetchDiagnosticTests();
-    }, [diagnosticTests]);
+    }, []);
 
     // Get current
     const indexOfLastDiagnosticTest = currentPage * diagnosticTestsPerPage;
@@ -67,9 +67,7 @@ function DiagnosticTestsInfo() {
         setCurrentPage(pageNumber - 1)
     }
 
-    if (!loading) {
-        return <h2>Loading...</h2>;
-    }
+    
 
     return (
         <>
