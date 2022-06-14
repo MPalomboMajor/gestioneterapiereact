@@ -415,14 +415,15 @@ const SideNav = () => {
                             </>
                 }
             </ul>
-            <p className="angelini d-none d-lg-block">
-                Realizzato con il contributo di
-            </p>
-            <br />
             <p className="pharmaPrime d-none d-lg-block">
                 Progetto <br/>a cura di
             </p>
             <br />
+            <p className="angelini d-none d-lg-block">
+                Realizzato con il contributo di
+            </p>
+            <br />
+            
             <p className="ae d-none d-lg-block">
                 Con il <br/>patrocinio di
             </p>

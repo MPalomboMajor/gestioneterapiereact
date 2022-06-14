@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Form, Button, } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
 import { api, medico, user } from '../helpers/api/api';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
@@ -41,7 +41,7 @@ export class Register extends Component {
             isApprove: false,
             iSSendOtp: false,
             listRegion: [],
-            listFilterRegion:  [],
+            listFilterRegion: [],
             listCentriMedici: [],
 
             //TODO DA ELIMINARE 
@@ -69,7 +69,7 @@ export class Register extends Component {
         medico.getAll("GetCentriMedici")
             .then(async (response) => {
                 if (response.status == 200) {
-                    this.setState({ listCentriMedici: response.data.dati, listFilterRegion: response.data.dati});
+                    this.setState({ listCentriMedici: response.data.dati, listFilterRegion: response.data.dati });
                 }
             }).catch((error) => {
 
@@ -169,12 +169,12 @@ export class Register extends Component {
         const selected = inputName.target;
         const id = selected.children[selected.selectedIndex].id;
         const statusCopy = { ...this.state };
-        if(id!= 0){
-            statusCopy['listFilterRegion'] = this.state.listCentriMedici.filter( x  => x.idRegione == id);
-        }else{
+        if (id != 0) {
+            statusCopy['listFilterRegion'] = this.state.listCentriMedici.filter(x => x.idRegione == id);
+        } else {
             statusCopy['listFilterRegion'] = this.state.listCentriMedici;
         }
-        
+
         this.setState(statusCopy);
     };
     handleChangeconfirm = (el) => {
@@ -338,12 +338,13 @@ export class Register extends Component {
                         </Form.Group>
                     </Row>
                     <Row>
-                        <Form.Group className="col-6 mb-2">
+                        <InputGroup className="col-6 mb-2 input-custom-reg ">
                             <Form.Control onChange={this.handleChange} id='eMail' alt="userDto" name="username" isInvalid={validations.username != null} placeholder="E-mail" value={this.state.userDto.username} />
-                        </Form.Group>
-                        <Form.Group className="col-6 mb-2">
+                        </InputGroup >
+                        <InputGroup className="col-6 mb-2  input-custom-reg">
+                            <InputGroup.Text id="basic-addon1">+39</InputGroup.Text>
                             <Form.Control onChange={this.handleChange} id='phoneNumber' alt="medicoDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Mobile" value={this.state.medicoDTO.phoneNumber} />
-                        </Form.Group>
+                        </InputGroup >
                     </Row>
                     <Row className='pb-5'>
                         <Form.Group className="col-6 mb-2" controlId="formBasicPassword">

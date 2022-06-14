@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Form, Button, } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
 import { api, medico, user } from '../helpers/api/api';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
@@ -192,12 +192,13 @@ export class RegisterCareManager extends Component {
                         </Form.Group>
                     </Row>
                     <Row>
-                        <Form.Group className="col-6 mb-2">
+                        <InputGroup className="col-6 mb-2 input-custom-regCa ">
                             <Form.Control onChange={this.handleChange} id='eMail' alt="userDto" name="username" isInvalid={validations.username != null} placeholder="E-mail" />
-                        </Form.Group>
-                        <Form.Group className="col-6 mb-2">
+                        </InputGroup >
+                        <InputGroup className="col-6 mb-2  input-custom-regCa">
+                            <InputGroup.Text id="basic-addon1">+39</InputGroup.Text>
                             <Form.Control onChange={this.handleChange} id='phoneNumber' alt="careManagerDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Mobile" value={this.state.careManagerDTO.phoneNumber} />
-                        </Form.Group>
+                        </InputGroup >
                     </Row>
                     <Row className='pb-5'>
                         <Form.Group className="col-6 mb-2" controlId="formBasicPassword">

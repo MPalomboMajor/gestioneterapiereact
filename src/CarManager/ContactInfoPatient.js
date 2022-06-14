@@ -210,7 +210,7 @@ export class ContactInfoPatient extends Component {
                                 keyboard={false}
                             >
                                 <Modal.Header closeButton>
-                                    <Modal.Title>{this.state.isUpdate ? 'Modifica Centro Medico' : 'Aggiungi Centro Medico'}</Modal.Title>
+                                    <Modal.Title>{this.state.isUpdate ? 'Modifica Info' : 'Aggiungi Info'}</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
                                     <Row>

@@ -118,7 +118,7 @@ function EpilepticSeizuresInfo() {
                 <button className="btn btn-primary mb-4 align-self-center d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#nuova-crisi" onClick={handleShow}>Aggiungi</button>
             </div>
 
-            <EpilepticSeizuresModal show={show} handleClose={handleClose} patientId={patientId} setEpilepticSeizures={setEpilepticSeizures} />
+            <EpilepticSeizuresModal show={show} handleClose={handleClose} patientId={patientId} setEpilepticSeizures={setEpilepticSeizures}  />
 
             < NotificationContainer />
         </>
@@ -189,7 +189,7 @@ function EpilepticSeizureRow(props) {
             </div>
             <div className="col-12 col-md-3 d-flex">
                 <div className="box small w-100">
-                    <div className="label label-secondary">Manifestazioni</div>
+                    <div className="label ">Manifestazioni</div>
                     <div action className="row">
                         <div className="col">
                             <div className="form-check">
@@ -216,7 +216,7 @@ function EpilepticSeizureRow(props) {
             </div>
             <div className="col-12 col-md-3 d-flex">
                 <div className="box small w-100">
-                    <div className="label label-secondary">Contesto</div>
+                    <div className="label ">Contesto</div>
                     <div className="row">
                         <div className="col">
                             <div className="form-check">
