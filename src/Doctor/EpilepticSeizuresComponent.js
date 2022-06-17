@@ -617,7 +617,7 @@ function EpilepticSeizuresModal(props) {
                                     <span className="input-group-text" id="descrizione">Descrizione</span>
                                     <input type="textarea" className="form-control form-control-sm" id="descrizione" aria-describedby="descrizione-label" alt="description" placeholder="Descrizione" onChange={handleChange} rows={5} required />
                                 </div>
-                                <div className="box w-100 bg-secondary mt-4">
+                                <div className="box w-100 border-secondary mt-4">
                                     <div className="label label-secondary">Manifestazioni</div>
                                     <div action className="row">
                                         <div className="col">
@@ -642,7 +642,7 @@ function EpilepticSeizuresModal(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="box w-100 bg-secondary mt-4">
+                                <div className="box w-100 border-secondary mt-4">
                                     <div className="label label-secondary">Contesto</div>
                                     <div className="row">
                                         <div className="col">

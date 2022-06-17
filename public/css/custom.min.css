@@ -127,7 +127,11 @@ h4 {
 .bg-secondary {
     background-color: #f0b300 !important
 }
-
+.border-secondary {
+    border-color: #573d6b !important;
+    border-style: solid;
+    border-width: 1px;
+}
 dl dd,
 dl dt {
     margin-bottom: 1.5rem !important
