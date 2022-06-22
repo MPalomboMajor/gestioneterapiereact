@@ -12,14 +12,14 @@ import Pagination from '../helpers/pagination';
 function AdverseEventsInfo() {
     const [patientId, setPatientId] = useState(window.location.pathname.split('/').pop());
     const [adverseEvents, setAdverseEvents] = useState([]);
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState('false');
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [adverseEventsPerPage] = useState(12);
     const [patientProfile, setPatientProfile] = useState([]);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleClose = () => setShow('false');
+    const handleShow = () => setShow('true');
 
     useEffect(() => {
         const fetchAdverseEvents = async () => {
@@ -43,7 +43,7 @@ function AdverseEventsInfo() {
                 });
         };
         fetchAdverseEvents();
-    }, [show]);
+    }, []);
 
     // Get current
     const indexOfLastAdverseEvent = currentPage * adverseEventsPerPage;
@@ -135,7 +135,7 @@ function AdverseEventsTable(props) {
 }
 
 function AdverseEventRow(props) {
-    return <tr><AdverseEventRowData adverseEvent={props.adverseEvent} /> <RowControl adverseEventId={props.adverseEvent.id} deleteAdverseEvent={props.deleteAdverseEvent} /></tr>
+    return <tr><AdverseEventRowData adverseEvent={props.adverseEvent} /><RowControl adverseEventId={props.adverseEvent.id} deleteAdverseEvent={props.deleteAdverseEvent} /></tr>
 }
 
 
@@ -149,16 +149,16 @@ function AdverseEventRowData(props) {
         <td className="split-column">
             <div className="options-wrapper">
                 <div className="form-check">
-                    <input className="form-check-input" type="radio" id value="1" checked={props.adverseEvent.idIntensity === 1} disabled />
-                    <label className="form-check-label" htmlFor>Lieve</label>
+                    <input className="form-check-input" type="radio" value="1" checked={props.adverseEvent.idIntensity === 1} disabled />
+                    <label className="form-check-label">Lieve</label>
                 </div>
                 <div className="form-check">
-                    <input className="form-check-input" type="radio" id value="2" checked={props.adverseEvent.idIntensity === 2} disabled />
-                    <label className="form-check-label" htmlFor>Moderata</label>
+                    <input className="form-check-input" type="radio" value="2" checked={props.adverseEvent.idIntensity === 2} disabled />
+                    <label className="form-check-label">Moderata</label>
                 </div>
                 <div className="form-check">
-                    <input className="form-check-input" type="radio" id value="3" checked={props.adverseEvent.idIntensity === 3} disabled />
-                    <label className="form-check-label" htmlFor>Grave</label>
+                    <input className="form-check-input" type="radio" value="3" checked={props.adverseEvent.idIntensity === 3} disabled />
+                    <label className="form-check-label">Grave</label>
                 </div>
             </div>
         </td>
@@ -245,7 +245,7 @@ function AdverseEventsModal(props) {
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
-                    props.setAdverseEvents(response.data.dati);
+                    window.location.reload();
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
@@ -258,13 +258,12 @@ function AdverseEventsModal(props) {
     return (
         <>
             <div className="modal fade" id="nuovo-evento" tabIndex={-1} aria-labelledby="Nuovo evento" aria-hidden="true" >
-                <div className="modal-dialog modal-dialog-centered" show={props.show} onHide={props.handleClose}>
+                <div className="modal-dialog modal-dialog-centered" show={props.show}>
                     <div className="modal-content">
                         <div className="modal-header">
                             <h3 className="h3">Nuovo evento avverso</h3>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                         </div>
-                        <form action>
                             <div className="modal-body align-items-end">
                                 <div className="input-group mb-3 w-sm-50">
                                     <span className="input-group-text" id="data">Data</span>
@@ -295,10 +294,9 @@ function AdverseEventsModal(props) {
                                 </div>
                             </div>
                             <div className="modal-footer d-flex justify-content-center justify-content-md-end">
-                                <button className="btn btn-primary" id onClick={saveAdverseEvent}>Salva evento</button>
+                                <button className="btn btn-primary" id="btnSalvaNuovoEvento" onClick={saveAdverseEvent}>Salva evento</button>
                             </div>
-                        </form>
-                        < NotificationContainer />
+                        <NotificationContainer />
                     </div>
                 </div>
             </div>
