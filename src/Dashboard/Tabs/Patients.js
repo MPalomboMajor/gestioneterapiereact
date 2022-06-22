@@ -21,7 +21,7 @@ function Patients(props) {
                                 <h2>Sesso</h2>
                                 <BarChartGetBySex data={props.dataGetBySex} commonProperties={props.commonProperties} />
                             </div>
-                            
+
                             <div className="col-12 col-md-5 mb-2" style={{ "height": "300px" }}>
                                 <h2>Fasce di età</h2>
                                 <BarChartGetByAge data={props.dataGetByAge} commonProperties={props.commonProperties} />
@@ -29,9 +29,9 @@ function Patients(props) {
                         </div>
                         &nbsp;
                         <div className="row">
-                        <div className="col-12 col-md-2 mb-2">
+                            <div className="col-12 col-md-2 mb-2">
                                 <div className="container-fluid g-0">
-                                    
+
                                 </div>
                             </div>
                             <div className="col-12 col-md-8 mb-2">
@@ -45,10 +45,13 @@ function Patients(props) {
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div className="row" style={{ "marginTop": "40px" }}>
                             <div className="col-12 col-md-2 mb-2">
+
+                            </div>
+                            <div className="col-12 col-md-5 mb-2" style={{ "height": "300px" }}>
                                 <div className="container-fluid g-0">
                                     <h2 class="h2">Totale drop-off: {props.dataGetTotalNumberDropOff}</h2>
                                 </div>

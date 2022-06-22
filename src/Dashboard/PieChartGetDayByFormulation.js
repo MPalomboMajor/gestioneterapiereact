@@ -18,10 +18,12 @@ function PieChartGetDayByFormulation(props) {
                     ]
                 ]
             }}
+            arcLinkLabel={function(e){return e.id + " mg"}}
             arcLinkLabelsSkipAngle={10}
             arcLinkLabelsTextColor="#333333"
             arcLinkLabelsThickness={2}
             arcLinkLabelsColor={{ from: 'color' }}
+            arcLabel={function(e){return e.value + " giorni"}}
             arcLabelsSkipAngle={10}
             arcLabelsTextColor={{
                 from: 'color',
@@ -32,59 +34,6 @@ function PieChartGetDayByFormulation(props) {
                     ]
                 ]
             }}
-            defs={[
-                {
-                    id: 'dots',
-                    type: 'patternDots',
-                    background: 'inherit',
-                    color: 'rgba(255, 255, 255, 0.3)',
-                    size: 4,
-                    padding: 1,
-                    stagger: true
-                },
-                {
-                    id: 'lines',
-                    type: 'patternLines',
-                    background: 'inherit',
-                    color: 'rgba(255, 255, 255, 0.3)',
-                    rotation: -45,
-                    lineWidth: 6,
-                    spacing: 10
-                }
-            ]}
-            fill={[
-                {
-                    match: {
-                        id: ''
-                    },
-                    id: 'dots'
-                },
-                {
-                    match: {
-                        id: ''
-                    },
-                    id: 'dots'
-                },
-                {
-                    match: {
-                        id: ''
-                    },
-                    id: 'dots'
-                },
-                {
-                    match: {
-                        id: ''
-                    },
-                    id: 'dots'
-                },
-                {
-                    match: {
-                        id: 'causa5'
-                    },
-                    id: 'lines'
-                }
-
-            ]}
             legends={[
                 {
                     anchor: 'bottom',
@@ -93,10 +42,10 @@ function PieChartGetDayByFormulation(props) {
                     translateX: 0,
                     translateY: 56,
                     itemsSpacing: 0,
-                    itemWidth: 100,
+                    itemWidth: 50,
                     itemHeight: 18,
                     itemTextColor: '#999',
-                    itemDirection: 'left-to-right',
+                    itemDirection: 'top-to-bottom',
                     itemOpacity: 1,
                     symbolSize: 18,
                     symbolShape: 'circle',
@@ -117,6 +66,7 @@ function PieChartGetDayByFormulation(props) {
         <>
             <div style={{ height: 300, width: 300 }}>
                 <MyResponsivePie data={props.data} commonProperties={props.commonProperties} />
+                
             </div>
         </>
     );

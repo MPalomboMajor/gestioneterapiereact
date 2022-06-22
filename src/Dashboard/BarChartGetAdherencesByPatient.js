@@ -43,13 +43,11 @@ function BarChartGetAdherencesByPatient(props) {
                     match: {
                         id: 'numeroNotifiche'
                     },
-                    id: 'dots'
                 },
                 {
                     match: {
                         id: 'numeroConferme'
                     },
-                    id: 'lines'
                 }
             ]}
             borderColor={{

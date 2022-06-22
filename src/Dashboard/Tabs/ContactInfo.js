@@ -35,20 +35,20 @@ function ContactInfo(props) {
                         </div>
                         <div className="row" style={{ "marginTop": "40px" }}>
                             <div className="col-12 col-md-4 mb-2">
-                                <div style={{ "height": "300px" }}>
+                                <div style={{ "height": "340px" }}>
                                     <h4>Come valuta il servizio in una scala da 1 a 5?</h4>
                                     <PieChartGetSatisfactionLevelQuestionOne data={props.dataGetSatisfactionLevelQuestionOne} commonProperties={props.commonProperties} />
                                 </div>
                             </div>
                             <div className="col-12 col-md-4 mb-2">
-                                <div style={{ "height": "300px" }}>
+                                <div style={{ "height": "340px" }}>
                                     <h4>Consiglierebbe questo servizio?</h4>
                                     <PieChartGetSatisfactionLevelQuestionTwo data={props.dataGetSatisfactionLevelQuestionTwo} commonProperties={props.commonProperties} />
                                 </div>
                             </div>
                             <div className="col-12 col-md-4 mb-2">
 
-                                <div style={{ "height": "300px" }}>
+                                <div style={{ "height": "340px" }}>
                                     <h4>Quali funzionalità aggiuntive vorrebbe fossero presenti?</h4>
                                     <PieChartGetSatisfactionLevelQuestionThree data={props.dataGetSatisfactionLevelQuestionThree} commonProperties={props.commonProperties} />
                                 </div>

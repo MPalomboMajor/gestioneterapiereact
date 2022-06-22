@@ -58,31 +58,26 @@ function PieChartGetAllDropOff(props) {
                     match: {
                         id: 'causa1'
                     },
-                    id: 'dots'
                 },
                 {
                     match: {
                         id: 'causa2'
                     },
-                    id: 'dots'
                 },
                 {
                     match: {
                         id: 'causa3'
                     },
-                    id: 'dots'
                 },
                 {
                     match: {
                         id: 'causa4'
                     },
-                    id: 'dots'
                 },
                 {
                     match: {
                         id: 'causa5'
                     },
-                    id: 'lines'
                 }
 
             ]}
