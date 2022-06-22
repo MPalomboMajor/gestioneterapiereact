@@ -86,6 +86,7 @@ function AdverseEventsInfo() {
 
 
             <AdverseEventsModal show={show} handleClose={handleClose} setAdverseEvents={setAdverseEvents} />
+            <NotificationContainer />
         </>
     );
 }
@@ -295,8 +296,7 @@ function AdverseEventsModal(props) {
                             </div>
                             <div className="modal-footer d-flex justify-content-center justify-content-md-end">
                                 <button className="btn btn-primary" id="btnSalvaNuovoEvento" onClick={saveAdverseEvent}>Salva evento</button>
-                            </div>
-                        <NotificationContainer />
+                            </div>                     
                     </div>
                 </div>
             </div>
