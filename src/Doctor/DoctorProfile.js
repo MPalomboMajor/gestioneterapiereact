@@ -185,14 +185,14 @@ export class DoctorProfile extends Component {
         medico.post("Edit", this.state.userDto)
             .then((response) => {
                 if (response.status === 200) {
-                    ManagerModal.success(message.MEDICO + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                    NotificationManager.success(message.MEDICO + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
                     this.setState({ isSending: false });
                 } else {
-                    ManagerModal.error(message.MEDICO + message.ErrorServer, entitiesLabels.ERROR, 3000);
+                    NotificationManager.error(message.MEDICO + message.ErrorServer, entitiesLabels.ERROR, 3000);
                     this.setState({ isSending: false });
                 }
             }).catch((error) => {
-                ManagerModal.error(message.MEDICO + message.ErrorServer, entitiesLabels.ERROR, 3000);
+                NotificationManager.error(message.MEDICO + message.ErrorServer, entitiesLabels.ERROR, 3000);
                 this.setState({ isSending: false });
             });
     }
@@ -303,14 +303,25 @@ export class DoctorProfile extends Component {
                                         </Form.Group>
                                     </Row>
                                     <Row>
-                                        <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
-                                            <Form.Label className="">Codice Fiscale</Form.Label>
-                                            <Form.Control id='fiscalCode' alt='userDto' name="fiscalCode" onChange={this.handleChange} value={this.state.userDto.fiscalCode ? this.state.userDto.fiscalCode : ''} placeholder="Enter Codice fiscale" />
+                                        <Form.Group className="col-12 mb-3" controlId="formBasicEmail">
+                                            <Form.Label className="">Email</Form.Label>
+                                            <Form.Control disabled id='email' name="email" onChange={this.handleChange} value={this.state.userDto.email} isInvalid={validations.email != null} placeholder="Enter email" />
                                         </Form.Group>
-                                        <Form.Group className="col-4 mb-3 input-layout-wrapper" >
-                                            <Form.Label className="text-light">Centro Medico</Form.Label>
-                                            <Form.Select id='mendicalCenter' onChange={this.onChange} name="mendicalCenter" alt="medicoDTO" placeholder="Enter centro medico" >
-                                                {this.state.listCentriMedici.map((item) =>
+                                    </Row>
+                                    <Row>
+                                        <Form.Group className="col-6 mb-2" >
+                                            <Form.Label className="">Regione</Form.Label>
+                                            <Form.Select onChange={this.onChangeRegion} name="region" alt="medicoDTO" placeholder="Centro medico"  >
+                                                <option id="0">Seleziona Regione</option>
+                                                {this.state.listRegion.map((item) =>
+                                                    <option selected={idRegion == item.id ? "selected" : ''} id={item.id}>{item.nomeRegione}</option>
+                                                )}
+                                            </Form.Select>
+                                        </Form.Group>
+                                        <Form.Group className="col-6 mb-3 input-layout-wrapper" >
+                                            <Form.Label className="">Centro Medico</Form.Label>
+                                            <Form.Select id='mendicalCenter' onChange={this.onChange} name="mendicalCenter" alt="medicoDTO" placeholder="Inserisci centro medico" >
+                                                {this.state.listFilterRegion.map((item) =>
 
                                                     <option id={item.id} selected={this.state.userDto.idCentroMedico == item.id ? "selected" : ''}>{item.nomeCentro}</option>
                                                 )}
@@ -320,8 +331,8 @@ export class DoctorProfile extends Component {
 
                                     <Row>
                                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
-                                            <Form.Label className="">Email</Form.Label>
-                                            <Form.Control disabled id='email' name="email" onChange={this.handleChange} value={this.state.userDto.email} isInvalid={validations.email != null} placeholder="Enter email" />
+                                            <Form.Label className="">Codice Fiscale</Form.Label>
+                                            <Form.Control id='fiscalCode' alt='userDto' name="fiscalCode" onChange={this.handleChange} value={this.state.userDto.fiscalCode ? this.state.userDto.fiscalCode : ''} placeholder="Enter Codice fiscale" />
                                         </Form.Group>
                                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                             <Form.Label className="">Telefono</Form.Label>
@@ -393,6 +404,7 @@ export class DoctorProfile extends Component {
                                             </Form.Group>
                                         </Row>
                                     </Modal.Body>
+                                    <ContainerModal />
                                     <Modal.Footer>
                                         <Button variant="secondary" onClick={() => this.handleCloseChangePassword()}>
                                             Chiudi
@@ -414,6 +426,7 @@ export class DoctorProfile extends Component {
                                     </Modal.Footer>
                                     <ContainerModal />
                                 </Modal>
+                                < NotificationContainer />
                             </Tab>
                             <Tab eventKey="listPatient" title="Elenco assistiti">
                                 <Table striped bordered hover size="sm">
@@ -459,7 +472,7 @@ export class DoctorProfile extends Component {
                                 </Table>
                             </Tab>
                         </Tabs>
-
+                        
                     </Container>
                 </>
                 :
