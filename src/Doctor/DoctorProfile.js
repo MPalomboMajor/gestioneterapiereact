@@ -120,14 +120,14 @@ export class DoctorProfile extends Component {
                             }).catch((error) => {
 
                             });
-                        patientcode.getAll("GetCodiciPazienti")
-                            .then((response) => {
-                                if (response.status === 200) {
-                                    this.setState({ listPatientCode: response.data.dati });
-                                }
-                            }).catch((error) => {
+                        // patientcode.getAll("GetCodiciPazienti")
+                        //     .then((response) => {
+                        //         if (response.status === 200) {
+                        //             this.setState({ listPatientCode: response.data.dati });
+                        //         }
+                        //     }).catch((error) => {
 
-                            });
+                        //     });
                     }
                 }
             }).catch((error) => {
