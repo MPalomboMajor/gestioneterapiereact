@@ -449,28 +449,6 @@ export class DoctorProfile extends Component {
                                     </tbody>
                                 </Table>
                             </Tab>
-                            <Tab eventKey="listcode" title="Codici assistiti">
-                                <Row className='col-12 pt-4' >
-                                    <div className='col-12'>
-                                        <h2>Elenco codici assistiti assegnati</h2>
-                                    </div>
-                                </Row>
-                                <Table striped bordered hover size="sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Data Richiesta</th>
-                                            <th>Data Emissione</th>
-                                            <th>Codice Inizio</th>
-                                            <th>Codice Fine</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            this.state.listPatientCode ? currentItemsCode.map((pa) => <RowCustom colums={["dataStart", "dataEnd", "codiStart", "codiEnd"]} item={pa} />) : ''
-                                        }
-                                    </tbody>
-                                </Table>
-                            </Tab>
                         </Tabs>
                         
                     </Container>
