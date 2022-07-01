@@ -139,7 +139,7 @@ export class AssociatePatient extends Component {
                 <Row className='col-6 pt-4' >
                     <Form.Group className="mb-3">
                         <Form.Label>Codice assistito</Form.Label>
-                        <Form.Control id="patientCode" onChange={this.handleChange} isInvalid={validations.patientCode != null} alt="patient" name="patientCode" placeholder="Inserisci fornito dall'assistito" />
+                        <Form.Control id="patientCode" onChange={this.handleChange} isInvalid={validations.patientCode != null} alt="patient" name="patientCode" placeholder="Inserisci codice fornito dall'assistito" />
                     </Form.Group>
                 </Row>
                 <Row className='col-4 pt-4' >

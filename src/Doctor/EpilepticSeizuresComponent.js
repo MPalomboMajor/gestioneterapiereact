@@ -189,7 +189,7 @@ function EpilepticSeizureRow(props) {
             </div>
             <div className="col-12 col-md-3 d-flex">
                 <div className="box small w-100">
-                    <div className="label ">Manifestazioni</div>
+                    <div className="label label-primary">Manifestazioni</div>
                     <div action className="row">
                         <div className="col">
                             <div className="form-check">
@@ -216,7 +216,7 @@ function EpilepticSeizureRow(props) {
             </div>
             <div className="col-12 col-md-3 d-flex">
                 <div className="box small w-100">
-                    <div className="label ">Contesto</div>
+                    <div className="label label-primary">Contesto</div>
                     <div className="row">
                         <div className="col">
                             <div className="form-check">

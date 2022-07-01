@@ -94,6 +94,16 @@ function PatientRegistry() {
                 setIsActive(!isActive);
         }
 
+        function keyDown(e) { 
+                var e = window.event || e;
+                var key = e.keyCode;
+                //space pressed
+                 if (key == 32) { //space
+                  e.preventDefault();
+                 }
+                       
+              }
+
         function editPatient() {
                 patientProfile.idDisabledCause = parseInt(patientProfile.idDisabledCause);
                 patient.post("UpdateProfile/", patientProfile)
@@ -182,7 +192,7 @@ function PatientRegistry() {
                                                                                                 <label htmlFor="telefono" className="col-form-label w-100 text-md-end">Telefono</label>
                                                                                         </div>
                                                                                         <div className="col-12 col-md-8">
-                                                                                                <input type="text" id="telefono" className="form-control form-control-sm" aria-describedby name="phoneNumber" defaultValue={patientProfile.phoneNumber} onChange={handleChange} />
+                                                                                                <input type="text" id="telefono" className="form-control form-control-sm" aria-describedby name="phoneNumber" defaultValue={patientProfile.phoneNumber} onChange={handleChange} onKeyDown={() => keyDown()}/>
                                                                                         </div>
                                                                                 </div>
                                                                                 <div className="row gx-3 mb-2">

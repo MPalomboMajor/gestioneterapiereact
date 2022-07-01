@@ -16,6 +16,7 @@ function BarChartGetByAge(props) {
             valueScale={{ type: 'linear' }}
             indexScale={{ type: 'band', round: true }}
             colors={{ scheme: 'nivo' }}
+            maxValue= {12}
             
             borderColor={{
                 from: 'color',
