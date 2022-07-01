@@ -275,6 +275,15 @@ export class Register extends Component {
                 'required'
             ),
         };
+        function keyDown(e) { 
+            var e = window.event || e;
+            var key = e.keyCode;
+            //space pressed
+             if (key == 32) { //space
+              e.preventDefault();
+             }
+                   
+          }
         return (
             this.state.iSSendOtp ?
 
@@ -343,7 +352,7 @@ export class Register extends Component {
                         </InputGroup >
                         <InputGroup className="col-6 mb-2  input-custom-reg">
                             <InputGroup.Text id="basic-addon1">+39</InputGroup.Text>
-                            <Form.Control onChange={this.handleChange} id='phoneNumber' alt="medicoDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Mobile" value={this.state.medicoDTO.phoneNumber} />
+                            <Form.Control onChange={this.handleChange} id='phoneNumber' alt="medicoDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Mobile" value={this.state.medicoDTO.phoneNumber} onKeyDown={() => keyDown()}/>
                         </InputGroup >
                     </Row>
                     <Row className='pb-5'>

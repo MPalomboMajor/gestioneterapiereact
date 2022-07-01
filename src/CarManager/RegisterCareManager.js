@@ -180,6 +180,16 @@ export class RegisterCareManager extends Component {
             ),
             equalPass: this.validator.message('equalPass', equalPass, 'accepted'),
         };
+
+        function keyDown(e) { 
+            var e = window.event || e;
+            var key = e.keyCode;
+            //space pressed
+             if (key == 32) { //space
+              e.preventDefault();
+             }                  
+          }
+
         return (
             <>
                 <Form className="centering-form">
@@ -197,7 +207,7 @@ export class RegisterCareManager extends Component {
                         </InputGroup >
                         <InputGroup className="col-6 mb-2  input-custom-regCa">
                             <InputGroup.Text id="basic-addon1">+39</InputGroup.Text>
-                            <Form.Control onChange={this.handleChange} id='phoneNumber' alt="careManagerDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Mobile" value={this.state.careManagerDTO.phoneNumber} />
+                            <Form.Control onChange={this.handleChange} id='phoneNumber' alt="careManagerDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Mobile" value={this.state.careManagerDTO.phoneNumber} onKeyDown={() => keyDown()}/>
                         </InputGroup >
                     </Row>
                     <Row className='pb-5'>

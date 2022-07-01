@@ -152,6 +152,9 @@ export class NewPatient extends Component {
     handleClose = (el) => {
         this.setState({ isSuccess: false });
     };
+
+    
+
     render() {
         const validations = {
             codicePaziente: this.validator.message(
@@ -173,6 +176,16 @@ export class NewPatient extends Component {
             ),
 
         };
+
+        function keyDown(e) { 
+            var e = window.event || e;
+            var key = e.keyCode;
+            //space pressed
+             if (key == 32) { //space
+              e.preventDefault();
+             }
+                   
+          }
         return (
 
             <Container className=''>
@@ -192,7 +205,7 @@ export class NewPatient extends Component {
                         <Form.Label htmlFor="basic-url">Telefono</Form.Label>
                         <InputGroup className="mb-3">
                             <InputGroup.Text id="basic-addon1">+39</InputGroup.Text>
-                            <Form.Control id="phoneNumber" onChange={this.handleChange} alt="patiendDto" type="" isInvalid={validations.phoneNumber != null} name="phoneNumber" placeholder="Telefono" >
+                            <Form.Control id="phoneNumber" onChange={this.handleChange} alt="patiendDto" type="" isInvalid={validations.phoneNumber != null} name="phoneNumber" placeholder="Telefono" onKeyDown={() => keyDown()}>
                             </Form.Control>
                         </InputGroup >
                     </Row>
