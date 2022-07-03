@@ -557,12 +557,14 @@ function EpilepticSeizuresModal(props) {
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
+                    window.location.reload();
                     patient.get("Seizures/", newEpilepticSeizures.idPatientProfile)
                         .then((response) => {
                             if (response.status === 200) {
                                 props.setEpilepticSeizures(response.data.dati);
                                 //clearState();
                                 props.handleClose();
+                                
                             }
                         }).catch((error) => {
 
