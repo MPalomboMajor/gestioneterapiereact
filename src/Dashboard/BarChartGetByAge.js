@@ -1,7 +1,7 @@
 import { ResponsiveBar } from '@nivo/bar'
 
 function BarChartGetByAge(props) {
-
+    const tickValuesArray = Array(1000).fill(1).map((n, i) => n + i)
     const MyResponsiveBar = ({ data /* see data tab */ }) => (
         <ResponsiveBar
             {...props.commonProperties}
@@ -16,7 +16,6 @@ function BarChartGetByAge(props) {
             valueScale={{ type: 'linear' }}
             indexScale={{ type: 'band', round: true }}
             colors={{ scheme: 'nivo' }}
-            maxValue= {12}
             
             borderColor={{
                 from: 'color',
@@ -43,7 +42,8 @@ function BarChartGetByAge(props) {
                 tickRotation: 0,
                 legend: '',
                 legendPosition: 'middle',
-                legendOffset: -40
+                legendOffset: -40,
+                tickValues: tickValuesArray
             }}
             labelSkipWidth={12}
             labelSkipHeight={12}
@@ -90,7 +90,7 @@ function BarChartGetByAge(props) {
         <>
 
             <div style={{ height: 300, width: 300 }}>
-                <MyResponsiveBar data={props.data} commonProperties={props.commonProperties} />
+                <MyResponsiveBar data={props.data} commonProperties={props.commonProperties} tickValuesArray={tickValuesArray}/>
             </div>
         </>
     );

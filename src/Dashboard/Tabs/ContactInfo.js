@@ -33,7 +33,7 @@ function ContactInfo(props) {
                                 </div> 
                             </div>
                         </div>
-                        <div className="row" style={{ "marginTop": "40px" }}>
+                        <div className="row" style={{ "marginTop": "80px" }}>
                             <div className="col-12 col-md-4 mb-2">
                                 <div style={{ "height": "340px" }}>
                                     <h4>Come valuta il servizio in una scala da 1 a 5?</h4>

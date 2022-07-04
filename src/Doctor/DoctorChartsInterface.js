@@ -297,7 +297,7 @@ function DoctorChartsInterface() {
 
     const commonProperties = {
         width: 400,
-        height: 300,
+        height: 330,
         animate: false,
         activeOuterRadiusOffset: 8,
     }

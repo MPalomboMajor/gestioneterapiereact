@@ -44,7 +44,7 @@ function Monitoring(props) {
                                 </div>
                             </div>
                         </div>
-                        <div className="row" style={{ "marginTop": "40px" }}>
+                        <div className="row" style={{ "marginTop": "80px" }}>
                             <div className="col-12 col-md-6 mb-2">
                                 <div className="container-fluid g-0">
                                     <div style={{ "height": "320px", "marginBottom": "40px" }}>

@@ -28,7 +28,7 @@ function Patients(props) {
                             </div>
                         </div>
                         &nbsp;
-                        <div className="row">
+                        <div className="row" style={{ "marginTop": "40px" }}>
                             <div className="col-12 col-md-2 mb-2">
                                 <div className="container-fluid g-0">
 
@@ -59,7 +59,7 @@ function Patients(props) {
                             <div className="col-12 col-md-5">
                                 <div className="container-fluid g-0">
                                     <div className="row gx-3 mb-2">
-                                        <div style={{ "height": "300px" }}>
+                                        <div style={{ "height": "340px" }}>
                                             <h2>Drop-off</h2>
                                             <PieChartGetAllDropOff data={props.dataGetAllDropOff} commonProperties={props.commonProperties} />
                                         </div>
