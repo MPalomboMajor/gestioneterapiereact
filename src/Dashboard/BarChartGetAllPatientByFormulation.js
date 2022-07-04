@@ -7,7 +7,7 @@ function BarChartGetAllPatientByFormulation(props) {
             {...props.commonProperties}
             data={data === null ? [] : data}
             keys={[
-                'numeroPazienti'
+                'numero assistiti'
             ]}
             indexBy="formula"
             margin={{ top: 50, right: 130, bottom: 50, left: 60 }}

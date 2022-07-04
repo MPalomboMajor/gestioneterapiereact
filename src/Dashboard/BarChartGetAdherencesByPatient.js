@@ -9,8 +9,8 @@ function BarChartGetAdherencesByPatient(props) {
             activeOuterRadiusOffset={8}
             data={data === null ? [] : data}
             keys={[
-                'numeroNotifiche',
-                'numeroConferme'
+                'numero notifiche',
+                'numero conferme'
             ]}
             indexBy="cognomePaziente"
             margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
