@@ -23,8 +23,8 @@ function EpilepticSeizuresInfo() {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        const fetchPatient = () => {
-             patient.get("Get/", patientId)
+        const fetchPatient = async () => {
+             await patient.get("Get/", patientId)
                 .then((response) => {
                     if (response.status === 200) {
                         setPatientProfile(response.data.dati);
@@ -37,9 +37,9 @@ function EpilepticSeizuresInfo() {
     }, []);
 
     useEffect(() => {
-        const fetchEpilepticSeizures = () => {
+        const fetchEpilepticSeizures = async () => {
             setLoading(true);
-             patient.get("Seizures/", patientId)
+             await patient.get("Seizures/", patientId)
                 .then((response) => {
                     if (response.status === 200) {
                         setEpilepticSeizures(response.data.dati);
@@ -557,7 +557,7 @@ function EpilepticSeizuresModal(props) {
             .then((response) => {
                 if (response.status === 200) {
                     NotificationManager.success(message.PATIENT + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
-                    window.location.reload();
+                    
                     patient.get("Seizures/", newEpilepticSeizures.idPatientProfile)
                         .then((response) => {
                             if (response.status === 200) {
