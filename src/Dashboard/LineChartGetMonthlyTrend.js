@@ -4,12 +4,11 @@ import { useState, useEffect } from 'react';
 import moment from 'moment';
 
 function LineChartGetMonthlyTrend(props) {
-    const tickValuesArray = Array(1000).fill(1).map((n, i) => n + i)
+
     const MyResponsiveLine = ({ data /* see data tab */ }) => (
         <ResponsiveLine
             {...props.commonProperties}
             width={600} 
-            height={330}
             data={data === null ? [] : data}
             margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
             xScale={{ type: 'point' }}
@@ -39,8 +38,7 @@ function LineChartGetMonthlyTrend(props) {
                 tickRotation: 0,
                 legend: '',
                 legendOffset: -40,
-                legendPosition: 'middle',
-                tickValues: tickValuesArray
+                legendPosition: 'middle'
             }}
             pointSize={10}
             pointColor={{ theme: 'background' }}
@@ -80,7 +78,7 @@ function LineChartGetMonthlyTrend(props) {
     return (
         <>
             <div style={{ height: 300, width: 300 }}>
-                <MyResponsiveLine data={props.data} tickValuesArray={tickValuesArray}/>
+                <MyResponsiveLine data={props.data} />
             </div>
         </>
     );

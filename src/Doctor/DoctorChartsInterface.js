@@ -133,7 +133,12 @@ function DoctorChartsInterface() {
         dashboard.getWithParam("GetByAge/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
             .then((response) => {
                 if (response.status === 200) {
-                    setDataGetByAge(response.data.dati);
+                    var res = response.data.dati.map(function (x) {
+                        x.attivazioni = parseInt(x.attivazioni);
+                        x.registrazioni = parseInt(x.registrazioni);
+                        return x;
+                    });
+                    setDataGetByAge(res);
                 }
             }).catch((error) => {
 
@@ -141,7 +146,12 @@ function DoctorChartsInterface() {
         dashboard.getWithParam("GetBySex/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
             .then((response) => {
                 if (response.status === 200) {
-                    setDataGetBySex(response.data.dati);
+                    var res = response.data.dati.map(function (x) {
+                        x.attivazioni = parseInt(x.attivazioni);
+                        x.registrazioni = parseInt(x.registrazioni);
+                        return x;
+                    });
+                    setDataGetBySex(res);
                 }
             }).catch((error) => {
 
@@ -158,7 +168,11 @@ function DoctorChartsInterface() {
         dashboard.getWithParam("GetAllPatientsByFormulation/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
             .then((response) => {
                 if (response.status === 200) {
-                    setDataGetAllPatientByFormulation(response.data.dati);
+                    var res = response.data.dati.map(function (x) {
+                        x.formula = parseInt(x.formula);
+                        return x;
+                    });
+                    setDataGetAllPatientByFormulation(res);
                 }
             }).catch((error) => {
 
@@ -196,7 +210,7 @@ function DoctorChartsInterface() {
                     }
                 }).catch((error) => {
                     setDataGetAdherencesByPatient([]);
-                });           
+                });
         }
         if (isAngelini || isCareManger) {
             dashboard.getWithParam("GetTherapyAdherence/", { params: { DataFine: dataFine, DataInizio: dataInizio } })
