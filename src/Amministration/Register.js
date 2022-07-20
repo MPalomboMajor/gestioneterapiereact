@@ -348,7 +348,7 @@ export class Register extends Component {
                     </Row>
                     <Row>
                         <InputGroup className="col-6 mb-2 input-custom-reg ">
-                            <Form.Control onChange={this.handleChange} id='eMail' alt="userDto" name="username" isInvalid={validations.username != null} placeholder="E-mail" value={this.state.userDto.username} />
+                            <Form.Control onChange={this.handleChange} type="email" id='eMail' alt="userDto" name="username" isInvalid={validations.username != null} placeholder="E-mail" value={this.state.userDto.username} />
                         </InputGroup >
                         <InputGroup className="col-6 mb-2  input-custom-reg">
                             <InputGroup.Text id="basic-addon1">+39</InputGroup.Text>

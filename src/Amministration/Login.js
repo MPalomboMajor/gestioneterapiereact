@@ -29,7 +29,6 @@ export class Login extends Component {
             isSuccessSendOtp: false,
             phone: '',
         }
-        this.validator = new SimpleReactValidator();
         this.reset = this.reset.bind(this);
     }
 
@@ -84,9 +83,15 @@ export class Login extends Component {
                     NotificationManager.error(message.ErrorLogin, entitiesLabels.ERROR, 3000);
                 });
         } else {
-            this.validator.showMessages();
-            NotificationManager.warning(message.ErrorRequire, entitiesLabels.WARNING, 3000);
-            this.forceUpdate();
+            if(!this.state.username || !this.state.password) {
+                this.validator.showMessages();
+                NotificationManager.warning(message.ErrorRequire, entitiesLabels.WARNING, 3000);
+                this.forceUpdate();
+            } else {
+                this.validator.showMessages();
+                NotificationManager.warning(message.ErrorMailNotValid, entitiesLabels.WARNING, 3000);
+                this.forceUpdate();
+            }     
         }
     };
 
@@ -212,7 +217,7 @@ export class Login extends Component {
                 <form action="" class="container">
                     <div className="row justify-content-center">
                         <div className="col-12 col-md-12 mb-3">
-                            <Form.Control isInvalid={validations.username != null} onChange={this.handleChange} type="username" name="username" placeholder="E-mail" onKeyDown={event => { if (event.key === 'Enter') { this.postLogin() } }} />
+                            <Form.Control isInvalid={validations.username != null} onChange={this.handleChange} type="email" name="username" placeholder="E-mail" onKeyDown={event => { if (event.key === 'Enter') { this.postLogin() } }} />
                         </div>
                     </div>
                     <div className="row justify-content-center">
