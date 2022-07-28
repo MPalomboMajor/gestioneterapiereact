@@ -38,7 +38,10 @@ export class Splash extends Component {
             
             <>
                 <div style={{ "textAlign": "center" }}><h1 className="h1 mb-5">Making the future, <span className="text-secondary">caring for life</span></h1></div>
-                <div style={{ "textAlign": "center" }}><a href="/RegisterCareManager" className="btn btn-primary btn-arrow mx-2">Registrati care manager</a><a href="/Register" className="btn btn-primary btn-arrow mx-2">Registrati medico</a><a href="/Login" className="btn btn-secondary btn-arrow mx-2">Accedi</a></div>
+                <div style={{ "textAlign": "center" }}>
+                <a href="/Register" className="btn btn-primary btn-arrow mx-2">Registrati medico</a>
+                <a href="/Login" className="btn btn-secondary btn-arrow mx-2">Accedi</a>
+                </div>
             </>
 
 
