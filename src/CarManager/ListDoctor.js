@@ -31,7 +31,17 @@ export class ListDoctor extends Component {
 
 
     }
+    setCurrentPage = (n) => {
+        this.setState({ currentPage: n });
+    }
+    setPrevPage = (n) => {
+        this.setState({ currentPage: n-1 });
+    }
+    setNexPage = (n) => {
+        this.setState({ currentPage: n +1 });
+    }
     render() {
+        
         const indexOfLastPatient = this.state.currentPage * this.state.itemPerPage;
         const indexOfFirstPatient = indexOfLastPatient - this.state.itemPerPage;
         const currentItem = this.state.listDoctos.slice(indexOfFirstPatient, indexOfLastPatient);
@@ -61,6 +71,14 @@ export class ListDoctor extends Component {
                                 </tbody>
                             </Table>
                             </div>
+                            <Pagination
+                                patientsPerPage={5}
+                                totalPatients={this.state.listDoctos.length}
+                                paginate={(pageNumber) => this.setCurrentPage(pageNumber)}
+                                currentPage={this.state.currentPage}
+                                prevPage={(pageNumber) => this.setPrevPage(pageNumber)}
+                                nextPage={(pageNumber) => this.setNexPage(pageNumber)}
+                            />
                 </Row>
             </Container>
         )
