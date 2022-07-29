@@ -17,7 +17,7 @@ function DoctorChartsInterface() {
     const date = new Date();
     const [loading, setLoading] = useState(false);
     const [key, setKey] = useState('patients');
-    const [dataInizio, setDataInizio] = useState();
+    const [dataInizio, setDataInizio] = useState(moment(date).format("YYYY-MM-DD"));
     const [dataFine, setDataFine] = useState(moment(date).format("YYYY-MM-DD"));
     const [creationDatesPatients, setCreationDatesPatients] = useState([]);
     const [minDate, setMinDate] = useState();
@@ -58,16 +58,23 @@ function DoctorChartsInterface() {
         request
             .then((response) => {
                 if (response.status !== 200) {
-                    return;
+                   return;
+                    //setCreationDatesPatients(moment(date).format("YYYY-MM-DD"));
                 }
+                console.log(response);
                 const arr = (response.data.dati
                     ?.map(function (item) { return moment.min(item["creationDate"]); })
                     .filter(item => item));
-                setCreationDatesPatients(arr);
-
+                    if(arr.length == 0){
+                        arr.push(moment(date).format("YYYY-MM-DD"));
+                        setCreationDatesPatients(arr);
+                    }else{
+                        setCreationDatesPatients(arr);
+                    }
+                
+                
                 setLoading(false);
             }).catch((error) => {
-
             });
     }, []);
 
