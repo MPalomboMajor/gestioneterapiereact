@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, InputGroup, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { api, medico, user } from '../helpers/api/api';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
 import { entitiesLabels, message } from '../helpers/Constants';
 import 'react-notifications/lib/notifications.css';
-import { Eye } from 'react-bootstrap-icons';
+import { Eye, InfoCircle } from 'react-bootstrap-icons';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { findAllByTestId } from '@testing-library/react';
 
@@ -275,15 +275,15 @@ export class Register extends Component {
                 'required'
             ),
         };
-        function keyDown(e) { 
+        function keyDown(e) {
             var e = window.event || e;
             var key = e.keyCode;
             //space pressed
-             if (key == 32) { //space
-              e.preventDefault();
-             }
-                   
-          }
+            if (key == 32) { //space
+                e.preventDefault();
+            }
+        }
+
         return (
             this.state.iSSendOtp ?
 
@@ -352,13 +352,25 @@ export class Register extends Component {
                         </InputGroup >
                         <InputGroup className="col-6 mb-2  input-custom-reg">
                             <InputGroup.Text id="basic-addon1">+39</InputGroup.Text>
-                            <Form.Control onChange={this.handleChange} id='phoneNumber' alt="medicoDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Mobile" value={this.state.medicoDTO.phoneNumber} onKeyDown={() => keyDown()}/>
+                            <Form.Control onChange={this.handleChange} id='phoneNumber' alt="medicoDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Mobile" value={this.state.medicoDTO.phoneNumber} onKeyDown={() => keyDown()} />
                         </InputGroup >
                     </Row>
                     <Row className='pb-5'>
-                        <Form.Group className="col-6 mb-2" controlId="formBasicPassword">
+                        <Form.Group className="col-5 mb-2" controlId="formBasicPassword">
                             <Form.Control type='password' id='password' alt="userDto" onChange={this.handleChange} name="password" isInvalid={validations.password != null} value={this.state.userDto.password} placeholder="Password" />
                         </Form.Group>
+                        <div className='col-1 mb-2'>
+                            <OverlayTrigger
+                                delay={{ hide: 450, show: 300 }}
+                                overlay={(props) => (
+                                    <Tooltip {...props}>
+                                        Hii, I am a simple tooltip information!!!
+                                    </Tooltip>
+                                )}
+                                placement="bottom"
+                            ><InfoCircle size='20' style={{ 'marginTop': "8px" }} />
+                            </OverlayTrigger>
+                        </div>
                         <Form.Group className="col-6 mb-2" controlId="formBasicPassword">
                             <Form.Control type='password' id='confirmpassword' alt="confirmpassword" onChange={this.handleChangeconfirm} value={this.state.confirmpassword} name="confirmpassword" isInvalid={validations.confirmpassword != null || validations.equalPass != null} placeholder="Ripeti password" />
                         </Form.Group>
@@ -371,6 +383,7 @@ export class Register extends Component {
                             {' '}{' '}
                         </div>}
                     </Row>
+
                     <Row>
                         <div class="col-2 col-md-5 mb-0">
                             <div class="form-check mb-0">

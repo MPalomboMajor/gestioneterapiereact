@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, InputGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { api, medico, user } from '../helpers/api/api';
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
@@ -8,6 +8,8 @@ import 'react-notifications/lib/notifications.css';
 import { Eye } from 'react-bootstrap-icons';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { findAllByTestId } from '@testing-library/react';
+import { InfoCircle } from 'react-bootstrap-icons';
+
 export class RegisterCareManager extends Component {
     userModelProp = () => ({
         id: 0,
@@ -211,9 +213,21 @@ export class RegisterCareManager extends Component {
                         </InputGroup >
                     </Row>
                     <Row className='pb-5'>
-                        <Form.Group className="col-6 mb-2" controlId="formBasicPassword">
+                        <Form.Group className="col-5 mb-2" controlId="formBasicPassword">
                             <Form.Control type='password' id='password' alt="userDto" onChange={this.handleChange} name="password" isInvalid={validations.password != null} placeholder="Password" />
                         </Form.Group>
+                        <div className='col-1 mb-2'>
+                            <OverlayTrigger
+                                delay={{ hide: 450, show: 300 }}
+                                overlay={(props) => (
+                                    <Tooltip {...props}>
+                                        Hii, I am a simple tooltip information!!!
+                                    </Tooltip>
+                                )}
+                                placement="bottom"
+                            ><InfoCircle size='20' style={{ 'marginTop': "8px" }} />
+                            </OverlayTrigger>
+                        </div>
                         <Form.Group className="col-6 mb-2" controlId="formBasicPassword">
                             <Form.Control type='password' id='confirmpassword' alt="confirmpassword" onChange={this.handleChangeconfirm} name="confirmpassword" isInvalid={validations.confirmpassword != null || validations.equalPass != null} placeholder="Password" />
                         </Form.Group>
