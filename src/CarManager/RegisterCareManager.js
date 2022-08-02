@@ -221,7 +221,7 @@ export class RegisterCareManager extends Component {
                                 delay={{ hide: 450, show: 300 }}
                                 overlay={(props) => (
                                     <Tooltip {...props}>
-                                        Hii, I am a simple tooltip information!!!
+                                        La password deve contenere un minimo di 8 caratteri di cui uno numerico, sia maiuscole che minuscole ed almeno un carattere speciale.
                                     </Tooltip>
                                 )}
                                 placement="bottom"
