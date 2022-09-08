@@ -4,11 +4,29 @@ import { useState, useEffect } from 'react';
 import moment from 'moment';
 
 function LineChartGetMonthlyTrend(props) {
-
+    const [dimensions, setDimensions] = useState({
+        width: window.innerWidth > 576 ? 600 : 325
+    })
+    useEffect(() => {
+        // Handler to call on window resize
+        function handleResize() {
+          // Set window width/height to state
+          setDimensions({
+            width: (45 / 100) * window.innerWidth > 600 ? 600 : (60 / 100) * window.innerWidth  < 576 ?(75 / 100) * window.innerWidth> 390 ?425 : 320:(45 / 100) * window.innerWidth  ,
+          });
+        }
+        // Add event listener
+        window.addEventListener("resize", handleResize);
+        // Call handler right away so state gets updated with initial window size
+        handleResize();
+        // Remove event listener on cleanup
+        return () => window.removeEventListener("resize", handleResize);
+      }, []); 
     const MyResponsiveLine = ({ data /* see data tab */ }) => (
+
         <ResponsiveLine
             {...props.commonProperties}
-            width={600} 
+            width={dimensions.width}
             data={data === null ? [] : data}
             margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
             xScale={{ type: 'point' }}
