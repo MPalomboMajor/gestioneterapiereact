@@ -13,7 +13,7 @@ function Therapies(props) {
                             <div className="col-12 col-md-6 mb-2">
                                 <div className="container-fluid g-0">
                                     <div className="row gx-3 mb-2">
-                                        <div style={{ "height": "300px" }}>
+                                        <div >
                                             <h2>Numero assistiti per dosaggio</h2>
                                             <BarChartGetAllPatientByFormulation data={props.dataGetAllPatientByFormulation} commonProperties={props.commonProperties} />
                                         </div>

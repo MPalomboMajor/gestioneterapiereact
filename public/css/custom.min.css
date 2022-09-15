@@ -193,11 +193,27 @@ dl dt {
     .page-wrapper div[role="main"] {
         padding: 4rem 5rem 1rem 1rem
     }
+
+    #ageChart {
+        margin-top: 100px;
+    }
+
+    #tempoMedioChart {
+        margin-top: 100px;
+    }
 }
 
 @media screen and (max-width: 575px) {
     .page-wrapper div[role="main"] {
         padding: 4rem 1rem 1rem
+    }
+
+    #ageChart {
+        margin-top: 100px;
+    }
+
+    #tempoMedioChart {
+        margin-top: 100px;
     }
 }
 

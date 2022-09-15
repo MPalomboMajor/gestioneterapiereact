@@ -9,7 +9,7 @@ function HeatMapGetTrackingMoodByPatient(props) {
   const MyResponsiveHeatMap = ({ data /* see data tab */ }) => (
     
     <ResponsiveHeatMap
-      width={460}
+      width={380}
       height={300}
       valueFormat= " >-.2d"
       animate={false}
@@ -75,7 +75,7 @@ function HeatMapGetTrackingMoodByPatient(props) {
 const MyResponsiveHeatMapCM = ({ data /* see data tab */ }) => (
     
   <ResponsiveHeatMap
-    width={460}
+    width={380}
     height={300}
     valueFormat= " >-.2d"
     animate={false}

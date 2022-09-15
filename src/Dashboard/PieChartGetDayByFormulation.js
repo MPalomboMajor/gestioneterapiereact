@@ -6,7 +6,7 @@ function PieChartGetDayByFormulation(props) {
         <ResponsivePie
             {...props.commonProperties}
             data={data === null ? [] : data}
-            margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+            margin={{ top: 40, right: 180, bottom: 80, left: 80 }}
             activeOuterRadiusOffset={8}
             borderWidth={1}
             borderColor={{
@@ -23,8 +23,9 @@ function PieChartGetDayByFormulation(props) {
             arcLinkLabelsTextColor="#333333"
             arcLinkLabelsThickness={2}
             arcLinkLabelsColor={{ from: 'color' }}
-            arcLabel={function(e){return e.value + " giorni"}}
+            arcLabel={function(e){return e.value + " gg."}}
             arcLabelsSkipAngle={10}
+            arc
             arcLabelsTextColor={{
                 from: 'color',
                 modifiers: [
@@ -34,6 +35,7 @@ function PieChartGetDayByFormulation(props) {
                     ]
                 ]
             }}
+            
             legends={[
                 {
                     anchor: 'bottom',

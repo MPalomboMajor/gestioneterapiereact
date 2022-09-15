@@ -18,16 +18,16 @@ function ContactInfo(props) {
             <div className="row h-100 justify-content-center align-items-center" style={{ "width": "100%" }}>
                 <div className="col-12">
                     <div className="box">
-                        <div className="row" style={{ "marginTop": "40px" }}>
+                        <div className="row" >
                             <div className="col-12 col-md-6 mb-2">
-                                <div style={{ "height": "300px" }}>
+                                <div >
                                     <h2>Numero medio contatti per paziente</h2>
                                     <PieChartGetNumeroMedioContattiPaziente data={props.dataGetNumeroMedioContattiPaziente} commonProperties={props.commonProperties} />
                                     {/* <BarChartGetAllContactInfoByPatient data={props.dataGetAllContactInfoByPatient} commonProperties={props.commonProperties} /> */}
                                 </div>
                             </div>
-                            <div className="col-12 col-md-6 mb-2">
-                                <div style={{ "height": "300px" }}>
+                            <div className="col-12 col-md-6 mb-2" id="tempoMedioChart">
+                                <div >
                                     <h2>Tempo medio di contatto</h2>
                                     <PieChartGetTempoMedioContatto data={props.dataGetTempoMedioContatto} commonProperties={props.commonProperties} />
                                 </div> 

@@ -18,17 +18,17 @@ function Monitoring(props) {
             <div className="row h-100 justify-content-center align-items-center" style={{ "width": "100%" }}>
                 <div className="col-12">
                     <div className="box">
-                        <div className="row" style={{ "marginTop": "40px" }}>
+                        <div className="row">
                             <div className="col-12 col-md-6 mb-2">
                                 <div className="container-fluid g-0">
                                     {isDoctor ?
-                                        <div style={{ "height": "300px" }}>
+                                        <div >
                                             <h2>N. pazienti / N. crisi epilettiche</h2>
                                             <PieChartGetPatientsByEpilecticSeizure data={props.dataGetPatientsByEpilecticSeizure} commonProperties={props.commonProperties} />
                                         </div> : ""
                                     }
                                     {isAngelini || isCareManger ?
-                                        <div style={{ "height": "300px" }}>
+                                        <div>
                                             <h2>Aderenza terapia anticrisi</h2>
                                             <PieChartGetTherapyAdherence data={props.dataGetTherapyAdherence} commonProperties={props.commonProperties} />
                                         </div> : ""
@@ -37,17 +37,17 @@ function Monitoring(props) {
                             </div>
                             <div className="col-12 col-md-6 mb-2">
                                 <div className="container-fluid g-0">
-                                    <div style={{ "height": "300px" }}>
+                                    <div >
                                         <h2>Eventi avversi</h2>
                                         <PieChartGetAdverseEventsByEvent data={props.dataGetAdverseEventsByEvent} commonProperties={props.commonProperties} />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="row" style={{ "marginTop": "80px" }}>
-                            <div className="col-12 col-md-6 mb-2">
+                        <div className="row mt-4">
+                            <div className="col-12 col-md-6 mb-2" >
                                 <div className="container-fluid g-0">
-                                    <div style={{ "height": "320px", "marginBottom": "40px" }}>
+                                    <div >
                                         <h2>Andamento mood giornaliero<br />ultime 2 settimane</h2>
                                         <HeatMapGetTrackingMoodByPatient data={props.dataGetTrackingMoodByPatient} commonProperties={props.commonProperties} />
                                     </div>
