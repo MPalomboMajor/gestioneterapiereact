@@ -114,7 +114,7 @@ export class ListDoctor extends Component {
                         </Table>
                     </div>
                     <Pagination
-                        patientsPerPage={5}
+                        patientsPerPage={30}
                         totalPatients={this.state.isFilter ?this.state.filteredPatient?.length  :this.state.listDoctos.length}
                         paginate={(pageNumber) => this.setCurrentPage(pageNumber)}
                         currentPage={this.state.currentPage}
