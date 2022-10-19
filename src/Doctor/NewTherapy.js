@@ -730,7 +730,7 @@ export class NewTherapy extends Component {
                         </Form.Group>
                         <Form.Group className="col-4 mb-3" >
                             <Button variant="btn btn-primary btn-arrow" onClick={(k) => this.selectTab('altriFarmaci')} >
-                                2/3
+                                Avanti
                             </Button >
                         </Form.Group>
                     </Row>
@@ -948,12 +948,12 @@ export class NewTherapy extends Component {
                     <Row>
                         <Form.Group className="col-4 mb-3" >
                             <Button variant="btn btn-secondary btn-arrow-prev" onClick={(k) => this.selectTab('ontozry')}>
-                                1/3
+                                Indietro
                             </Button>
                         </Form.Group>
                         <Form.Group className="col-4 mb-3" >
                             <Button variant="btn btn-primary btn-arrow" onClick={(k) => this.selectTab('allergieFarmaci')}>
-                                3/3
+                                Avanti
                             </Button>
                         </Form.Group>
                     </Row>
@@ -1015,7 +1015,7 @@ export class NewTherapy extends Component {
                     <Row>
                         <Form.Group className="col-4 mb-3" >
                             <Button variant="btn btn-secondary btn-arrow-prev" onClick={(k) => this.selectTab('altriFarmaci')}>
-                                2/3
+                                Indietro
                             </Button>
                         </Form.Group>
                         <Form.Group className="col-4 mb-3" >
