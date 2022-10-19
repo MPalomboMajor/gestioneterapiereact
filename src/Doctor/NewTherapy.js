@@ -71,8 +71,8 @@ export class NewTherapy extends Component {
             aderenzePerPage: 10,
 
 
-            isSave:false,
-            isOpenAlertModal:false,
+            isSave: false,
+            isOpenAlertModal: false,
             storicPlan: [],
             allergiesDTO: { ...this.allergiesProps() },
             isOpenAllergic: false,
@@ -98,7 +98,7 @@ export class NewTherapy extends Component {
                     idDoctor: JSON.parse(localStorage.getItem("role")).id,
                     idPatientProfile: parseInt(window.location.pathname.split('/').pop()),
                     idTerminationCause: null,
-                    terminationCause:'',
+                    terminationCause: '',
                     elencoFarmaciPrescritti: [],
                 },
                 ontozryMedication: [],
@@ -159,16 +159,16 @@ export class NewTherapy extends Component {
         pianoterapeutico.get("Get/", parseInt(window.location.pathname.split('/').pop()))
             .then((response) => {
                 if (response.status === 200 && response.data.dati != null) {
-                    if(response.data.dati.ontozryMedication.length > 0){
+                    if (response.data.dati.ontozryMedication.length > 0) {
                         this.setState({
-                            isSave: true,therapyDto: response.data.dati,
+                            isSave: true, therapyDto: response.data.dati,
                         });
-                    }else{
+                    } else {
                         this.setState({
                             therapyDto: response.data.dati,
                         });
                     }
-                    
+
                 }
             }).catch((error) => {
                 this.setState({ error: 1 })
@@ -194,7 +194,7 @@ export class NewTherapy extends Component {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
             });
 
-            
+
     }
     //FUNZIONI POST
 
@@ -219,19 +219,19 @@ export class NewTherapy extends Component {
                             .then((response) => {
                                 if (response.status === 200) {
                                     this.setState({
-                                        storicPlan: response.data.dati, isSave:true,
+                                        storicPlan: response.data.dati, isSave: true,
                                     });
-                                    if(localStorage.getItem("newPatient")) {
+                                    if (localStorage.getItem("newPatient")) {
                                         localStorage.removeItem('newPatient');
                                         window.location.href = "/PatientRegistry/" + window.location.pathname.split('/').pop()
                                     }
-                                }   
+                                }
                             }).catch((error) => {
                                 NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 4000);
                             });
                     } else {
                         NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 4000);
-                    }  
+                    }
                 }
             }).catch((error) => {
                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
@@ -384,7 +384,7 @@ export class NewTherapy extends Component {
     }
     handleClose = () => {
         this.setState({
-            isOpenModalOntozry: false, isOpenAlertModal:false, isOntozryFlag: false, somministrazione: 1,
+            isOpenModalOntozry: false, isOpenAlertModal: false, isOntozryFlag: false, somministrazione: 1,
             times: [{
                 id: 1,
                 time: '',
@@ -393,12 +393,12 @@ export class NewTherapy extends Component {
         });
     }
     returnToMenu = (check) => {
-        if(this.state.isSave == true || check == true){
+        if (this.state.isSave == true || check == true) {
             localStorage.removeItem('newPatient');
             window.location.href = "/PatientProfile/" + window.location.pathname.split('/').pop();
-        }else{
+        } else {
             this.setState({
-               isOpenAlertModal:true,
+                isOpenAlertModal: true,
             });
         }
     }
@@ -868,19 +868,19 @@ export class NewTherapy extends Component {
                         </Modal.Footer>
                     </Modal>
                     <Modal show={this.state.isOpenAlertModal} onHide={() => this.handleClose()}  >
-                                                <Modal.Header closeButton>
-                                                    <Modal.Title>Attenzione nessun farmaco inserito </Modal.Title>
-                                                </Modal.Header>
-                                                <Modal.Body>Tornando indietro non verra salvata nessuna terapia per il seguente paziente. Vuoi continuare ? </Modal.Body>
-                                                <Modal.Footer>
-                                                    <Button variant="secondary" onClick={() => this.handleClose()}>
-                                                        Annulla
-                                                    </Button>
-                                                    <Button variant="primary"  onClick={() => this.returnToMenu(true)} >
-                                                        Si 
-                                                    </Button>
-                                                </Modal.Footer>
-                                                </Modal>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Attenzione nessun farmaco inserito </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>Tornando indietro non verra salvata nessuna terapia per il seguente paziente. Vuoi continuare ? </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={() => this.handleClose()}>
+                                Annulla
+                            </Button>
+                            <Button variant="primary" onClick={() => this.returnToMenu(true)} >
+                                Si
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
                     {/* JM */}
                     &nbsp;
                     {/*this.state.isNewPatient ? '' : <>
@@ -1056,30 +1056,27 @@ export class NewTherapy extends Component {
                 {this.state.isNewPatient ? '' :
                     <Tab eventKey="storicoTerapie" title="Storico terapie" >
                         <Row>
-                            <div className="table-wrapper col-8 custom-th">
-                                <Table className="table custom">
-                                    <thead>
-                                        <tr>
-                                            <th>Farmaco</th>
-                                            <th>Formula</th>
-                                            <th>Quantità</th>
-                                            <th>Data Inizio</th>
-                                            <th>Data Fine</th>
-                                        </tr>
-                                    </thead>
-                                </Table>
-                            </div>
                             {
                                 currentstoric.map((el) =>
                                     <Row className='pb-2 mb-5'>
-                                        <div className='col-2'>
+                                        <div className='col-2 pt-4'>
                                             <span className="label label-primary">{el.nameDoctor} {el.surnameDoctor}</span>
                                         </div>
-                                        <div className="table-wrapper col-8">
+                                        <div className="table-wrapper col-10">
                                             <Table className="table custom">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Farmaco</th>
+                                                        <th>Formula</th>
+                                                        <th>Quantità</th>
+                                                        <th>Data Inizio</th>
+                                                        <th>Data Fine</th>
+                                                        <th>Assunzione</th>
+                                                    </tr>
+                                                </thead>
                                                 <tbody>
                                                     {
-                                                        el.elencoFarmaciPrescritti != [] ? el.elencoFarmaciPrescritti.map((pa) => <RowCustom colums={["formulazione.farmaco.nome", "formulazione.formula", "quantitaPrescrizione", "dataInizio", "dataFine"]} oBoB={["formulazione.formula ", "formulazione.formula.nome"]} item={pa} />) : ''
+                                                        el.elencoFarmaciPrescritti != [] ? el.elencoFarmaciPrescritti.map((pa) => <RowCustom colums={["formulazione.farmaco.nome", "formulazione.formula", "quantitaPrescrizione", "dataInizio", "dataFine", "oraAssunzioneIndicata"]} oBoB={["formulazione.formula ", "formulazione.formula.nome"]} item={pa} />) : ''
                                                     }
                                                 </tbody>
                                             </Table>
@@ -1129,8 +1126,8 @@ export class NewTherapy extends Component {
                         />
                     </Tab>
                 }
-                
-            
+
+
             </Tabs>
             < NotificationContainer />
         </>
