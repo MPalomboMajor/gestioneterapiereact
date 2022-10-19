@@ -82,7 +82,9 @@ export class RegisterCareManager extends Component {
             user.post("SaveCareManager", { username: userDto.username, password: userDto.password, careManagerDTO: this.state.careManagerDTO })
                 .then((response) => {
                     if (response.data.statoEsito === 0) {
+                       
                         NotificationManager.success(message.CAREMANAGER + message.SuccessInsert, entitiesLabels.SUCCESS, 3000);
+                        window.location.href = "/Login";
                     } else {
                         NotificationManager.error(response.data.descrizioneEsito, entitiesLabels.ERROR, 3000);
                     }
