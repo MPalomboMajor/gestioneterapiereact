@@ -1,4 +1,4 @@
-import { Col, Table, Form, Button } from 'react-bootstrap';
+import { Col, Table, Form, Button, Alert } from 'react-bootstrap';
 import { iconDelete, iconEdit } from './icons';
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -14,7 +14,9 @@ function PatientInfo() {
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [patientsPerPage] = useState(10);
-
+    const [search, setSearch] = useState('');
+    const [filteredPatient, setFilteredPatient] = useState([]);
+    const [isFilter, setIsFilter] = useState(false);
     useEffect(() => {
         const fetchPatients = async () => {
             setLoading(true);
@@ -47,7 +49,7 @@ function PatientInfo() {
     // Get current patient
     const indexOfLastPatient = currentPage * patientsPerPage;
     const indexOfFirstPatient = indexOfLastPatient - patientsPerPage;
-    const currentPatients = patients?.slice(indexOfFirstPatient, indexOfLastPatient);
+    let currentPatients = isFilter ? filteredPatient?.slice(indexOfFirstPatient, indexOfLastPatient) : patients?.slice(indexOfFirstPatient, indexOfLastPatient);
 
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
@@ -58,13 +60,44 @@ function PatientInfo() {
     const prevPage = (pageNumber) => {
         setCurrentPage(pageNumber - 1)
     }
+    const handleChange = (el) => {
+        const inputValue = el.target.value;
+        setSearch({
+            search:
+                inputValue
+        });
+        if (inputValue) {
+            if (search && search?.search.length >= 1) {
+                setIsFilter(true);
+                let filteredData = patients.filter(x => String(x.name).includes(inputValue) 
+                || String(x.surName).includes(inputValue) 
+                || String(x.codicePaziente).includes(inputValue) 
+                || String(x.phoneNumber).includes(inputValue) 
+                || String(x.fiscalCode).includes(inputValue) 
+                || String(x.email).includes(inputValue));
+                if (filteredData.length > 0) {
+                    setFilteredPatient(filteredData);
+                    
+                } else {
+                    setFilteredPatient(filteredData);
+                }
+                setCurrentPage(1)
+            } else {
+                setFilteredPatient(patients);
+            }
+        } else {
+            setFilteredPatient(patients);
+        }
+    };
 
     return (<>
-
+        <Form.Group className="col-6 mb-2" >
+            <Form.Control onChange={handleChange}  onPaste={handleChange} name="search" alt="medicoDTO" placeholder="Ricerca Assistito" value={search.search} />
+        </Form.Group>
         <PatientTable patients={currentPatients} loading={loading} />
         <Pagination
             patientsPerPage={patientsPerPage}
-            totalPatients={patients?.length}
+            totalPatients={isFilter ?filteredPatient?.length  :patients?.length }
             paginate={paginate}
             currentPage={currentPage}
             prevPage={prevPage}
