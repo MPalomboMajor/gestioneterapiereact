@@ -56,6 +56,16 @@ export default class Layout extends Component {
 
     return (
       <>
+        {
+          this.state.url === "/"
+            || this.state.url === "/Register"
+            || this.state.url === "/Login"
+            || this.state.url === "/RegisterCareManager"
+            || this.state.url === "/ChangePassword"
+            || this.state.url === "/Recovery"
+            || localStorage.getItem("accessToken") != null ?
+            '' : window.location.pathname = "/Login"
+        }
         {localStorage.getItem("accessToken") != null
           && this.state.url != "/"
           && this.state.url != "/Register"
