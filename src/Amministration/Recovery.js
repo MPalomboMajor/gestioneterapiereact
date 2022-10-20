@@ -44,7 +44,7 @@ export class Recovery extends Component {
             user.post("RequestNewPassword", this.state.email)
                 .then((response) => {
                     if (response.data.statoEsito === 0) {
-                        NotificationManager.success(message.MEDICO + message.ErroSendRevocery, entitiesLabels.SUCCESS, 5000);
+                        NotificationManager.success( message.ErroSendRevocery, entitiesLabels.SUCCESS, 5000);
                         this.setState((prevState) => ({ isSending: false }))
                         // window.location.href = "/Login";
                     } else {
