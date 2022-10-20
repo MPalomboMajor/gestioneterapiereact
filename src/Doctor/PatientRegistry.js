@@ -245,7 +245,7 @@ function PatientRegistry() {
                                                 <Form.Label className="text">Se si vuole cessare anche la terapia indicare data e motivo</Form.Label>
                                                 <div className=' input-group col-6 mb-3 input-col-5' >
                                                         <input type="date"
-                                                                name="startD" placeholder="Inizio" onChange={handleChangeDate} defaultValue={moment(patientProfile?.date).subtract(6, 'days').format("YYYY-MM-DD")} className="form-control form-control-sm" id="captiontest" aria-describedby="label-inizio" />
+                                                                name="startD" placeholder="Inizio" onChange={handleChangeDate} defaultValue={moment(patientProfile?.date).subtract(0, 'days').format("YYYY-MM-DD")} className="form-control form-control-sm" id="captiontest" aria-describedby="label-inizio" />
                                                 </div>
                                                 <div className='col-6 mb-3' >
                                                         <Form.Select className='col-6 mb-3' onChange={handleChangeDisabled} name="idCausaCessazioneTerapia" placeholder="Causa della disabilitazione " >
