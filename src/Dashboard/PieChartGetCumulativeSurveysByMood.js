@@ -1,5 +1,8 @@
 import { ResponsivePie } from '@nivo/pie'
 
+import { Row, Col, } from 'react-bootstrap';
+import { Columns } from 'react-bootstrap-icons';
+
 function PieChartGetCumulativeSurveysByMood(props) {
     const MyResponsivePie = ({ data /* see data tab */ }) => (
         <ResponsivePie
@@ -31,40 +34,29 @@ function PieChartGetCumulativeSurveysByMood(props) {
                     ]
                 ]
             }}
-            legends={[
-                {
-                    anchor: 'bottom',
-                    direction: 'column',
-                    justify: true,
-                    translateX: 160,
-                    translateY: 50,
-                    itemsSpacing: 1,
-                    itemWidth: 60,
-                    itemHeight: 40,
-                    itemTextColor: '#999',
-                    itemDirection: 'top-to-bottom',
-                    itemOpacity: 1,
-                    symbolSize: 10,
-                    symbolShape: 'circle',
-                    effects: [
-                        {
-                            on: 'hover',
-                            style: {
-                                itemTextColor: '#000'
-                            }
-                        }
-                    ]
-                }
-            ]}
         />
     )
 
-    return (
-        <>
-            <div style={{ height: 300, width: 300 }}>
+    return (<>
+        <Row>
+            <div style={{ height: 225, width: 240 }}>
                 <MyResponsivePie data={props.data} commonProperties={props.commonProperties} />
             </div>
-        </>
+        </Row>
+        <Row>
+            <Col className='faccina1 mood-label'><p>Mood 1</p></Col>
+            <Col className='faccina2 mood-label'><p>Mood 2</p></Col>
+            <Col className='faccina3 mood-label'><p>Mood 3</p></Col>
+            <Col className='faccina4 mood-label'><p>Mood 4</p></Col>
+        </Row >
+        <Row>
+            <Col className='faccina5 mood-label'><p>Mood 5</p></Col>
+            <Col className='faccina6 mood-label'><p>Mood 6</p></Col>
+            <Col className='faccina7 mood-label'><p>Mood 7</p></Col>
+            <Col className='faccina8 mood-label'><p>Mood 8</p></Col>
+        </Row >
+    </>
+
     );
 };
 

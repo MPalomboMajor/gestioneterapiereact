@@ -1109,8 +1109,56 @@ header {
 .main-menu .nav-link.logout {
     background-image: url("../img/icons/box-arrow-right-off.svg")
 }
-
+.faccina1 {
+    height: 35px !important;
+    background-repeat: no-repeat;
+    background-image: url("../img/mood/OA_icon-emozione-1.svg")
+}
+.faccina2 {
+    height: 35px !important;
+    background-repeat: no-repeat;
+    background-image: url("../img/mood/OA_icon-emozione-2.svg")
+}
+.faccina3 {
+    height: 35px !important;
+    background-repeat: no-repeat;
+    background-image: url("../img/mood/OA_icon-emozione-3.svg")
+}
+.faccina4 {
+    height: 35px !important;
+    background-repeat: no-repeat;
+    background-image: url("../img/mood/OA_icon-emozione-4.svg")
+}
+.faccina5 {
+    height: 35px !important;
+    background-repeat: no-repeat;
+    background-image: url("../img/mood/OA_icon-emozione-5.svg")
+}
+.faccina6 {
+    height: 35px !important;
+    background-repeat: no-repeat;
+    background-image: url("../img/mood/OA_icon-emozione-6.svg")
+}
+.faccina7 {
+    height: 35px !important;
+    background-repeat: no-repeat;
+    background-image: url("../img/mood/OA_icon-emozione-7.svg")
+}
+.faccina8 {
+    height: 35px !important;
+    background-repeat: no-repeat;
+    background-image: url("../img/mood/OA_icon-emozione-8.svg")
+}
+.mood-label p{
+    margin-left: 19px;
+    font-size: 0.75rem;
+    line-height: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.05rem;
+    text-align: center;
+}
 .main-menu .nav-link.home {
+    background-repeat: no-repeat;
     background-image: url("../img/icons/home-off.svg")
 }
 
