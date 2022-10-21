@@ -8,6 +8,8 @@ import 'react-notifications/lib/notifications.css';
 import { Eye, InfoCircle } from 'react-bootstrap-icons';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { findAllByTestId } from '@testing-library/react';
+import PhoneInput, { isValidPhoneNumber }  from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
 export class Register extends Component {
     userModelProp = () => ({
@@ -188,13 +190,16 @@ export class Register extends Component {
 
         this.setState(statusCopy);
     };
+    handleChangePhone = (el) => {
+        const inputValue = el;
+        this.updateState('phoneNumber', inputValue, 'medicoDTO');
+    };
     handleChange = (el) => {
         let objName = el.target.alt;
         const inputName = el.target.name;
         const inputValue = el.target.value;
         this.updateState(inputName, inputValue, objName);
     };
-
     updateState = (inputName, inputValue, objName) => {
         const statusCopy = { ...this.state };
         statusCopy[objName][inputName] = inputValue;
@@ -254,7 +259,7 @@ export class Register extends Component {
             phoneNumber: this.validator.message(
                 'Email',
                 this.state.medicoDTO.phoneNumber,
-                'required|phone|numeric'
+                'required|phone'
             ),
             password: this.validator.message(
                 'Password',
@@ -347,12 +352,16 @@ export class Register extends Component {
                         </Form.Group>
                     </Row>
                     <Row>
-                        <InputGroup className="col-6 mb-2 input-custom-reg ">
+                        <InputGroup className={validations.username != null ?" mr-0 error-validation-custom col-6 mb-2  input-custom-reg": "mr-0 col-6 mb-2  input-custom-reg"}>
                             <Form.Control onChange={this.handleChange} type="email" id='eMail' alt="userDto" name="username" isInvalid={validations.username != null} placeholder="E-mail" value={this.state.userDto.username} />
                         </InputGroup >
-                        <InputGroup className="col-6 mb-2  input-custom-reg">
-                            <InputGroup.Text id="basic-addon1">+39</InputGroup.Text>
-                            <Form.Control onChange={this.handleChange} id='phoneNumber' alt="medicoDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Mobile" value={this.state.medicoDTO.phoneNumber} onKeyDown={() => keyDown()} />
+                        <InputGroup className={validations.phoneNumber != null && (this.state.medicoDTO?.phoneNumber === ""  || this.state.medicoDTO?.phoneNumber === undefined || (this.state.medicoDTO?.phoneNumber.length <= 10  )) ?"error-validation-custom col-6 mb-2  input-custom-reg": "col-6 mb-2  input-custom-reg"} >
+                            <PhoneInput
+                                defaultCountry="IT"
+                                placeholder="Enter phone number"
+                                value={this.state.medicoDTO?.phoneNumber} onKeyDown={() => keyDown()}
+                                onChange={this.handleChangePhone}
+                                />
                         </InputGroup >
                     </Row>
                     <Row className='pb-5'>

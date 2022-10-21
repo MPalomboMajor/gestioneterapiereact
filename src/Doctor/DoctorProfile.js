@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Form, Button, Modal, Spinner, Tabs, Tab, Table } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Modal, Spinner, Tabs, Tab, Table, InputGroup } from 'react-bootstrap';
 import { RowCustom } from "../Doctor/PatientComponent";
 import { Eye } from 'react-bootstrap-icons';
 import { user, medico, patient, patientcode } from '../helpers/api/api';
@@ -7,7 +7,9 @@ import { NotificationContainer, NotificationManager } from 'react-notifications'
 import { NotificationContainer as ContainerModal, NotificationManager as ManagerModal } from 'react-notifications';
 import { entitiesLabels, message, role } from '../helpers/Constants';
 import SimpleReactValidator from 'simple-react-validator';
-
+import PhoneInput  from 'react-phone-number-input';
+import PhoneInput2 from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css'
 export class DoctorProfile extends Component {
     userModelProp = () => ({
         idDoctor: 0,
@@ -35,14 +37,14 @@ export class DoctorProfile extends Component {
             email: '',
             isSending: false,
             listCentriMedici: [],
-            listFilterRegion:  [],
+            listFilterRegion: [],
             listRegion: [],
             listPatient: [],
             listPatientCode: [],
             currentPage: 1,
             itemPerPage: 5,
             sendCode: false,
-            idRegion:0,
+            idRegion: 0,
             userDto: {
                 ...this.userModelProp(),
             },
@@ -85,7 +87,7 @@ export class DoctorProfile extends Component {
         medico.getAll("GetCentriMedici")
             .then(async (response) => {
                 if (response.status == 200) {
-                    this.setState({ listCentriMedici: response.data.dati , listFilterRegion: response.data.dati  });
+                    this.setState({ listCentriMedici: response.data.dati, listFilterRegion: response.data.dati });
 
                 }
             }).catch((error) => {
@@ -149,13 +151,17 @@ export class DoctorProfile extends Component {
         const selected = inputName.target;
         const id = selected.children[selected.selectedIndex].id;
         const statusCopy = { ...this.state };
-        if(id!= 0){
-            statusCopy['listFilterRegion'] = this.state.listCentriMedici.filter( x  => x.idRegione == id);
-        }else{
+        if (id != 0) {
+            statusCopy['listFilterRegion'] = this.state.listCentriMedici.filter(x => x.idRegione == id);
+        } else {
             statusCopy['listFilterRegion'] = this.state.listCentriMedici;
         }
-        
+
         this.setState(statusCopy);
+    };
+    handleChangePhone = (el) => {
+        const inputValue = el;
+        this.updateState('phoneNumber', inputValue, 'userDto');
     };
     handleCloseChangePassword = () => {
         this.setState({ isOpenChangePassword: false });
@@ -279,11 +285,11 @@ export class DoctorProfile extends Component {
         const indexOfLastPatient = this.state.currentPage * this.state.itemPerPage;
         const indexOfFirstPatient = indexOfLastPatient - this.state.itemPerPage;
         const currentItem = this.state.listPatient ? this.state.listPatient.slice(indexOfFirstPatient, indexOfLastPatient) : [];
-        const currentRegion = this.state.listCentriMedici != [] ? this.state.listCentriMedici.filter( x  => x.id == this.state.userDto.idCentroMedico): [];
+        const currentRegion = this.state.listCentriMedici != [] ? this.state.listCentriMedici.filter(x => x.id == this.state.userDto.idCentroMedico) : [];
         const currentItemsCode = this.state.listPatientCode ? this.state.listPatientCode.slice(indexOfFirstPatient, indexOfLastPatient) : [];
-        var objRegion   = currentRegion != [] ? this.state.listCentriMedici.filter( x  => x.id == this.state.userDto.idCentroMedico): null;
+        var objRegion = currentRegion != [] ? this.state.listCentriMedici.filter(x => x.id == this.state.userDto.idCentroMedico) : null;
         var idRegion = objRegion.length > 0 ? objRegion[0].idRegione : 0;
-        
+
         return (<>
             {JSON.parse(localStorage.getItem("role")).idRole == role.CAREMANAGER ?
                 //CAREMANAGER
@@ -336,8 +342,14 @@ export class DoctorProfile extends Component {
                                         </Form.Group>
                                         <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                             <Form.Label className="">Telefono</Form.Label>
-                                            <Form.Control id='phoneNumber' alt='userDto' name="phoneNumber" onChange={this.handleChange} isInvalid={validations.telephone != null} value={this.state.userDto.phoneNumber} placeholder="Enter telefono" />
-                                        </Form.Group>
+                                            <Form className={validations.phoneNumber != null && (this.state.userDto?.phoneNumber === "" || this.state.userDto?.phoneNumber === undefined || (this.state.userDto?.phoneNumber.length <= 10)) ? " min-input-phone error-validation-custom col-6 mb-2  input-custom-reg" : "min-input-phone col-6 mb-2  input-custom-reg"} >
+                                                <PhoneInput
+                                                    international={false}
+                                                    placeholder="Enter phone number"
+                                                    value={this.state.userDto?.phoneNumber}
+                                                    onChange={this.handleChangePhone}
+                                                />
+                                            </Form  ></Form.Group>
                                     </Row>
                                     <Row>
                                         <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
@@ -450,7 +462,7 @@ export class DoctorProfile extends Component {
                                 </Table>
                             </Tab>
                         </Tabs>
-                        
+
                     </Container>
                 </>
                 :
@@ -473,11 +485,11 @@ export class DoctorProfile extends Component {
                                 <Form.Control id='fiscalCode' alt='userDto' name="fiscalCode" onChange={this.handleChange} value={this.state.userDto.fiscalCode} placeholder="Inserisci Codice fiscale" />
                             </Form.Group>
                             <Form.Group className="col-6 mb-2" >
-                            <Form.Label className="">Regione</Form.Label>
+                                <Form.Label className="">Regione</Form.Label>
                                 <Form.Select onChange={this.onChangeRegion} name="region" alt="medicoDTO" placeholder="Centro medico"  >
                                     <option id="0">Seleziona Regione</option>
                                     {this.state.listRegion.map((item) =>
-                                        <option selected={ idRegion == item.id  ? "selected" : ''} id={item.id}>{item.nomeRegione}</option>
+                                        <option selected={idRegion == item.id ? "selected" : ''} id={item.id}>{item.nomeRegione}</option>
                                     )}
                                 </Form.Select>
                             </Form.Group>
@@ -496,7 +508,14 @@ export class DoctorProfile extends Component {
                             </Form.Group>
                             <Form.Group className="col-6 mb-3" controlId="formBasicEmail">
                                 <Form.Label className="">Telefono</Form.Label>
-                                <Form.Control disabled id='phoneNumber' alt='userDto' name="phoneNumber" onChange={this.handleChange} isInvalid={validations.telephone != null} value={this.state.userDto.phoneNumber} placeholder="Inserisci telefono" />
+                                <Form className={validations.phoneNumber != null && (this.state.userDto?.phoneNumber === "" || this.state.userDto?.phoneNumber === undefined || (this.state.userDto?.phoneNumber.length <= 10)) ? " min-input-phone error-validation-custom col-6 mb-2  input-custom-reg" : "min-input-phone col-6 mb-2  input-custom-reg"} >
+                                    <PhoneInput2
+                                        international={true}
+                                        disabled
+                                        value={this.state.userDto?.phoneNumber}
+                                        onChange={this.handleChangePhone2}
+                                    />
+                                </Form  >
                             </Form.Group>
 
                             <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
