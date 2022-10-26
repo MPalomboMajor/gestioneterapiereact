@@ -9,6 +9,9 @@ import { Eye } from 'react-bootstrap-icons';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { findAllByTestId } from '@testing-library/react';
 import { InfoCircle } from 'react-bootstrap-icons';
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
+import 'react-phone-input-2/lib/style.css'
 
 export class RegisterCareManager extends Component {
     userModelProp = () => ({
@@ -77,8 +80,7 @@ export class RegisterCareManager extends Component {
         if (this.validator.allValid()) {
             let userDto = this.state.userDto;
             let careManagerDTO = this.state.careManagerDTO;
-            careManagerDTO.phoneNumber = careManagerDTO.phoneNumber.startsWith('+39') ? careManagerDTO.phoneNumber : "+39" + careManagerDTO.phoneNumber
-            careManagerDTO.phoneNumber = careManagerDTO.phoneNumber.replace(/ /g, '');
+            
             user.post("SaveCareManager", { username: userDto.username, password: userDto.password, careManagerDTO: this.state.careManagerDTO })
                 .then((response) => {
                     if (response.data.statoEsito === 0) {
@@ -126,7 +128,10 @@ export class RegisterCareManager extends Component {
         const inputValue = el.target.value;
         this.updateState(inputName, inputValue, objName);
     };
-
+    handleChangePhone = (el) => {
+        const inputValue = el;
+        this.updateState('phoneNumber', inputValue, 'careManagerDTO');
+    };
     updateState = (inputName, inputValue, objName) => {
         const statusCopy = { ...this.state };
         statusCopy[objName][inputName] = inputValue;
@@ -170,7 +175,7 @@ export class RegisterCareManager extends Component {
             phoneNumber: this.validator.message(
                 'Email',
                 this.state.careManagerDTO.phoneNumber,
-                'required|phone|numeric'
+                'required|phone'
             ),
             password: this.validator.message(
                 'Password',
@@ -209,9 +214,12 @@ export class RegisterCareManager extends Component {
                         <InputGroup className="col-6 mb-2 input-custom-regCa ">
                             <Form.Control onChange={this.handleChange} id='eMail' alt="userDto" name="username" isInvalid={validations.username != null} placeholder="E-mail" />
                         </InputGroup >
-                        <InputGroup className="col-6 mb-2  input-custom-regCa">
-                            <InputGroup.Text id="basic-addon1">+39</InputGroup.Text>
-                            <Form.Control onChange={this.handleChange} id='phoneNumber' alt="careManagerDTO" name="phoneNumber" isInvalid={validations.phoneNumber != null} placeholder="Mobile" value={this.state.careManagerDTO.phoneNumber} onKeyDown={() => keyDown()}/>
+                        <InputGroup   className={validations.phoneNumber != null && (this.state.careManagerDTO?.phoneNumber === ""  || this.state.careManagerDTO?.phoneNumber === undefined || (this.state.careManagerDTO?.phoneNumber.length <= 10  )) ?"error-validation-custom col-6 mb-2 input-custom-regCa ": "col-6 mb-2 input-custom-regCa "}>
+                            <PhoneInput
+                                defaultCountry="IT"
+                                placeholder="Enter phone number"
+                                onChange={this.handleChangePhone}
+                                />
                         </InputGroup >
                     </Row>
                     <Row className='pb-5'>
