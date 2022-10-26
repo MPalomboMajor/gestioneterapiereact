@@ -10,7 +10,7 @@ export class ListDoctor extends Component {
         this.state = {
             listDoctos: [],
             currentPage: 1,
-            itemPerPage: 5,
+            itemPerPage: 30,
             search: '',
             filteredPatient:[],
             isFilter:false,
