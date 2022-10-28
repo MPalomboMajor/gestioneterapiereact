@@ -2290,3 +2290,6 @@ table.custom td .btn+.btn {
     padding-left: 0px;
     padding-right: 12px;
 }
+td span {
+    white-space:pre-wrap
+}

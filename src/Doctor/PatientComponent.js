@@ -246,7 +246,7 @@ function RowCustom(props) {
                     el.element.isDelete ?
                         <td id={el.element.id}><Button onClick={() => props.delete(el.element.id)} className='btn btn-danger bi bi-trash'></Button></td>
                         :
-                        <td id={el.element.id}>{el.element.value != null ? String(el.element.value) : ''}</td>
+                        <td id={el.element.id}><span>{el.element.value != null ? String(el.element.value) : ''}</span></td>
 
 
         )}
