@@ -266,11 +266,17 @@ export class Register extends Component {
                 this.state.userDto.password,
                 'required'
             ),
+            mendicalCenter: this.validator.message(
+                'mendicalCenter',
+                this.state.medicoDTO.idCentroMedico != 0 ,
+                'accepted'
+            ),
             confirmpassword: this.validator.message(
                 'Confirm Password',
                 this.state.confirmpassword,
                 'required'
             ),
+            
             equalPass: this.validator.message('equalPass', equalPass, 'accepted'),
         };
         const validationsOTP = {
@@ -342,8 +348,8 @@ export class Register extends Component {
                                 )}
                             </Form.Select>
                         </Form.Group>
-                        <Form.Group className="col-6 mb-2" >
-                            <Form.Select onChange={this.onChange} name="mendicalCenter" alt="medicoDTO" placeholder="Centro medico"  >
+                        <Form.Group className="col-6 mb-2  "  >
+                            <Form.Select onChange={this.onChange} name="mendicalCenter" alt="medicoDTO" placeholder="Centro medico" className={validations.mendicalCenter != null ? "error-validation-custom-select " :''  }>
                                 <option id="0">Seleziona Centro </option>
                                 {this.state.listFilterRegion.map((item) =>
                                     <option id={item.id}>{item.nomeCentro}</option>
