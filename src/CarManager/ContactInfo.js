@@ -108,7 +108,7 @@ export class ContactInfo extends Component {
                         <Table className="table custom">
                         <thead>
                             <tr>
-                                <th>Codice assistito </th>
+                                <th>Codice assistito</th>
                                 <th>Codice fiscale</th>
                                 <th>Cognome</th>
                                 <th>Nome</th>
@@ -119,7 +119,7 @@ export class ContactInfo extends Component {
                         </thead>
                         <tbody>
                             {
-                                currentItem.map((pa) => <RowCustom colums={["id","codicePaziente", "fiscalCode", "surName", "name" , "Medico", "phoneNumber","email"]} link={'id'} reference={'id'} controller={'ContactInfoPatient'}   item={pa} />)
+                                currentItem.map((pa) => <RowCustom colums={["codicePaziente", "fiscalCode", "surName", "name" , "Medico", "phoneNumber","email"]} link={'codicePaziente'} reference={'id'} controller={'ContactInfoPatient'}   item={pa} />)
                             }
                         </tbody>
                     </Table>
