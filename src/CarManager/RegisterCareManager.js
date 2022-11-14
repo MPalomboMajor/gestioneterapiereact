@@ -167,6 +167,16 @@ export class RegisterCareManager extends Component {
         }
 
         const validations = {
+            name: this.validator.message(
+                'name',
+                this.state.careManagerDTO.name,
+                'required'
+            ),
+            surName: this.validator.message(
+                'surName',
+                this.state.careManagerDTO.surName,
+                'required'
+            ),
             username: this.validator.message(
                 'Email',
                 this.state.userDto.username,
@@ -204,10 +214,10 @@ export class RegisterCareManager extends Component {
                 <Form className="centering-form">
                     <Row>
                         <Form.Group className="col-6 mb-2" >
-                            <Form.Control onChange={this.handleChange} name="name" alt="careManagerDTO" placeholder="Nome" />
+                            <Form.Control onChange={this.handleChange} name="name" isInvalid={validations.name != null} alt="careManagerDTO" placeholder="Nome" />
                         </Form.Group>
                         <Form.Group className="col-6 mb-2" >
-                            <Form.Control onChange={this.handleChange} name="surName" alt="careManagerDTO" placeholder="Cognome" />
+                            <Form.Control onChange={this.handleChange} name="surName" alt="careManagerDTO" isInvalid={validations.surName != null} placeholder="Cognome" />
                         </Form.Group>
                     </Row>
                     <Row>

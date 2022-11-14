@@ -46,6 +46,7 @@ export class Register extends Component {
             listFilterRegion: [],
             listCentriMedici: [],
 
+            isSelectRegion:0,
             //TODO DA ELIMINARE 
             mendicalCenter: 1,
             userDto: {
@@ -173,10 +174,12 @@ export class Register extends Component {
         const statusCopy = { ...this.state };
         if (id != 0) {
             statusCopy['listFilterRegion'] = this.state.listCentriMedici.filter(x => x.idRegione == id);
+            statusCopy['isSelectRegion'] = 1;
         } else {
             statusCopy['listFilterRegion'] = this.state.listCentriMedici;
+            statusCopy['isSelectRegion'] = 0;
         }
-
+        
         this.setState(statusCopy);
     };
     handleChangeconfirm = (el) => {
@@ -256,6 +259,21 @@ export class Register extends Component {
                 this.state.userDto.username,
                 'required|email'
             ),
+            name: this.validator.message(
+                'name',
+                this.state.medicoDTO.name,
+                'required'
+            ),
+            surName: this.validator.message(
+                'surName',
+                this.state.medicoDTO.surName,
+                'required'
+            ),
+            fiscalCode: this.validator.message(
+                'fiscalCode',
+                this.state.medicoDTO.fiscalCode,
+                'required|size:16,string'
+            ),
             phoneNumber: this.validator.message(
                 'Email',
                 this.state.medicoDTO.phoneNumber,
@@ -269,6 +287,11 @@ export class Register extends Component {
             mendicalCenter: this.validator.message(
                 'mendicalCenter',
                 this.state.medicoDTO.idCentroMedico != 0 ,
+                'accepted'
+            ),
+            selectRegion: this.validator.message(
+                'selectRegion',
+                this.state.isSelectRegion  != 0 ,
                 'accepted'
             ),
             confirmpassword: this.validator.message(
@@ -327,21 +350,21 @@ export class Register extends Component {
                 <Form className="centering-form">
                     <Row>
                         <Form.Group className="col-6 mb-2" >
-                            <Form.Control onChange={this.handleChange} name="name" alt="medicoDTO" placeholder="Nome" value={this.state.medicoDTO.name} />
+                            <Form.Control onChange={this.handleChange} name="name" alt="medicoDTO" placeholder="Nome"  isInvalid={validations.name != null}value={this.state.medicoDTO.name} />
                         </Form.Group>
                         <Form.Group className="col-6 mb-2" >
-                            <Form.Control onChange={this.handleChange} name="surName" alt="medicoDTO" placeholder="Cognome" value={this.state.medicoDTO.surName} />
+                            <Form.Control onChange={this.handleChange} name="surName" alt="medicoDTO" placeholder="Cognome" isInvalid={validations.surName != null} value={this.state.medicoDTO.surName} />
                         </Form.Group>
                     </Row>
                     <Row>
                         <Form.Group className="col-12 mb-2" >
-                            <Form.Control onChange={this.handleChange} name="fiscalCode" alt="medicoDTO" placeholder="Codice fiscale" value={this.state.medicoDTO.fiscalCode} />
+                            <Form.Control onChange={this.handleChange} name="fiscalCode" alt="medicoDTO" placeholder="Codice fiscale" isInvalid={validations.fiscalCode != null} value={this.state.medicoDTO.fiscalCode} />
                         </Form.Group>
                     </Row>
 
                     <Row>
                         <Form.Group className="col-6 mb-2" >
-                            <Form.Select onChange={this.onChangeRegion} name="region" alt="medicoDTO" placeholder="Centro medico"  >
+                            <Form.Select onChange={this.onChangeRegion} name="region" alt="medicoDTO" placeholder="Centro medico" className={validations.selectRegion != null ? "error-validation-custom-select " :''  }> 
                                 <option id="0">Seleziona Regione</option>
                                 {this.state.listRegion.map((item) =>
                                     <option id={item.id}>{item.nomeRegione}</option>
