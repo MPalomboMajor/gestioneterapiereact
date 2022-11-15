@@ -133,7 +133,7 @@ function EpilepticSeizuresForm(props) {
         <>
             <div className="row mb-4">
                 <div className="col-12 col-md-4">
-                    <label htmlFor="numberStartingSeizures" className="col-form-label w-100 text-md-end">Numero crisi di partenza</label>
+                    <label htmlFor="numberStartingSeizures" className="col-form-label w-100 text-md-end">Numero crisi di partenza mensili: </label>
                 </div>
                 <div className="col-12 col-md-4">
                     <input type="text" id="numeroCrisiPartenza" className="form-control form-control-sm" aria-describedby name="numeroCrisiPartenza" defaultValue={props.numberStartingSeizures} onChange={props.onChange} />
