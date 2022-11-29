@@ -445,7 +445,6 @@ export class DoctorProfile extends Component {
                                     <thead>
                                         <tr>
                                             <th>Codice assistito</th>
-                                            <th>Codice assistito</th>
                                             <th>Codice Fiscale</th>
                                             <th>Cognome</th>
                                             <th>Nome</th>
@@ -456,7 +455,7 @@ export class DoctorProfile extends Component {
                                     </thead>
                                     <tbody>
                                         {
-                                            this.state.listPatient ? currentItem.map((pa) => <RowCustom colums={["id", "codicePaziente", "fiscalCode", "surName", "name", "email", "phoneNumber", "isActive"]} link={'id'} reference={'id'} controller={'PatientRegistry'} item={pa} />) : ''
+                                             this.state.listPatient ? currentItem.map((pa) => <RowCustom colums={["codicePaziente", "fiscalCode", "surName", "name", "email", "phoneNumber", "isActive"]} link={'codicePaziente'} reference={'id'} controller={'PatientRegistry'} item={pa} />) : ''
                                         }
                                     </tbody>
                                 </Table>
