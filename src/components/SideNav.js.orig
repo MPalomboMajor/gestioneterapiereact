@@ -12,8 +12,8 @@ const SideNav = () => {
             <aside className="main-sidebar sidebar-dark-primary elevation-4">
                 {/* Brand Logo */}
                 <a href="index3.html" className="brand-link">
-                    <img src="dist/img/AdminLTELogo.png" alt="OntozApp" className="brand-image img-circle elevation-3" style={{ opacity: '.8' }} />
-                    <span className="brand-text font-weight-light">OntozApp</span>
+                    <img src="dist/img/AdminLTELogo.png" alt="EpiOnApp" className="brand-image img-circle elevation-3" style={{ opacity: '.8' }} />
+                    <span className="brand-text font-weight-light">EpiOnApp</span>
                 </a>
                 {/* Sidebar */}
                 <div className="sidebar">

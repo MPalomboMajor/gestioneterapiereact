@@ -47,7 +47,7 @@ const SideNav = () => {
 
     return (
         <header className="col">
-            <a href="/DoctorChartsInterface" className="logo"><img src={logo} alt="OntozApp" /></a>
+            <a href="/DoctorChartsInterface" className="logo"><img src={logo} alt="EpiOnApp" /></a>
             <button className="menu-toggle d-block d-lg-none">
                 <span />
                 <span />
