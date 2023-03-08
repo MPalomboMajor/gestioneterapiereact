@@ -11,13 +11,16 @@ import { findAllByTestId } from '@testing-library/react';
 import PhoneInput, { isValidPhoneNumber }  from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 
+
 export class Register extends Component {
     userModelProp = () => ({
         id: 0,
         username: '',
         password: '',
         idRole: 1,
-
+        flag1: '0',
+        flag2: '0',
+        flag3: '0',
     });
     medicoModelProp = () => ({
         name: '',
@@ -140,7 +143,16 @@ export class Register extends Component {
             let doctorDTO = this.state.medicoDTO;
             doctorDTO.phoneNumber = doctorDTO.phoneNumber.startsWith('+39') ? doctorDTO.phoneNumber : "+39" + doctorDTO.phoneNumber
             doctorDTO.phoneNumber = doctorDTO.phoneNumber.replace(/ /g, '');
-            user.post("PreSaveDoctor", { username: userDto.username, password: userDto.password, doctorDTO: doctorDTO })
+            console.log(userDto);
+            user.post("PreSaveDoctor",JSON.stringify( 
+            {
+                username: userDto.username, 
+                password: userDto.password, 
+                flag1: userDto.flag1, 
+                flag2: userDto.flag2, 
+                flag3: userDto.flag3, 
+                doctorDTO: doctorDTO 
+            }))
                 .then((response) => {
                     if (response.data.statoEsito === 0) {
                         localStorage.setItem('accessToken', response.data.dati);
@@ -198,9 +210,17 @@ export class Register extends Component {
         this.updateState('phoneNumber', inputValue, 'medicoDTO');
     };
     handleChange = (el) => {
+        console.log(el.target.value);
         let objName = el.target.alt;
         const inputName = el.target.name;
         const inputValue = el.target.value;
+        this.updateState(inputName, inputValue, objName);
+    };
+    handleCheckChange = (el) => {
+        console.log(el.target.checked);
+        let objName = el.target.alt;
+        const inputName = el.target.name;
+        const inputValue = el.target.checked ? el.target.value : '0';
         this.updateState(inputName, inputValue, objName);
     };
     updateState = (inputName, inputValue, objName) => {
@@ -235,6 +255,17 @@ export class Register extends Component {
     plocyApprove = () => {
         this.setState({ isApprove: !this.state.isApprove, policy: 'ok' });
     }
+    flag1Approve = () => {
+        this.setState({ 
+            //isApprove: !this.state.isApprove, policy: 'ok' 
+        });
+    }
+    flag2Approve = () => {
+        this.setState({ isApprove: !this.state.isApprove, policy: 'ok' });
+    }
+    flag3Approve = () => {
+        this.setState({ isApprove: !this.state.isApprove, policy: 'ok' });
+    }
     render() {
 
         if (this.state.userDto.password === this.state.confirmpassword) {
@@ -244,16 +275,31 @@ export class Register extends Component {
         }
 
         const validations = {
-            approve: this.validator.message(
-                'Approve',
-                this.state.isApprove,
-                'accepted'
-            ),
-            policy: this.validator.message(
-                'policy',
-                this.state.policy,
-                'required'
-            ),
+            // approve: this.validator.message(
+            //     'Approve',
+            //     this.state.isApprove,
+            //     'accepted'
+            // ),
+            // policy: this.validator.message(
+            //     'policy',
+            //     this.state.policy,
+            //     'required'
+            // ),
+            // flag1: this.validator.message(
+            //     'flag1',
+            //     this.state.flag1,
+            //     'required'
+            // ),
+            // flag2: this.validator.message(
+            //     'flag2',
+            //     this.state.flag2,
+            //     'required'
+            // ),
+            // flag3: this.validator.message(
+            //     'flag3',
+            //     this.state.flag3,
+            //     'required'
+            // ),
             username: this.validator.message(
                 'Email',
                 this.state.userDto.username,
@@ -442,25 +488,47 @@ export class Register extends Component {
                             </Button>
                         </div>
                     </Row>
-                    <div class="col-12">
-                        <div class="col-6 col-md-8 mb-0">
+                    <Row>
+                    <div class="col-12 mb-0">
                             <div class="form-check mb-0">
+                                <input class="form-check-input" onChange={this.handleCheckChange} value="1" alt="userDto" type="checkbox" id="flag1" name="flag1" ></input>
+                                <label class="form-check-label small" for="flag1">
+                                Presa visione informativa <a href='informativa_privacy_medico.pdf' target={'blank'} class="link-privacy small ps-4">privacy</a> (OBBLIGATORIO)
+                                </label>
+                            </div>
+                            <div class="form-check mb-0">
+                                <input class="form-check-input" onChange={this.handleCheckChange} value="1" alt="userDto" type="checkbox" id="flag2" name="flag2" ></input>
+                                <label class="form-check-label small" for="flag2">
+                                Consenso al trattamento dei dati finalità A3 (NON OBBLIGATORIO)
+                                </label>
+                            </div>
+                            <div class="form-check mb-0">
+                                <input class="form-check-input" onChange={this.handleCheckChange} value="1" alt="userDto" type="checkbox" id="flag3" name="flag3" ></input>
+                                <label class="form-check-label small" for="flag3">
+                                Consenso al trattamento dei dati finalità A4 (NON OBBLIGATORIO)
+                                </label>
+                            </div>
+                            <div class="mb-0">
+                                <label class="form-check-label small">infine: "accedendo confermi di aver letto e accettato i <a href='informativa_privacy_medico.pdf' target={'blank'} class="link-privacy small ps-4">termini e condizioni</a> e la politica della <a href='informativa_privacy_medico.pdf' target={'blank'} class="link-privacy small ps-4">privacy</a>."</label>
+                            </div>
+                            {/* <div class="form-check mb-0">
                                 <input class="form-check-input" type="checkbox" onChange={() => this.plocyApprove()} isInvalid={validations.approve != null} checked={this.state.isApprove ? true : false} id="flexCheckDefault" ></input>
                                 <label className={(validations.policy != null) ? 'form-check-label small error-checkbox-message' : 'form-check-label small'} for="flexCheckDefault">
                                     Consenso al trattamento dei dati personali
                                 </label>
 
-                            </div>
-                            <p>
-                                <a href='informativa_privacy_medico.pdf' target={'blank'} class="link-privacy small ps-4">Visualizza informativa privacy</a>
+                            </div> */}
+                        </div>
+                    </Row>
+                    <Row>
+                        <div class="col-12  mb-0">
+                            <p class="small ps-md-4 mb-0 text-center text-md-start"><strong>Non riesci a registrarti?</strong></p>
+                            <p class="mb-0 text-center text-md-start">
+                                <a class="link-phone small ps-4">0696741200</a> <a href="mailto:epionapp@pharmaprime.com" class="link-email small ps-4">epionapp@pharmaprime.com</a>
                             </p>
                         </div>
-                        <p class="small ps-md-4 mb-0 text-center text-md-start"><strong>Non riesci a registrarti?</strong></p>
-                        <p class="mb-0 text-center text-md-start">
-                            <a class="link-phone small ps-4">0696741200</a> <a href="mailto:" class="link-email small ps-4">epionapp@pharmaprime.it</a>
-                        </p>
-                    </div>
-                    < NotificationContainer />
+                    </Row>
+                    <NotificationContainer />
                 </Form>
 
         )

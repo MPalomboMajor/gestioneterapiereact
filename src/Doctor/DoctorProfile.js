@@ -19,7 +19,9 @@ export class DoctorProfile extends Component {
         email: '',
         phoneNumber: '',
         idCentroMedico: 0,
-
+        flag1: '0',
+        flag2: '0',
+        flag3: '0',
     });
     passwordModelProp = () => ({
         resetPasswordCode: '',
@@ -65,6 +67,13 @@ export class DoctorProfile extends Component {
     }
 
     //FUNZIONI
+    handleCheckChange = (el) => {
+        console.log("TargetName:" + el.target);
+        let objName = el.target.alt;
+        const inputName = el.target.name;
+        const inputValue = el.target.checked ? el.target.value : '0';
+        this.updateState(inputName, inputValue, objName);
+    };
     getListPatient = () => {
 
 
@@ -108,6 +117,7 @@ export class DoctorProfile extends Component {
         medico.get("Get/", parseInt(id))
             .then((response) => {
                 if (response.status == 200) {
+                    console.log(response.data.dati);
                     this.setState({ userDto: response.data.dati });
 
                     const statusCopy = { ...this.state };
@@ -193,6 +203,7 @@ export class DoctorProfile extends Component {
                 if (response.status === 200) {
                     NotificationManager.success(message.MEDICO + message.SuccessUpdate, entitiesLabels.SUCCESS, 3000);
                     this.setState({ isSending: false });
+                    this.getProfile();
                 } else {
                     NotificationManager.error(message.MEDICO + message.ErrorServer, entitiesLabels.ERROR, 3000);
                     this.setState({ isSending: false });
@@ -497,7 +508,7 @@ export class DoctorProfile extends Component {
                                 <Form.Select id='mendicalCenter' onChange={this.onChange} name="mendicalCenter" alt="medicoDTO" placeholder="Inserisci centro medico" >
                                     {this.state.listFilterRegion.map((item) =>
 
-                                        <option id={item.id} selected={this.state.userDto.idCentroMedico == item.id ? "selected" : ''}>{item.nomeCentro}</option>
+                                        <option id={item.id} selected={this.state.userDto.idCentroMedico === item.id ? "selected" : ''}>{item.nomeCentro}</option>
                                     )}
                                 </Form.Select>
                             </Form.Group>
@@ -516,6 +527,41 @@ export class DoctorProfile extends Component {
                                     />
                                 </Form  >
                             </Form.Group>
+                            <Row className='form-check mb-0'>
+                                <Form.Group className="col-12 form-check mb-0" >
+                                    <Form.Check
+                                        type="checkbox"
+                                        defaultChecked={this.state.userDto?.flag1 === '1'}
+                                        checked={this.state.userDto?.flag1 === '1'}
+                                        name="flag1"
+                                        alt="userDto"
+                                        onChange={this.handleCheckChange}
+                                    />
+                                    <Form.Label className="form-check-label small">Presa visione informativa <a href='informativa_privacy_medico.pdf' target={'blank'} class="link-privacy small ps-4">privacy</a> (OBBLIGATORIO)</Form.Label>
+                                </Form.Group>
+                                <Form.Group className="col-12 form-check mb-0" >
+                                    <Form.Check
+                                        type="checkbox"
+                                        defaultChecked={this.state.userDto?.flag2 === '1'}
+                                        alt="userDto"
+                                        name="flag2"
+                                        checked={this.state.userDto?.flag2 === '1'}
+                                        onChange={this.handleCheckChange}
+                                    />
+                                    <Form.Label className="form-check-label small">Consenso al trattamento dei dati finalità A4 (NON OBBLIGATORIO)</Form.Label>
+                                </Form.Group>
+                                <Form.Group className="col-12 form-check mb-0" >
+                                    <Form.Check
+                                        type="checkbox"
+                                        defaultChecked={this.state.userDto?.flag3 === '1'}
+                                        alt="userDto"
+                                        checked={this.state.userDto?.flag3 === '1'}
+                                        name="flag3"
+                                        onChange={this.handleCheckChange}
+                                    />
+                                    <Form.Label className="form-check-label small">Consenso al trattamento dei dati finalità A4 (NON OBBLIGATORIO)</Form.Label>
+                                </Form.Group>
+                            </Row>
 
                             <Form.Group className="col-4 mb-3" controlId="formBasicPassword">
                                 <Button variant="btn btn-primary " onClick={() => this.handleShowChangePassword()}>
