@@ -37,7 +37,7 @@ function LineChartGetMonthlyTrend(props) {
                 stacked: true,
                 reverse: false
             }}
-            yFormat=" >-.2f"
+            yFormat=" >-.0f"
             axisTop={null}
             axisRight={null}
             axisBottom={{
