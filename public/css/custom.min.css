@@ -395,6 +395,10 @@ dl dt {
     font-size: 0.75rem
 }
 
+.row {
+    padding-bottom: 2rem;
+}
+
 @media screen and (max-width: 575px) {
     .box {
         padding: 2rem 1rem 1rem
@@ -999,6 +1003,10 @@ div.info {
 
 .font-14 {
     font-size: 0.875rem
+}
+
+.font-12 {
+    font-size: 0.75rem;
 }
 
 header {
@@ -2240,7 +2248,7 @@ table.custom td .btn+.btn {
 
 #chartContainer { 
     overflow-x: scroll;
-    overflow-y: hidden
+    overflow-y: hidden;
 }
 
 .input-custom-reg{
@@ -2305,5 +2313,5 @@ table.custom td .btn+.btn {
     padding-right: 12px;
 }
 td span {
-    white-space:pre-wrap
+    white-space:pre-wrap;
 }
