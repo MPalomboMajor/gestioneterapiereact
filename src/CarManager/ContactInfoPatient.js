@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 import { Container, Row, Table, Form, Button, Modal, Tabs, Tab } from 'react-bootstrap';
 import { user, medico, patient, caremanager } from '../helpers/api/api';
@@ -6,6 +6,7 @@ import { RowCustom } from "../Doctor/PatientComponent";
 import Pagination from '../helpers/pagination';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { SatisfactionInfo } from './SatisfactionInfo';
+import { Link } from 'react-bootstrap-icons';
 
 
 export class ContactInfoPatient extends Component {
@@ -162,7 +163,9 @@ export class ContactInfoPatient extends Component {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    this.state.patient.doctorNameIdDTOs ? doclist.map((pa) => <RowCustom colums={["nameDoctor"]} item={pa} />) : ''
+                                                    this.state.patient.doctorNameIdDTOs ? doclist.map((pa) => 
+                                                    
+                                                    <RowCustom colums={["nameDoctor"]} item={pa} />) : ''
                                                 }
                                             </tbody>
                                         </Table>

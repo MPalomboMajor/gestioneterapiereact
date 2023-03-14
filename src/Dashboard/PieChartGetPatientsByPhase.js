@@ -42,7 +42,7 @@ function PieChartGetPatientsByPhase(props) {
                     itemWidth: 100,
                     itemHeight: 18,
                     itemTextColor: '#999',
-                    itemDirection: 'left-to-right',
+                    itemDirection: 'right-to-left',
                     itemOpacity: 1,
                     symbolSize: 18,
                     symbolShape: 'circle',
