@@ -10,14 +10,14 @@ function Patients(props) {
             <div className="row h-100 justify-content-center align-items-center" style={{ "width": "100%" }}>
                 <div className="col-12">
                     <div className="box">
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="col-12" style={{ "display" : "flex " }}>
                                     <h2 className="h2">Totale registrati: {props.dataGetTotalRegisterActive.registrati} &nbsp; |</h2> 
                                     <h2 className="h2">&nbsp; Totale attivati: {props.dataGetTotalRegisterActive.attivi}</h2> 
                             </div>
                         </div>
 
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="col-6">
                                 <h2>Sesso</h2>
                                 <BarChartGetBySex data={props.dataGetBySex} commonProperties={props.commonProperties} />
@@ -29,7 +29,7 @@ function Patients(props) {
                             </div>
                         </div>
 
-                        <div className="row">
+                        <div className="row mb-4">
                             <div className="col-4">
                                 <h2>Andamento mensile</h2>
                                 <LineChartGetMonthlyTrend data={props.dataGetMonthlyTrend} commonProperties={props.commonProperties} />
