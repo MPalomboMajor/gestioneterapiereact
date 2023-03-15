@@ -2026,11 +2026,6 @@ table.custom td {
     text-align: center;
 }
 
-table.custom td a {
-    text-decoration: none;
-    color: #212529
-}
-
 table.custom td:first-of-type {
     background-image: url(../img/OA_table-nw-corner.svg), url("../img/OA_table-sw-corner.svg");
     background-position: top left, bottom left;
