@@ -61,13 +61,16 @@ function Monitoring(props) {
                                             <PieChartGetCumulativeSurveysByMood data={props.dataGetCumulativeSurveysByMood} commonProperties={props.commonProperties} />
                                         </div> : ""
                                     }
-                                    {isDoctor || isCareManger ?
-                                        <div id="chartContainer" style={{ "height": "300px" }}>
-                                            <h2>Aderenza terapia</h2>
-                                            <BarChartGetAdherencesByPatient data={props.dataGetAdherencesByPatient} commonProperties={props.commonProperties} />
-                                        </div> : ""
-                                    }
                                 </div>
+                            </div>
+                                    
+                            <div className="col-12 mb-2">
+                                {isDoctor || isCareManger ?
+                                    <div id="chartContainer" style={{ "height": "300px" }}>
+                                        <h2>Aderenza terapia</h2>
+                                        <BarChartGetAdherencesByPatient data={props.dataGetAdherencesByPatient} commonProperties={props.commonProperties} />
+                                    </div> : ""
+                                }
                             </div>
 
                         </div>
