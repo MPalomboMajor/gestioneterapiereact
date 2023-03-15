@@ -165,7 +165,7 @@ export class ContactInfoPatient extends Component {
                                                 {
                                                     this.state.patient.doctorNameIdDTOs ? doclist.map((pa) => 
                                                     
-                                                    <RowCustom colums={["nameDoctor"]} item={pa} />) : ''
+                                                    <RowCustom colums={["nameDoctor"]} link={"nameDoctor"} reference={"idDoctor"} controller={'DoctorProfile'} item={pa} />) : ''
                                                 }
                                             </tbody>
                                         </Table>

@@ -2023,7 +2023,12 @@ table.custom td {
     padding: 1rem 0.5rem;
     border-width: 0;
     font-size: 0.75rem;
-    text-align: center
+    text-align: center;
+}
+
+table.custom td a {
+    text-decoration: none;
+    color: #212529
 }
 
 table.custom td:first-of-type {
