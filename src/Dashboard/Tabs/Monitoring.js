@@ -45,7 +45,7 @@ function Monitoring(props) {
                             </div>
                         </div>
                         <div className="row mt-4">
-                            <div className="col-12 col-md-6 mb-2" >
+                            <div className="col-12 mb-2" >
                                 <div className="container-fluid g-0">
                                     <div >
                                         <h2>Andamento mood giornaliero<br />ultime 2 settimane</h2>
@@ -53,7 +53,7 @@ function Monitoring(props) {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-12 col-md-6 mb-2">
+                            <div className="col-12 mb-2">
                                 <div className="container-fluid g-0">
                                     {isAngelini ?
                                         <div style={{ "height": "300px" }}>
