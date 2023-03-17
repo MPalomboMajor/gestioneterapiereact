@@ -65,6 +65,9 @@ const SideNav = () => {
                                             <p>
                                                 {userProfile.name} {userProfile.surName}
                                             </p>
+                                            <span className="font-12">
+                                                CareManager
+                                            </span>
                                         </a>
                                     </li>
                                     <li className="nav-item">
@@ -118,6 +121,9 @@ const SideNav = () => {
                                             <p>
                                                 {userProfile.name} {userProfile.surName}
                                             </p>
+                                            <span className="font-12">
+                                                CareManager
+                                            </span>
                                         </a>
                                     </li>
                                     <li className="nav-item">
@@ -240,6 +246,9 @@ const SideNav = () => {
                                                 <p>
                                                     {userProfile.name} {userProfile.surName}
                                                 </p>
+                                                <span className="font-12">
+                                                    Dottore
+                                                </span>
                                             </a>
                                         </li>
                                         <li className="nav-item">
@@ -305,6 +314,9 @@ const SideNav = () => {
                                                         <p>
                                                             {userProfile.name} {userProfile.surName}
                                                         </p>
+                                                        <span className="font-12"> 
+                                                            Dottore
+                                                        </span>
                                                     </a>
                                                 </li>
                                                 <li className="nav-item">

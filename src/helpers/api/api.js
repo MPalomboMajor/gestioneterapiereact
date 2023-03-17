@@ -3,8 +3,8 @@ import { API } from '../Constants';
 
 const http = axios.create({
   //withCredentials: false,
-  //baseURL: `${'http://testontozapp.pharmaprime.it/api/api/'}`,   
-  baseURL: `${'http://localhost:27629/api/'}`,   
+  baseURL: `${'http://testontozapp.pharmaprime.it/api/api/'}`,   
+  //baseURL: `${'http://localhost:27629/api/'}`,   
   //baseURL: `${'https://epionapp.pharmaprime.it/api/api/'}`,   
   // http://testontozapp.pharmaprime.it/api/api/       
   //http://localhost:27629/api/ 
@@ -20,8 +20,8 @@ const http = axios.create({
 });
 const httpref = axios.create({
   //withCredentials: false,
-  //baseURL: `${'http://testontozapp.pharmaprime.it/api/api/'}`,   
-  baseURL: `${'http://localhost:27629/api/'}`,   
+  baseURL: `${'http://testontozapp.pharmaprime.it/api/api/'}`,   
+  //baseURL: `${'http://localhost:27629/api/'}`,   
   //baseURL: `${'https://epionapp.pharmaprime.it/api/api/'}`,   
   headers: {
     'Content-Type': 'application/json',
