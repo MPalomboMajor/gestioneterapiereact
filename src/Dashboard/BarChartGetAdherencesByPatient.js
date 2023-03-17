@@ -3,7 +3,7 @@ import { ResponsiveBar } from '@nivo/bar'
 function BarChartGetAdherencesByPatient(props) {
     const MyResponsiveBar = ({ data /* see data tab */ }) => (
         <ResponsiveBar
-            width={1000}
+            width={4000}
             height={270}
             animate={false}
             activeOuterRadiusOffset={8}
@@ -13,7 +13,7 @@ function BarChartGetAdherencesByPatient(props) {
                 'numero conferme'
             ]}
             indexBy="cognomePaziente"
-            margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+            margin={{ top: 50, right: 160, bottom: 50, left: 20 }}
             padding={0.3}
             valueScale={{ type: 'linear' }}
             indexScale={{ type: 'band', round: true }}

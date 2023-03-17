@@ -148,7 +148,7 @@ function PatientRegistry() {
                 <>
                         <h1 className="h1">Anagrafica {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
 
-                        <div className="row h-100 justify-content-center" style={{ "width": "100%", "marginTop": "150px" }}>
+                        <div className="row h-100 justify-content-center" style={{ "width": "100%", "marginTop": "10px" }}>
                                 <div className="col-12">
                                         <div className="box">
                                                 <form className="container-fluid g-0" action method="post">

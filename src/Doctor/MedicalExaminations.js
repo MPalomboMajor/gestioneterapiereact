@@ -71,7 +71,7 @@ function MedicalExaminationsInfo() {
 
     return (
         <>
-            <h1 class="h1">Visite mediche {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
+            <h1 className="h1">Visite mediche {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
             &nbsp;&nbsp;
 
             <MedicalExaminationsTable medicalExaminations={currentmedicalExaminations} patientId={patientId} setMedicalExaminations={setMedicalExaminations} />
@@ -141,11 +141,11 @@ function MedicalExaminationRow(props) {
 }
 
 function MedicalExaminationRowData(props) {
-
+    
     return (<>
         <td>{props.medicalExamination.tipoVisita}</td>
         <td>{props.medicalExamination.dataVisita.split(' ')[0]}</td>
-        <td><Link to={`/MedicalExaminationDetails/${props.patientId}/${props.medicalExamination.id}`} state={props.medicalExamination} patientId={props.patientId} ><img src={props.medicalExamination.elencoRefertiVisita[0].immagineReferto === null ? "" : props.medicalExamination.elencoRefertiVisita[0].immagineReferto} style={{ width: 100, height: 70 }} /></Link></td>
+        <td><Link to={`/MedicalExaminationDetails/${props.patientId}/${props.medicalExamination.id}`} state={props.medicalExamination} patientId={props.patientId} ><img src={props.medicalExamination.elencoRefertiVisita.length === 0 ? "" : props.medicalExamination.elencoRefertiVisita[0].immagineReferto} style={{ width: 100, height: 70 }} /></Link></td>
         <td><Link to={`/MedicalExaminationDetails/${props.patientId}/${props.medicalExamination.id}`} state={props.medicalExamination} patientId={props.patientId} className="btn btn-primary btn-sm" >Visualizza immagini</Link></td>
     </>
     );

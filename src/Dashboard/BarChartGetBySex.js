@@ -88,7 +88,7 @@ function BarChartGetBySex(props) {
     return (
         <>
 
-            <div style={{ height: 300, width: 300 }}>
+            <div style={{ height: 350, width: 300 }}>
                 <MyResponsiveBar data={props.data} commonProperties={props.commonProperties} />
             </div>
         </>
