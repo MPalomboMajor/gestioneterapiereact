@@ -6,7 +6,10 @@ import { entitiesLabels, message } from '../helpers/Constants';
 import moment from 'moment';
 import SimpleReactValidator from 'simple-react-validator';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { internationalPrefix } from '../helpers/Constants';
 export class NewPatient extends Component {
+    
+
     userModelProp = () => ({
         id: 0,
         username: '',
@@ -20,6 +23,7 @@ export class NewPatient extends Component {
         this.validatorOTP = new SimpleReactValidator();
         this.state = {
             isSuccess: false,
+            prefix:"",
             userDto: {
                 ...this.userModelProp(),
             },
@@ -29,6 +33,7 @@ export class NewPatient extends Component {
                 name: "",
                 surName: "",
                 codicePaziente: "",
+                country: "",
                 age: 0,
                 sex: "",
                 fiscalCode: "",
@@ -63,6 +68,8 @@ export class NewPatient extends Component {
     componentDidMount() {
         localStorage.removeItem('newPatient');
     }
+
+    
     InsertPatient = () => {
         if (this.validator.allValid()) {
             // user.post("VerifyOTP", { idDispositivo: '', phone: this.state.patiendDto.phoneNumber, otp: this.state.patiendDto.otpCode })
@@ -73,7 +80,7 @@ export class NewPatient extends Component {
                 idDoctor: local.id,
                 nameDoctor: local.username
             };
-            var PhoneNumber = "+39" + this.state.patiendDto.phoneNumber.replace(/ /g,'');
+            var PhoneNumber = this.state.prefix + this.state.patiendDto.phoneNumber.replace(/ /g,'');
             this.state.patiendDto.phoneNumber = PhoneNumber;
             var DTO = this.state.patiendDto;
             DTO.codicePaziente = parseInt(this.state.patiendDto.codicePaziente)
@@ -152,9 +159,6 @@ export class NewPatient extends Component {
     handleClose = (el) => {
         this.setState({ isSuccess: false });
     };
-
-    
-
     render() {
         const validations = {
             codicePaziente: this.validator.message(
@@ -186,6 +190,7 @@ export class NewPatient extends Component {
              }
                    
           }
+          var Typeahead = require('react-bootstrap-typeahead').Typeahead;
         return (
 
             <Container className=''>
@@ -204,8 +209,17 @@ export class NewPatient extends Component {
                     <Row className='col-12 pt-4' >
                         <Form.Label htmlFor="basic-url">Telefono</Form.Label>
                         <InputGroup className="mb-3">
-                            <InputGroup.Text id="basic-addon1">+39</InputGroup.Text>
-                            <Form.Control id="phoneNumber" onChange={this.handleChange} alt="patiendDto" type="" isInvalid={validations.phoneNumber != null} name="phoneNumber" placeholder="Telefono" onKeyDown={() => keyDown()}>
+                        <Typeahead
+                                onChange={(event) =>{
+                                    if(event[0] !== undefined){
+                                        this.state.patiendDto.country = event[0].country;
+                                        this.state.prefix = event[0].code;}}}
+                                labelKey={option => `${option.code} ${option.iso}`}
+                                paginationText='More..'
+                                options={internationalPrefix}
+                                />
+                            {/* <InputGroup.Text id="basic-addon1">+39</InputGroup.Text> */}
+                            <Form.Control id="phoneNumber" onChange={this.handleChange} alt="patiendDto" type="number" isInvalid={validations.phoneNumber != null} name="phoneNumber" placeholder="Telefono" onKeyDown={() => keyDown()}>
                             </Form.Control>
                         </InputGroup >
                     </Row>
