@@ -14,6 +14,7 @@ function PatientRegistry() {
         const [patientProfile, setPatientProfile] = useState([]);
         const [disabledProfile, setDisabledProfile] = useState([]);
         const [isActive, setIsActive] = useState();
+        const [isRegistered, setIsRegistered] = useState();
         const [isOpen, setIsOpen] = useState();
         const [causes, setCauses] = useState([]);
         const [motivations, setMotivations] = useState([]);
@@ -30,8 +31,14 @@ function PatientRegistry() {
                         await patient.get("Get/", patientId)
                                 .then((response) => {
                                         if (response.status === 200) {
+                                                console.log(response.data.dati)
                                                 setPatientProfile(response.data.dati);
                                                 setIsActive(response.data.dati.isActive);
+                                                if(response.data.dati.idUser != null) {
+                                                        setIsRegistered(true);
+                                                } else {
+                                                        setIsRegistered(false);
+                                                }
                                         }
                                 }).catch((error) => {
 
@@ -144,6 +151,17 @@ function PatientRegistry() {
                                 NotificationManager.error(message.ErrorServer, entitiesLabels.ERROR, 3000);
                         });
         };
+
+        function checkDisableButton() {
+                if(isActive && isRegistered) {
+                        return <button className="btn btn-secondary me-3" onClick={() => setIsOpen(true)}>Disabilita Utente</button>
+                } else if(!isActive && isRegistered) {
+                        return <button className="btn btn-secondary me-3" onClick={() => activePatient()}>Abilita Utente</button>
+                } else {
+                        return ''
+                }
+        }
+
         return (
                 <>
                         <h1 className="h1">Anagrafica {patientProfile.name} {patientProfile.surName} - Codice assistito: {patientProfile.codicePaziente}</h1>
@@ -218,9 +236,7 @@ function PatientRegistry() {
                                                         <div className="col-12 mb-3 d-flex justify-content-center justify-content-md-end">
                                                                 <Link to={`/Dashboard`} style={{ "color": "black" }}><button className="btn btn-secondary me-3" id>Indietro</button></Link>
                                                                 {/* <Link to={`/PatientProfile/${patientId}`}><button className="btn btn-primary me-3" id>Avanti</button></Link> */}
-                                                                { isActive ?<button className="btn btn-secondary me-3" onClick={() => setIsOpen(true)}>Disabilita Utente</button>:
-                                                                <button className="btn btn-secondary me-3" onClick={() => activePatient()}>Abilita Utente</button>
-                                                                }
+                                                                { checkDisableButton() }
                                                                 <button className="btn btn-primary" id onClick={() => editPatient()}>Salva e vai avanti</button>
                                                         </div>
                                                 </div>

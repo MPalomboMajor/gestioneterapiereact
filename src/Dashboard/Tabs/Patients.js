@@ -30,20 +30,21 @@ function Patients(props) {
                         </div>
 
                         <div className="row mb-4">
-                            <div className="col-4">
+                            <div className="col-12">
                                 <h2>Andamento mensile</h2>
                                 <LineChartGetMonthlyTrend data={props.dataGetMonthlyTrend} commonProperties={props.commonProperties} />
                             </div>
+                        </div>
 
-                            <div className="col-4" >
+                        <div className="row mb-4">
+                            <div className="col-6">
+                                <h2>Drop-off</h2>
+                                <PieChartGetAllDropOff data={props.dataGetAllDropOff} commonProperties={props.commonProperties} />
+                            </div>
+                            <div className="col-6" >
                                 <div className="container-fluid g-0">
                                     <h2 class="h2">Totale drop-off: {props.dataGetTotalNumberDropOff}</h2>
                                 </div>
-                            </div>
-
-                            <div className="col-4">
-                                <h2>Drop-off</h2>
-                                <PieChartGetAllDropOff data={props.dataGetAllDropOff} commonProperties={props.commonProperties} />
                             </div>
                         </div>
 
