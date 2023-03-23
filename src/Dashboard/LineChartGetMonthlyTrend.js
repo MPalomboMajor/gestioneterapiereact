@@ -49,6 +49,7 @@ function LineChartGetMonthlyTrend(props) {
                 legendOffset: 36,
                 legendPosition: 'middle'
             }}
+
             axisLeft={{
                 orient: 'left',
                 tickSize: 5,

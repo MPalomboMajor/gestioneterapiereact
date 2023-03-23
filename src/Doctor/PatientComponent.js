@@ -145,6 +145,16 @@ function PatientRow(props) {
 }
 
 function PatientRowData(props) {
+    const checkStatus = () => {
+        if(props.patient.isActive && props.patient.idUser === null) {
+            return 'Da registrare'
+        } else if (!props.patient.isActive) {
+            return 'Non Attivo'
+        } else {
+            return 'Attivo'
+        }
+    }
+    
     return (<>
         <td><Link to={`/PatientRegistry/${props.patient.id}`} class="btn btn-primary btn-sm">{props.patient.codicePaziente}</Link></td>
         <td>{props.patient.fiscalCode}</td>
@@ -152,7 +162,7 @@ function PatientRowData(props) {
         <td>{props.patient.name}</td>
         <td>{props.patient.phoneNumber}</td>
         <td>{props.patient.email}</td>
-        <td>{props.patient.isActive != 0 ? "Attivo" : "Non attivo"}</td>
+        <td>{checkStatus()}</td>
     </>
     );
 }
