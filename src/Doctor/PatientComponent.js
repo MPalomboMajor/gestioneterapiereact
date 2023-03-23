@@ -149,7 +149,7 @@ function PatientRowData(props) {
         if(props.patient.isActive && props.patient.idUser === null) {
             return 'Da registrare'
         } else if (!props.patient.isActive) {
-            return 'Non Attivo'
+            return 'Disabilitato'
         } else {
             return 'Attivo'
         }
