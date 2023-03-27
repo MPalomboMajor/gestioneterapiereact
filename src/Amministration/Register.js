@@ -21,6 +21,7 @@ export class Register extends Component {
         flag1: '0',
         flag2: '0',
         flag3: '0',
+        flag4: '0',
     });
     medicoModelProp = () => ({
         name: '',
@@ -151,6 +152,7 @@ export class Register extends Component {
                 flag1: userDto.flag1, 
                 flag2: userDto.flag2, 
                 flag3: userDto.flag3, 
+                flag4: userDto.flag4, 
                 doctorDTO: doctorDTO 
             }))
                 .then((response) => {
@@ -217,7 +219,6 @@ export class Register extends Component {
         this.updateState(inputName, inputValue, objName);
     };
     handleCheckChange = (el) => {
-        console.log(el.target.checked);
         let objName = el.target.alt;
         const inputName = el.target.name;
         const inputValue = el.target.checked ? el.target.value : '0';
@@ -499,17 +500,23 @@ export class Register extends Component {
                             <div class="form-check mb-0">
                                 <input class="form-check-input" onChange={this.handleCheckChange} value="1" alt="userDto" type="checkbox" id="flag2" name="flag2" ></input>
                                 <label class="form-check-label small" for="flag2">
-                                Consenso al trattamento dei dati finalità A3 (NON OBBLIGATORIO)
+                                Consenso al trattamento dei dati sensibili (OBBLIGATORIO)
                                 </label>
                             </div>
                             <div class="form-check mb-0">
                                 <input class="form-check-input" onChange={this.handleCheckChange} value="1" alt="userDto" type="checkbox" id="flag3" name="flag3" ></input>
                                 <label class="form-check-label small" for="flag3">
+                                Consenso al trattamento dei dati finalità A3 (NON OBBLIGATORIO)
+                                </label>
+                            </div>
+                            <div class="form-check mb-0">
+                                <input class="form-check-input" onChange={this.handleCheckChange} value="1" alt="userDto" type="checkbox" id="flag4" name="flag4" ></input>
+                                <label class="form-check-label small" for="flag4">
                                 Consenso al trattamento dei dati finalità A4 (NON OBBLIGATORIO)
                                 </label>
                             </div>
                             <div class="mb-0">
-                                <label class="form-check-label small">infine: "accedendo confermi di aver letto e accettato i <a href='informativa_privacy_medico.pdf' target={'blank'} class="link-privacy small ps-4">termini e condizioni</a> e la politica della <a href='informativa_privacy_medico.pdf' target={'blank'} class="link-privacy small ps-4">privacy</a>."</label>
+                                <label class="form-check-label small">Accedendo confermi di aver letto e accettato i <a href='informativa_privacy_medico.pdf' target={'blank'} class="link-privacy small ps-4">termini e condizioni</a> e la politica della <a href='informativa_privacy_medico.pdf' target={'blank'} class="link-privacy small ps-4">privacy</a>.</label>
                             </div>
                             {/* <div class="form-check mb-0">
                                 <input class="form-check-input" type="checkbox" onChange={() => this.plocyApprove()} isInvalid={validations.approve != null} checked={this.state.isApprove ? true : false} id="flexCheckDefault" ></input>

@@ -22,6 +22,7 @@ export class DoctorProfile extends Component {
         flag1: '0',
         flag2: '0',
         flag3: '0',
+        flag4: '0',
     });
     passwordModelProp = () => ({
         resetPasswordCode: '',
@@ -531,35 +532,50 @@ export class DoctorProfile extends Component {
                                 <Form.Group className="col-12 form-check mb-0" >
                                     <Form.Check
                                         type="checkbox"
+                                        disabled="true"
                                         defaultChecked={this.state.userDto?.flag1 === '1'}
                                         checked={this.state.userDto?.flag1 === '1'}
                                         name="flag1"
                                         alt="userDto"
                                         onChange={this.handleCheckChange}
                                     />
-                                    <Form.Label className="form-check-label small">Presa visione informativa <a href='informativa_privacy_medico.pdf' target={'blank'} class="link-privacy small ps-4">privacy</a> (OBBLIGATORIO)</Form.Label>
+                                    <Form.Label className="form-check-label small">Presa visione informativa <a href='https://www.epionapp.it/wp-content/uploads/2023/03/EpiOnApp-Termini-e-Condizioni-Medico.pdf' target={'blank'} class="link-privacy small ps-4">privacy</a> (OBBLIGATORIO)</Form.Label>
                                 </Form.Group>
                                 <Form.Group className="col-12 form-check mb-0" >
                                     <Form.Check
                                         type="checkbox"
+                                        disabled="true"
                                         defaultChecked={this.state.userDto?.flag2 === '1'}
-                                        alt="userDto"
-                                        name="flag2"
                                         checked={this.state.userDto?.flag2 === '1'}
+                                        name="flag2"
+                                        alt="userDto"
                                         onChange={this.handleCheckChange}
                                     />
-                                    <Form.Label className="form-check-label small">Consenso al trattamento dei dati finalità A4 (NON OBBLIGATORIO)</Form.Label>
+                                    <Form.Label className="form-check-label small">Consenso al trattamento dei dati sensibili (OBBLIGATORIO)</Form.Label>
                                 </Form.Group>
                                 <Form.Group className="col-12 form-check mb-0" >
                                     <Form.Check
                                         type="checkbox"
+                                        disabled="true"
                                         defaultChecked={this.state.userDto?.flag3 === '1'}
                                         alt="userDto"
-                                        checked={this.state.userDto?.flag3 === '1'}
                                         name="flag3"
+                                        checked={this.state.userDto?.flag3 === '1'}
                                         onChange={this.handleCheckChange}
                                     />
-                                    <Form.Label className="form-check-label small">Consenso al trattamento dei dati finalità A4 (NON OBBLIGATORIO)</Form.Label>
+                                    <Form.Label className="form-check-label small">Consenso al punto A3) dell’informativa privacy (NON OBBLIGATORIO)</Form.Label>
+                                </Form.Group>
+                                <Form.Group className="col-12 form-check mb-0" >
+                                    <Form.Check
+                                        type="checkbox"
+                                        disabled="true"
+                                        defaultChecked={this.state.userDto?.flag4 === '1'}
+                                        alt="userDto"
+                                        checked={this.state.userDto?.flag4 === '1'}
+                                        name="flag4"
+                                        onChange={this.handleCheckChange}
+                                    />
+                                    <Form.Label className="form-check-label small">Consenso al punto A4) dell’informativa privacy (NON OBBLIGATORIO)</Form.Label>
                                 </Form.Group>
                             </Row>
 
